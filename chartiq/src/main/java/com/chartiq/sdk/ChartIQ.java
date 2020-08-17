@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ChartIQ extends WebView {
+public class ChartIQ extends WebView implements ChartIQWebView{
     public String chartiqSdkVersion = "3.2.0";
     public String applicationVersion = "3.2.0";
 	private static final String CHART_IQ_JS_OBJECT = "stxx";
@@ -44,50 +44,30 @@ public class ChartIQ extends WebView {
 		@Override
 		public void onReceiveValue(Object value) {
 			if (showDebugInfo) {
-				// Toast.makeText(getContext(), "response: " + value.toString(),
-				// Toast.LENGTH_LONG).show();
 			}
 		}
 	};
 
 	private ArrayList<OnLayoutChangedCallback> onLayoutChanged = new ArrayList<>();
 	private ArrayList<OnDrawingChangedCallback> onDrawingChanged = new ArrayList<>();
-	private ArrayList<OnPullInitialDataCallback> onPullInitialData = new ArrayList<>();
-	private ArrayList<OnPullUpdateCallback> onPullUpdate = new ArrayList<>();
-	private ArrayList<OnPullPaginationCallback> onPullPagination = new ArrayList<>();
 	private ArrayList<Promise> promises = new ArrayList<>();
 	private HashMap<String, Boolean> talkbackFields = new HashMap<String, Boolean>();
 
 	GestureDetector gd;
 	private AccessibilityManager mAccessibilityManager;
 
-	/**
-	 *
-	 * @param context
-	 */
 	public ChartIQ(Context context) {
 		super(context);
 		mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
 		gd = new GestureDetector(context, sogl);
 	}
 
-	/**
-	 *
-	 * @param context
-	 * @param attrs
-	 */
 	public ChartIQ(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
 		gd = new GestureDetector(context, sogl);
 	}
 
-	/**
-	 *
-	 * @param context
-	 * @param attrs
-	 * @param defStyleAttr
-	 */
 	public ChartIQ(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
@@ -96,9 +76,6 @@ public class ChartIQ extends WebView {
 
 	private boolean swipeLeft = false;
 	private boolean swipeRight = false;
-	private static final int SWIPE_MIN_DISTANCE = 320;
-	private static final int SWIPE_MAX_OFF_PATH = 250;
-	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -140,10 +117,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param value
-	 */
 	private void swipeGesture(String value) {
 		String[] fieldsArray = value.split(Pattern.quote("||"));
 
@@ -209,13 +182,8 @@ public class ChartIQ extends WebView {
 		}
 	};
 
-
-	/**
-	 *
-	 * @param event
-	 */
 	public void addEvent(Event event) {
-
+		// Here was analytics before
 	}
 
 	@SuppressLint("setJavaScriptEnabled")
@@ -243,80 +211,14 @@ public class ChartIQ extends WebView {
 		});
 	}
 
-	/**
-	 *
-	 * @param chartIQUrl
-	 * @param callbackStart
-	 */
 	public void start(final String chartIQUrl, final CallbackStart callbackStart) {
 		runChartIQ(chartIQUrl, callbackStart);
 	}
 
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<OnLayoutChangedCallback> getOnLayoutChangedCallbacks() {
-		return onLayoutChanged;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<OnDrawingChangedCallback> getOnDrawingChangedCallbacks() {
-		return onDrawingChanged;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<OnPullInitialDataCallback> getOnPullInitialDataCallbacks() {
-		return onPullInitialData;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<OnPullUpdateCallback> getOnPullUpdateCallbacks() {
-		return onPullUpdate;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<OnPullPaginationCallback> getOnPullPaginationCallbacks() {
-		return onPullPagination;
-	}
-
-	/**
-	 *
-	 * @param dataSource
-	 */
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	public interface DataSource {
-		void pullInitialData(Map<String, Object> params, DataSourceCallback callback);
-
-		void pullUpdateData(Map<String, Object> params, DataSourceCallback callback);
-
-		void pullPaginationData(Map<String, Object> params, DataSourceCallback callback);
-	}
-
-	public interface DataSourceCallback {
-		void execute(OHLCChart[] data);
-	}
-
-	/**
-	 *
-	 * @param method
-	 * @param symbol
-	 */
 	public void setDataMethod(DataMethod method, String symbol) {
 		DataMethod dataMethod;
 		if (method == null) {
@@ -333,10 +235,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setDataMethod").set("method", dataMethod == DataMethod.PULL ? "PULL" : "PUSH"));
 	}
 
-	/**
-	 *
-	 * @return
-	 */
 	public Promise<String> getChartName() {
 		final Promise<String> promise = new Promise<>();
 		executeJavascript("getSymbol()", new ValueCallback<String>() {
@@ -363,10 +261,6 @@ public class ChartIQ extends WebView {
 		return promise;
 	}
 
-	/**
-	 *
-	 * @param symbol
-	 */
 	public void setSymbol(String symbol) {
 		if (mAccessibilityManager.isEnabled() && mAccessibilityManager.isTouchExplorationEnabled()) {
 			executeJavascript("accessibilityMode()");
@@ -378,10 +272,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setSymbol").set("symbol", symbol));
 	}
 
-	/**
-	 *
-	 * @param symbolObject
-	 */
 	public void setSymbolObject(JSONObject symbolObject) {
 		this.invoke("newChart", toastCallback, symbolObject);
 		String symbol = "";
@@ -393,12 +283,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setSymbol").set("symbolObject.symbol", symbol));
 	}
 
-	/**
-	 *
-	 * @param period
-	 * @param interval
-	 * @param timeUnit
-	 */
 	public void setPeriodicity(int period, String interval, String timeUnit) {
 		if (timeUnit == null) {
 			timeUnit = "minute";
@@ -408,39 +292,26 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setPeriodicity").set("periodicity", period).set("interval", interval));
 	}
 
-	/**
-	 *
-	 * @param symbol
-	 * @param data
-	 */
+	@Override
+	public void enableDrawing(DrawingType type) {
+	}
+
 	public void pushData(String symbol, OHLCChart[] data) {
 		this.invoke("newChart", toastCallback, symbol, data);
 		addEvent(new Event("CHIQ_pushInitialData").set("symbol", symbol).set("data", data));
 	}
 
-	/**
-	 *
-	 * @param data
-	 */
 	public void pushUpdate(OHLCChart[] data) {
 		String json = new Gson().toJson(data);
 		executeJavascript("parseData('" + json + "');");
 		addEvent(new Event("CHIQ_pushUpdate").set("data", data));
 	}
 
-	/**
-	 *
-	 * @param chartType
-	 */
 	public void setChartType(String chartType) {
 		this.invoke("setChartType", toastCallback, chartType);
 		addEvent(new Event("CHIQ_setChartType").set("chartType", chartType));
 	}
 
-	/**
-	 *
-	 * @param aggregationType
-	 */
 	public void setAggregationType(String aggregationType) {
 		this.invoke("setAggregationType", toastCallback, aggregationType);
 		addEvent(new Event("CHIQ_setAggregationType").set("aggregationType", aggregationType));
@@ -458,53 +329,36 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_removeComparison").set("symbol", symbol));
 	}
 
-	/**
-	 *
-	 */
 	public void clearChart() {
 		this.invoke("destroy", toastCallback);
 		addEvent(new Event("CHIQ_clearChart"));
 	}
 
-	/**
-	 *
-	 * @param scale
-	 */
 	public void setChartScale(String scale) {
 		this.invoke("setChartScale", toastCallback, scale);
 		addEvent(new Event("CHIQ_setChartScale").set("scale", scale));
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @param inputs
-	 * @param outputs
-	 */
     public void addStudy(String studyName, Map<String, Object> inputs, Map<String, Object> outputs, Map<String, Object> parameters) {
         String script = "addStudy(" + buildArgumentStringFromArgs(studyName, inputs, outputs, parameters) + ")";
 		executeJavascript(script, toastCallback);
 		addEvent(new Event("CHIQ_addStudy").set("studyName", studyName));
 	}
 
-	/**
-	 *
-	 * @param study
-	 */
 	public void addStudy(Study study, boolean firstLoad) {
-		Map<String, Object> inputs = study.inputs;
-		Map<String, Object> outputs = study.outputs;
-        Map<String, Object> parameters = study.parameters;
+		Map<String, Object> inputs = study.getInputs();
+		Map<String, Object> outputs = study.getOutputs();
+        Map<String, Object> parameters = study.getParameters();
 		if(firstLoad){
 			inputs = null;
 			outputs = null;
 		}
-		if (study.type == null) {
-			addStudy(study.shortName, inputs, outputs, parameters);
+		if (study.getType() == null) {
+			addStudy(study.getShortName(), inputs, outputs, parameters);
 		} else {
-			addStudy(study.type, inputs, outputs, parameters);
+			addStudy(study.getType(), inputs, outputs, parameters);
 		}
-		addEvent(new Event("CHIQ_addStudy").set("studyName", study.name));
+		addEvent(new Event("CHIQ_addStudy").set("studyName", study.getName()));
 	}
 
 	/**
@@ -524,9 +378,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_removeAllStudies"));
 	}
 
-	/**
-	 *
-	 */
 	public void enableCrosshairs() {
 		executeJavascript("enableCrosshairs(true);", toastCallback);
 		addEvent(new Event("CHIQ_enableCrosshairs"));
@@ -548,9 +399,6 @@ public class ChartIQ extends WebView {
 		return promise;
 	}
 
-	/**
-	 *
-	 */
 	public void disableCrosshairs() {
 		executeJavascript("enableCrosshairs(false);", toastCallback);
 		addEvent(new Event("CHIQ_disableCrosshairs"));
@@ -579,10 +427,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param type
-	 */
 	public void enableDrawing(String type) {
 		invoke("changeVectorType", toastCallback, type);
 		addEvent(new Event("CHIQ_enableDrawing"));
@@ -601,12 +445,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setDrawingParameter").set("parameter", parameter).set("value", value));
 	}
 
-	/**
-	 *
-	 * @param object
-	 * @param parameter
-	 * @param value
-	 */
 	public void setStyle(String object, String parameter, String value) {
 		this.invoke("setStyle", toastCallback, object, parameter, value);
 		addEvent(new Event("CHIQ_setStyle").set("style", parameter).set("value", value));
@@ -615,18 +453,13 @@ public class ChartIQ extends WebView {
 	/**
 	 * Sets the theme for the chart: 'day', 'night', 'none' 'none' is there if
 	 * the user wants to use custom themes they created
-	 * 
+	 *
 	 * @param theme
 	 */
 	public void setTheme(String theme) {
 		executeJavascript("setTheme(\"" + theme + "\");", toastCallback);
 	}
 
-	/**
-	 *
-	 * @param id
-	 * @param result
-	 */
 	@JavascriptInterface
 	public void setPromiseResult(int id, String result) {
 		Promise p = promises.get(id);
@@ -638,10 +471,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @return
-	 */
 	public Promise<Study[]> getStudyList() {
 		String script = "getStudyList();";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -665,10 +494,6 @@ public class ChartIQ extends WebView {
 
 	}
 
-	/**
-	 *
-	 * @return
-	 */
 	public Promise<Study[]> getActiveStudies() {
 		String script = "getActiveStudies();";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -692,11 +517,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @return
-	 */
 	public Promise<String> getStudyInputParameters(String studyName) {
 		String script = "getStudyParameters(\"" + studyName + "\" , \"inputs\");";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -719,11 +539,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @return
-	 */
 	public Promise<String> getStudyOutputParameters(String studyName) {
 		String script = "getStudyParameters(\"" + studyName + "\" , \"outputs\");";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -746,11 +561,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @return
-	 */
 	public Promise<String> getStudyParameters(String studyName) {
 		String script = "getStudyParameters(\"" + studyName + "\" , \"parameters\");";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -773,12 +583,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @param parameter
-	 * @param value
-	 */
 	public void setStudyInputParameter(String studyName, String parameter, String value) {
 		String args = buildArgumentStringFromArgs(studyName, parameter, value);
 		String script = "setStudyParameter(" + args + ", true);";
@@ -786,12 +590,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setStudyParameter").set("parameter", parameter).set("value", value));
 	}
 
-	/**
-	 *
-	 * @param studyName
-	 * @param parameter
-	 * @param value
-	 */
 	public void setStudyOutputParameter(String studyName, String parameter, String value) {
 		String args = buildArgumentStringFromArgs(studyName, parameter, value);
 		String script = "setStudyParameter(" + args + ", false);";
@@ -799,11 +597,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_setStudyParameter").set("parameter", parameter).set("value", value));
 	}
 
-	/**
-	 *
-	 * @param drawingName
-	 * @return
-	 */
 	public Promise<String> getDrawingParameters(String drawingName) {
 		String script = "getCurrentVectorParameters();";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -825,10 +618,6 @@ public class ChartIQ extends WebView {
 		}
 	}
 
-	/**
-	 *
-	 * @param json
-	 */
 	@JavascriptInterface
 	public void layoutChange(JSONObject json) {
 		for (OnLayoutChangedCallback callback : onLayoutChanged) {
@@ -837,10 +626,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_layoutChange").set("json", String.valueOf(json)));
 	}
 
-	/**
-	 *
-	 * @param json
-	 */
 	@JavascriptInterface
 	public void drawingChange(JSONObject json) {
 		for (OnDrawingChangedCallback callback : onDrawingChanged) {
@@ -849,16 +634,6 @@ public class ChartIQ extends WebView {
 		addEvent(new Event("CHIQ_drawingChange").set("json", String.valueOf(json)));
 	}
 
-	/**
-	 *
-	 * @param symbol
-	 * @param period
-	 * @param interval
-	 * @param start
-	 * @param end
-	 * @param meta
-	 * @param id
-	 */
 	@JavascriptInterface
 	public void pullInitialData(final String symbol, int period, String interval, String start, String end, Object meta,
 			final String id) {
@@ -884,15 +659,6 @@ public class ChartIQ extends WebView {
 				.set("meta", String.valueOf(meta)));
 	}
 
-	/**
-	 *
-	 * @param symbol
-	 * @param period
-	 * @param interval
-	 * @param start
-	 * @param meta
-	 * @param callbackId
-	 */
 	@JavascriptInterface
 	public void pullUpdate(final String symbol, int period, String interval, String start, Object meta,
 			final String callbackId) {
@@ -916,16 +682,6 @@ public class ChartIQ extends WebView {
 				.set("start", String.valueOf(start)).set("meta", String.valueOf(meta)));
 	}
 
-	/**
-	 *
-	 * @param symbol
-	 * @param period
-	 * @param interval
-	 * @param start
-	 * @param end
-	 * @param meta
-	 * @param callbackId
-	 */
 	@JavascriptInterface
 	public void pullPagination(final String symbol, int period, String interval, String start, String end, Object meta,
 			final String callbackId) {
@@ -957,7 +713,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Execute function from chart engine object
-	 * 
+	 *
 	 * @param functionName
 	 *            javascript function to execute
 	 * @param callback
@@ -983,7 +739,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Execute function from specified object
-	 * 
+	 *
 	 * @param jsObject
 	 *            object to execute function from
 	 * @param methodName
@@ -1009,7 +765,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Change a css style on the chart
-	 * 
+	 *
 	 * @param args
 	 *            parameters that define what to change, must be put in order
 	 *            (selector, property, value) ex:
@@ -1032,7 +788,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Change a property value on the chart
-	 * 
+	 *
 	 * @param property
 	 *            The property to change
 	 * @param value
@@ -1056,7 +812,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Get a property value from the chart
-	 * 
+	 *
 	 * @param property
 	 * @return Promise that contains the value
 	 */
@@ -1083,7 +839,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Change a property value on the chart engine
-	 * 
+	 *
 	 * @param property
 	 *            The property to change
 	 * @param value
@@ -1107,7 +863,7 @@ public class ChartIQ extends WebView {
 
 	/**
 	 * Set a property value on the chart engine
-	 * 
+	 *
 	 * @param property
 	 * @return Promise that contains the value
 	 */
@@ -1140,17 +896,11 @@ public class ChartIQ extends WebView {
 	}
 
 	private void executeJavascript(final String script, final ValueCallback<String> callback) {
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-					evaluateJavascript(script, callback);
-				} else {
-					loadUrl("javascript:" + script);
-				}
-			}
-		};
-		runOnUiThread(runnable);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			evaluateJavascript(script, callback);
+		} else {
+			loadUrl("javascript:" + script);
+		}
 	}
 
 	private void runOnUiThread(Runnable runnable) {
@@ -1178,58 +928,11 @@ public class ChartIQ extends WebView {
 		return s.substring(1, s.length() - 1);
 	}
 
-	public ChartIQ setShowDebugInfo(boolean showDebugInfo) {
+	public void setShowDebugInfo(boolean showDebugInfo) {
 		this.showDebugInfo = showDebugInfo;
-		return this;
-	}
-
-	public enum DataMethod {
-		PUSH, PULL
-	}
-
-	public enum QuoteFields {
-		DATE("Date"), CLOSE("Close"), OPEN("Open"), HIGH("High"), LOW("Low"), VOLUME("Volume");
-
-		private String quoteField;
-
-		QuoteFields(String quoteField) {
-			this.quoteField = quoteField;
-		}
-
-		public String value() {
-			return quoteField;
-		}
 	}
 
 	public void setTalkbackFields(HashMap<String, Boolean> talkbackFields) {
 		this.talkbackFields = talkbackFields;
-	}
-
-	public interface CallbackStart {
-		void onStart();
-	}
-
-	public interface SetCustomPropertyCallback {
-		void onSetCustomProperty();
-	}
-
-	interface OnLayoutChangedCallback {
-		void execute(JSONObject json);
-	}
-
-	interface OnDrawingChangedCallback {
-		void execute(JSONObject json);
-	}
-
-	interface OnPullInitialDataCallback {
-		void execute(String symbol, int period, String timeUnit, Date start, Date end, Object meta);
-	}
-
-	interface OnPullUpdateCallback {
-		void execute(String symbol, int period, String timeUnit, Date start, Object meta);
-	}
-
-	interface OnPullPaginationCallback {
-		void execute(String symbol, int period, String timeUnit, Date start, Date end, Object meta);
 	}
 }
