@@ -2,7 +2,6 @@ package com.chartiq.sdk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityManager;
@@ -13,7 +12,6 @@ import android.webkit.WebViewClient;
 import com.chartiq.sdk.model.Study;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +23,7 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
     private AccessibilityManager mAccessibilityManager;
     private DataSource dataSource;
     private boolean showDebugInfo;
-    private ArrayList<Promise> promises = new ArrayList<>();
-    private HashMap<String, Boolean> talkbackFields = new HashMap<String, Boolean>();
+    private HashMap<String, Boolean> talkbackFields = new HashMap<>();
 
     public DefaultChartIQ(Context context) {
         super(context);
@@ -57,7 +54,7 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
         loadUrl(chartIQUrl);
         setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                executeJavascript("nativeQuoteFeed(parameters, cb)", null);
+                executeJavascript("nativeQuoteFeed(parameters, cb)");
                 executeJavascript("addDrawingListener()");
                 executeJavascript("addLayoutListener()");
 
@@ -148,49 +145,38 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
     @Override
     public Promise<Study[]> getStudyList() {
         String script = "getStudyList();";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Promise<Study[]> promise = new Promise<>();
-            executeJavascript(script, new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    promise.setResult(new Gson().fromJson(value, Study[].class));
-                }
-            });
-            return promise;
-        } else {
-            final Promise<Study[]> promise = new Promise<>();
-            promises.add(promise);
-            loadUrl("javascript:" + script);
-            loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", JSON.stringify(result))");
-            return promise;
-        }
+        final Promise<Study[]> promise = new Promise<>();
+        executeJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                promise.setResult(new Gson().fromJson(value, Study[].class));
+            }
+        });
+        return promise;
     }
 
     @Override
     public Promise<Study[]> getActiveStudies() {
         String script = "getActiveStudies();";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Promise<Study[]> promise = new Promise<>();
-            executeJavascript(script, new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    if (value.equalsIgnoreCase("null")) {
-                        value = "[]";
-                    }
-                    promise.setResult(new Gson().fromJson(value, Study[].class));
+        final Promise<Study[]> promise = new Promise<>();
+        executeJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                if (value.equalsIgnoreCase("null")) {
+                    value = "[]";
                 }
-            });
-            return promise;
-        } else {
-            final Promise<Study[]> promise = new Promise<>();
-            promises.add(promise);
-            loadUrl("javascript:" + script);
-            loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", JSON.stringify(result))");
-            return promise;
-        }
+                promise.setResult(new Gson().fromJson(value, Study[].class));
+            }
+        });
+        return promise;
     }
 
     @Override
+    public void setAggregationType(AggregationType aggregationType) {
+        this.invoke("setAggregationType", null, aggregationType.value());
+    }
+
+    // TODO: 18.08.20 Remove
     public void setAggregationType(String aggregationType) {
         this.invoke("setAggregationType", null, aggregationType);
     }
@@ -222,7 +208,7 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
         Map<String, Object> inputs = study.getInputs();
         Map<String, Object> outputs = study.getOutputs();
         Map<String, Object> parameters = study.getParameters();
-        if(firstLoad){
+        if (firstLoad) {
             inputs = null;
             outputs = null;
         }
@@ -246,64 +232,40 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
     @Override
     public Promise<String> getStudyInputParameters(String studyName) {
         String script = "getStudyParameters(\"" + studyName + "\" , \"inputs\");";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Promise<String> promise = new Promise<>();
-            executeJavascript(script, new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    promise.setResult(value);
-                }
-            });
-            return promise;
-        } else {
-            final Promise<String> promise = new Promise<>();
-            promises.add(promise);
-            loadUrl("javascript:" + script);
-            loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", helper.inputs)");
-            return promise;
-        }
+        final Promise<String> promise = new Promise<>();
+        executeJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                promise.setResult(value);
+            }
+        });
+        return promise;
     }
 
     @Override
     public Promise<String> getStudyOutputParameters(String studyName) {
         String script = "getStudyParameters(\"" + studyName + "\" , \"outputs\");";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Promise<String> promise = new Promise<>();
-            executeJavascript(script, new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    promise.setResult(value);
-                }
-            });
-            return promise;
-        } else {
-            final Promise<String> promise = new Promise<>();
-            promises.add(promise);
-            loadUrl("javascript:" + script);
-            loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", helper.outputs)");
-            return promise;
-        }
+        final Promise<String> promise = new Promise<>();
+        executeJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                promise.setResult(value);
+            }
+        });
+        return promise;
     }
 
     @Override
     public Promise<String> getStudyParameters(String studyName) {
         String script = "getStudyParameters(\"" + studyName + "\" , \"parameters\");";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Promise<String> promise = new Promise<>();
-            executeJavascript(script, new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    promise.setResult(value);
-                }
-            });
-            return promise;
-        } else {
-            final Promise<String> promise = new Promise<>();
-            promises.add(promise);
-            loadUrl("javascript:" + script);
-            loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", helper.parameters");
-            return promise;
-        }
+        final Promise<String> promise = new Promise<>();
+        executeJavascript(script, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                promise.setResult(value);
+            }
+        });
+        return promise;
     }
 
     private void executeJavascript(final String script) {
@@ -319,16 +281,11 @@ public class DefaultChartIQ extends WebView implements ChartIQWebView {
             @Override
             public void run() {
                 String script = CHART_IQ_JS_OBJECT + "." + functionName + "(" + buildArgumentStringFromArgs(args) + ")";
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    evaluateJavascript(script, callback);
-                } else {
-                    loadUrl("javascript:" + script);
-                }
+                evaluateJavascript(script, callback);
             }
         };
         runOnUiThread(runnable);
     }
-
 
 
     private void runOnUiThread(Runnable runnable) {

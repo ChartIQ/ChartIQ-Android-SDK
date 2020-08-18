@@ -33,7 +33,7 @@ public interface ChartIQWebView {
 
     Promise<Study[]> getActiveStudies();
 
-    void setAggregationType(String aggregationType);
+    void setAggregationType(AggregationType aggregationType);
 
     void setChartType(String chartType);
 

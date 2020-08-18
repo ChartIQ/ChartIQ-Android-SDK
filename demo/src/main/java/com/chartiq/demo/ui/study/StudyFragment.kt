@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.notifications
+package com.chartiq.demo.ui.study
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.chartiq.demo.R
 
-class NotificationsFragment : Fragment() {
+class StudyFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var studyViewModel: StudyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        studyViewModel =
+            ViewModelProviders.of(this).get(StudyViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_study, container, false)
+        val textView: TextView = root.findViewById(R.id.text_home)
+        studyViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

@@ -339,7 +339,7 @@ public class ChartIQ extends WebView implements ChartIQWebView{
 		addEvent(new Event("CHIQ_setChartScale").set("scale", scale));
 	}
 
-    public void addStudy(String studyName, Map<String, Object> inputs, Map<String, Object> outputs, Map<String, Object> parameters) {
+    public void addStudy(String studyName, Map<String, Object> inputs  , Map<String, Object> outputs, Map<String, Object> parameters) {
         String script = "addStudy(" + buildArgumentStringFromArgs(studyName, inputs, outputs, parameters) + ")";
 		executeJavascript(script, toastCallback);
 		addEvent(new Event("CHIQ_addStudy").set("studyName", studyName));
@@ -515,6 +515,10 @@ public class ChartIQ extends WebView implements ChartIQWebView{
 			loadUrl("javascript:promises.setPromiseResult(" + promises.indexOf(promise) + ", JSON.stringify(result))");
 			return promise;
 		}
+	}
+
+	@Override
+	public void setAggregationType(AggregationType aggregationType) {
 	}
 
 	public Promise<String> getStudyInputParameters(String studyName) {
