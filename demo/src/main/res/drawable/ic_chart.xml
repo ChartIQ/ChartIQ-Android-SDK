@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M2,0L22,0A2,2 0,0 1,24 2L24,22A2,2 0,0 1,22 24L2,24A2,2 0,0 1,0 22L0,2A2,2 0,0 1,2 0z"
+      android:strokeWidth="1"
+      android:fillColor="#ABB0BA"
+      android:fillAlpha="0"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+  <path
+      android:pathData="M5,7L7,7A1,1 0,0 1,8 8L8,20A1,1 0,0 1,7 21L5,21A1,1 0,0 1,4 20L4,8A1,1 0,0 1,5 7z"
+      android:strokeWidth="1"
+      android:fillColor="@color/cadet_blue"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+  <path
+      android:pathData="M17,12L19,12A1,1 0,0 1,20 13L20,20A1,1 0,0 1,19 21L17,21A1,1 0,0 1,16 20L16,13A1,1 0,0 1,17 12z"
+      android:strokeWidth="1"
+      android:fillColor="@color/cadet_blue"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+  <path
+      android:pathData="M11,3L13,3A1,1 0,0 1,14 4L14,20A1,1 0,0 1,13 21L11,21A1,1 0,0 1,10 20L10,4A1,1 0,0 1,11 3z"
+      android:strokeWidth="1"
+      android:fillColor="@color/cadet_blue"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>
