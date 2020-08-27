@@ -2,7 +2,7 @@ package com.chartiq.sdk.model;
 
 import java.util.Date;
 
-public class OHLCChart {
+public class OHLCParams {
 
     private Date DT;
     private double Open;
@@ -12,7 +12,13 @@ public class OHLCChart {
     private double Volume;
     private double AdjClose;
 
-    public OHLCChart(Date date, double open, double high, double low, double close, double volume, double adjClose) {
+    public OHLCParams(Date date,
+                      double open,
+                      double high,
+                      double low,
+                      double close,
+                      double volume,
+                      double adjClose) {
         this.DT = date;
         this.Open = open;
         this.High = high;

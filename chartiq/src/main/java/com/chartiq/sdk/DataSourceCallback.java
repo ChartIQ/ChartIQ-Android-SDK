@@ -1,7 +1,7 @@
 package com.chartiq.sdk;
 
-import com.chartiq.sdk.model.OHLCChart;
+import com.chartiq.sdk.model.OHLCParams;
 
 public interface DataSourceCallback {
-    void execute(OHLCChart[] data);
+    void execute(OHLCParams[] data);
 }

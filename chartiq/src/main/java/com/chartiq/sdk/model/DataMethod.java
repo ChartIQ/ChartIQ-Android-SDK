@@ -1,4 +1,4 @@
-package com.chartiq.sdk;
+package com.chartiq.sdk.model;
 
 public enum DataMethod {
     PUSH,

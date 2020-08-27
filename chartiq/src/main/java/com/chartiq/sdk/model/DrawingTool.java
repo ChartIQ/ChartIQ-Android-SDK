@@ -1,6 +1,6 @@
-package com.chartiq.sdk;
+package com.chartiq.sdk.model;
 
-public enum DrawingType {
+public enum DrawingTool {
     ANNOTATION("annotation"),
     CHANNEL("channel"),
     DOODLE("freeform"),
@@ -21,11 +21,11 @@ public enum DrawingType {
 
     private String value;
 
-    DrawingType(String value) {
+    DrawingTool(String value) {
         this.value = value;
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 }

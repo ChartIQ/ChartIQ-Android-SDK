@@ -1,5 +1,5 @@
 package com.chartiq.sdk;
 
-public interface CallbackStart {
+public interface OnStartCallback {
     void onStart();
 }

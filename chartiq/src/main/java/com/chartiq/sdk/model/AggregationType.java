@@ -1,4 +1,4 @@
-package com.chartiq.sdk;
+package com.chartiq.sdk.model;
 
 public enum AggregationType {
     HEIKINASHI("heikinashi"),
@@ -13,7 +13,7 @@ public enum AggregationType {
         this.value = value;
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 }
