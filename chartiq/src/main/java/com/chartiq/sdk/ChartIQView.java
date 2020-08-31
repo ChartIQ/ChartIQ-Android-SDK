@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.accessibility.AccessibilityManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -18,49 +19,50 @@ import com.chartiq.sdk.scriptmanager.ChartIQScriptManager;
 import com.chartiq.sdk.scriptmanager.ScriptManager;
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
 
+    private static final String JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed";
+
     private DataSource dataSource;
     private ScriptManager scriptManager;
     private HashMap<String, Boolean> talkbackFields;
+    private AccessibilityManager mAccessibilityManager;
 
     public ChartIQView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public ChartIQView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public ChartIQView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
         scriptManager = new ChartIQScriptManager();
+        mAccessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
     }
 
     @SuppressLint("JavascriptInterface")
     public void start(final String chartIQUrl, final OnStartCallback onStartCallback) {
         getSettings().setJavaScriptEnabled(true);
         getSettings().setDomStorageEnabled(true);
-        addJavascriptInterface(this, "parameters");
-        addJavascriptInterface(this, "promises");
-        addJavascriptInterface(this, "QuoteFeed");
+        addJavascriptInterface(this, JAVASCRIPT_INTERFACE_QUOTE_FEED);
         loadUrl(chartIQUrl);
         setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                executeJavascript("nativeQuoteFeed(parameters, cb)");
-                executeJavascript("addDrawingListener()");
-                executeJavascript("addLayoutListener()");
+                executeJavascript(scriptManager.getDetermineOSScript());
+                executeJavascript(scriptManager.getNativeQuoteFeedScript());
+                executeJavascript(scriptManager.getAddDrawingListenerScript());
+                executeJavascript(scriptManager.getAddLayoutListenerScript());
 
                 if (onStartCallback != null) {
                     onStartCallback.onStart();
@@ -93,35 +95,23 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
 
     @Override
     public void setSymbol(String symbol) {
-//        if (mAccessibilityManager.isEnabled() && mAccessibilityManager.isTouchExplorationEnabled()) {
-//            executeJavascript("accessibilityMode()");
-//        }
-//        this.invoke("newChart", toastCallback, symbol);
-//        this.invoke("dateFromTick", null, 1);
-//        executeJavascript("callNewChart(\"" + symbol + "\");", null);
+        if (mAccessibilityManager.isEnabled() && mAccessibilityManager.isTouchExplorationEnabled()) {
+            executeJavascript(scriptManager.getSetAccessibilityModeScript());
+        }
         executeJavascript(scriptManager.getSetDataMethodScript(symbol));
         executeJavascript(scriptManager.getDateFromTickScript());
         executeJavascript(scriptManager.getSetSymbolScript(symbol));
-
     }
-
-    // TODO: 26.08.20 remove
-    @Override
-    public void setShowDebugInfo(boolean showDebugInfo) {
-    }
-
-    // JavascriptInterface
-    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     @JavascriptInterface
-    public void layoutChange(JSONObject json) {
+    public void layoutChange(String json) {
         // TODO: 26.08.20 Add appropriate implementation
     }
 
     @Override
     @JavascriptInterface
-    public void drawingChange(JSONObject json) {
+    public void drawingChange(String json) {
         // TODO: 26.08.20 Add appropriate implementation
     }
 
@@ -130,12 +120,12 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
     public void pullInitialData(final String symbol, int period, String interval, String start, String end, Object meta,
                                 final String id) {
         Map<String, Object> params = new HashMap<>();
-        params.put("symbol", symbol == null ? "" : symbol);
-        params.put("period", period);
-        params.put("interval", interval);
-        params.put("start", start == null ? "" : start);
-        params.put("end", end == null ? "" : end);
-        params.put("meta", meta);
+        params.put(PARAM_SYMBOL, symbol == null ? "" : symbol);
+        params.put(PARAM_PERIOD, period);
+        params.put(PARAM_INTERVAL, interval);
+        params.put(PARAM_START, start == null ? "" : start);
+        params.put(PARAM_END, end == null ? "" : end);
+        params.put(PARAM_META, meta);
 
         if (dataSource != null) {
             dataSource.pullInitialData(params, new DataSourceCallback() {
@@ -152,11 +142,11 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
     public void pullUpdate(final String symbol, int period, String interval, String start, Object meta,
                            final String callbackId) {
         Map<String, Object> params = new HashMap<>();
-        params.put("symbol", symbol == null ? "" : symbol);
-        params.put("period", period);
-        params.put("interval", interval);
-        params.put("start", start == null ? "" : start);
-        params.put("meta", meta);
+        params.put(PARAM_SYMBOL, symbol == null ? "" : symbol);
+        params.put(PARAM_PERIOD, period);
+        params.put(PARAM_INTERVAL, interval);
+        params.put(PARAM_START, start == null ? "" : start);
+        params.put(PARAM_META, meta);
 
         if (dataSource != null) {
             dataSource.pullUpdateData(params, new DataSourceCallback() {
@@ -173,12 +163,12 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
     public void pullPagination(final String symbol, int period, String interval, String start, String end, Object meta,
                                final String callbackId) {
         Map<String, Object> params = new HashMap<>();
-        params.put("symbol", symbol == null ? "" : symbol);
-        params.put("period", period);
-        params.put("interval", interval);
-        params.put("start", start == null ? "" : start);
-        params.put("end", end == null ? "" : end);
-        params.put("meta", meta);
+        params.put(PARAM_SYMBOL, symbol == null ? "" : symbol);
+        params.put(PARAM_PERIOD, period);
+        params.put(PARAM_INTERVAL, interval);
+        params.put(PARAM_START, start == null ? "" : start);
+        params.put(PARAM_END, end == null ? "" : end);
+        params.put(PARAM_META, meta);
 
         if (dataSource != null) {
             dataSource.pullPaginationData(params, new DataSourceCallback() {
@@ -191,8 +181,7 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
     }
 
     private void invokePullCallback(String callbackId, OHLCParams[] data) {
-        String json = new Gson().toJson(data);
-        executeJavascript("parseData('" + json + "', \"" + callbackId + "\");");
+        executeJavascript(scriptManager.getParseDataScript(data, callbackId));
     }
 
     private void executeJavascript(final String script) {
@@ -277,72 +266,55 @@ public class ChartIQView extends WebView implements ChartIQ, JavaScriptHandler {
     }
 
     @Override
-    public Promise<Study[]> getStudyList() {
-        String script = "getStudyList();";
-        final Promise<Study[]> promise = new Promise<>();
-        executeJavascript(script, new ValueCallback<String>() {
-
+    public void getStudyList(final OnReturnCallback<Study[]> callback) {
+        executeJavascript(scriptManager.getGetStudyListScript(), new ValueCallback<String>() {
             public void onReceiveValue(String value) {
-                promise.setResult(new Gson().fromJson(value, Study[].class));
+                callback.onReturn(new Gson().fromJson(value, Study[].class));
             }
         });
-        return promise;
     }
 
-
     @Override
-    public Promise<Study[]> getActiveStudies() {
-        String script = "getActiveStudies();";
-        final Promise<Study[]> promise = new Promise<>();
-        executeJavascript(script, new ValueCallback<String>() {
+    public void getActiveStudies(final OnReturnCallback<Study[]> callback) {
+        executeJavascript(scriptManager.getGetActiveStudiesScript(), new ValueCallback<String>() {
 
             public void onReceiveValue(String value) {
                 if (value.equalsIgnoreCase("null")) {
                     value = "[]";
                 }
-                promise.setResult(new Gson().fromJson(value, Study[].class));
+                callback.onReturn(new Gson().fromJson(value, Study[].class));
             }
         });
-        return promise;
     }
 
     @Override
-    public Promise<String> getStudyInputParameters(String studyName) {
-        String script = "getStudyParameters(\"" + studyName + "\" , \"inputs\");";
-        final Promise<String> promise = new Promise<>();
-        executeJavascript(script, new ValueCallback<String>() {
+    public void getStudyInputParameters(String studyName, final OnReturnCallback<String> callback) {
+        executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName), new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-                promise.setResult(value);
+                callback.onReturn(value);
             }
         });
-        return promise;
     }
 
     @Override
-    public Promise<String> getStudyOutputParameters(String studyName) {
-        String script = "getStudyParameters(\"" + studyName + "\" , \"outputs\");";
-        final Promise<String> promise = new Promise<>();
-        executeJavascript(script, new ValueCallback<String>() {
+    public void getStudyOutputParameters(String studyName, final OnReturnCallback<String> callback) {
+        executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName), new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-                promise.setResult(value);
+                callback.onReturn(value);
             }
         });
-        return promise;
     }
 
     @Override
-    public Promise<String> getStudyParameters(String studyName) {
-        String script = "getStudyParameters(\"" + studyName + "\" , \"parameters\");";
-        final Promise<String> promise = new Promise<>();
-        executeJavascript(script, new ValueCallback<String>() {
+    public void getStudyParameters(String studyName, final OnReturnCallback<String> callback) {
+        executeJavascript(scriptManager.getGetStudyParametersScript(studyName), new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-                promise.setResult(value);
+                callback.onReturn(value);
             }
         });
-        return promise;
     }
 
     @Override

@@ -18,8 +18,6 @@ public interface ChartIQ {
 
     void setDataMethod(DataMethod method, String symbol);
 
-    void setShowDebugInfo(boolean showDebugInfo);
-
     void enableCrosshairs();
 
     void disableCrosshairs();
@@ -32,9 +30,9 @@ public interface ChartIQ {
 
     void clearDrawing();
 
-    Promise<Study[]> getStudyList();
+    void getStudyList(final OnReturnCallback<Study[]> callback);
 
-    Promise<Study[]> getActiveStudies();
+    void getActiveStudies(final OnReturnCallback<Study[]> callback);
 
     void setAggregationType(AggregationType aggregationType);
 
@@ -50,9 +48,9 @@ public interface ChartIQ {
 
     void setTalkbackFields(HashMap<String, Boolean> talkbackFields);
 
-    Promise<String> getStudyInputParameters(String studyName);
+    void getStudyInputParameters(String studyName, final OnReturnCallback<String> callback);
 
-    Promise<String> getStudyOutputParameters(String studyName);
+    void getStudyOutputParameters(String studyName, final OnReturnCallback<String> callback);
 
-    Promise<String> getStudyParameters(String studyName);
+    void getStudyParameters(String studyName, final OnReturnCallback<String> callback);
 }

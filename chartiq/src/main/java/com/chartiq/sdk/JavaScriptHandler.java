@@ -2,15 +2,19 @@ package com.chartiq.sdk;
 
 import android.webkit.JavascriptInterface;
 
-import org.json.JSONObject;
-
 public interface JavaScriptHandler {
+    public static final String PARAM_SYMBOL = "symbol";
+    public static final String PARAM_PERIOD = "period";
+    public static final String PARAM_INTERVAL = "interval";
+    public static final String PARAM_START = "start";
+    public static final String PARAM_END = "end";
+    public static final String PARAM_META = "meta";
 
     @JavascriptInterface
-    void layoutChange(JSONObject json);
+    void layoutChange(String json);
 
     @JavascriptInterface
-    void drawingChange(JSONObject json);
+    void drawingChange(String json);
 
     @JavascriptInterface
     void pullInitialData(final String symbol,

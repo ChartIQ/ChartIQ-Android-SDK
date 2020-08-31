@@ -12,6 +12,12 @@ public interface ScriptManager {
 
     String getDetermineOSScript();
 
+    String getNativeQuoteFeedScript();
+
+    String getAddDrawingListenerScript();
+
+    String getAddLayoutListenerScript();
+
     String getSetSymbolScript(String symbol);
 
     // TODO: 26.08.20 Review the following method
@@ -97,4 +103,6 @@ public interface ScriptManager {
     String getSetEnginePropertyScript(final String property, final Object value);
 
     String getGetEnginePropertyScript(final String property);
+
+    String getParseDataScript(OHLCParams[] data, String callbackId);
 }

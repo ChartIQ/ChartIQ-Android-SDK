@@ -3,6 +3,7 @@ package com.chartiq.sdk.scriptmanager;
 import com.chartiq.sdk.model.AggregationType;
 import com.chartiq.sdk.model.DrawingTool;
 import com.chartiq.sdk.model.OHLCParams;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -17,7 +18,25 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getDetermineOSScript() {
-        String script = "determineOs()";
+        String script = mobileNameSpace + "determineOs()";
+        return script;
+    }
+
+    @Override
+    public String getNativeQuoteFeedScript() {
+        String script = mobileNameSpace + "nativeQuoteFeed(parameters, cb)";
+        return script;
+    }
+
+    @Override
+    public String getAddDrawingListenerScript() {
+        String script = mobileNameSpace + "addDrawingListener()";
+        return script;
+    }
+
+    @Override
+    public String getAddLayoutListenerScript() {
+        String script = mobileNameSpace + "addLayoutListener()";
         return script;
     }
 
@@ -30,7 +49,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getSetSymbolScript(String symbol) {
-        String script = "callNewChart" + "(" + "\"" + symbol + "\"" + ")";
+        String script = mobileNameSpace + "loadChart" + "(" + "\"" + symbol + "\"" + ")";
         return script;
     }
 
@@ -43,7 +62,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getSetAccessibilityModeScript() {
-        String script = "accessibilityMode()";
+        String script = mobileNameSpace + "accessibilityMode()";
         return script;
     }
 
@@ -63,7 +82,7 @@ public class ChartIQScriptManager implements ScriptManager {
             timeUnit = "minute";
         }
         String args = buildArgumentStringFromArgs(period, interval, timeUnit);
-        String script = "setPeriodicity(" + period + ", \"" + interval + "\", \"" + timeUnit + "\");";
+        String script = mobileNameSpace + "setPeriodicity(" + period + ", \"" + interval + "\", \"" + timeUnit + "\");";
         return script;
     }
 
@@ -120,7 +139,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getRemoveStudyScript(String studyName) {
-        String script = "removeStudy" + "(" + "\"" + studyName + "\"" + ")";
+        String script = mobileNameSpace + "removeStudy" + "(" + "\"" + studyName + "\"" + ")";
         return script;
     }
 
@@ -131,7 +150,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getEnableCrosshairsScript() {
-        String script = "enableCrosshairs(true);";
+        String script = mobileNameSpace + "enableCrosshairs(true);";
         return script;
     }
 
@@ -142,7 +161,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getDisableCrosshairsScript() {
-        String script = "enableCrosshairs(false);";
+        String script = mobileNameSpace + "enableCrosshairs(false);";
         return script;
     }
 
@@ -173,7 +192,7 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getSetDrawingParameterScript(String parameter, String value) {
-        String script = "setCurrentVectorParameters" + '(' + parameter + ", " + value + ')' + ';';
+        String script = mobileNameSpace + "setCurrentVectorParameters" + '(' + parameter + ", " + value + ')' + ';';
         return script;
     }
 
@@ -189,12 +208,14 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getGetStudyListScript() {
-        return null;
+        String script = mobileNameSpace + "getStudyList();";
+        return script;
     }
 
     @Override
     public String getGetActiveStudiesScript() {
-        return null;
+        String script = mobileNameSpace + "getActiveStudies();";
+        return script;
     }
 
     @Override
@@ -207,17 +228,20 @@ public class ChartIQScriptManager implements ScriptManager {
 
     @Override
     public String getGetStudyInputParametersScript(String studyName) {
-        return null;
+        String script = mobileNameSpace + "getStudyParameters(\"" + studyName + "\" , \"inputs\");";
+        return script;
     }
 
     @Override
     public String getGetStudyOutputParametersScript(String studyName) {
-        return null;
+        String script = mobileNameSpace + "getStudyParameters(\"" + studyName + "\" , \"outputs\");";
+        return script;
     }
 
     @Override
     public String getGetStudyParametersScript(String studyName) {
-        return null;
+        String script = mobileNameSpace + "getStudyParameters(\"" + studyName + "\" , \"parameters\");";
+        return script;
     }
 
     @Override
@@ -258,5 +282,13 @@ public class ChartIQScriptManager implements ScriptManager {
     @Override
     public String getGetEnginePropertyScript(String property) {
         return null;
+    }
+
+
+    @Override
+    public String getParseDataScript(OHLCParams[] data, String callbackId) {
+        String json = new Gson().toJson(data);
+        String script = mobileNameSpace + "parseData('" + json + "', \"" + callbackId + "\");";
+        return script;
     }
 }
