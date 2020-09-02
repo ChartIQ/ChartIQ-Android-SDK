@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-import static com.chartiq.sdk.Util.buildArgumentStringFromArgs;
+import static com.chartiq.sdk.UtilKt.buildArgumentStringFromArgs;
 
 public class ChartIQScriptManager implements ScriptManager {
 
@@ -82,7 +82,7 @@ public class ChartIQScriptManager implements ScriptManager {
             timeUnit = "minute";
         }
         String args = buildArgumentStringFromArgs(period, interval, timeUnit);
-        String script = mobileNameSpace + "setPeriodicity(" + period + ", \"" + interval + "\", \"" + timeUnit + "\");";
+        String script = mobileNameSpace + "setPeriodicity(" + period + ", " + interval + ", \"" + timeUnit + "\");";
         return script;
     }
 
@@ -104,7 +104,7 @@ public class ChartIQScriptManager implements ScriptManager {
     @Override
     public String getSetChartTypeScript(String chartType) {
         String functionName = "setChartType";
-        String script = CHART_IQ_JS_OBJECT + functionName + "(" + buildArgumentStringFromArgs(chartType) + ")";
+        String script = mobileNameSpace + functionName + "(" + '"' + chartType + '"' + ")";
         return script;
     }
 
