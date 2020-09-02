@@ -1,6 +1,6 @@
-package com.chartiq.sdk.model;
+package com.chartiq.sdk.model
 
-public enum DrawingTool {
+enum class DrawingTool(val value: String) {
     ANNOTATION("annotation"),
     CHANNEL("channel"),
     DOODLE("freeform"),
@@ -17,15 +17,5 @@ public enum DrawingTool {
     RECTANGLE("rectangle"),
     SEGMENT("segment"),
     VERTICAL_LINE("vertical"),
-    NONE("");
-
-    private String value;
-
-    DrawingTool(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    NONE("")
 }

@@ -49,10 +49,10 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
         loadUrl(chartIQUrl)
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
-                executeJavascript(scriptManager.determineOSScript)
-                executeJavascript(scriptManager.nativeQuoteFeedScript)
-                executeJavascript(scriptManager.addDrawingListenerScript)
-                executeJavascript(scriptManager.addLayoutListenerScript)
+                executeJavascript(scriptManager.getDetermineOSScript())
+                executeJavascript(scriptManager.getNativeQuoteFeedScript())
+                executeJavascript(scriptManager.getAddDrawingListenerScript())
+                executeJavascript(scriptManager.getAddLayoutListenerScript())
 
                 onStartCallback.onStart()
             }
@@ -147,10 +147,10 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
 
     override fun setSymbol(symbol: String) {
         if (accessibilityManager.isEnabled && accessibilityManager.isTouchExplorationEnabled) {
-            executeJavascript(scriptManager.setAccessibilityModeScript)
+            executeJavascript(scriptManager.getSetAccessibilityModeScript())
         }
         executeJavascript(scriptManager.getSetDataMethodScript(symbol))
-        executeJavascript(scriptManager.dateFromTickScript)
+        executeJavascript(scriptManager.getDateFromTickScript())
         executeJavascript(scriptManager.getSetSymbolScript(symbol))
     }
 
@@ -169,11 +169,11 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
     }
 
     override fun enableCrosshairs() {
-        executeJavascript(scriptManager.enableCrosshairsScript);
+        executeJavascript(scriptManager.getEnableCrosshairsScript())
     }
 
     override fun disableCrosshairs() {
-        executeJavascript(scriptManager.disableCrosshairsScript);
+        executeJavascript(scriptManager.getDisableCrosshairsScript());
     }
 
     override fun setPeriodicity(period: Int, interval: String, timeUnit: String) {
@@ -185,16 +185,16 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
     }
 
     override fun disableDrawing() {
-        executeJavascript(scriptManager.disableDrawingScript);
+        executeJavascript(scriptManager.getDisableDrawingScript());
     }
 
     override fun clearDrawing() {
-        executeJavascript(scriptManager.clearDrawingScript);
+        executeJavascript(scriptManager.getClearDrawingScript());
     }
 
     override fun getStudyList(callback: OnReturnCallback<Array<Study>>) {
         executeJavascript(
-            scriptManager.getStudyListScript,
+            scriptManager.getGetStudyListScript(),
             ValueCallback { value ->
                 callback.onReturn(
                     Gson().fromJson(
@@ -206,7 +206,7 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
     }
 
     override fun getActiveStudies(callback: OnReturnCallback<Array<Study>>) {
-        executeJavascript(scriptManager.getActiveStudiesScript,
+        executeJavascript(scriptManager.getGetActiveStudiesScript(),
             ValueCallback { value ->
                 val result =
                     if (value.toLowerCase() == "null") {
@@ -243,9 +243,9 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
             inputs = null
             outputs = null
         }
-        val scripts = study.type.run {
-            scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params);
-        } ?: scriptManager.getAddStudyScript(study.type, inputs, outputs, params)
+        val scripts = study.type?.run {
+            scriptManager.getAddStudyScript(study.type, inputs, outputs, params);
+        } ?: scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
         executeJavascript(scripts)
     }
 
