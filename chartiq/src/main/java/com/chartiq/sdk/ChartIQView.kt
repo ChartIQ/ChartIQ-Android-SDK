@@ -18,7 +18,10 @@ import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import java.util.Map
 
-class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
+class ChartIQView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : WebView(context, attrs), ChartIQ, JavaScriptHandler {
 
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
@@ -30,14 +33,6 @@ class ChartIQView : WebView, ChartIQ, JavaScriptHandler {
     private val accessibilityManager: AccessibilityManager by lazy {
         context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
     }
-
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
 
     override fun start(chartIQUrl: String, onStartCallback: OnStartCallback) {
         settings.apply {
