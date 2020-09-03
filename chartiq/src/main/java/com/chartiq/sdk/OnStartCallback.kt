@@ -1,5 +1,5 @@
 package com.chartiq.sdk
 
-interface OnStartCallback {
+fun interface OnStartCallback {
     fun onStart()
 }

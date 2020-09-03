@@ -3,9 +3,8 @@ package com.chartiq.sdk.scriptmanager
 import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import org.json.JSONObject
 
-interface ScriptManager {
+internal interface ScriptManager {
 
     fun getDetermineOSScript(): String
 
@@ -14,6 +13,8 @@ interface ScriptManager {
     fun getAddDrawingListenerScript(): String
 
     fun getAddLayoutListenerScript(): String
+
+    fun getAddMeasureListener(): String
 
     fun getSetSymbolScript(symbol: String): String
 
@@ -25,11 +26,7 @@ interface ScriptManager {
 
     fun getIsChartAvailableScript(): String
 
-    fun getSetSymbolObjectScript(symbolObject: JSONObject): String
-
     fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String
-
-    fun getGetChartNameScript(): String
 
     fun getPushDataScript(symbol: String, data: Array<OHLCParams>): String
 
@@ -37,9 +34,11 @@ interface ScriptManager {
 
     fun getSetChartTypeScript(chartType: String): String
 
-    fun getAddComparisonScript(symbol: String, hexColor: String, isComparison: Boolean): String
+    fun getAddSeriesScript(symbol: String, hexColor: String): String
 
-    fun getRemoveComparisonScript(symbol: String): String
+    fun getRemoveSeriesScript(symbol: String): String
+
+    fun getResizeChartScript(): String
 
     fun getClearChartScript(): String
 
@@ -56,11 +55,9 @@ interface ScriptManager {
 
     fun getRemoveAllStudiesScript(): String
 
-    fun getEnableCrosshairsScript(): String
+    fun getEnableCrosshairScript(value: Boolean): String
 
     fun getIsCrosshairsEnabledScript(): String
-
-    fun getDisableCrosshairsScript(): String
 
     fun getGetCrosshairsHUDDetailScript(): String
 
@@ -98,7 +95,7 @@ interface ScriptManager {
 
     fun getGetDrawingParametersScript(drawingName: String): String
 
-    fun getChangeChartStyleScript(vararg args: Any): String
+    fun getSetChartStyleScript(obj: String, attribute: String, value: String): String
 
     fun getSetChartPropertyScript(property: String, value: Any): String
 

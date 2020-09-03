@@ -5,9 +5,9 @@ import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
 import com.google.gson.Gson
-import org.json.JSONObject
 
-class ChartIQScriptManager : ScriptManager {
+// TODO: 03.09.20 Add parameters safety check
+internal class ChartIQScriptManager : ScriptManager {
 
     override fun getDetermineOSScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "determineOs()"
@@ -16,10 +16,13 @@ class ChartIQScriptManager : ScriptManager {
         MOBILE_BRIDGE_NAME_SPACE + "nativeQuoteFeed(parameters, cb)"
 
     override fun getAddDrawingListenerScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "addDrawingListener()"
+        MOBILE_BRIDGE_NAME_SPACE + "addDrawingListener();"
 
     override fun getAddLayoutListenerScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "addLayoutListener()"
+
+    override fun getAddMeasureListener(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addMeasureListener();"
 
     override fun getSetSymbolScript(symbol: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"$symbol\")"
@@ -28,55 +31,46 @@ class ChartIQScriptManager : ScriptManager {
         CHART_IQ_JS_OBJECT + "dateFromTick(${1})"
 
     override fun getSetDataMethodScript(symbol: String): String =
-        CHART_IQ_JS_OBJECT + "newChart($symbol)"
+        CHART_IQ_JS_OBJECT + "loadChart(\"$symbol\");"
 
     override fun getSetAccessibilityModeScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "accessibilityMode()"
+        MOBILE_BRIDGE_NAME_SPACE + "accessibilityMode();"
 
-    override fun getIsChartAvailableScript(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSetSymbolObjectScript(symbolObject: JSONObject): String {
-        TODO("Not yet implemented")
-    }
+    override fun getIsChartAvailableScript(): String =
+        "if (" + MOBILE_BRIDGE_NAME_SPACE + "isChartAvailable() == true) { \"true\" } else { \"false\" } "
 
     override fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\")"
-
-    override fun getGetChartNameScript(): String {
-        TODO("Not yet implemented")
-    }
+        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\");"
 
     override fun getPushDataScript(symbol: String, data: Array<OHLCParams>): String {
-        TODO("Not yet implemented")
+        // TODO: 03.09.20 Parse the array for the call
+        val jsonString = ""
+        return MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"\", $jsonString); "
     }
 
     override fun getPushUpdateScript(data: Array<OHLCParams>): String {
-        TODO("Not yet implemented")
+        // TODO: 03.09.20 Parse the array for the call
+        return MOBILE_BRIDGE_NAME_SPACE + "parseData($data');"
     }
 
     override fun getSetChartTypeScript(chartType: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setChartType(\"$chartType\")"
+        MOBILE_BRIDGE_NAME_SPACE + "setChartType(\"$chartType\");"
 
-    override fun getAddComparisonScript(
-        symbol: String,
-        hexColor: String,
-        isComparison: Boolean
-    ): String {
-        TODO("Not yet implemented")
-    }
+    override fun getAddSeriesScript(symbol: String, hexColor: String): String =
+        CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", " +
+                "color: \"$hexColor\"  isComparison:true});"
 
-    override fun getRemoveComparisonScript(symbol: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getRemoveSeriesScript(symbol: String): String =
+        CHART_IQ_JS_OBJECT + "removeSeries(\"$symbol\");"
 
-    override fun getClearChartScript(): String {
-        TODO("Not yet implemented")
-    }
+    override fun getResizeChartScript(): String =
+        CHART_IQ_JS_OBJECT + "resizeChart();"
+
+    override fun getClearChartScript(): String =
+        CHART_IQ_JS_OBJECT + "destroy();"
 
     override fun getSetChartScaleScript(scale: String): String =
-        CHART_IQ_JS_OBJECT + "setChartScale($scale)"
+        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
     override fun getAddStudyScript(
         studyName: String,
@@ -88,54 +82,47 @@ class ChartIQScriptManager : ScriptManager {
         inputs,
         outputs,
         parameters
-    ) + ")"
+    ) + ");"
 
     override fun getRemoveStudyScript(studyName: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "removeStudy" + "(\"$studyName\")"
+        MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
 
-    override fun getRemoveAllStudiesScript(): String {
-        TODO("Not yet implemented")
-    }
+    override fun getRemoveAllStudiesScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "removeAllStudies();"
 
-    override fun getEnableCrosshairsScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "enableCrosshairs(${true}})"
+    override fun getEnableCrosshairScript(value: Boolean): String =
+        MOBILE_BRIDGE_NAME_SPACE + "enableCrosshairs($value);"
 
-    override fun getIsCrosshairsEnabledScript(): String {
-        TODO("Not yet implemented")
-    }
+    override fun getIsCrosshairsEnabledScript(): String =
+        "if (${CHART_IQ_JS_OBJECT}layout.crosshair == true) { \"true\" } else { \"false\" } "
 
-    override fun getDisableCrosshairsScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "enableCrosshairs(${false})"
-
-    override fun getGetCrosshairsHUDDetailScript(): String {
-        TODO("Not yet implemented")
-    }
+    override fun getGetCrosshairsHUDDetailScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
     override fun getEnableDrawingScript(type: DrawingTool): String =
-        CHART_IQ_JS_OBJECT + "changeVectorType(" + buildArgumentStringFromArgs(type.value) + ")"
+        CHART_IQ_JS_OBJECT + "changeVectorType(" + buildArgumentStringFromArgs(type.value) + ");"
 
     override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
-    override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings()"
+    override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
+    // TODO: 03.09.20 Look into alternative "setDrawingParameters()"
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setCurrentVectorParameters($parameter, $value)"
 
-    override fun getSetStyleScript(obj: String, parameter: String, value: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSetStyleScript(obj: String, parameter: String, value: String): String =
+        CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$parameter\", \"$value\");"
 
-    override fun getSetThemeScript(theme: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSetThemeScript(theme: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "setTheme(\"$theme\");"
 
     override fun getGetStudyListScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getStudyList()"
 
     override fun getGetActiveStudiesScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies()"
+        MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies();"
 
     override fun getSetAggregationTypeScript(aggregationType: AggregationType): String =
-        CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ")"
+        CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ");"
 
     override fun getGetStudyInputParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\", \"inputs\")"
@@ -162,13 +149,11 @@ class ChartIQScriptManager : ScriptManager {
         TODO("Not yet implemented")
     }
 
-    override fun getGetDrawingParametersScript(drawingName: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getGetDrawingParametersScript(drawingName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getDrawingParameters(\"$drawingName\");"
 
-    override fun getChangeChartStyleScript(vararg args: Any): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSetChartStyleScript(obj: String, attribute: String, value: String): String =
+        CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$attribute\", \"$value\")"
 
     override fun getSetChartPropertyScript(property: String, value: Any): String {
         TODO("Not yet implemented")
@@ -182,9 +167,8 @@ class ChartIQScriptManager : ScriptManager {
         TODO("Not yet implemented")
     }
 
-    override fun getGetEnginePropertyScript(property: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getGetEnginePropertyScript(property: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getEngineProperty(\"$property\");"
 
     override fun getParseDataScript(data: Array<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"

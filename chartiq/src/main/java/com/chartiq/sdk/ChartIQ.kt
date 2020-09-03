@@ -44,7 +44,7 @@ interface ChartIQ {
 
     fun setDrawingParameter(parameter: String, value: String)
 
-    fun setTalkbackFields(talkbackFields: HashMap<String, Boolean>)
+    fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
     fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>)
 
