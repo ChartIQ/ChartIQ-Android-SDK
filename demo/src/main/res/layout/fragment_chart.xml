@@ -6,9 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".ui.chart.ChartFragment">
 
-    <com.chartiq.sdk.DefaultChartIQ
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/ghost_white"
+        android:elevation="8dp"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@android:color/black">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/symbolButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/bright_grey"
+                android:text="AAPL"
+                android:textColor="@color/dark_electric_blue" />
+
+            <Button
+                android:minWidth="0dp"
+                android:id="@+id/intervalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/symbolButton"
+                android:backgroundTint="@color/bright_grey"
+                android:text="1D"
+                android:textColor="@color/dark_electric_blue" />
+
+            <ImageView
+
+                android:id="@+id/crosshairImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/drawImageView"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/bright_grey"
+                android:src="@drawable/ic_scrosshair" />
+
+            <ImageView
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:id="@+id/drawImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/bright_grey"
+                android:src="@drawable/ic_draw" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.chartiq.sdk.ChartIQView
         android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize" />
 
 </FrameLayout>

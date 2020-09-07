@@ -28,15 +28,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val page = when (item.itemId) {
             R.id.navigation_chart -> {
-                toolbar.title = getString(R.string.title_chart)
                 MainViewPagerAdapter.FRAGMENT_CHART
             }
             R.id.navigation_study -> {
-                toolbar.title = getString(R.string.title_study)
                 MainViewPagerAdapter.FRAGMENT_STUDIES
             }
             R.id.navigation_settings -> {
-                toolbar.title = getString(R.string.title_settings)
                 MainViewPagerAdapter.FRAGMENT_SETTINGS
             }
             else -> throw IllegalStateException()
@@ -47,7 +44,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun setup() {
         navView = findViewById(R.id.navView)
-        toolbar = findViewById(R.id.toolbar)
         viewPager = findViewById(R.id.mainViewPager)
 
         viewPager.apply {

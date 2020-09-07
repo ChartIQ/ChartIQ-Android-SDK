@@ -6,17 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".ui.study.StudyFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <androidx.appcompat.widget.Toolbar
+        android:elevation="8dp"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:background="@color/ghost_white"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/title_study"
+        app:titleTextColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/analysisImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_analysis"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/noActiveStudiesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:text="No Active Studies to displays yet"
+        android:textColor="@color/cadet_blue"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/addStudiesButton"
+        app:layout_constraintStart_toStartOf="@+id/addStudiesButton"
+        app:layout_constraintTop_toBottomOf="@+id/analysisImageView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addStudiesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Add studies"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noActiveStudiesTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
