@@ -13,47 +13,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var toolbar: Toolbar
-    private lateinit var viewPager: ViewPager2
-    private lateinit var navView: BottomNavigationView
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setup()
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val page = when (item.itemId) {
-            R.id.navigation_chart -> {
-                MainViewPagerAdapter.FRAGMENT_CHART
-            }
-            R.id.navigation_study -> {
-                MainViewPagerAdapter.FRAGMENT_STUDIES
-            }
-            R.id.navigation_settings -> {
-                MainViewPagerAdapter.FRAGMENT_SETTINGS
-            }
-            else -> throw IllegalStateException()
-        }
-        viewPager.setCurrentItem(page, true)
-        return true
-    }
-
-    private fun setup() {
-        navView = findViewById(R.id.navView)
-        viewPager = findViewById(R.id.mainViewPager)
-
-        viewPager.apply {
-            adapter = MainViewPagerAdapter(this@MainActivity)
-            isUserInputEnabled = false
-            currentItem = 1
-        }
-        navView.apply {
-            selectedItemId = R.id.navigation_study
-            setOnNavigationItemSelectedListener(this@MainActivity)
-        }
     }
 }

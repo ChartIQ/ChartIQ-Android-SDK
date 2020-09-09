@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.R
 import com.chartiq.sdk.ChartIQView
 import com.chartiq.sdk.model.DataMethod
@@ -33,11 +36,16 @@ class ChartFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
         setup(chartIQ)
+        root.findViewById<Button>(R.id.intervalButton).apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
+            }
+        }
         return root
     }
 
     private fun setup(chartIQ: ChartIQView) {
-        chartIQ.start(CHART_URL, object: OnStartCallback {
+        chartIQ.start(CHART_URL, object : OnStartCallback {
             override fun onStart() {
                 chartIQ.setDataMethod(DataMethod.PULL, DEFAULT_SYMBOL);
                 chartIQ.setSymbol(DEFAULT_SYMBOL);
@@ -85,8 +93,8 @@ class ChartFragment : Fragment() {
             params.containsKey("interval") && TextUtils.isDigitsOnly(
                 params["interval"].toString()
             )
-        params.put("interval",  if (isMinute) "minute" as Object else params["interval"]!!)
-        params.put("period",  if (isMinute) "minute" as Object else params["period"]!!)
+        params.put("interval", if (isMinute) "minute" as Object else params["interval"]!!)
+        params.put("period", if (isMinute) "minute" as Object else params["period"]!!)
 
         val builder = StringBuilder()
         builder.append("http://simulator.chartiq.com/datafeed?")

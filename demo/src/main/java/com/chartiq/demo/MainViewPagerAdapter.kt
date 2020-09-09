@@ -8,8 +8,9 @@ import com.chartiq.demo.ui.chart.ChartFragment
 import com.chartiq.demo.ui.settings.SettingsFragment
 import com.chartiq.demo.ui.study.StudyFragment
 
-class MainViewPagerAdapter(activity: FragmentActivity) :
-    FragmentStateAdapter(activity) {
+class MainViewPagerAdapter(fragment: Fragment) :
+    FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int = 3
 
     override fun createFragment(@ViewPagerFragment position: Int): Fragment {
