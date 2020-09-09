@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 
-class SplashActivity: AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     private val job = SupervisorJob()
     private val splashScope = CoroutineScope(Dispatchers.Main + job)
@@ -13,7 +13,7 @@ class SplashActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         splashScope.launch {
             withContext(Dispatchers.IO) {
-                delay(1500L)
+                delay(SPLASH_DURATION)
             }
             navigateToMainScreen()
         }
@@ -29,5 +29,9 @@ class SplashActivity: AppCompatActivity() {
     override fun onPause() {
         job.cancelChildren()
         super.onPause()
+    }
+
+    companion object {
+        private const val SPLASH_DURATION = 1500L
     }
 }

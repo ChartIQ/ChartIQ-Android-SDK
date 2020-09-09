@@ -13,10 +13,12 @@ class IntervalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.findViewById<TextView>(R.id.intervalTextView).apply {
             text = getText(interval, timeUnit)
         }
-        if (isSelected) {
-            itemView.findViewById<ImageView>(R.id.checkImageView).visibility = View.VISIBLE
-        } else {
-            itemView.findViewById<ImageView>(R.id.checkImageView).visibility = View.GONE
+        with(itemView.findViewById<ImageView>(R.id.checkImageView)) {
+            visibility = if (isSelected) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
     }
 

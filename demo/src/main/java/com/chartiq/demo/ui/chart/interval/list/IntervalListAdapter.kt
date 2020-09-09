@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.chart.interval.list.viewholder.CustomIntervalViewHolder
 import com.chartiq.demo.ui.chart.interval.list.viewholder.IntervalViewHolder
-import com.chartiq.demo.ui.chart.interval.model.Interval
 
 class IntervalListAdapter(
-    private val intervalList: List<Interval>,
-    private val selectedInterval: Interval,
+    private val intervalList: List<IntervalProps>,
     private val onIntervalClickListener: OnIntervalClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -42,13 +40,21 @@ class IntervalListAdapter(
                 // so the list has custom interval view holder as a first item no matter how big the
                 // original list of intervals is
                 val item = intervalList[position - 1]
-                holder.bind(item.value, item.timeUnit, selectedInterval == intervalList[position - 1])
+                holder.bind(item.value, item.timeUnit, item.isSelected)
                 holder.itemView.setOnClickListener {
+                    intervalList.find { it.isSelected }?.let { props ->
+                        props.isSelected = false
+                        notifyItemChanged(intervalList.indexOf(props) + 1)
+                    } ?: run {
+                        notifyItemChanged(0)
+                    }
+                    item.isSelected = true
+                    holder.bind(item.value, item.timeUnit, item.isSelected)
                     onIntervalClickListener.onIntervalClick(item)
                 }
             }
             is CustomIntervalViewHolder -> {
-                val isSelected = intervalList.find { selectedInterval == it }
+                val isSelected = intervalList.find { it.isSelected }
                 holder.bind(isSelected == null)
                 holder.itemView.setOnClickListener {
                     onIntervalClickListener.onCustomIntervalClick()

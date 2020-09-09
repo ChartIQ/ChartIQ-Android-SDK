@@ -13,6 +13,7 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
+import com.chartiq.demo.ui.chart.interval.list.IntervalProps
 import com.chartiq.demo.ui.chart.interval.list.OnIntervalClickListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
@@ -35,7 +36,10 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
         appPrefs = ApplicationPrefs.Default(requireContext())
         val selectedInterval = appPrefs.getChartInterval()
 
-        val intervalAdapter = IntervalListAdapter(INTERVAL_LIST, selectedInterval, this)
+        val intervalAdapter = IntervalListAdapter(
+            INTERVAL_LIST.map { IntervalProps(it.value, it.timeUnit, it == selectedInterval) },
+            this
+        )
 
         root.findViewById<RecyclerView>(R.id.intervalsRecyclerView).apply {
             val itemDecoration = LineItemDecoration(
@@ -53,16 +57,13 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
         }
     }
 
-    // TODO: 08.09.20 save user input
     override fun onCustomIntervalClick() {
         NavHostFragment.findNavController(this)
             .navigate(R.id.action_chooseIntervalFragment_to_customIntervalFragment)
     }
 
-    override fun onIntervalClick(interval: Interval) {
-        context?.let {
-            appPrefs.saveChartInterval(interval)
-        }
+    override fun onIntervalClick(interval: IntervalProps) {
+        appPrefs.saveChartInterval(Interval(interval.value, interval.timeUnit))
     }
 
     companion object {

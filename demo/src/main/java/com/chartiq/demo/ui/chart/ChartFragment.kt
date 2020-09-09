@@ -9,14 +9,15 @@ import android.webkit.WebView
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
+import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQView
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.OnStartCallback
+import com.chartiq.sdk.model.DataMethod
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,17 +35,13 @@ class ChartFragment : Fragment() {
         chartViewModel =
             ViewModelProviders.of(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
-        val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
-        setup(chartIQ)
-        root.findViewById<Button>(R.id.intervalButton).apply {
-            setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
-            }
-        }
+        setupUI(root)
         return root
     }
 
-    private fun setup(chartIQ: ChartIQView) {
+    private fun setupUI(root: View) {
+        val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
+
         chartIQ.start(CHART_URL, object : OnStartCallback {
             override fun onStart() {
                 chartIQ.setDataMethod(DataMethod.PULL, DEFAULT_SYMBOL);
@@ -73,6 +70,21 @@ class ChartFragment : Fragment() {
                 })
             }
         })
+
+        root.findViewById<Button>(R.id.intervalButton).apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
+            }
+            text = ApplicationPrefs.Default(requireContext()).getChartInterval().run {
+                when (timeUnit) {
+                    TimeUnit.SECOND,
+                    TimeUnit.MINUTE -> {
+                        "$value${timeUnit.toString().first().toLowerCase()}"
+                    }
+                    else -> "$value${timeUnit.toString().first()}"
+                }
+            }
+        }
     }
 
     // TODO: 07.09.20 Refactor the following implementation
