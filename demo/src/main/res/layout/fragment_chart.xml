@@ -41,17 +41,17 @@
                 android:textColor="@color/dark_electric_blue"
                 tools:text="1D" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/crosshairImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/drawImageView"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/bright_grey"
-                android:src="@drawable/ic_scrosshair" />
+                android:button="@drawable/selector_crosshair"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/drawImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,9 +59,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/bright_grey"
-                android:src="@drawable/ic_draw" />
+                android:button="@drawable/selector_draw"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
         </RelativeLayout>
 
