@@ -42,13 +42,13 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\");"
 
-    override fun getPushDataScript(symbol: String, data: Array<OHLCParams>): String {
+    override fun getPushDataScript(symbol: String, data: List<OHLCParams>): String {
         // TODO: 03.09.20 Parse the array for the call
         val jsonString = ""
         return MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"\", $jsonString); "
     }
 
-    override fun getPushUpdateScript(data: Array<OHLCParams>): String {
+    override fun getPushUpdateScript(data: List<OHLCParams>): String {
         // TODO: 03.09.20 Parse the array for the call
         return MOBILE_BRIDGE_NAME_SPACE + "parseData($data');"
     }
@@ -170,7 +170,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetEnginePropertyScript(property: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getEngineProperty(\"$property\");"
 
-    override fun getParseDataScript(data: Array<OHLCParams>, callbackId: String): String =
+    override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
 
     companion object {

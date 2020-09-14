@@ -1,9 +1,6 @@
 package com.chartiq.sdk
 
-import com.chartiq.sdk.model.AggregationType
-import com.chartiq.sdk.model.DataMethod
-import com.chartiq.sdk.model.DrawingTool
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.*
 import java.util.*
 
 interface ChartIQ {
@@ -28,21 +25,21 @@ interface ChartIQ {
 
     fun clearDrawing()
 
-    fun getStudyList(callback: OnReturnCallback<Array<Study>>)
+    fun getStudyList(callback: OnReturnCallback<List<Study>>)
 
-    fun getActiveStudies(callback: OnReturnCallback<Array<Study>>)
+    fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
 
     fun setAggregationType(aggregationType: AggregationType)
 
-    fun setChartType(chartType: String)
+    fun setChartType(chartType: ChartType)
 
-    fun setChartScale(scale: String)
+    fun setChartScale(scale: ChartScale)
 
     fun removeStudy(studyName: String)
 
     fun addStudy(study: Study, firstLoad: Boolean)
 
-    fun setDrawingParameter(parameter: String, value: String)
+    fun setDrawingParameter(parameter: DrawingParameter, value: String)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 

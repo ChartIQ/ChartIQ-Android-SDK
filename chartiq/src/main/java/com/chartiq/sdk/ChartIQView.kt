@@ -152,13 +152,13 @@ class ChartIQView @JvmOverloads constructor(
         executeJavascript(scriptManager.getClearDrawingScript())
     }
 
-    override fun getStudyList(callback: OnReturnCallback<Array<Study>>) {
+    override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetStudyListScript()) { value ->
-            callback.onReturn(Gson().fromJson(value, Array<Study>::class.java))
+            callback.onReturn(Gson().fromJson(value, Array<Study>::class.java).toList())
         }
     }
 
-    override fun getActiveStudies(callback: OnReturnCallback<Array<Study>>) {
+    override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
             val result = if (value.toLowerCase() == "null") {
                 "[]";
@@ -166,7 +166,7 @@ class ChartIQView @JvmOverloads constructor(
                 value
             }
 
-            callback.onReturn(Gson().fromJson(result, Array<Study>::class.java))
+            callback.onReturn(Gson().fromJson(result, Array<Study>::class.java).toList())
         }
     }
 
@@ -174,12 +174,12 @@ class ChartIQView @JvmOverloads constructor(
         executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType))
     }
 
-    override fun setChartType(chartType: String) {
-        executeJavascript(scriptManager.getSetChartTypeScript(chartType))
+    override fun setChartType(chartType: ChartType) {
+        executeJavascript(scriptManager.getSetChartTypeScript(chartType.value))
     }
 
-    override fun setChartScale(scale: String) {
-        executeJavascript(scriptManager.getSetChartScaleScript(scale))
+    override fun setChartScale(scale: ChartScale) {
+        executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
     override fun removeStudy(studyName: String) {
@@ -200,8 +200,8 @@ class ChartIQView @JvmOverloads constructor(
         executeJavascript(scripts)
     }
 
-    override fun setDrawingParameter(parameter: String, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
+    override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
     }
 
     override fun setOHLCParameters(params: HashMap<String, Boolean>) {
@@ -230,7 +230,7 @@ class ChartIQView @JvmOverloads constructor(
         evaluateJavascript(script, callback)
     }
 
-    private fun invokePullCallback(callbackId: String, data: Array<OHLCParams>) {
+    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
         executeJavascript(scriptManager.getParseDataScript(data, callbackId))
     }
 

@@ -28,9 +28,9 @@ internal interface ScriptManager {
 
     fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String
 
-    fun getPushDataScript(symbol: String, data: Array<OHLCParams>): String
+    fun getPushDataScript(symbol: String, data: List<OHLCParams>): String
 
-    fun getPushUpdateScript(data: Array<OHLCParams>): String
+    fun getPushUpdateScript(data: List<OHLCParams>): String
 
     fun getSetChartTypeScript(chartType: String): String
 
@@ -105,5 +105,5 @@ internal interface ScriptManager {
 
     fun getGetEnginePropertyScript(property: String): String
 
-    fun getParseDataScript(data: Array<OHLCParams>, callbackId: String): String
+    fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 }
