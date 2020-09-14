@@ -35,17 +35,20 @@ class ChartFragment : Fragment() {
         chartViewModel =
             ViewModelProviders.of(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
+
         setupUI(root)
         return root
     }
 
     private fun setupUI(root: View) {
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
+        val prefs = ApplicationPrefs.Default(requireContext())
+        val symbol = prefs.getChartSymbol().value
 
         chartIQ.start(CHART_URL, object : OnStartCallback {
             override fun onStart() {
-                chartIQ.setDataMethod(DataMethod.PULL, DEFAULT_SYMBOL);
-                chartIQ.setSymbol(DEFAULT_SYMBOL);
+                chartIQ.setDataMethod(DataMethod.PULL, symbol);
+                chartIQ.setSymbol(symbol);
                 chartIQ.setDataSource(object : DataSource {
                     override fun pullInitialData(
                         params: Map<String, Object>,
@@ -75,6 +78,7 @@ class ChartFragment : Fragment() {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
+            text = symbol
         }
         root.findViewById<Button>(R.id.intervalButton).apply {
             setOnClickListener {
@@ -133,7 +137,6 @@ class ChartFragment : Fragment() {
     }
 
     companion object {
-        private const val DEFAULT_SYMBOL = "AAPL"
         private const val CHART_URL =
             "https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html";
     }

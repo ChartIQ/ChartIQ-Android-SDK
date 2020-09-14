@@ -14,10 +14,8 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.ViewModelStore
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentSearchSymbolBinding
 import com.chartiq.demo.ui.LineItemDecoration
@@ -118,6 +116,10 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
     }
 
     override fun onSearchItemClick(item: SearchResultItem) {
-        // TODO: 12.09.20 Implement
+        ApplicationPrefs
+            .Default(requireContext())
+            .saveChartSymbol(Symbol(item.symbol))
+        hideKeyboard()
+        findNavController().navigateUp()
     }
 }
