@@ -71,6 +71,11 @@ class ChartFragment : Fragment() {
             }
         })
 
+        root.findViewById<Button>(R.id.symbolButton).apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
+            }
+        }
         root.findViewById<Button>(R.id.intervalButton).apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)

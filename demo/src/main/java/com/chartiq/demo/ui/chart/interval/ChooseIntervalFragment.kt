@@ -42,12 +42,8 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
         )
 
         root.findViewById<RecyclerView>(R.id.intervalsRecyclerView).apply {
-            val itemDecoration = LineItemDecoration(
-                context = context,
-                marginStart = resources.getDimensionPixelSize(R.dimen.list_item_decorator_margin)
-            )
             adapter = intervalAdapter
-            addItemDecoration(itemDecoration)
+            addItemDecoration(LineItemDecoration.Default(context))
         }
 
         root.findViewById<Toolbar>(R.id.toolbar).apply {

@@ -40,13 +40,14 @@ ext {
 
     navigation_version = '2.3.0'
 
-    gson_version = '2.8.5'
+    gson_version = '2.8.6'
 
     junit_version = '4.12'
     androidx_test_junit_version = '1.1.2'
     espresso_core_version = '3.3.0'
 
     leak_canary_version = '2.4'
+    okttp_version = '4.9.0'
 }
 
 dependencies {
@@ -70,6 +71,7 @@ dependencies {
 
     // Tools
     implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.okhttp3:okhttp:$okttp_version"
 
     // Testing
     testImplementation "junit:junit:$junit_version"
