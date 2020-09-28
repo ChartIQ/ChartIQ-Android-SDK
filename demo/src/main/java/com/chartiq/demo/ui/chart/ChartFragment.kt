@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQView
@@ -45,7 +46,7 @@ class ChartFragment : Fragment() {
         val prefs = ApplicationPrefs.Default(requireContext())
         val symbol = prefs.getChartSymbol().value
 
-        chartIQ.start(CHART_URL, object : OnStartCallback {
+        chartIQ.start(BuildConfig.DEFAULT_CHART_URL, object : OnStartCallback {
             override fun onStart() {
                 chartIQ.setDataMethod(DataMethod.PULL, symbol);
                 chartIQ.setSymbol(symbol);
@@ -134,10 +135,5 @@ class ChartFragment : Fragment() {
                 callback!!.execute(it)
             }
         }).execute()
-    }
-
-    companion object {
-        private const val CHART_URL =
-            "https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html";
     }
 }
