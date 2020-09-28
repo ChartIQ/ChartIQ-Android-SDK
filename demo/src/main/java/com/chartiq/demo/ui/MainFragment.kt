@@ -25,7 +25,7 @@ class MainFragment: Fragment(), BottomNavigationView.OnNavigationItemSelectedLis
         val root = inflater.inflate(R.layout.fragment_main, container, false)
         viewPager = root.findViewById(R.id.mainViewPager)
         navView = root.findViewById(R.id.navView)
-        setup()
+        setupViews()
         return root
     }
 
@@ -49,7 +49,7 @@ class MainFragment: Fragment(), BottomNavigationView.OnNavigationItemSelectedLis
         return true
     }
 
-    private fun setup() {
+    private fun setupViews() {
         viewPager.apply {
             adapter = MainViewPagerAdapter(this@MainFragment)
             isUserInputEnabled = false

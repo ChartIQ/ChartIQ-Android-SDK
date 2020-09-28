@@ -24,7 +24,7 @@ interface ApplicationPrefs {
         }
 
         override fun saveChartInterval(interval: Interval) {
-            val record = "%d  %s".format(interval.value, interval.timeUnit.toString())
+            val record = "%d  %s".format(interval.duration, interval.timeUnit.toString())
             prefs
                 .edit()
                 .putString(KEY_CHART_INTERVAL, record)

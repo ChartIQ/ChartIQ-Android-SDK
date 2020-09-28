@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
@@ -32,14 +32,13 @@ class ChartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        chartViewModel =
-            ViewModelProviders.of(this).get(ChartViewModel::class.java)
+        chartViewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
-        setupUI(root)
+        setupViews(root)
         return root
     }
 
-    private fun setupUI(root: View) {
+    private fun setupViews(root: View) {
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
 
         chartIQ.start(CHART_URL, object : OnStartCallback {
@@ -79,9 +78,9 @@ class ChartFragment : Fragment() {
                 when (timeUnit) {
                     TimeUnit.SECOND,
                     TimeUnit.MINUTE -> {
-                        "$value${timeUnit.toString().first().toLowerCase()}"
+                        "$duration${timeUnit.toString().first().toLowerCase()}"
                     }
-                    else -> "$value${timeUnit.toString().first()}"
+                    else -> "$duration${timeUnit.toString().first()}"
                 }
             }
         }

@@ -20,7 +20,9 @@ import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
 
-    private lateinit var appPrefs: ApplicationPrefs
+    private val appPrefs: ApplicationPrefs by lazy {
+        ApplicationPrefs.Default(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,11 +35,10 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
     }
 
     private fun setupUI(root: View) {
-        appPrefs = ApplicationPrefs.Default(requireContext())
         val selectedInterval = appPrefs.getChartInterval()
 
         val intervalAdapter = IntervalListAdapter(
-            INTERVAL_LIST.map { IntervalProps(it.value, it.timeUnit, it == selectedInterval) },
+            INTERVAL_LIST.map { IntervalProps(it.duration, it.timeUnit, it == selectedInterval) },
             this
         )
 
