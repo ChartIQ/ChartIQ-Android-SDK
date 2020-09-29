@@ -1,12 +1,12 @@
 package com.chartiq.sdk
 
-import java.util.Map
+import com.chartiq.sdk.model.QuoteFeedParams
 
 interface DataSource {
 
-    fun pullInitialData(params: Map<String, Object>, callback: DataSourceCallback)
+    fun pullInitialData(params: QuoteFeedParams, callback: DataSourceCallback)
 
-    fun pullUpdateData(params: Map<String, Object>, callback: DataSourceCallback)
+    fun pullUpdateData(params: QuoteFeedParams, callback: DataSourceCallback)
 
-    fun pullPaginationData(params: Map<String, Object>, callback: DataSourceCallback)
+    fun pullPaginationData(params: QuoteFeedParams, callback: DataSourceCallback)
 }

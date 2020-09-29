@@ -3,15 +3,17 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
+ext.version_name = "4.0.0"
+
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
-        versionName "3.2.0"
+        versionName version_name
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
@@ -33,7 +35,7 @@ publishing {
         aar(MavenPublication) {
             groupId = 'com.chartiq'
             artifactId 'chartiq'
-            version = "3.2.0"
+            version = version_name
             artifact "${project.buildDir}/outputs/aar/chartiq-release.aar"
 
             pom.withXml {
