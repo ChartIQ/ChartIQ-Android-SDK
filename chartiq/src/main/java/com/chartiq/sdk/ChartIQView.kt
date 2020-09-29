@@ -8,24 +8,14 @@ import android.webkit.JavascriptInterface
 import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.chartiq.sdk.JavaScriptHandler.Companion.PARAM_END
-import com.chartiq.sdk.JavaScriptHandler.Companion.PARAM_INTERVAL
-import com.chartiq.sdk.JavaScriptHandler.Companion.PARAM_PERIOD
-import com.chartiq.sdk.JavaScriptHandler.Companion.PARAM_START
-import com.chartiq.sdk.JavaScriptHandler.Companion.PARAM_SYMBOL
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
-import java.util.Map
 
 class ChartIQView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : WebView(context, attrs), ChartIQ, JavaScriptHandler {
-
-    companion object {
-        private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
-    }
 
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
@@ -40,7 +30,7 @@ class ChartIQView @JvmOverloads constructor(
             domStorageEnabled = true
         }
         addJavascriptInterface(this@ChartIQView, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-        addJavascriptInterface(this@ChartIQView, "parameters")
+        addJavascriptInterface(this@ChartIQView, JAVASCRIPT_INTERFACE_PARAMETERS)
         loadUrl(chartIQUrl)
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -55,14 +45,10 @@ class ChartIQView @JvmOverloads constructor(
     }
 
     @JavascriptInterface
-    override fun layoutChange(json: String) {
-        TODO("Not yet implemented")
-    }
+    override fun layoutChange(json: String) = Unit
 
     @JavascriptInterface
-    override fun drawingChange(json: String) {
-        TODO("Not yet implemented")
-    }
+    override fun drawingChange(json: String) = Unit
 
     @JavascriptInterface
     override fun pullInitialData(
@@ -74,20 +60,13 @@ class ChartIQView @JvmOverloads constructor(
         meta: Any?,
         callbackId: String?
     ) {
-        val params = java.util.HashMap<String, Object>().apply {
-            put(PARAM_SYMBOL, symbol as Object)
-            put(PARAM_PERIOD, period.toString() as Object)
-            put(PARAM_INTERVAL, interval as Object)
-            put(PARAM_START, start as Object)
-            put(PARAM_END, end as Object)
-        }
-        dataSource?.pullInitialData(params as Map<String, Object>, object : DataSourceCallback {
-            override fun execute(data: Array<OHLCParams>) {
-                callbackId?.let {
-                    invokePullCallback(callbackId, data)
-                }
+        val quoteFeedParams =
+            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+        dataSource?.pullInitialData(quoteFeedParams) { data ->
+            callbackId?.let {
+                invokePullCallback(callbackId, data)
             }
-        })
+        }
     }
 
     @JavascriptInterface
@@ -99,19 +78,13 @@ class ChartIQView @JvmOverloads constructor(
         meta: Any?,
         callbackId: String?
     ) {
-        val params = java.util.HashMap<String, Object>().apply {
-            put(PARAM_SYMBOL, symbol as Object)
-            put(PARAM_PERIOD, period.toString() as Object)
-            put(PARAM_INTERVAL, interval as Object)
-            put(PARAM_START, start as Object)
-        }
-        dataSource?.pullInitialData(params as Map<String, Object>, object : DataSourceCallback {
-            override fun execute(data: Array<OHLCParams>) {
-                callbackId?.let {
-                    invokePullCallback(callbackId, data)
-                }
+        val quoteFeedParams =
+            QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
+        dataSource?.pullUpdateData(quoteFeedParams) { data ->
+            callbackId?.let {
+                invokePullCallback(callbackId, data)
             }
-        })
+        }
     }
 
     @JavascriptInterface
@@ -124,27 +97,19 @@ class ChartIQView @JvmOverloads constructor(
         meta: Any?,
         callbackId: String?
     ) {
-        val params = java.util.HashMap<String, Object>().apply {
-            put(PARAM_SYMBOL, symbol as Object)
-            put(PARAM_PERIOD, period.toString() as Object)
-            put(PARAM_INTERVAL, interval as Object)
-            put(PARAM_START, start as Object)
-            put(PARAM_END, end as Object)
-        }
-        dataSource?.pullInitialData(params as Map<String, Object>, object : DataSourceCallback {
-            override fun execute(data: Array<OHLCParams>) {
-                callbackId?.let {
-                    invokePullCallback(callbackId, data)
-                }
+        val quoteFeedParams =
+            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+        dataSource?.pullPaginationData(quoteFeedParams) { data ->
+            callbackId?.let {
+                invokePullCallback(callbackId, data)
             }
-        })
+        }
     }
 
     override fun setSymbol(symbol: String) {
         if (accessibilityManager.isEnabled && accessibilityManager.isTouchExplorationEnabled) {
             executeJavascript(scriptManager.getSetAccessibilityModeScript())
         }
-        executeJavascript(scriptManager.getSetDataMethodScript(symbol))
         executeJavascript(scriptManager.getDateFromTickScript())
         executeJavascript(scriptManager.getSetSymbolScript(symbol))
     }
@@ -158,76 +123,67 @@ class ChartIQView @JvmOverloads constructor(
             DataMethod.PUSH -> executeJavascript(scriptManager.getSetDataMethodScript(symbol))
             DataMethod.PULL -> Log.d(
                 javaClass.simpleName,
-                "If you want to add a quotefeed please do so in your javascript code."
+                "If you want to add a QuoteFeed please do so in your javascript code."
             )
         }
     }
 
     override fun enableCrosshairs() {
-        executeJavascript(scriptManager.getEnableCrosshairsScript())
+        executeJavascript(scriptManager.getEnableCrosshairScript(true))
     }
 
     override fun disableCrosshairs() {
-        executeJavascript(scriptManager.getDisableCrosshairsScript());
+        executeJavascript(scriptManager.getEnableCrosshairScript(false))
     }
 
     override fun setPeriodicity(period: Int, interval: String, timeUnit: String) {
-        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, timeUnit));
+        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, timeUnit))
     }
 
     override fun enableDrawing(type: DrawingTool) {
-        executeJavascript(scriptManager.getEnableDrawingScript(type));
+        executeJavascript(scriptManager.getEnableDrawingScript(type))
     }
 
     override fun disableDrawing() {
-        executeJavascript(scriptManager.getDisableDrawingScript());
+        executeJavascript(scriptManager.getDisableDrawingScript())
     }
 
     override fun clearDrawing() {
-        executeJavascript(scriptManager.getClearDrawingScript());
+        executeJavascript(scriptManager.getClearDrawingScript())
     }
 
-    override fun getStudyList(callback: OnReturnCallback<Array<Study>>) {
-        executeJavascript(
-            scriptManager.getGetStudyListScript(),
-            ValueCallback { value ->
-                callback.onReturn(
-                    Gson().fromJson(
-                        value,
-                        Array<Study>::class.java
-                    )
-                )
-            })
+    override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
+        executeJavascript(scriptManager.getGetStudyListScript()) { value ->
+            callback.onReturn(Gson().fromJson(value, Array<Study>::class.java).toList())
+        }
     }
 
-    override fun getActiveStudies(callback: OnReturnCallback<Array<Study>>) {
-        executeJavascript(scriptManager.getGetActiveStudiesScript(),
-            ValueCallback { value ->
-                val result =
-                    if (value.toLowerCase() == "null") {
-                        "[]";
-                    } else {
-                        value
-                    }
+    override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
+        executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
+            val result = if (value.toLowerCase() == "null") {
+                "[]";
+            } else {
+                value
+            }
 
-                callback.onReturn(Gson().fromJson(result, Array<Study>::class.java));
-            })
+            callback.onReturn(Gson().fromJson(result, Array<Study>::class.java).toList())
+        }
     }
 
     override fun setAggregationType(aggregationType: AggregationType) {
-        executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType));
+        executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType))
     }
 
-    override fun setChartType(chartType: String) {
-        executeJavascript(scriptManager.getSetChartTypeScript(chartType));
+    override fun setChartType(chartType: ChartType) {
+        executeJavascript(scriptManager.getSetChartTypeScript(chartType.value))
     }
 
-    override fun setChartScale(scale: String) {
-        executeJavascript(scriptManager.getSetChartScaleScript(scale));
+    override fun setChartScale(scale: ChartScale) {
+        executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
     override fun removeStudy(studyName: String) {
-        executeJavascript(scriptManager.getRemoveStudyScript(studyName));
+        executeJavascript(scriptManager.getRemoveStudyScript(studyName))
     }
 
     override fun addStudy(study: Study, firstLoad: Boolean) {
@@ -239,40 +195,47 @@ class ChartIQView @JvmOverloads constructor(
             outputs = null
         }
         val scripts = study.type?.run {
-            scriptManager.getAddStudyScript(study.type, inputs, outputs, params);
+            scriptManager.getAddStudyScript(study.type, inputs, outputs, params)
         } ?: scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
         executeJavascript(scripts)
     }
 
-    override fun setDrawingParameter(parameter: String, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value), null);
+    override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
     }
 
-    // TODO: 02.09.20 find out the need of the following method
-    override fun setTalkbackFields(talkbackFields: HashMap<String, Boolean>) {
-        parameters = talkbackFields;
+    override fun setOHLCParameters(params: HashMap<String, Boolean>) {
+        parameters = params
     }
 
     override fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>) {
-        executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName),
-            ValueCallback { value -> callback.onReturn(value) })
+        executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName)) { value ->
+            callback.onReturn(value)
+        }
     }
 
     override fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>) {
-        executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName),
-            ValueCallback { value -> callback.onReturn(value) })
+        executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName)) { value ->
+            callback.onReturn(value)
+        }
     }
 
     override fun getStudyParameters(studyName: String, callback: OnReturnCallback<String>) {
-        executeJavascript(scriptManager.getGetStudyParametersScript(studyName),
-            ValueCallback { value -> callback.onReturn(value) })
+        executeJavascript(scriptManager.getGetStudyParametersScript(studyName)) { value ->
+            callback.onReturn(value)
+        }
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
         evaluateJavascript(script, callback)
     }
 
-    private fun invokePullCallback(callbackId: String, data: Array<OHLCParams>) {
+    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
         executeJavascript(scriptManager.getParseDataScript(data, callbackId))
+    }
+
+    companion object {
+        private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
+        private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
     }
 }

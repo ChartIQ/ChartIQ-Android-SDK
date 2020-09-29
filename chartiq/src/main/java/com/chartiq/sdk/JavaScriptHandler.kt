@@ -41,13 +41,4 @@ interface JavaScriptHandler {
         meta: Any?,
         callbackId: String?
     )
-
-    companion object {
-        const val PARAM_SYMBOL = "symbol"
-        const val PARAM_PERIOD = "period"
-        const val PARAM_INTERVAL = "interval"
-        const val PARAM_START = "start"
-        const val PARAM_END = "end"
-        const val PARAM_META = "meta"
-    }
 }
