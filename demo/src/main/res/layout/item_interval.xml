@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/intervalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:textSize="16sp"
         tools:text="1 day" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/checkImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

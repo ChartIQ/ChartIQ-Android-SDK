@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/symbolButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:text="AAPL"
                 android:textColor="@color/dark_electric_blue" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/intervalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:textColor="@color/dark_electric_blue"
                 tools:text="1D" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/crosshairImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:backgroundTint="@color/bright_grey"
                 android:src="@drawable/ic_scrosshair" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/drawImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
