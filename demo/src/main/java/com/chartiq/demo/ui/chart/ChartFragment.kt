@@ -27,6 +27,9 @@ import java.util.*
 class ChartFragment : Fragment() {
 
     private lateinit var chartViewModel: ChartViewModel
+    private val prefs by lazy {
+        ApplicationPrefs.Default(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,37 +44,34 @@ class ChartFragment : Fragment() {
 
     private fun setupViews(root: View) {
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
-        val prefs = ApplicationPrefs.Default(requireContext())
         val symbol = prefs.getChartSymbol().value
 
-        chartIQ.start(BuildConfig.DEFAULT_CHART_URL, object : OnStartCallback {
-            override fun onStart() {
-                chartIQ.setDataMethod(DataMethod.PULL, symbol);
-                chartIQ.setSymbol(symbol);
-                chartIQ.setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
+        chartIQ.start(BuildConfig.DEFAULT_CHART_URL) {
+            chartIQ.setDataMethod(DataMethod.PULL, symbol);
+            chartIQ.setSymbol(symbol);
+            chartIQ.setDataSource(object : DataSource {
+                override fun pullInitialData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullUpdateData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
+                override fun pullUpdateData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullPaginationData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
-            }
-        })
+                override fun pullPaginationData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
+            })
+        }
 
         root.findViewById<Button>(R.id.symbolButton).apply {
             setOnClickListener {
@@ -83,7 +83,7 @@ class ChartFragment : Fragment() {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }
-            text = ApplicationPrefs.Default(requireContext()).getChartInterval().run {
+            text = prefs.getChartInterval().run {
                 when (timeUnit) {
                     TimeUnit.SECOND,
                     TimeUnit.MINUTE -> {

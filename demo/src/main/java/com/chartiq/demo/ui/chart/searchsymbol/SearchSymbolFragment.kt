@@ -85,7 +85,7 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
             addItemDecoration(LineItemDecoration.Default(context))
         }
         viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
-            searchAdapter.updateList(list)
+            searchAdapter.setList(list)
             binding.searchSymbolProgressBar.visibility = View.GONE
             binding.queryResultsRecyclerView.visibility = View.VISIBLE
         })

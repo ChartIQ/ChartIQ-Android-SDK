@@ -29,7 +29,7 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
 
     override fun getItemCount(): Int = list.size
 
-    fun updateList(newList: List<SearchResultItem>) {
+    fun setList(newList: List<SearchResultItem>) {
         list = newList
         notifyDataSetChanged()
     }
