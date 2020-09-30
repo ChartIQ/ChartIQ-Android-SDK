@@ -1,20 +1,18 @@
 package com.chartiq.demo.ui.chart.interval.list.viewholder
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
+import com.chartiq.demo.databinding.ItemIntervalBinding
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
-class IntervalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class IntervalViewHolder(private val binding: ItemIntervalBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(interval: Int, timeUnit: TimeUnit, isSelected: Boolean) {
-        itemView.findViewById<TextView>(R.id.intervalTextView).apply {
-            text = getText(interval, timeUnit)
-        }
-        with(itemView.findViewById<ImageView>(R.id.checkImageView)) {
-            visibility = if (isSelected) {
+        with(binding) {
+            intervalTextView.text = getText(interval, timeUnit)
+            checkImageView.visibility = if (isSelected) {
                 View.VISIBLE
             } else {
                 View.GONE

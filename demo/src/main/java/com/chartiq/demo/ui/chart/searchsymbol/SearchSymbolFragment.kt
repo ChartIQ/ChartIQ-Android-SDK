@@ -24,21 +24,48 @@ import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 
 
-class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListener {
+class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels()
+    private val searchTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding.run {
+                typeToSearchPlaceHolder.root.visibility = View.GONE
+                queryResultsRecyclerView.visibility = View.INVISIBLE
+                searchSymbolProgressBar.visibility = View.VISIBLE
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            val query = s.toString()
+            if (query.isNotEmpty()) {
+                viewModel.fetchSymbol(query)
+            } else {
+                binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentSearchSymbolBinding.inflate(inflater, container, false)
 
-        setupUI()
+        setupViews()
         return binding.root
+    }
+
+    override fun onSearchItemClick(item: SearchResultItem) {
+        ApplicationPrefs
+            .Default(requireContext())
+            .saveChartSymbol(Symbol(item.symbol))
+        hideKeyboard()
+        findNavController().navigateUp()
     }
 
     // Since the app reuses native Google voice recognition the voice query is sent to
@@ -48,7 +75,8 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
             .setQuery(query, false)
     }
 
-    private fun setupUI() {
+    // TODO: 30.09.20 Find a better way of dealing with the findViewById queries to native SearchView
+    private fun setupViews() {
         binding.searchToolbar.apply {
             setNavigationOnClickListener {
                 hideKeyboard()
@@ -62,7 +90,7 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
                     setImageResource(R.drawable.ic_microphone)
                 }
                 findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text).apply {
-                    addTextChangedListener(this@SearchSymbolFragment)
+                    addTextChangedListener(searchTextWatcher)
                 }
                 findViewById<View>(androidx.appcompat.R.id.search_plate).apply {
                     background = null
@@ -91,35 +119,8 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
         })
     }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        binding.run {
-            typeToSearchPlaceHolder.root.visibility = View.GONE
-            queryResultsRecyclerView.visibility = View.INVISIBLE
-            searchSymbolProgressBar.visibility = View.VISIBLE
-        }
-    }
-
-    override fun afterTextChanged(s: Editable?) {
-        val query = s.toString()
-        if (query.isNotEmpty()) {
-            viewModel.fetchSymbol(query)
-        } else {
-            binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
-        }
-    }
-
     private fun hideKeyboard() {
         (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(view?.windowToken, 0)
-    }
-
-    override fun onSearchItemClick(item: SearchResultItem) {
-        ApplicationPrefs
-            .Default(requireContext())
-            .saveChartSymbol(Symbol(item.symbol))
-        hideKeyboard()
-        findNavController().navigateUp()
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
+import com.chartiq.demo.databinding.ItemSearchSymbolBinding
 
 class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     RecyclerView.Adapter<SearchResultViewHolder>() {
@@ -11,12 +12,9 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     private var list = listOf<SearchResultItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return SearchResultViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_search_symbol,
-                parent,
-                false
-            )
+            ItemSearchSymbolBinding.inflate(inflater, parent, false)
         )
     }
 

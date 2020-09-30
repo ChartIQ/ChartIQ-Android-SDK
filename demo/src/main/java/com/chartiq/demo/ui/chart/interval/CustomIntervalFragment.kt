@@ -16,13 +16,13 @@ import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class CustomIntervalFragment : Fragment() {
 
-    private var binding: FragmentChooseCustomIntervalBinding? = null
+    private lateinit var binding: FragmentChooseCustomIntervalBinding
 
     private val intervalTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding?.run {
+            binding.run {
                 doneButton.isEnabled = selectValueAutoCompleteTextView.text.isNotEmpty()
                         && selectMeasurementAutoCompleteTextView.text.isNotEmpty()
             }
@@ -37,12 +37,12 @@ class CustomIntervalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseCustomIntervalBinding.inflate(inflater, container, false)
-        setupUI()
-        return binding?.root
+        setupViews()
+        return binding.root
     }
 
-    private fun setupUI() {
-        binding?.run {
+    private fun setupViews() {
+        binding.run {
             selectValueAutoCompleteTextView.apply {
                 val items = (MINIMAL_INTERVAL_VALUE..MAX_INTERVAL_VALUE)
                     .toList()

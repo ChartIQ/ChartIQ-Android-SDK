@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.R
+import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQView
 import com.chartiq.sdk.DataSource
@@ -37,49 +38,49 @@ class ChartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         chartViewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_chart, container, false)
-        setupViews(root)
-        return root
+        val binding = FragmentChartBinding.inflate(inflater, container, false)
+        setupViews(binding)
+        return binding.root
     }
 
-    private fun setupViews(root: View) {
-        val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
+    private fun setupViews(binding: FragmentChartBinding) = with(binding) {
         val symbol = prefs.getChartSymbol().value
 
-        chartIQ.start(BuildConfig.DEFAULT_CHART_URL) {
-            chartIQ.setDataMethod(DataMethod.PULL, symbol);
-            chartIQ.setSymbol(symbol);
-            chartIQ.setDataSource(object : DataSource {
-                override fun pullInitialData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback
-                ) {
-                    loadChartData(params, callback)
-                }
+        with(webview) {
+            start(BuildConfig.DEFAULT_CHART_URL) {
+                setDataMethod(DataMethod.PULL, symbol);
+                setSymbol(symbol);
+                setDataSource(object : DataSource {
+                    override fun pullInitialData(
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback
+                    ) {
+                        loadChartData(params, callback)
+                    }
 
-                override fun pullUpdateData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback
-                ) {
-                    loadChartData(params, callback)
-                }
+                    override fun pullUpdateData(
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback
+                    ) {
+                        loadChartData(params, callback)
+                    }
 
-                override fun pullPaginationData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback
-                ) {
-                    loadChartData(params, callback)
-                }
-            })
+                    override fun pullPaginationData(
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback
+                    ) {
+                        loadChartData(params, callback)
+                    }
+                })
+            }
         }
-
-        root.findViewById<Button>(R.id.symbolButton).apply {
+        symbolButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
             text = symbol
         }
-        root.findViewById<Button>(R.id.intervalButton).apply {
+        intervalButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }

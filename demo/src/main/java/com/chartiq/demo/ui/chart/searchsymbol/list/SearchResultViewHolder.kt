@@ -1,15 +1,16 @@
 package com.chartiq.demo.ui.chart.searchsymbol.list
 
-import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.R
+import com.chartiq.demo.databinding.ItemSearchSymbolBinding
 
-class SearchResultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SearchResultViewHolder(private val binding: ItemSearchSymbolBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: SearchResultItem) {
-        itemView.findViewById<TextView>(R.id.symbolTextView).text = item.symbol
-        itemView.findViewById<TextView>(R.id.symbolFullNameTextView).text = item.fullName
-        itemView.findViewById<TextView>(R.id.fundTextView).text = item.fund
+        with(binding) {
+            symbolTextView.text = item.symbol
+            symbolFullNameTextView.text = item.fullName
+            fundTextView.text = item.fund
+        }
     }
 }
