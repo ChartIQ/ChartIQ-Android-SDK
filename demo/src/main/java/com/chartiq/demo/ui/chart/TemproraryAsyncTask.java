@@ -12,6 +12,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * @deprecated the following async task is a temporary fix and will be removed soon
+ */
+@Deprecated
 public class TemproraryAsyncTask extends AsyncTask<Void, Void, String> {
     String url;
     Callback callback;
