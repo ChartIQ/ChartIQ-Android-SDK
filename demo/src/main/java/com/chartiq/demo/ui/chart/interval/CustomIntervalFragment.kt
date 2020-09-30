@@ -14,9 +14,22 @@ import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
-class CustomIntervalFragment : Fragment(), TextWatcher {
+class CustomIntervalFragment : Fragment() {
 
     private var binding: FragmentChooseCustomIntervalBinding? = null
+
+    private val intervalTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding?.run {
+                doneButton.isEnabled = selectValueAutoCompleteTextView.text.isNotEmpty()
+                        && selectMeasurementAutoCompleteTextView.text.isNotEmpty()
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) = Unit
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,17 +44,18 @@ class CustomIntervalFragment : Fragment(), TextWatcher {
     private fun setupUI() {
         binding?.run {
             selectValueAutoCompleteTextView.apply {
-                val items =
-                    (MINIMAL_INTERVAL_VALUE..MAX_INTERVAL_VALUE).toList().map { it.toString() }
+                val items = (MINIMAL_INTERVAL_VALUE..MAX_INTERVAL_VALUE)
+                    .toList()
+                    .map { it.toString() }
                 setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, items))
-                addTextChangedListener(this@CustomIntervalFragment)
+                addTextChangedListener(intervalTextWatcher)
             }
 
             selectMeasurementAutoCompleteTextView.apply {
-                val items =
-                    DEFAULT_MEASUREMENT_ITEMS.map { it.toString().toLowerCase().capitalize() }
+                val items = DEFAULT_MEASUREMENT_ITEMS
+                    .map { it.toString().toLowerCase().capitalize() }
                 setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, items))
-                addTextChangedListener(this@CustomIntervalFragment)
+                addTextChangedListener(intervalTextWatcher)
             }
 
             toolbar.setNavigationOnClickListener {
@@ -60,17 +74,6 @@ class CustomIntervalFragment : Fragment(), TextWatcher {
             }
         }
     }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        binding?.run {
-            doneButton.isEnabled = selectValueAutoCompleteTextView.text.isNotEmpty()
-                    && selectMeasurementAutoCompleteTextView.text.isNotEmpty()
-        }
-    }
-
-    override fun afterTextChanged(s: Editable?) = Unit
 
     companion object {
         private const val MINIMAL_INTERVAL_VALUE = 1

@@ -40,21 +40,22 @@ class IntervalListAdapter(
                 // so the list has custom interval view holder as a first item no matter how big the
                 // original list of intervals is
                 val item = intervalList[position - 1]
-                holder.bind(item.value, item.timeUnit, item.isSelected)
+                holder.bind(item.duration, item.timeUnit, item.isSelected)
                 holder.itemView.setOnClickListener {
-                    intervalList.find { it.isSelected }?.let { props ->
-                        props.isSelected = false
-                        notifyItemChanged(intervalList.indexOf(props) + 1)
-                    } ?: run {
+                    val selectedItem = intervalList.find { it.isSelected }
+                    if (selectedItem != null) {
+                        selectedItem.isSelected = false
+                        notifyItemChanged(intervalList.indexOf(selectedItem) + 1)
+                    } else {
                         notifyItemChanged(0)
                     }
                     item.isSelected = true
-                    holder.bind(item.value, item.timeUnit, item.isSelected)
+                    holder.bind(item.duration, item.timeUnit, item.isSelected)
                     onIntervalClickListener.onIntervalClick(item)
                 }
             }
             is CustomIntervalViewHolder -> {
-                val isSelected = intervalList.find { it.isSelected }
+                val isSelected = intervalList.firstOrNull { it.isSelected }
                 holder.bind(isSelected == null)
                 holder.itemView.setOnClickListener {
                     onIntervalClickListener.onCustomIntervalClick()

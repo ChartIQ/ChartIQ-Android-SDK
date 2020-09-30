@@ -64,7 +64,7 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
     }
 
     override fun onIntervalClick(interval: IntervalProps) {
-        appPrefs.saveChartInterval(Interval(interval.value, interval.timeUnit))
+        appPrefs.saveChartInterval(Interval(interval.duration, interval.timeUnit))
     }
 
     companion object {

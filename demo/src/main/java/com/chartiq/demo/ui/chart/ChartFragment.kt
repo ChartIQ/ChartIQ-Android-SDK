@@ -18,6 +18,7 @@ import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.OnStartCallback
 import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.QuoteFeedParams
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,21 +48,21 @@ class ChartFragment : Fragment() {
                 chartIQ.setSymbol(DEFAULT_SYMBOL);
                 chartIQ.setDataSource(object : DataSource {
                     override fun pullInitialData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullUpdateData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullPaginationData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
@@ -87,7 +88,16 @@ class ChartFragment : Fragment() {
     }
 
     // TODO: 07.09.20 Refactor the following implementation
-    private fun loadChartData(params: Map<String, Object>, callback: DataSourceCallback?) {
+    @Deprecated("Will be removed or refactored")
+    private fun loadChartData(quoteFeedParams: QuoteFeedParams, callback: DataSourceCallback?) {
+        val params = mutableMapOf<String, Object>(
+            Pair("symbol", quoteFeedParams.symbol as Object),
+            Pair("period", quoteFeedParams.period as Object),
+            Pair("interval", quoteFeedParams.interval as Object),
+            Pair("start", quoteFeedParams.start as Object),
+            Pair("end", quoteFeedParams.end as Object),
+            Pair("meta", quoteFeedParams.meta as Object)
+        )
         if (!params.containsKey("start") || params["start"] == null || params["start"]!!.equals("")) {
             params.put("start", "2016-12-16T16:00:00.000Z" as Object)
         }
@@ -119,11 +129,11 @@ class ChartFragment : Fragment() {
         builder.append("&seed=1001")
         val url = builder.toString()
         val symbol = params["symbol"].toString()
-        TemproraryAsyncTask(url, Callback { data ->
-            data?.let {
+        TemproraryAsyncTask(url) { data ->
+            data.let {
                 callback!!.execute(it)
             }
-        }).execute()
+        }.execute()
     }
 
     companion object {
