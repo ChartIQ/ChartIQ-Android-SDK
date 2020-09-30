@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">@color/mountain_meadow</color>
+    <color name="colorPrimaryDark">@color/ghostWhite</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="white">#ffffff</color>
+    <color name="cadet_blue">#abb0ba</color>
+    <color name="mountain_meadow">#27cc8d</color>
+    <color name="ghost_white">#f9f9f9</color>
+    <color name="bright_grey">#ebeff3</color>
+    <color name="dark_electric_blue">#53627c</color>
+    <color name="gainsboro">#dadfe3</color>
+    <color name="dark_gunmetal">#18252e</color>
+    <color name="chinese_black">#091924</color>
+    <color name="yankees_blue">#153246</color>
+    <color name="outer_space">#273843</color>
+    <color name="coral_red">#ff3b30</color>
+    <color name="black">#000000</color>
+    <color name="elevation_dark">#121212</color>
+    <color name="scrim">#51000000</color>
+    <color name="disabled_btn">#efefef</color>
+    <color name="maya_blue">#8bd0ff</color>
+    <color name="ghostWhite">#f0f9f9f9</color>
 </resources>
