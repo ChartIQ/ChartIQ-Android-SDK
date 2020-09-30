@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/symbolButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:textColor="@color/dark_electric_blue"
                 tools:text="AAPL" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/intervalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

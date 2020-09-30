@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 
 open class LineItemDecoration(
-    context: Context, orientation: Int = RecyclerView.VERTICAL,
-    marginStart: Int = 0, marginTop: Int = 0, marginEnd: Int = 0, marginBottom: Int = 0
-) :
-    DividerItemDecoration(context, orientation) {
+    context: Context,
+    orientation: Int = RecyclerView.VERTICAL,
+    marginStart: Int = 0,
+    marginTop: Int = 0,
+    marginEnd: Int = 0,
+    marginBottom: Int = 0
+) : DividerItemDecoration(context, orientation) {
     init {
         val styledAttributes =
             context.obtainStyledAttributes(intArrayOf(android.R.attr.listDivider))

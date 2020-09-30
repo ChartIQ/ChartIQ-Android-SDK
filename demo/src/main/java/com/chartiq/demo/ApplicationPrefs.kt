@@ -2,6 +2,7 @@ package com.chartiq.demo
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
@@ -29,21 +30,20 @@ interface ApplicationPrefs {
         }
 
         override fun saveChartInterval(interval: Interval) {
-            val record = FORMATTING_INTERVAL.format(interval.value, interval.timeUnit.toString())
-            prefs
-                .edit()
-                .putString(KEY_CHART_INTERVAL, record)
-                .apply()
+            val record = "%d  %s".format(interval.duration, interval.timeUnit.toString())
+            prefs.edit(true) {
+                putString(KEY_CHART_INTERVAL, record)
+            }
         }
 
         override fun getChartSymbol(): Symbol =
             Symbol(prefs.getString(KEY_CHART_SYMBOL, DEFAULT_CHART_SYMBOL)!!)
 
-        override fun saveChartSymbol(symbol: Symbol) = prefs
-            .edit()
-            .putString(KEY_CHART_SYMBOL, symbol.value)
-            .apply()
-    }
+        override fun saveChartSymbol(symbol: Symbol) {
+            prefs.edit(true) {
+                putString(KEY_CHART_SYMBOL, symbol.value)
+            }
+        }
 
     companion object {
         private const val PREF_FILE = "ApplicationPrefs"

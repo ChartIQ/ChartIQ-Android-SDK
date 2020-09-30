@@ -11,7 +11,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * @deprecated the following async task is a temporary fix and will be removed soon
+ */
+@Deprecated
 public class TemproraryAsyncTask extends AsyncTask<Void, Void, String> {
     String url;
     Callback callback;
@@ -63,7 +69,8 @@ public class TemproraryAsyncTask extends AsyncTask<Void, Void, String> {
             Log.d("ERROR", "invalid SYMBOL");
 
         } else {
-            callback.setOHLCChartData(new Gson().fromJson(body, OHLCParams[].class));
+            List<OHLCParams> list = Arrays.asList(new Gson().fromJson(body, OHLCParams[].class));
+            callback.setOHLCChartData(list);
         }
     }
 }

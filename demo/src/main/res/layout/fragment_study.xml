@@ -19,7 +19,7 @@
         app:title="@string/title_study"
         app:titleTextColor="@android:color/black" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/analysisImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/noActiveStudiesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

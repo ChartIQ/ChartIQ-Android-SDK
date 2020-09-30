@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.BuildConfig
@@ -19,10 +19,10 @@ import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.OnStartCallback
 import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.QuoteFeedParams
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Map
 
 class ChartFragment : Fragment() {
 
@@ -33,15 +33,13 @@ class ChartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        chartViewModel =
-            ViewModelProviders.of(this).get(ChartViewModel::class.java)
+        chartViewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
-
-        setupUI(root)
+        setupViews(root)
         return root
     }
 
-    private fun setupUI(root: View) {
+    private fun setupViews(root: View) {
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
         val prefs = ApplicationPrefs.Default(requireContext())
         val symbol = prefs.getChartSymbol().value
@@ -52,21 +50,21 @@ class ChartFragment : Fragment() {
                 chartIQ.setSymbol(symbol);
                 chartIQ.setDataSource(object : DataSource {
                     override fun pullInitialData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullUpdateData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullPaginationData(
-                        params: Map<String, Object>,
+                        params: QuoteFeedParams,
                         callback: DataSourceCallback
                     ) {
                         loadChartData(params, callback)
@@ -89,16 +87,25 @@ class ChartFragment : Fragment() {
                 when (timeUnit) {
                     TimeUnit.SECOND,
                     TimeUnit.MINUTE -> {
-                        "$value${timeUnit.toString().first().toLowerCase()}"
+                        "$duration${timeUnit.toString().first().toLowerCase()}"
                     }
-                    else -> "$value${timeUnit.toString().first()}"
+                    else -> "$duration${timeUnit.toString().first()}"
                 }
             }
         }
     }
 
     // TODO: 07.09.20 Refactor the following implementation
-    private fun loadChartData(params: Map<String, Object>, callback: DataSourceCallback?) {
+    @Deprecated("Will be removed or refactored")
+    private fun loadChartData(quoteFeedParams: QuoteFeedParams, callback: DataSourceCallback?) {
+        val params = mutableMapOf<String, Object>(
+            Pair("symbol", quoteFeedParams.symbol as Object),
+            Pair("period", quoteFeedParams.period as Object),
+            Pair("interval", quoteFeedParams.interval as Object),
+            Pair("start", quoteFeedParams.start as Object),
+            Pair("end", quoteFeedParams.end as Object),
+            Pair("meta", quoteFeedParams.meta as Object)
+        )
         if (!params.containsKey("start") || params["start"] == null || params["start"]!!.equals("")) {
             params.put("start", "2016-12-16T16:00:00.000Z" as Object)
         }
@@ -130,10 +137,10 @@ class ChartFragment : Fragment() {
         builder.append("&seed=1001")
         val url = builder.toString()
         val symbol = params["symbol"].toString()
-        TemproraryAsyncTask(url, Callback { data ->
-            data?.let {
+        TemproraryAsyncTask(url) { data ->
+            data.let {
                 callback!!.execute(it)
             }
-        }).execute()
+        }.execute()
     }
 }
