@@ -44,6 +44,7 @@ interface ApplicationPrefs {
                 putString(KEY_CHART_SYMBOL, symbol.value)
             }
         }
+    }
 
     companion object {
         private const val PREF_FILE = "ApplicationPrefs"
@@ -57,3 +58,4 @@ interface ApplicationPrefs {
         private const val FORMATTING_INTERVAL = "%d  %s"
     }
 }
+
