@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
 
-    private val job = SupervisorJob()
+    private val job = Job()
     private val splashScope = CoroutineScope(Dispatchers.Main + job)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        job.cancelChildren()
+        job.cancel()
         super.onPause()
     }
 

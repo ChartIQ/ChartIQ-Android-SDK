@@ -2,6 +2,7 @@ package com.chartiq.demo
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
@@ -25,10 +26,9 @@ interface ApplicationPrefs {
 
         override fun saveChartInterval(interval: Interval) {
             val record = "%d  %s".format(interval.duration, interval.timeUnit.toString())
-            prefs
-                .edit()
-                .putString(KEY_CHART_INTERVAL, record)
-                .apply()
+            prefs.edit(true) {
+                putString(KEY_CHART_INTERVAL, record)
+            }
         }
     }
 
