@@ -8,21 +8,19 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/symbolTextView"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark_electric_blue"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="AAP" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/symbolFullNameTextView"
+        style="@style/SecondaryTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:textColor="@color/cadet_blue"
-        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/fundTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/symbolTextView"
@@ -32,7 +30,7 @@
         android:id="@+id/fundTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark_electric_blue"
+        android:textColor="@color/darkElectricBlue"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -5,4 +5,11 @@
 
     <dimen name="list_item_decorator_margin">16dp</dimen>
     <dimen name="toolbar_default_elevation">8dp</dimen>
+
+    <dimen name="margin_extra_small">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium_small">12dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_extra_large">32dp</dimen>
 </resources>
