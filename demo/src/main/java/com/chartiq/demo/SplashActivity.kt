@@ -7,18 +7,22 @@ import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
 
-    private val job = Job()
+    private val job = SupervisorJob()
     private val splashScope = CoroutineScope(Dispatchers.Main + job)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setContentView(R.layout.activity_splash)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         splashScope.launch {
             withContext(Dispatchers.IO) {
                 delay(SPLASH_DURATION)
             }
             navigateToMainScreen()
         }
-        setContentView(R.layout.activity_splash)
-        super.onCreate(savedInstanceState)
     }
 
     private fun navigateToMainScreen() {
@@ -27,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        job.cancel()
+        job.cancelChildren()
         super.onPause()
     }
 
