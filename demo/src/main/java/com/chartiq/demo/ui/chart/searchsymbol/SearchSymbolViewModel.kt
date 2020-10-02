@@ -3,28 +3,27 @@ package com.chartiq.demo.ui.chart.searchsymbol
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
-import kotlin.coroutines.CoroutineContext
 
-class SearchSymbolViewModel : ViewModel(), CoroutineScope {
+class SearchSymbolViewModel : ViewModel() {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.IO
+    // TODO: 02.10.20 Refactor networking here. Add error handling
+    private val client = OkHttpClient()
 
     val resultLiveData: LiveData<List<SearchResultItem>>
         get() = mResultLiveData
     private val mResultLiveData = MutableLiveData<List<SearchResultItem>>()
 
     fun fetchSymbol(symbol: String) {
-        launch {
-            val client = OkHttpClient()
+        viewModelScope.launch(Dispatchers.IO) {
             val httpUrl = HttpUrl.Builder()
                 .scheme(SCHEME)
                 .host(HOST)
