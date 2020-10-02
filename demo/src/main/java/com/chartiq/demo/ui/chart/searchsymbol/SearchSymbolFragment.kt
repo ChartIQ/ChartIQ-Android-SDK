@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -84,6 +85,10 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
             this.adapter = searchAdapter
             addItemDecoration(LineItemDecoration.Default(context))
         }
+        viewModel.errorLiveData.observe(viewLifecycleOwner, { networkErrorEvent ->
+            binding.searchSymbolProgressBar.visibility = View.GONE
+            Toast.makeText(requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT).show()
+        })
         viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
             searchAdapter.setList(list)
             binding.searchSymbolProgressBar.visibility = View.GONE
@@ -107,6 +112,7 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
             viewModel.fetchSymbol(query)
         } else {
             binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
+            binding.searchSymbolProgressBar.visibility = View.GONE
         }
     }
 

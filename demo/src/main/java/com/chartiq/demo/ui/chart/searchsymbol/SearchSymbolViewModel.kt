@@ -22,6 +22,10 @@ class SearchSymbolViewModel : ViewModel() {
         get() = mResultLiveData
     private val mResultLiveData = MutableLiveData<List<SearchResultItem>>()
 
+    val errorLiveData: LiveData<Unit>
+        get() = mErrorLiveData
+    private val mErrorLiveData = MutableLiveData<Unit>()
+
     fun fetchSymbol(symbol: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val httpUrl = HttpUrl.Builder()
@@ -38,13 +42,23 @@ class SearchSymbolViewModel : ViewModel() {
                 .build()
 
             client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) = Unit
+                // TODO: 02.10.20 Add more meaningful error handling
+                override fun onFailure(call: Call, e: IOException) {
+                    mErrorLiveData.postValue(Unit)
+                }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val responseBody = response.body?.string()
-                    val json = Gson().fromJson(responseBody, JsonObject::class.java)
-                    val list = json.get("payload").asJsonObject.get("symbols").asJsonArray.toList()
-                    mResultLiveData.postValue(list.mapElementToItem())
+                    if (response.isSuccessful) {
+                        val responseBody = response.body?.string()
+                        val json = Gson().fromJson(responseBody, JsonObject::class.java)
+                        val list = json
+                            .get("payload").asJsonObject
+                            .get("symbols").asJsonArray
+                            .toList()
+                        mResultLiveData.postValue(list.mapElementToItem())
+                    } else {
+                        mErrorLiveData.postValue(Unit)
+                    }
                 }
             })
         }
@@ -57,7 +71,7 @@ class SearchSymbolViewModel : ViewModel() {
     companion object {
         private const val SCHEME = "https"
         private const val HOST = "symbols.chartiq.com"
-        private const val PATH_SEARCH_SYMBOL = "chiq.symbolserver.SymbolLookup.service"
+        private const val PATH_SEARCH_SYMBOL = "chiq.s1ymbolserver.SymbolLookup.service"
 
         private const val PARAMETER_SYMBOL = "t"
         private const val PARAMETER_MAX_RESULT = "x"
