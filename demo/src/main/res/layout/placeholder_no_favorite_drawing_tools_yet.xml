@@ -12,22 +12,20 @@
         android:src="@drawable/ic_design_tool" />
 
     <TextView
+        style="@style/PlaceHolderHintTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="56dp"
         android:gravity="center"
-        android:text="@string/drawing_tool_no_favorites_hint"
-        android:textColor="@color/cadetBlue"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:text="@string/drawing_tool_no_favorites_hint" />
 
     <TextView
+        style="@style/SecondaryTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:gravity="center"
         android:text="@string/drawing_tool_no_favorites_hint_message"
-        android:textColor="@color/cadetBlue"
         android:textSize="16sp" />
 </FrameLayout>

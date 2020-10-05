@@ -25,7 +25,7 @@ class DrawingToolViewHolder(
                 }
                 isChecked = item.isStarred
             }
-            root.setOnClickListener {
+            binding.root.setOnClickListener {
                 listener.onDrawingToolClick(position)
             }
         }

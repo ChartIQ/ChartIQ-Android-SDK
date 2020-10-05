@@ -6,13 +6,12 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/headerTextView"
+        style="@style/SecondaryTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
         android:layout_margin="16dp"
         android:textAllCaps="true"
-        android:textColor="@color/cadetBlue"
-        android:textStyle="bold"
         tools:text="Main tools" />
 
 </FrameLayout>

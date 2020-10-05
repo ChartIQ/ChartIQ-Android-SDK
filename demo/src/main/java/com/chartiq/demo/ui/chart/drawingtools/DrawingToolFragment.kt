@@ -16,8 +16,8 @@ import com.google.android.material.tabs.TabLayout
 
 class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
-    private lateinit var drawingToolAdapter: DrawingToolAdapter
     private lateinit var binding: FragmentDrawingToolBinding
+    private lateinit var drawingToolAdapter: DrawingToolAdapter
     private val appPrefs by lazy {
         ApplicationPrefs.Default(requireContext())
     }
@@ -34,7 +34,9 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onPause() {
-        val favoriteDrawingTools = drawingToolAdapter.getFavoriteItems().map { it.tool.value }.toSet()
+        val favoriteDrawingTools = drawingToolAdapter.getFavoriteItems()
+            .map { it.tool.value }
+            .toSet()
         val selectedDrawingTool = drawingToolAdapter.getSelectedDrawingTool()
         appPrefs.run {
             saveFavoriteDrawingTools(favoriteDrawingTools)
@@ -57,26 +59,28 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
             }
         }
         drawingToolAdapter = DrawingToolAdapter(toolList)
-        binding.drawingToolRecyclerView.apply {
-            adapter = drawingToolAdapter
-            addItemDecoration(DrawingToolItemDecorator(requireContext()))
-        }
-
-        binding.drawingToolTabLayout.apply {
-            addOnTabSelectedListener(this@DrawingToolFragment)
-        }
-
-        binding.drawingToolToolbar.apply {
-            setNavigationOnClickListener {
-                findNavController().navigateUp()
+        with(binding) {
+            drawingToolRecyclerView.apply {
+                adapter = drawingToolAdapter
+                addItemDecoration(DrawingToolItemDecorator(requireContext()))
             }
-            menu.findItem(R.id.restore_default_parameters).setOnMenuItemClickListener {
-                showRestoreDefaultDialog()
-                true
+
+            drawingToolTabLayout.apply {
+                addOnTabSelectedListener(this@DrawingToolFragment)
             }
-            menu.findItem(R.id.clear_existing_drawings).setOnMenuItemClickListener {
-                showClearAllExistingDrawingDialog()
-                true
+
+            drawingToolToolbar.apply {
+                setNavigationOnClickListener {
+                    findNavController().navigateUp()
+                }
+                menu.findItem(R.id.restore_default_parameters).setOnMenuItemClickListener {
+                    showRestoreDefaultDialog()
+                    true
+                }
+                menu.findItem(R.id.clear_existing_drawings).setOnMenuItemClickListener {
+                    showClearAllExistingDrawingDialog()
+                    true
+                }
             }
         }
     }
@@ -95,11 +99,14 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
                 else -> throw IllegalStateException()
             }
             drawingToolAdapter.filterItemsByCategory(category)
-            if(category == DrawingToolCategory.FAVORITES && drawingToolAdapter.getFavoriteItems().isEmpty()) {
-                binding.noFavoriteDrawingToolsPlaceHolder.root.visibility = View.VISIBLE
-            } else {
-                binding.noFavoriteDrawingToolsPlaceHolder.root.visibility = View.GONE
-            }
+            binding.noFavoriteDrawingToolsPlaceHolder.root.visibility =
+                if (category == DrawingToolCategory.FAVORITES
+                    && drawingToolAdapter.getFavoriteItems().isEmpty()
+                ) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
         }
     }
 
