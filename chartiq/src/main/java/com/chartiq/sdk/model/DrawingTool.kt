@@ -39,5 +39,4 @@ enum class DrawingTool(val value: String) {
     TIRONE_LEVELS("tirone"),
     TREND_LINE("trendline"),
     VERTICAL_LINE("vertical"),
-    NONE("")
 }
