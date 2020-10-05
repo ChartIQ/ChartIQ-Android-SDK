@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/searchImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginBottom="108dp"
+        android:src="@drawable/ic_design_tool" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="56dp"
+        android:gravity="center"
+        android:text="@string/drawing_tool_no_favorites_hint"
+        android:textColor="@color/cadetBlue"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:text="@string/drawing_tool_no_favorites_hint_message"
+        android:textColor="@color/cadetBlue"
+        android:textSize="16sp" />
+</FrameLayout>

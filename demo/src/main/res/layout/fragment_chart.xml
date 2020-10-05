@@ -37,14 +37,14 @@
                 tools:text="1D" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/crosshairImageView"
+                android:id="@+id/crosshairCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/drawImageView"
+                android:layout_toStartOf="@+id/drawCheckBox"
                 android:button="@drawable/selector_crosshair" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/drawImageView"
+                android:id="@+id/drawCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"

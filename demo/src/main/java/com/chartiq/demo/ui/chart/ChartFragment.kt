@@ -88,6 +88,9 @@ class ChartFragment : Fragment() {
                 }
             }
         }
+        drawCheckBox.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+        }
     }
 
     private fun loadChartData(quoteFeedParams: QuoteFeedParams, callback: DataSourceCallback) {

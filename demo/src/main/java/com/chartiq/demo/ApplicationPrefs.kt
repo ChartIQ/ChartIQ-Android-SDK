@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.sdk.model.DrawingTool
 
 interface ApplicationPrefs {
 
@@ -16,6 +17,14 @@ interface ApplicationPrefs {
     fun getChartSymbol(): Symbol
 
     fun saveChartSymbol(symbol: Symbol)
+
+    fun saveDrawingTool(tool: DrawingTool)
+
+    fun getDrawingTool(): DrawingTool
+
+    fun saveFavoriteDrawingTools(set: Set<String>)
+
+    fun getFavoriteDrawingTools(): Set<String>
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
@@ -39,11 +48,23 @@ interface ApplicationPrefs {
         override fun getChartSymbol(): Symbol =
             Symbol(prefs.getString(KEY_CHART_SYMBOL, DEFAULT_CHART_SYMBOL)!!)
 
-        override fun saveChartSymbol(symbol: Symbol) {
-            prefs.edit(true) {
-                putString(KEY_CHART_SYMBOL, symbol.value)
-            }
+        override fun saveChartSymbol(symbol: Symbol) = prefs.edit(true) {
+            putString(KEY_CHART_SYMBOL, symbol.value)
         }
+
+        override fun saveDrawingTool(tool: DrawingTool) = prefs.edit(true) {
+            putString(KEY_DRAWING_TOOL, tool.toString())
+        }
+
+        override fun getDrawingTool(): DrawingTool =
+            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
+
+        override fun saveFavoriteDrawingTools(set: Set<String>) = prefs.edit {
+            putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
+        }
+
+        override fun getFavoriteDrawingTools(): Set<String> =
+            prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
     }
 
     companion object {
@@ -51,6 +72,8 @@ interface ApplicationPrefs {
 
         private const val KEY_CHART_INTERVAL = "chart.iq.demo.chart.interval"
         private const val KEY_CHART_SYMBOL = "chart.iq.demo.chart.symbol"
+        private const val KEY_DRAWING_TOOL_FAVORITE = "chart.iq.demo.chart.drawingtool.favorites"
+        private const val KEY_DRAWING_TOOL = "chart.iq.demo.chart.drawingtool.tool"
 
         private const val DEFAULT_CHART_INTERVAL = "1 day"
         private const val DEFAULT_CHART_SYMBOL = "AAPL"
