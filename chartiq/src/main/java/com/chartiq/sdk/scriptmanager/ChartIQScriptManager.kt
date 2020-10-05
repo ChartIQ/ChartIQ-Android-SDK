@@ -102,7 +102,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getEnableDrawingScript(type: DrawingTool): String =
         CHART_IQ_JS_OBJECT + "changeVectorType(" + buildArgumentStringFromArgs(type.value) + ");"
 
-    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
+    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NO_TOOL)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
