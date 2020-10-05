@@ -15,6 +15,7 @@ import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
 
 class ChartFragment : Fragment() {
@@ -88,8 +89,11 @@ class ChartFragment : Fragment() {
                 }
             }
         }
-        drawCheckBox.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+        drawCheckBox.apply {
+            isChecked = prefs.getDrawingTool() != DrawingTool.NO_TOOL
+            setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+            }
         }
     }
 

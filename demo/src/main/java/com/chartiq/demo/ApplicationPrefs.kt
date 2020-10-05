@@ -25,6 +25,7 @@ interface ApplicationPrefs {
     fun saveFavoriteDrawingTools(set: Set<String>)
 
     fun getFavoriteDrawingTools(): Set<String>
+    fun clearSession()
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
@@ -57,7 +58,7 @@ interface ApplicationPrefs {
         }
 
         override fun getDrawingTool(): DrawingTool =
-            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
+            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())!!)
 
         override fun saveFavoriteDrawingTools(set: Set<String>) = prefs.edit {
             putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
@@ -65,6 +66,12 @@ interface ApplicationPrefs {
 
         override fun getFavoriteDrawingTools(): Set<String> =
             prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
+
+        override fun clearSession() {
+            prefs.edit(true) {
+                putString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())
+            }
+        }
     }
 
     companion object {

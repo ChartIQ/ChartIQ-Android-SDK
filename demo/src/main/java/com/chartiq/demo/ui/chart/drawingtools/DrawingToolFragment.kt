@@ -34,17 +34,25 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onPause() {
-        val set = drawingToolAdapter.getFavoriteItems().map { it.tool.value }.toSet()
-        appPrefs.saveFavoriteDrawingTools(set)
+        val favoriteDrawingTools = drawingToolAdapter.getFavoriteItems().map { it.tool.value }.toSet()
+        val selectedDrawingTool = drawingToolAdapter.getSelectedDrawingTool()
+        appPrefs.run {
+            saveFavoriteDrawingTools(favoriteDrawingTools)
+            saveDrawingTool(selectedDrawingTool)
+        }
         super.onPause()
     }
 
     private fun setupViews() {
         val favoriteTools = appPrefs.getFavoriteDrawingTools()
+        val selectedDrawingTool = appPrefs.getDrawingTool()
         val toolList = DEFAULT_LIST.onEach {
             if (it is DrawingToolItem) {
                 if (favoriteTools.contains(it.tool.value)) {
                     it.isStarred = true
+                }
+                if (it.tool == selectedDrawingTool && it.tool != DrawingTool.NO_TOOL) {
+                    it.isSelected = true
                 }
             }
         }

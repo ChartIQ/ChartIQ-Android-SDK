@@ -8,19 +8,23 @@ import com.chartiq.demo.databinding.ItemDrawingToolHeaderBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.DrawingToolHeaderViewHolder
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.DrawingToolViewHolder
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.OnDrawingToolClick
+import com.chartiq.sdk.model.DrawingTool
 
-class DrawingToolAdapter(private val list: List<Any>) :
+class DrawingToolAdapter(private val allToolsList: List<Any>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), OnDrawingToolClick {
 
-    private var items = list
+    private var items: List<Any>
     private var previousSelectedPosition: Int? = null
+    private var currentSelectedPosition: Int? = null
 
-    override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
-            is DrawingToolHeaderItem -> VIEW_TYPE_HEADER
-            is DrawingToolItem -> VIEW_TYPE_TOOL
-            else -> throw IllegalStateException()
-        }
+    init {
+        items = allToolsList
+    }
+
+    override fun getItemViewType(position: Int): Int = when (items[position]) {
+        is DrawingToolHeaderItem -> VIEW_TYPE_HEADER
+        is DrawingToolItem -> VIEW_TYPE_TOOL
+        else -> throw IllegalStateException()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,26 +50,23 @@ class DrawingToolAdapter(private val list: List<Any>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is DrawingToolHeaderViewHolder -> holder.bind(items[position] as DrawingToolHeaderItem)
-            is DrawingToolViewHolder -> holder.bind(
-                items[position] as DrawingToolItem,
-                this,
-                position
-            )
-
+            is DrawingToolHeaderViewHolder -> holder
+                .bind(items[position] as DrawingToolHeaderItem)
+            is DrawingToolViewHolder -> holder
+                .bind(items[position] as DrawingToolItem, this, position)
         }
     }
 
     override fun getItemCount(): Int = items.size
 
     override fun onDrawingToolClick(position: Int) {
-        val parentPosition = list.indexOf(items[position])
-        list.forEachIndexed { index, it ->
+        currentSelectedPosition = allToolsList.indexOf(items[position])
+        allToolsList.forEachIndexed { index, it ->
             if (it is DrawingToolItem) {
                 if (it.isSelected) {
                     previousSelectedPosition = index
                 }
-                it.isSelected = index == parentPosition
+                it.isSelected = index == currentSelectedPosition
             }
         }
         previousSelectedPosition?.let { notifyItemChanged(it) }
@@ -73,21 +74,21 @@ class DrawingToolAdapter(private val list: List<Any>) :
     }
 
     override fun onFavoriteChecked(position: Int, value: Boolean) {
-        val parentPosition = list.indexOf(items[position])
-        (list[parentPosition] as DrawingToolItem).isStarred = value
+        val parentPosition = allToolsList.indexOf(items[position])
+        (allToolsList[parentPosition] as DrawingToolItem).isStarred = value
     }
 
     fun filterItemsByCategory(category: DrawingToolCategory) {
         when (category) {
-            DrawingToolCategory.ALL -> items = list
-            DrawingToolCategory.FAVORITES -> items = list.filter { item ->
+            DrawingToolCategory.ALL -> items = allToolsList
+            DrawingToolCategory.FAVORITES -> items = allToolsList.filter { item ->
                 if (item is DrawingToolHeaderItem) {
                     return@filter false
                 } else {
                     (item as DrawingToolItem).isStarred
                 }
             }
-            else -> items = list.filter { item ->
+            else -> items = allToolsList.filter { item ->
                 if (item is DrawingToolHeaderItem) {
                     return@filter false
                 } else {
@@ -105,6 +106,10 @@ class DrawingToolAdapter(private val list: List<Any>) :
             (item as DrawingToolItem).isStarred
         }
     } as List<DrawingToolItem>
+
+    fun getSelectedDrawingTool(): DrawingTool =
+        currentSelectedPosition?.let { (allToolsList[it] as DrawingToolItem).tool }
+            ?: DrawingTool.NO_TOOL
 
     companion object {
         const val VIEW_TYPE_HEADER = 0
