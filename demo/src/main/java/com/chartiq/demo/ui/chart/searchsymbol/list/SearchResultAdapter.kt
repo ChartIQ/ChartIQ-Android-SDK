@@ -8,7 +8,11 @@ import com.chartiq.demo.R
 class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     RecyclerView.Adapter<SearchResultViewHolder>() {
 
-    private var list = listOf<SearchResultItem>()
+    var list = listOf<SearchResultItem>()
+        set(value) {
+            notifyDataSetChanged()
+            field = value
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         return SearchResultViewHolder(
@@ -28,9 +32,4 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     }
 
     override fun getItemCount(): Int = list.size
-
-    fun setList(newList: List<SearchResultItem>) {
-        list = newList
-        notifyDataSetChanged()
-    }
 }

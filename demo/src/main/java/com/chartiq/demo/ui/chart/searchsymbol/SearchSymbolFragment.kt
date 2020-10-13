@@ -23,9 +23,10 @@ import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
+import androidx.appcompat.R.id as appCompat
 
 
-class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListener {
+class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListener, VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels()
@@ -44,7 +45,7 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
 
     // Since the app reuses native Google voice recognition the voice query is sent to
     // main activity first and then passed to the following method
-    fun receiveVoiceQuery(query: String) {
+    override fun receiveVoiceQuery(query: String) {
         (binding.searchToolbar.menu.findItem(R.id.menu_search).actionView as SearchView)
             .setQuery(query, false)
     }
@@ -58,23 +59,24 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
 
             val searchManager =
                 requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
-                findViewById<ImageView>(androidx.appcompat.R.id.search_voice_btn).apply {
+            with (menu.findItem(R.id.menu_search).actionView as SearchView) {
+                findViewById<ImageView>(appCompat.search_voice_btn).apply {
                     setImageResource(R.drawable.ic_microphone)
                 }
-                findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text).apply {
+                findViewById<SearchView.SearchAutoComplete>(appCompat.search_src_text).apply {
                     addTextChangedListener(this@SearchSymbolFragment)
                 }
-                findViewById<View>(androidx.appcompat.R.id.search_plate).apply {
+                findViewById<View>(appCompat.search_plate).apply {
                     background = null
                 }
-                findViewById<View>(androidx.appcompat.R.id.submit_area).apply {
+                findViewById<View>(appCompat.submit_area).apply {
                     background = null
                 }
-                findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon).apply {
+                findViewById<ImageView>(appCompat.search_mag_icon).apply {
                     visibility = View.GONE
                     setImageDrawable(null)
                 }
+
                 isIconified = false
                 setIconifiedByDefault(false)
                 setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
@@ -90,7 +92,7 @@ class SearchSymbolFragment : Fragment(), TextWatcher, OnSearchResultClickListene
             Toast.makeText(requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT).show()
         })
         viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
-            searchAdapter.setList(list)
+            searchAdapter.list = list
             binding.searchSymbolProgressBar.visibility = View.GONE
             binding.queryResultsRecyclerView.visibility = View.VISIBLE
         })
