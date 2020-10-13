@@ -22,9 +22,10 @@ interface ApplicationPrefs {
 
     fun getDrawingTool(): DrawingTool
 
-    fun saveFavoriteDrawingTools(set: Set<String>)
+    fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>)
 
-    fun getFavoriteDrawingTools(): Set<String>
+    fun getFavoriteDrawingTools(): Set<DrawingTool>
+
     fun clearSession()
 
     class Default(context: Context) : ApplicationPrefs {
@@ -60,12 +61,20 @@ interface ApplicationPrefs {
         override fun getDrawingTool(): DrawingTool =
             DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())!!)
 
-        override fun saveFavoriteDrawingTools(set: Set<String>) = prefs.edit {
+        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
+            val set = drawingToolsSet
+                .mapTo(mutableSetOf()) {
+                    it.toString()
+                }
             putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
         }
 
-        override fun getFavoriteDrawingTools(): Set<String> =
-            prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
+        override fun getFavoriteDrawingTools(): Set<DrawingTool> {
+            return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
+                .mapTo(mutableSetOf()) {
+                    DrawingTool.valueOf(it.toUpperCase())
+                }
+        }
 
         override fun clearSession() {
             prefs.edit(true) {

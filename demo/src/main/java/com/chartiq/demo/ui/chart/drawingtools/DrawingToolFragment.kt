@@ -35,7 +35,7 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
     override fun onPause() {
         val favoriteDrawingTools = drawingToolAdapter.getFavoriteItems()
-            .map { it.tool.value }
+            .map { it.tool }
             .toSet()
         val selectedDrawingTool = drawingToolAdapter.getSelectedDrawingTool()
         appPrefs.run {
@@ -50,12 +50,10 @@ class DrawingToolFragment : Fragment(), TabLayout.OnTabSelectedListener {
         val selectedDrawingTool = appPrefs.getDrawingTool()
         val toolList = DEFAULT_LIST.onEach {
             if (it is DrawingToolItem) {
-                if (favoriteTools.contains(it.tool.value)) {
+                if (favoriteTools.toString() == it.tool.value) {
                     it.isStarred = true
                 }
-                if (it.tool == selectedDrawingTool && it.tool != DrawingTool.NO_TOOL) {
-                    it.isSelected = true
-                }
+                it.isSelected = it.tool == selectedDrawingTool && it.tool != DrawingTool.NO_TOOL
             }
         }
         drawingToolAdapter = DrawingToolAdapter(toolList)
