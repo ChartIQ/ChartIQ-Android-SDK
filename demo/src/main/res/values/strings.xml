@@ -50,4 +50,6 @@
 
     <!--Studies-->
     <string name="studies_hint_no_active_studies_to_displays_yet">No Active Studies to displays yet</string>
+
+    <string name="warning_something_went_wrong">Something went wrong</string>
 </resources>

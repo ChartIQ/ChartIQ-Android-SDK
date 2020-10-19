@@ -4,7 +4,7 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment
+import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                         (supportFragmentManager
                             .findFragmentById(R.id.nav_host_fragment)
                             ?.childFragmentManager
-                            ?.fragments?.getOrNull(0) as? SearchSymbolFragment)
+                            ?.fragments?.getOrNull(0) as? VoiceQueryReceiver)
                             ?.receiveVoiceQuery(query)
                     }
                 }

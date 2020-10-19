@@ -14,11 +14,15 @@ class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewMo
         get() = mResultLiveData
     private val mResultLiveData = MutableLiveData<List<SearchResultItem>>()
 
+    val errorLiveData: LiveData<Unit>
+        get() = mErrorLiveData
+    private val mErrorLiveData = MutableLiveData<Unit>()
+
     fun fetchSymbol(symbol: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = networkManager.fetchSymbol(symbol)) {
                 is NetworkResult.Success -> mResultLiveData.postValue(result.data.mapToItemList())
-                is NetworkResult.Failure -> Unit // TODO: 19.10.20 Add error handling
+                is NetworkResult.Failure -> mErrorLiveData.postValue(Unit)
             }
         }
     }

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
+import androidx.appcompat.R.id as appCompat
 
 
 class SearchSymbolFragment : Fragment() {
@@ -30,6 +32,8 @@ class SearchSymbolFragment : Fragment() {
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
         SearchSymbolViewModel.SearchViewModelFactory(ChartIQNetworkManager())
     })
+    // Since the app reuses native Google voice recognition the voice query is sent to
+    // main activity first and then passed to the following method
     private val searchTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -69,14 +73,6 @@ class SearchSymbolFragment : Fragment() {
         return binding.root
     }
 
-    // Since the app reuses native Google voice recognition the voice query is sent to
-    // main activity first and then passed to the following method
-    fun receiveVoiceQuery(query: String) {
-        (binding.searchToolbar.menu.findItem(R.id.menu_search).actionView as SearchView)
-            .setQuery(query, false)
-    }
-
-    // TODO: 30.09.20 Find a better way of dealing with the findViewById queries to native SearchView
     private fun setupViews() {
         binding.searchToolbar.apply {
             setNavigationOnClickListener {
@@ -86,23 +82,24 @@ class SearchSymbolFragment : Fragment() {
 
             val searchManager =
                 requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
-                findViewById<ImageView>(androidx.appcompat.R.id.search_voice_btn).apply {
+            with (menu.findItem(R.id.menu_search).actionView as SearchView) {
+                findViewById<ImageView>(appCompat.search_voice_btn).apply {
                     setImageResource(R.drawable.ic_microphone)
                 }
-                findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text).apply {
+                findViewById<SearchView.SearchAutoComplete>(appCompat.search_src_text).apply {
                     addTextChangedListener(searchTextWatcher)
                 }
-                findViewById<View>(androidx.appcompat.R.id.search_plate).apply {
+                findViewById<View>(appCompat.search_plate).apply {
                     background = null
                 }
-                findViewById<View>(androidx.appcompat.R.id.submit_area).apply {
+                findViewById<View>(appCompat.submit_area).apply {
                     background = null
                 }
-                findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon).apply {
+                findViewById<ImageView>(appCompat.search_mag_icon).apply {
                     visibility = View.GONE
                     setImageDrawable(null)
                 }
+
                 isIconified = false
                 setIconifiedByDefault(false)
                 setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
@@ -113,11 +110,35 @@ class SearchSymbolFragment : Fragment() {
             this.adapter = searchAdapter
             addItemDecoration(LineItemDecoration.Default(context))
         }
+        viewModel.errorLiveData.observe(viewLifecycleOwner, { networkErrorEvent ->
+            binding.searchSymbolProgressBar.visibility = View.GONE
+            Toast.makeText(requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT).show()
+        })
         viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
-            searchAdapter.setList(list)
+            searchAdapter.list = list
             binding.searchSymbolProgressBar.visibility = View.GONE
             binding.queryResultsRecyclerView.visibility = View.VISIBLE
         })
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.run {
+            typeToSearchPlaceHolder.root.visibility = View.GONE
+            queryResultsRecyclerView.visibility = View.INVISIBLE
+            searchSymbolProgressBar.visibility = View.VISIBLE
+        }
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+        val query = s.toString()
+        if (query.isNotEmpty()) {
+            viewModel.fetchSymbol(query)
+        } else {
+            binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
+            binding.searchSymbolProgressBar.visibility = View.GONE
+        }
     }
 
     private fun hideKeyboard() {
