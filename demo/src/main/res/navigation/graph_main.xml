@@ -26,6 +26,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_searchSymbolFragment"
+            app:destination="@id/searchSymbolFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -61,4 +68,8 @@
         android:id="@+id/customIntervalFragment"
         android:name="com.chartiq.demo.ui.chart.interval.CustomIntervalFragment"
         android:label="CustomIntervalFragment" />
+    <fragment
+        android:id="@+id/searchSymbolFragment"
+        android:name="com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment"
+        android:label="SearchSymbolFragment" />
 </navigation>

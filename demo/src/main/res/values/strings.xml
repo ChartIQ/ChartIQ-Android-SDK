@@ -46,4 +46,7 @@
     <string name="interval_select_value">Select Value</string>
     <string name="interval_select_measurement">Select Measurement</string>
     <string name="interval_done">Done</string>
+    <string name="search_title">Search symbols</string>
+
+    <string name="warning_something_went_wrong">Something went wrong</string>
 </resources>

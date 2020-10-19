@@ -14,6 +14,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")
     }
 
     buildTypes {
@@ -51,6 +53,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
 
     // Tools
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.google.code.gson:gson:2.8.6"
 
     // Testing

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQView
@@ -22,11 +23,13 @@ import com.chartiq.sdk.model.QuoteFeedParams
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Map
 
 class ChartFragment : Fragment() {
 
     private lateinit var chartViewModel: ChartViewModel
+    private val prefs by lazy {
+        ApplicationPrefs.Default(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,41 +44,46 @@ class ChartFragment : Fragment() {
 
     private fun setupViews(root: View) {
         val chartIQ: ChartIQView = root.findViewById<WebView>(R.id.webview) as ChartIQView
+        val symbol = prefs.getChartSymbol().value
 
-        chartIQ.start(CHART_URL, object : OnStartCallback {
-            override fun onStart() {
-                chartIQ.setDataMethod(DataMethod.PULL, DEFAULT_SYMBOL);
-                chartIQ.setSymbol(DEFAULT_SYMBOL);
-                chartIQ.setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
+        chartIQ.start(BuildConfig.DEFAULT_CHART_URL) {
+            chartIQ.setDataMethod(DataMethod.PULL, symbol);
+            chartIQ.setSymbol(symbol);
+            chartIQ.setDataSource(object : DataSource {
+                override fun pullInitialData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullUpdateData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
+                override fun pullUpdateData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullPaginationData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
+                override fun pullPaginationData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback
+                ) {
+                    loadChartData(params, callback)
+                }
+            })
+        }
+
+        root.findViewById<Button>(R.id.symbolButton).apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
-        })
-
+            text = symbol
+        }
         root.findViewById<Button>(R.id.intervalButton).apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }
-            text = ApplicationPrefs.Default(requireContext()).getChartInterval().run {
+            text = prefs.getChartInterval().run {
                 when (timeUnit) {
                     TimeUnit.SECOND,
                     TimeUnit.MINUTE -> {
@@ -134,11 +142,5 @@ class ChartFragment : Fragment() {
                 callback!!.execute(it)
             }
         }.execute()
-    }
-
-    companion object {
-        private const val DEFAULT_SYMBOL = "AAPL"
-        private const val CHART_URL =
-            "https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html";
     }
 }
