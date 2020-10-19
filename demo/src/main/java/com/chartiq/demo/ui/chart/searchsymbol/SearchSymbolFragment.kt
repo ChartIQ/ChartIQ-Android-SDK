@@ -18,16 +18,18 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentSearchSymbolBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
-import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 
 
-class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
+class SearchSymbolFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchSymbolBinding
-    private val viewModel: SearchSymbolViewModel by viewModels()
+    private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
+        SearchSymbolViewModel.SearchViewModelFactory(ChartIQNetworkManager())
+    })
     private val searchTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -48,6 +50,13 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
             }
         }
     }
+    private val onSearchResultClickListener = OnSearchResultClickListener { item ->
+        ApplicationPrefs
+            .Default(requireContext())
+            .saveChartSymbol(Symbol(item.symbol))
+        hideKeyboard()
+        findNavController().navigateUp()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,14 +67,6 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
 
         setupViews()
         return binding.root
-    }
-
-    override fun onSearchItemClick(item: SearchResultItem) {
-        ApplicationPrefs
-            .Default(requireContext())
-            .saveChartSymbol(Symbol(item.symbol))
-        hideKeyboard()
-        findNavController().navigateUp()
     }
 
     // Since the app reuses native Google voice recognition the voice query is sent to
@@ -107,7 +108,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
                 setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
             }
         }
-        val searchAdapter = SearchResultAdapter(this)
+        val searchAdapter = SearchResultAdapter(onSearchResultClickListener)
         binding.queryResultsRecyclerView.apply {
             this.adapter = searchAdapter
             addItemDecoration(LineItemDecoration.Default(context))

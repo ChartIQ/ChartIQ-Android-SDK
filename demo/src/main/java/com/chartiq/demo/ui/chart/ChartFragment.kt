@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
+import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
@@ -20,7 +23,9 @@ import com.chartiq.sdk.model.QuoteFeedParams
 class ChartFragment : Fragment() {
 
     private lateinit var binding: FragmentChartBinding
-    private lateinit var chartViewModel: ChartViewModel
+    private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
+        ChartViewModel.ChartViewModelFactory(ChartIQNetworkManager())
+    })
     private val prefs by lazy {
         ApplicationPrefs.Default(requireContext())
     }
@@ -31,7 +36,6 @@ class ChartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChartBinding.inflate(inflater, container, false)
-        chartViewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
 
         setupViews()
         return binding.root
