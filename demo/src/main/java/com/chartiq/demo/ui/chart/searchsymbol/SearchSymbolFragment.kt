@@ -26,7 +26,7 @@ import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import androidx.appcompat.R.id as appCompat
 
 
-class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
+class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels()
@@ -34,7 +34,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.run {
+            with(binding) {
                 typeToSearchPlaceHolder.root.visibility = View.GONE
                 queryResultsRecyclerView.visibility = View.INVISIBLE
                 searchSymbolProgressBar.visibility = View.VISIBLE
@@ -86,7 +86,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
 
             val searchManager =
                 requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            with (menu.findItem(R.id.menu_search).actionView as SearchView) {
+            with(menu.findItem(R.id.menu_search).actionView as SearchView) {
                 findViewById<ImageView>(appCompat.search_voice_btn).apply {
                     setImageResource(R.drawable.ic_microphone)
                 }
@@ -116,7 +116,11 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner, { networkErrorEvent ->
             binding.searchSymbolProgressBar.visibility = View.GONE
-            Toast.makeText(requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                R.string.warning_something_went_wrong,
+                Toast.LENGTH_SHORT
+            ).show()
         })
         viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
             searchAdapter.list = list
