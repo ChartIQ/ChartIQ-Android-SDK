@@ -63,7 +63,7 @@ interface ApplicationPrefs {
 
         override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
             val set = drawingToolsSet
-                .mapTo(mutableSetOf()) {
+                .mapTo(HashSet()) {
                     it.toString()
                 }
             putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
@@ -71,7 +71,7 @@ interface ApplicationPrefs {
 
         override fun getFavoriteDrawingTools(): Set<DrawingTool> {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
-                .mapTo(mutableSetOf()) {
+                .mapTo(HashSet()) {
                     DrawingTool.valueOf(it.toUpperCase())
                 }
         }

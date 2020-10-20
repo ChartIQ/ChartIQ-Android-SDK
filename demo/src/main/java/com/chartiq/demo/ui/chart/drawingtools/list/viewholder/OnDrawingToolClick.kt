@@ -1,8 +1,10 @@
 package com.chartiq.demo.ui.chart.drawingtools.list.viewholder
 
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
+
 interface OnDrawingToolClick {
 
-    fun onDrawingToolClick(position: Int)
+    fun onDrawingToolClick(item: DrawingToolItem)
 
-    fun onFavoriteChecked(position: Int, value: Boolean)
+    fun onFavoriteChecked(item: DrawingToolItem)
 }

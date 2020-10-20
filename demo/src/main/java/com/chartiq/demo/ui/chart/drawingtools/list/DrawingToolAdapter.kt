@@ -8,23 +8,21 @@ import com.chartiq.demo.databinding.ItemDrawingToolHeaderBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.DrawingToolHeaderViewHolder
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.DrawingToolViewHolder
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.OnDrawingToolClick
-import com.chartiq.sdk.model.DrawingTool
 
-class DrawingToolAdapter(private val allToolsList: List<Any>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), OnDrawingToolClick {
+class DrawingToolAdapter(private val adapterListener: OnDrawingToolClick) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<Any>
-    private var previousSelectedPosition: Int? = null
-    private var currentSelectedPosition: Int? = null
+    private var items = listOf<DrawingToolItem>()
+    private var showHeaders: Boolean = false
 
-    init {
-        items = allToolsList
-    }
-
-    override fun getItemViewType(position: Int): Int = when (items[position]) {
-        is DrawingToolHeaderItem -> VIEW_TYPE_HEADER
-        is DrawingToolItem -> VIEW_TYPE_TOOL
-        else -> throw IllegalStateException()
+    override fun getItemViewType(position: Int): Int {
+        return if (
+            showHeaders && (position == 0 || items[position].section != items[position - 1].section)
+        ) {
+            VIEW_TYPE_HEADER
+        } else {
+            VIEW_TYPE_TOOL
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,67 +47,47 @@ class DrawingToolAdapter(private val allToolsList: List<Any>) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is DrawingToolHeaderViewHolder -> holder
-                .bind(items[position] as DrawingToolHeaderItem)
-            is DrawingToolViewHolder -> holder
-                .bind(items[position] as DrawingToolItem, this, position)
+        when (getItemViewType(position)) {
+            VIEW_TYPE_HEADER -> (holder as DrawingToolHeaderViewHolder)
+                .bind(items[position].section)
+            VIEW_TYPE_TOOL -> (holder as DrawingToolViewHolder)
+                .bind(items[position], adapterListener)
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun onDrawingToolClick(position: Int) {
-        currentSelectedPosition = allToolsList.indexOf(items[position])
-        allToolsList.forEachIndexed { index, it ->
-            if (it is DrawingToolItem) {
-                if (it.isSelected) {
-                    previousSelectedPosition = index
+    fun setItems(value: List<DrawingToolItem>, showHeaders: Boolean) {
+        this.showHeaders = showHeaders
+        items = if (showHeaders) {
+            val groupedItems = value.groupBy { it.section }
+            val list = value.toMutableList()
+            groupedItems.keys
+                .forEach { section ->
+                    list.findLast { it.section == section }?.let { item ->
+                        val index = list.indexOf(item)
+                        list.add(index, groupedItems[section]!![0])
+                    }
                 }
-                it.isSelected = index == currentSelectedPosition
-            }
-        }
-        previousSelectedPosition?.let { notifyItemChanged(it) }
-        notifyItemChanged(position)
-    }
-
-    override fun onFavoriteChecked(position: Int, value: Boolean) {
-        val parentPosition = allToolsList.indexOf(items[position])
-        (allToolsList[parentPosition] as DrawingToolItem).isStarred = value
-    }
-
-    fun filterItemsByCategory(category: DrawingToolCategory) {
-        when (category) {
-            DrawingToolCategory.ALL -> items = allToolsList
-            DrawingToolCategory.FAVORITES -> items = allToolsList.filter { item ->
-                if (item is DrawingToolHeaderItem) {
-                    return@filter false
-                } else {
-                    (item as DrawingToolItem).isStarred
-                }
-            }
-            else -> items = allToolsList.filter { item ->
-                if (item is DrawingToolHeaderItem) {
-                    return@filter false
-                } else {
-                    (item as DrawingToolItem).category == category
-                }
-            }
+            list
+        } else {
+            value
         }
         notifyDataSetChanged()
     }
 
-    fun getFavoriteItems(): List<DrawingToolItem> = items.filter { item ->
-        if (item is DrawingToolHeaderItem) {
-            return@filter false
-        } else {
-            (item as DrawingToolItem).isStarred
-        }
-    } as List<DrawingToolItem>
-
-    fun getSelectedDrawingTool(): DrawingTool =
-        currentSelectedPosition?.let { (allToolsList[it] as DrawingToolItem).tool }
-            ?: DrawingTool.NO_TOOL
+    fun selectItem(item: DrawingToolItem) {
+        // Uncheck the previous item
+        items
+            .find { it.isSelected }
+            ?.let {
+                it.isSelected = false
+                notifyItemChanged(items.indexOf(it))
+            }
+        val index = items.indexOf(item)
+        items[index].isSelected = true
+        notifyItemChanged(index)
+    }
 
     companion object {
         const val VIEW_TYPE_HEADER = 0

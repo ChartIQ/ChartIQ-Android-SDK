@@ -11,6 +11,7 @@ data class DrawingToolItem(
     @StringRes
     val nameRes: Int,
     val category: DrawingToolCategory,
+    val section: DrawingToolSection,
     var isSelected: Boolean = false,
     var isStarred: Boolean = false
 )

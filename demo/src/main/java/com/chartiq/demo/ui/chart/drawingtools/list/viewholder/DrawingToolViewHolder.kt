@@ -10,7 +10,7 @@ class DrawingToolViewHolder(
     private val binding: ItemDrawingToolBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: DrawingToolItem, listener: OnDrawingToolClick, position: Int) {
+    fun bind(item: DrawingToolItem, listener: OnDrawingToolClick) {
         with(binding) {
             iconImageView.background = ContextCompat.getDrawable(root.context, item.iconRes)
             toolNameTextView.text = root.resources.getString(item.nameRes)
@@ -20,13 +20,15 @@ class DrawingToolViewHolder(
                 View.GONE
             }
             starIndicatorImageView.apply {
-                setOnCheckedChangeListener { _, isChecked ->
-                    listener.onFavoriteChecked(position, isChecked)
-                }
                 isChecked = item.isStarred
+                setOnCheckedChangeListener { button, isChecked ->
+                    if(button.isPressed) {
+                        listener.onFavoriteChecked(item)
+                    }
+                }
             }
             binding.root.setOnClickListener {
-                listener.onDrawingToolClick(position)
+                listener.onDrawingToolClick(item)
             }
         }
     }
