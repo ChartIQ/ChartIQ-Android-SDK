@@ -1,6 +1,9 @@
 package com.chartiq.demo.ui.chart.searchsymbol
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.network.model.SymbolResponse
@@ -10,19 +13,14 @@ import kotlinx.coroutines.launch
 
 class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewModel() {
 
-    val resultLiveData: LiveData<List<SearchResultItem>>
-        get() = mResultLiveData
-    private val mResultLiveData = MutableLiveData<List<SearchResultItem>>()
-
-    val errorLiveData: LiveData<Unit>
-        get() = mErrorLiveData
-    private val mErrorLiveData = MutableLiveData<Unit>()
+    val resultLiveData = MutableLiveData<List<SearchResultItem>>()
+    val errorLiveData = MutableLiveData<Unit>()
 
     fun fetchSymbol(symbol: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = networkManager.fetchSymbol(symbol)) {
-                is NetworkResult.Success -> mResultLiveData.postValue(result.data.mapToItemList())
-                is NetworkResult.Failure -> mErrorLiveData.postValue(Unit)
+                is NetworkResult.Success -> resultLiveData.postValue(result.data.mapToItemList())
+                is NetworkResult.Failure -> errorLiveData.postValue(Unit)
             }
         }
     }

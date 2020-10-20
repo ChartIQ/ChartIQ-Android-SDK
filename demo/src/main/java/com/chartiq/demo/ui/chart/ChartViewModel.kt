@@ -1,6 +1,9 @@
 package com.chartiq.demo.ui.chart
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.sdk.DataSourceCallback
@@ -10,21 +13,16 @@ import kotlinx.coroutines.launch
 
 class ChartViewModel(private val networkManager: NetworkManager) : ViewModel() {
 
-    val resultLiveData: LiveData<ChartData>
-        get() = mResultLiveData
-    private val mResultLiveData = MutableLiveData<ChartData>()
-
-    val errorLiveData: LiveData<Unit>
-        get() = mErrorLiveData
-    private val mErrorLiveData = MutableLiveData<Unit>()
+    val resultLiveData = MutableLiveData<ChartData>()
+    val errorLiveData = MutableLiveData<Unit>()
 
     // TODO: 19.10.20 Review
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = networkManager.fetchDataFeed(params)) {
-                is NetworkResult.Success -> mResultLiveData
+                is NetworkResult.Success -> resultLiveData
                     .postValue(ChartData(result.data, callback))
-                is NetworkResult.Failure -> mErrorLiveData
+                is NetworkResult.Failure -> errorLiveData
                     .postValue(Unit)
             }
         }
