@@ -1,6 +1,5 @@
 package com.chartiq.demo.ui.chart.drawingtools
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolCategory
@@ -10,13 +9,8 @@ import com.chartiq.demo.util.Event
 
 class DrawingToolViewModel : ViewModel(), OnDrawingToolClick {
 
-    private val mDrawingToolSelectEvent = MutableLiveData<Event<DrawingToolItem>>()
-    val drawingToolSelectEvent: LiveData<Event<DrawingToolItem>>
-        get() = mDrawingToolSelectEvent
-
-    private val mDrawingToolFavoriteClickEvent = MutableLiveData<Event<DrawingToolItem>>()
-    val drawingToolFavoriteClickEvent: LiveData<Event<DrawingToolItem>>
-        get() = mDrawingToolFavoriteClickEvent
+    private val drawingToolSelectEvent = MutableLiveData<Event<DrawingToolItem>>()
+    private val drawingToolFavoriteClickEvent = MutableLiveData<Event<DrawingToolItem>>()
 
     fun filterItemsByCategory(
         category: DrawingToolCategory,
@@ -32,10 +26,10 @@ class DrawingToolViewModel : ViewModel(), OnDrawingToolClick {
     }
 
     override fun onDrawingToolClick(item: DrawingToolItem) {
-        mDrawingToolSelectEvent.value = Event(item)
+        drawingToolSelectEvent.value = Event(item)
     }
 
     override fun onFavoriteChecked(item: DrawingToolItem) {
-        mDrawingToolFavoriteClickEvent.value = Event(item)
+        drawingToolFavoriteClickEvent.value = Event(item)
     }
 }
