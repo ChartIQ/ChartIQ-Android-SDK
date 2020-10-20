@@ -41,7 +41,7 @@ interface ApplicationPrefs {
         }
 
         override fun saveChartInterval(interval: Interval) {
-            val record = "%d  %s".format(interval.duration, interval.timeUnit.toString())
+            val record = FORMATTING_INTERVAL.format(interval.duration, interval.timeUnit.toString())
             prefs.edit(true) {
                 putString(KEY_CHART_INTERVAL, record)
             }
@@ -94,7 +94,7 @@ interface ApplicationPrefs {
         private const val DEFAULT_CHART_INTERVAL = "1 day"
         private const val DEFAULT_CHART_SYMBOL = "AAPL"
 
-        private const val FORMATTING_INTERVAL = "%d  %s"
+        private const val FORMATTING_INTERVAL = "%d %s"
     }
 }
 
