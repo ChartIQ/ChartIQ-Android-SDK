@@ -64,7 +64,7 @@ class DrawingToolAdapter(private val adapterListener: OnDrawingToolClick) :
             val list = value.toMutableList()
             groupedItems.keys
                 .forEach { section ->
-                    list.findLast { it.section == section }?.let { item ->
+                    list.find { it.section == section }?.let { item ->
                         val index = list.indexOf(item)
                         list.add(index, groupedItems[section]!![0])
                     }
