@@ -66,7 +66,10 @@ class DrawingToolAdapter(private val adapterListener: OnDrawingToolClick) :
                 .forEach { section ->
                     list.find { it.section == section }?.let { item ->
                         val index = list.indexOf(item)
-                        list.add(index, groupedItems[section]!![0])
+                        list.add(
+                            index,
+                            groupedItems[section]!![0].copy(iconRes = 0, nameRes = 0)
+                        )
                     }
                 }
             list

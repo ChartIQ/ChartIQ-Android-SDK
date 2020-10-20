@@ -9,8 +9,8 @@ import com.chartiq.demo.util.Event
 
 class DrawingToolViewModel : ViewModel(), OnDrawingToolClick {
 
-    private val drawingToolSelectEvent = MutableLiveData<Event<DrawingToolItem>>()
-    private val drawingToolFavoriteClickEvent = MutableLiveData<Event<DrawingToolItem>>()
+    val drawingToolSelectEvent = MutableLiveData<Event<DrawingToolItem>>()
+    val drawingToolFavoriteClickEvent = MutableLiveData<Event<DrawingToolItem>>()
 
     fun filterItemsByCategory(
         category: DrawingToolCategory,
