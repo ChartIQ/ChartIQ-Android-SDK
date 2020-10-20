@@ -5,8 +5,6 @@ import retrofit2.Response
 import java.net.ConnectException
 import java.net.HttpURLConnection
 
-private const val DEFAULT_ERROR_MESSAGE = "Something went wrong"
-
 suspend fun <T> Deferred<Response<T>>.safeExtractNetworkResult():
         NetworkResult<T> {
     return try {
@@ -14,7 +12,7 @@ suspend fun <T> Deferred<Response<T>>.safeExtractNetworkResult():
         return if (result.isSuccessful) {
             NetworkResult.Success(result.body()!!)
         } else {
-            NetworkResult.Failure(result.code(), result.message())
+            NetworkResult.Failure(NetworkException(result.message(), result.code()))
         }
     } catch (exception: Exception) {
         val code = if (exception::class.java == ConnectException::class.java) {
@@ -22,6 +20,6 @@ suspend fun <T> Deferred<Response<T>>.safeExtractNetworkResult():
         } else {
             2000
         }
-        NetworkResult.Failure(code, DEFAULT_ERROR_MESSAGE)
+        NetworkResult.Failure(NetworkException(null, code))
     }
 }
