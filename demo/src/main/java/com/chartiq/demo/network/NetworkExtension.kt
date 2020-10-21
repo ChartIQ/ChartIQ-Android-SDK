@@ -1,18 +1,15 @@
 package com.chartiq.demo.network
 
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.HttpURLConnection
 
-suspend fun <T> Deferred<Response<T>>.safeExtractNetworkResult():
-        NetworkResult<T> {
+fun <T> Response<T>.safeExtractNetworkResult(): NetworkResult<T> {
     return try {
-        val result = this.await()
-        return if (result.isSuccessful) {
-            NetworkResult.Success(result.body()!!)
+        return if (isSuccessful) {
+            NetworkResult.Success(body()!!)
         } else {
-            NetworkResult.Failure(NetworkException(result.message(), result.code()))
+            NetworkResult.Failure(NetworkException(message(), code()))
         }
     } catch (exception: Exception) {
         val code = if (exception::class.java == ConnectException::class.java) {
