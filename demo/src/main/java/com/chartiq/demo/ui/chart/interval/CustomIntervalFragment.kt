@@ -53,7 +53,12 @@ class CustomIntervalFragment : Fragment() {
 
             selectMeasurementAutoCompleteTextView.apply {
                 val items = DEFAULT_MEASUREMENT_ITEMS
-                    .map { it.toString().toLowerCase().capitalize() }
+                    .map { timeUnit ->
+                        timeUnit
+                            .toString()
+                            .toLowerCase()
+                            .capitalize()
+                    }
                 setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, items))
                 addTextChangedListener(intervalTextWatcher)
             }

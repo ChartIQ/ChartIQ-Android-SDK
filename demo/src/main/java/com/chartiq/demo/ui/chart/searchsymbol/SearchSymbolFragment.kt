@@ -13,23 +13,29 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.SearchAutoComplete
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentSearchSymbolBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
-import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import androidx.appcompat.R.id as appCompat
 
 
-class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQueryReceiver {
+class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
 
     private lateinit var binding: FragmentSearchSymbolBinding
-    private val viewModel: SearchSymbolViewModel by viewModels()
+    private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
+        SearchSymbolViewModel.SearchViewModelFactory(ChartIQNetworkManager())
+    })
+
+    // Since the app reuses native Google voice recognition the voice query is sent to
+    // main activity first and then passed to the following method
     private val searchTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -49,6 +55,13 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
                 binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
             }
         }
+    }
+    private val onSearchResultClickListener = OnSearchResultClickListener { item ->
+        ApplicationPrefs
+            .Default(requireContext())
+            .saveChartSymbol(Symbol(item.symbol))
+        hideKeyboard()
+        findNavController().navigateUp()
     }
 
     override fun onCreateView(
@@ -78,55 +91,49 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
     }
 
     private fun setupViews() {
-        binding.searchToolbar.apply {
+        with(binding) {
+            val searchAdapter = SearchResultAdapter(onSearchResultClickListener)
+            queryResultsRecyclerView.apply {
+                this.adapter = searchAdapter
+                addItemDecoration(LineItemDecoration.Default(context))
+            }
+            viewModel.errorLiveData.observe(viewLifecycleOwner, {
+                searchSymbolProgressBar.visibility = View.GONE
+                Toast.makeText(
+                    requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT
+                ).show()
+            })
+            viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
+                searchAdapter.list = list
+                searchSymbolProgressBar.visibility = View.GONE
+                queryResultsRecyclerView.visibility = View.VISIBLE
+            })
+        }
+
+        with(binding.searchToolbar) {
             setNavigationOnClickListener {
                 hideKeyboard()
                 findNavController().navigateUp()
             }
 
-            val searchManager =
-                requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            with(menu.findItem(R.id.menu_search).actionView as SearchView) {
-                findViewById<ImageView>(appCompat.search_voice_btn).apply {
-                    setImageResource(R.drawable.ic_microphone)
-                }
-                findViewById<SearchView.SearchAutoComplete>(appCompat.search_src_text).apply {
-                    addTextChangedListener(searchTextWatcher)
-                }
-                findViewById<View>(appCompat.search_plate).apply {
-                    background = null
-                }
-                findViewById<View>(appCompat.submit_area).apply {
-                    background = null
-                }
+            (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
+                val searchManager =
+                    requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+                setIconifiedByDefault(false)
+                isIconified = false
+
+                findViewById<ImageView>(appCompat.search_voice_btn).setImageResource(R.drawable.ic_microphone)
+                findViewById<SearchAutoComplete>(appCompat.search_src_text)
+                    .addTextChangedListener(searchTextWatcher)
+                findViewById<View>(appCompat.search_plate).background = null
+                findViewById<View>(appCompat.submit_area).background = null
                 findViewById<ImageView>(appCompat.search_mag_icon).apply {
                     visibility = View.GONE
                     setImageDrawable(null)
                 }
-
-                isIconified = false
-                setIconifiedByDefault(false)
-                setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
             }
         }
-        val searchAdapter = SearchResultAdapter(this)
-        binding.queryResultsRecyclerView.apply {
-            this.adapter = searchAdapter
-            addItemDecoration(LineItemDecoration.Default(context))
-        }
-        viewModel.errorLiveData.observe(viewLifecycleOwner, { networkErrorEvent ->
-            binding.searchSymbolProgressBar.visibility = View.GONE
-            Toast.makeText(
-                requireContext(),
-                R.string.warning_something_went_wrong,
-                Toast.LENGTH_SHORT
-            ).show()
-        })
-        viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
-            searchAdapter.list = list
-            binding.searchSymbolProgressBar.visibility = View.GONE
-            binding.queryResultsRecyclerView.visibility = View.VISIBLE
-        })
     }
 
     private fun hideKeyboard() {

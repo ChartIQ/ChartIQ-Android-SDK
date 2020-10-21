@@ -50,6 +50,7 @@
 
     <!--Studies-->
     <string name="studies_hint_no_active_studies_to_displays_yet">No Active Studies to displays yet</string>
+    <string name="warning_something_went_wrong">Something went wrong</string>
 
     <!--Drawing tools-->
     <string name="drawing_tool_title">Drawing Tool</string>
@@ -114,5 +115,4 @@
     <string name="drawing_tool_category_markings">Markings</string>
     <string name="drawing_tool_category_lines">Lines</string>
 
-    <string name="warning_something_went_wrong">Something went wrong</string>
 </resources>
