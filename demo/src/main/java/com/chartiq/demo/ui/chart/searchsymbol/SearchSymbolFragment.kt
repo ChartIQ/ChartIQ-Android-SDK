@@ -24,10 +24,11 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
+import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import androidx.appcompat.R.id as appCompat
 
 
-class SearchSymbolFragment : Fragment(), OnSearchResultClickListener {
+class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
