@@ -15,5 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
+        android:gravity="center"
         android:text="@string/studies_hint_no_active_studies_to_displays_yet" />
 </FrameLayout>

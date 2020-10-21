@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/searchImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginBottom="@dimen/margin_giant"
+        android:src="@drawable/ic_design_tool" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/PlaceHolderHintTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="@dimen/margin_huge"
+        android:gravity="center"
+        android:text="@string/drawing_tool_no_favorites_hint" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/SecondaryTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:text="@string/drawing_tool_no_favorites_hint_message"
+        android:textSize="@dimen/text_size_subtitle" />
+</FrameLayout>

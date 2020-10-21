@@ -8,6 +8,10 @@ import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 
 class MainActivity : AppCompatActivity() {
 
+    private val appPrefs by lazy {
+        ApplicationPrefs.Default(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,5 +33,10 @@ class MainActivity : AppCompatActivity() {
                 else -> Unit
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        appPrefs.clearSession()
     }
 }

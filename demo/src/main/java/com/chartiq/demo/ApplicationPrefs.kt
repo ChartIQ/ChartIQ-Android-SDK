@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.sdk.model.DrawingTool
 
 interface ApplicationPrefs {
 
@@ -16,6 +17,16 @@ interface ApplicationPrefs {
     fun getChartSymbol(): Symbol
 
     fun saveChartSymbol(symbol: Symbol)
+
+    fun saveDrawingTool(tool: DrawingTool)
+
+    fun getDrawingTool(): DrawingTool
+
+    fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>)
+
+    fun getFavoriteDrawingTools(): Set<DrawingTool>
+
+    fun clearSession()
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
@@ -39,9 +50,33 @@ interface ApplicationPrefs {
         override fun getChartSymbol(): Symbol =
             Symbol(prefs.getString(KEY_CHART_SYMBOL, DEFAULT_CHART_SYMBOL)!!)
 
-        override fun saveChartSymbol(symbol: Symbol) {
+        override fun saveChartSymbol(symbol: Symbol) = prefs.edit(true) {
+            putString(KEY_CHART_SYMBOL, symbol.value)
+        }
+
+        override fun saveDrawingTool(tool: DrawingTool) = prefs.edit(true) {
+            putString(KEY_DRAWING_TOOL, tool.toString())
+        }
+
+        override fun getDrawingTool(): DrawingTool =
+            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())!!)
+
+        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
+            val set = drawingToolsSet
+                .map { it.toString() }
+                .toHashSet()
+            putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
+        }
+
+        override fun getFavoriteDrawingTools(): Set<DrawingTool> {
+            return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
+                .map { DrawingTool.valueOf(it.toUpperCase()) }
+                .toHashSet()
+        }
+
+        override fun clearSession() {
             prefs.edit(true) {
-                putString(KEY_CHART_SYMBOL, symbol.value)
+                putString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())
             }
         }
     }
@@ -51,6 +86,8 @@ interface ApplicationPrefs {
 
         private const val KEY_CHART_INTERVAL = "chart.iq.demo.chart.interval"
         private const val KEY_CHART_SYMBOL = "chart.iq.demo.chart.symbol"
+        private const val KEY_DRAWING_TOOL_FAVORITE = "chart.iq.demo.chart.drawingtool.favorites"
+        private const val KEY_DRAWING_TOOL = "chart.iq.demo.chart.drawingtool.tool"
 
         private const val DEFAULT_CHART_INTERVAL = "1 day"
         private const val DEFAULT_CHART_SYMBOL = "AAPL"

@@ -55,4 +55,30 @@
         <item name="android:padding">@dimen/padding_medium_extra</item>
     </style>
 
+    <style name="AppTabAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="PositiveAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NeutralButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NeutralButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/mountainMeadow</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/coralRed</item>
+    </style>
+
+    <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/elevationDark</item>
+    </style>
+
 </resources>

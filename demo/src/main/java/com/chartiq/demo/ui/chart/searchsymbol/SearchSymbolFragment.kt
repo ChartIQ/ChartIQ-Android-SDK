@@ -24,10 +24,11 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
+import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import androidx.appcompat.R.id as appCompat
 
 
-class SearchSymbolFragment : Fragment() {
+class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
@@ -40,7 +41,7 @@ class SearchSymbolFragment : Fragment() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.run {
+            with(binding) {
                 typeToSearchPlaceHolder.root.visibility = View.GONE
                 queryResultsRecyclerView.visibility = View.INVISIBLE
                 searchSymbolProgressBar.visibility = View.VISIBLE
@@ -73,6 +74,21 @@ class SearchSymbolFragment : Fragment() {
 
         setupViews()
         return binding.root
+    }
+
+    override fun onSearchItemClick(item: SearchResultItem) {
+        ApplicationPrefs
+            .Default(requireContext())
+            .saveChartSymbol(Symbol(item.symbol))
+        hideKeyboard()
+        findNavController().navigateUp()
+    }
+
+    // Since the app reuses native Google voice recognition the voice query is sent to
+    // main activity first and then passed to the following method
+    override fun receiveVoiceQuery(query: String) {
+        (binding.searchToolbar.menu.findItem(R.id.menu_search).actionView as SearchView)
+            .setQuery(query, false)
     }
 
     private fun setupViews() {
