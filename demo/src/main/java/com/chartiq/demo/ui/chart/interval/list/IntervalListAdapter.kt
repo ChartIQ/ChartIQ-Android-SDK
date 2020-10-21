@@ -3,7 +3,8 @@ package com.chartiq.demo.ui.chart.interval.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.R
+import com.chartiq.demo.databinding.ItemIntervalBinding
+import com.chartiq.demo.databinding.ItemIntervalChooseCustomBinding
 import com.chartiq.demo.ui.chart.interval.list.viewholder.CustomIntervalViewHolder
 import com.chartiq.demo.ui.chart.interval.list.viewholder.IntervalViewHolder
 
@@ -21,13 +22,13 @@ class IntervalListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TYPE_CUSTOM -> CustomIntervalViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_interval_choose_custom, parent, false)
+                ItemIntervalChooseCustomBinding.inflate(inflater, parent, false)
             )
             TYPE_REGULAR -> IntervalViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_interval, parent, false)
+                ItemIntervalBinding.inflate(inflater, parent, false)
             )
             else -> throw IllegalStateException()
         }

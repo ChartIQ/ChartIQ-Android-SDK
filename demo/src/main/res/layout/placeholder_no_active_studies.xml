@@ -8,12 +8,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:layout_marginBottom="@dimen/margin_huge"
-        android:src="@drawable/ic_search" />
+        android:src="@drawable/ic_analysis" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/PlaceHolderHintTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:text="@string/search_action_hint" />
+        android:text="@string/studies_hint_no_active_studies_to_displays_yet" />
 </FrameLayout>

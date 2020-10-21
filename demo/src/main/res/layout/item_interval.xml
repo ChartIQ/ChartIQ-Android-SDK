@@ -7,14 +7,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/intervalTextView"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:textColor="@color/dark_electric_blue"
-        android:textSize="16sp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium_small"
+        android:layout_marginBottom="@dimen/margin_medium_small"
         tools:text="1 day" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -22,12 +21,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="@dimen/margin_medium_small"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium_small"
         android:src="@drawable/ic_check"
         android:visibility="gone"
-        app:tint="@color/mountain_meadow"
+        app:tint="@color/mountainMeadow"
         tools:visibility="visible" />
 
 </FrameLayout>

@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
-import com.chartiq.demo.ui.LineItemDecoration
+import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
 import com.chartiq.demo.ui.chart.interval.list.IntervalProps
 import com.chartiq.demo.ui.chart.interval.list.OnIntervalClickListener
@@ -29,12 +27,12 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_choose_inteval, container, false)
-        setupUI(root)
-        return root
+        val binding = FragmentChooseIntervalBinding.inflate(inflater, container, false)
+        setupViews(binding)
+        return binding.root
     }
 
-    private fun setupUI(root: View) {
+    private fun setupViews(binding: FragmentChooseIntervalBinding) {
         val selectedInterval = appPrefs.getChartInterval()
 
         val intervalAdapter = IntervalListAdapter(
@@ -42,13 +40,13 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
             this
         )
 
-        root.findViewById<RecyclerView>(R.id.intervalsRecyclerView).apply {
-            adapter = intervalAdapter
-            addItemDecoration(LineItemDecoration.Default(context))
-        }
+        with(binding) {
+            intervalsRecyclerView.apply {
+                adapter = intervalAdapter
+                addItemDecoration(com.chartiq.demo.ui.LineItemDecoration.Default(context))
+            }
 
-        root.findViewById<Toolbar>(R.id.toolbar).apply {
-            setNavigationOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
         }

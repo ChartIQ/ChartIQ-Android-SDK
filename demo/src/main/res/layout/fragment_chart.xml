@@ -20,48 +20,37 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/symbolButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/ChartButtonStyle"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/bright_grey"
-                android:textColor="@color/dark_electric_blue"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingEnd="@dimen/padding_medium"
                 tools:text="AAPL" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/intervalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/ChartButtonStyle"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/symbolButton"
-                android:backgroundTint="@color/bright_grey"
-                android:minWidth="0dp"
                 android:textAllCaps="false"
-                android:textColor="@color/dark_electric_blue"
                 tools:text="1D" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/crosshairImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/crosshairCheckBox"
+                style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/drawImageView"
-                android:button="@drawable/selector_crosshair"
-                android:minWidth="0dp"
-                android:minHeight="0dp" />
+                android:layout_toStartOf="@+id/drawCheckBox"
+                android:button="@drawable/selector_crosshair" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/drawImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/drawCheckBox"
+                style="@style/ChartCheckBoxStyle"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:button="@drawable/selector_draw"
-                android:minWidth="0dp"
-                android:minHeight="0dp" />
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:button="@drawable/selector_draw" />
 
         </RelativeLayout>
 
