@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:paddingStart="@dimen/padding_extra_large"
+        android:paddingEnd="@dimen/padding_extra_large"
         app:tabMode="scrollable"
         app:tabTextAppearance="@style/AppTabAppearance">
 
@@ -71,9 +71,9 @@
         layout="@layout/placeholder_no_favorite_drawing_tools_yet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="@dimen/margin_huge_small"
         android:layout_marginTop="132dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="@dimen/margin_huge_small"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
