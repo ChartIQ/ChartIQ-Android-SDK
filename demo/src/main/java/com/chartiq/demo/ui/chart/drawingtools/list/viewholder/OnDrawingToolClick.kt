@@ -6,5 +6,5 @@ interface OnDrawingToolClick {
 
     fun onDrawingToolClick(item: DrawingToolItem)
 
-    fun onFavoriteChecked(item: DrawingToolItem)
+    fun onFavoriteCheck(item: DrawingToolItem)
 }

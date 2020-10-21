@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.chartiq.demo.ApplicationPrefs
@@ -18,9 +19,11 @@ import com.google.android.material.tabs.TabLayout
 class DrawingToolFragment : Fragment() {
 
     private lateinit var binding: FragmentDrawingToolBinding
-    private lateinit var viewModel: DrawingToolViewModel
+    private val viewModel: DrawingToolViewModel by viewModels(factoryProducer = {
+        DrawingToolViewModel.DrawingToolViewModelFactory(appPrefs)
+    })
     private lateinit var drawingToolAdapter: DrawingToolAdapter
-    private lateinit var allToolsList: List<DrawingToolItem>
+    private lateinit var toolsList: List<DrawingToolItem>
     private val appPrefs by lazy {
         ApplicationPrefs.Default(requireContext())
     }
@@ -38,14 +41,12 @@ class DrawingToolFragment : Fragment() {
                     TAB_LINES -> DrawingToolCategory.LINES
                     else -> throw IllegalStateException()
                 }
-                if (category == DrawingToolCategory.ALL) {
-                    drawingToolAdapter.setItems(allToolsList, true)
-                } else {
-                    val list = viewModel.filterItemsByCategory(category, allToolsList)
-                    drawingToolAdapter.setItems(list, false)
-                }
+                drawingToolAdapter.setItems(
+                    value = viewModel.filterItemsByCategory(category, toolsList),
+                    showHeaders = category == DrawingToolCategory.ALL
+                )
                 binding.noFavoriteDrawingToolsPlaceHolder.root.visibility =
-                    if (category == DrawingToolCategory.FAVORITES && allToolsList.none { it.isStarred }) {
+                    if (category == DrawingToolCategory.FAVORITES && toolsList.none { it.isStarred }) {
                         View.VISIBLE
                     } else {
                         View.GONE
@@ -64,40 +65,22 @@ class DrawingToolFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDrawingToolBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(DrawingToolViewModel::class.java)
-        viewModel.apply {
-            drawingToolFavoriteClickEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let { item ->
-                    allToolsList.find { it == item }?.isStarred = !item.isStarred
-                }
-            }
-            drawingToolSelectEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let { item ->
-                    drawingToolAdapter.selectItem(item)
-                    allToolsList.find { it == item }?.isSelected = true
-                }
-            }
-        }
 
         setupViews()
         return binding.root
     }
 
     override fun onPause() {
-        val favoriteDrawingTools = allToolsList
-            .filter { it.isStarred }
-            .mapTo(HashSet()) { it.tool }
-        val selectedDrawingTool = allToolsList
-            .find { it.isSelected }?.tool ?: DrawingTool.NO_TOOL
-        appPrefs.run {
-            saveFavoriteDrawingTools(favoriteDrawingTools)
-            saveDrawingTool(selectedDrawingTool)
-        }
+        viewModel.onPause(toolsList)
         super.onPause()
     }
 
     private fun setupViews() {
-        setupList()
+        setupObservers()
+
+        toolsList = viewModel.setupList(DEFAULT_TOOLS_LIST)
+        drawingToolAdapter = DrawingToolAdapter(viewModel)
+        drawingToolAdapter.setItems(toolsList, true)
 
         with(binding) {
             drawingToolToolbar.apply {
@@ -122,17 +105,20 @@ class DrawingToolFragment : Fragment() {
         }
     }
 
-    private fun setupList() {
-        val favoriteTools = appPrefs.getFavoriteDrawingTools()
-        val selectedDrawingTool = appPrefs.getDrawingTool()
-        allToolsList = DEFAULT_TOOLS_LIST.onEach {
-            if (favoriteTools.toString() == it.tool.value) {
-                it.isStarred = true
+    private fun setupObservers() {
+        with(viewModel) {
+            drawingToolFavoriteClickEvent.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let { item ->
+                    toolsList.find { it == item }?.isStarred = !item.isStarred
+                }
             }
-            it.isSelected = it.tool == selectedDrawingTool && it.tool != DrawingTool.NO_TOOL
+            drawingToolSelectEvent.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let { item ->
+                    drawingToolAdapter.selectItem(item)
+                    toolsList.find { it == item }?.isSelected = true
+                }
+            }
         }
-        drawingToolAdapter = DrawingToolAdapter(viewModel)
-        drawingToolAdapter.setItems(allToolsList, true)
     }
 
     private fun showClearAllExistingDrawingDialog() {

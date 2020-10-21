@@ -23,7 +23,7 @@ class DrawingToolViewHolder(
                 isChecked = item.isStarred
                 setOnCheckedChangeListener { button, isChecked ->
                     if(button.isPressed) {
-                        listener.onFavoriteChecked(item)
+                        listener.onFavoriteCheck(item)
                     }
                 }
             }
