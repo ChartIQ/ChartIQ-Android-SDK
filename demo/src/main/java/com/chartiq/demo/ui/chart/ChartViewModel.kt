@@ -50,13 +50,13 @@ class ChartViewModel(
 
     class ChartViewModelFactory(
         private val argNetworkManager: NetworkManager,
-        private val applicationPrefs: ApplicationPrefs
+        private val argApplicationPrefs: ApplicationPrefs
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java)
-                .newInstance(argNetworkManager, applicationPrefs)
+                .newInstance(argNetworkManager, argApplicationPrefs)
         }
     }
 }
