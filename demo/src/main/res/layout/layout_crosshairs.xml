@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ghostWhite"
+    android:padding="8dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/priceLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/crosshair_label_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/priceValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:maxLength="6"
+        app:layout_constraintStart_toEndOf="@id/priceLabelTextView"
+        android:text="117.79" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/volLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/crosshair_label_vol"
+        app:layout_constraintStart_toStartOf="@+id/priceLabelTextView"
+        app:layout_constraintTop_toBottomOf="@+id/priceLabelTextView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/volValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="6"
+        app:layout_constraintStart_toStartOf="@id/priceValueTextView"
+        app:layout_constraintTop_toTopOf="@id/volLabelTextView"
+        android:text="32.6 M" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/openLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/crosshair_label_open"
+        app:layout_constraintEnd_toEndOf="@+id/centerGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/openValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:maxLength="6"
+        app:layout_constraintStart_toEndOf="@id/openLabelTextView"
+        android:text="116.23" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/highLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/crosshair_label_high"
+        app:layout_constraintStart_toStartOf="@+id/openLabelTextView"
+        app:layout_constraintTop_toBottomOf="@id/openLabelTextView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/highValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="6"
+        app:layout_constraintStart_toStartOf="@id/openValueTextView"
+        app:layout_constraintTop_toTopOf="@id/highLabelTextView"
+        android:text="116.23" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/closeLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/crosshair_label_close"
+        app:layout_constraintEnd_toStartOf="@id/closeValueTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/closeValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/closeLabelTextView"
+        android:text="116.23" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lowLabelTextView"
+        style="@style/CrosshairLabelTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/crosshair_label_low"
+        app:layout_constraintStart_toStartOf="@id/closeLabelTextView"
+        app:layout_constraintTop_toBottomOf="@id/closeLabelTextView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lowValueTextView"
+        style="@style/CrosshairValueTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="6"
+        app:layout_constraintStart_toStartOf="@id/closeValueTextView"
+        app:layout_constraintTop_toTopOf="@id/lowLabelTextView"
+        android:text="111.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

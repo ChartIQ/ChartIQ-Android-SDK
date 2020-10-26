@@ -115,4 +115,17 @@
     <string name="drawing_tool_category_markings">Markings</string>
     <string name="drawing_tool_category_lines">Lines</string>
 
+    <!--Instrument panel-->
+    <string name="instrument_panel_layers_bring_to_top">Bring to Top</string>
+    <string name="instrument_panel_layers_bring_forward">Bring Forward</string>
+    <string name="instrument_panel_layers_send_backward">Send Backward</string>
+    <string name="instrument_panel_layers_send_to_bottom">Send to Bottom</string>
+
+    <!--Crosshair-->
+    <string name="crosshair_label_price">price:</string>
+    <string name="crosshair_label_vol">vol:</string>
+    <string name="crosshair_label_open">open:</string>
+    <string name="crosshair_label_high">high:</string>
+    <string name="crosshair_label_close">close:</string>
+    <string name="crosshair_label_low">low:</string>
 </resources>

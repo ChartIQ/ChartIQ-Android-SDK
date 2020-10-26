@@ -17,6 +17,7 @@
     <dimen name="margin_huge">56dp</dimen>
     <dimen name="margin_giant">108dp</dimen>
 
+    <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="padding_medium_extra">20dp</dimen>
     <dimen name="padding_extra_large">32dp</dimen>

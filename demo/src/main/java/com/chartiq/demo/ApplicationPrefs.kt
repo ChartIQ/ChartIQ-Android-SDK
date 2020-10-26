@@ -95,4 +95,3 @@ interface ApplicationPrefs {
         private const val FORMATTING_INTERVAL = "%d %s"
     }
 }
-

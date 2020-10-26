@@ -155,7 +155,8 @@ class DrawingToolFragment : Fragment() {
         private const val TAB_MARKINGS = 6
         private const val TAB_LINES = 7
 
-        private val DEFAULT_TOOLS_LIST = listOf(
+        // TODO: 22.10.20 Refactor
+        val DEFAULT_TOOLS_LIST = listOf(
             DrawingToolItem(
                 DrawingTool.NO_TOOL,
                 R.drawable.ic_drawing_tool_no_tool,
