@@ -4,5 +4,5 @@ interface OnIntervalClickListener {
 
     fun onCustomIntervalClick()
 
-    fun onIntervalClick(interval: IntervalProps)
+    fun onIntervalClick(interval: IntervalItem)
 }

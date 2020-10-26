@@ -4,18 +4,26 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemIntervalBinding
+import com.chartiq.demo.ui.chart.interval.list.IntervalItem
+import com.chartiq.demo.ui.chart.interval.list.OnIntervalClickListener
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class IntervalViewHolder(private val binding: ItemIntervalBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(interval: Int, timeUnit: TimeUnit, isSelected: Boolean) {
+    fun bind(
+        item: IntervalItem,
+        onIntervalClickListener: OnIntervalClickListener
+    ) {
         with(binding) {
-            intervalTextView.text = getText(interval, timeUnit)
-            checkImageView.visibility = if (isSelected) {
+            intervalTextView.text = getText(item.duration, item.timeUnit)
+            checkImageView.visibility = if (item.isSelected) {
                 View.VISIBLE
             } else {
                 View.GONE
+            }
+            root.setOnClickListener {
+                onIntervalClickListener.onIntervalClick(item)
             }
         }
     }

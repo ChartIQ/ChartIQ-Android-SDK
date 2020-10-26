@@ -9,7 +9,7 @@ import com.chartiq.demo.ui.chart.interval.list.viewholder.CustomIntervalViewHold
 import com.chartiq.demo.ui.chart.interval.list.viewholder.IntervalViewHolder
 
 class IntervalListAdapter(
-    private val intervalList: List<IntervalProps>,
+    private val intervalList: List<IntervalItem>,
     private val onIntervalClickListener: OnIntervalClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -36,31 +36,14 @@ class IntervalListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is IntervalViewHolder -> {
-                // [position - 1] instead of [position] because of an added item in getItemCount()
-                // so the list has custom interval view holder as a first item no matter how big the
-                // original list of intervals is
-                val item = intervalList[position - 1]
-                holder.bind(item.duration, item.timeUnit, item.isSelected)
-                holder.itemView.setOnClickListener {
-                    val selectedItem = intervalList.find { it.isSelected }
-                    if (selectedItem != null) {
-                        selectedItem.isSelected = false
-                        notifyItemChanged(intervalList.indexOf(selectedItem) + 1)
-                    } else {
-                        notifyItemChanged(0)
-                    }
-                    item.isSelected = true
-                    holder.bind(item.duration, item.timeUnit, item.isSelected)
-                    onIntervalClickListener.onIntervalClick(item)
-                }
-            }
             is CustomIntervalViewHolder -> {
                 val isSelected = intervalList.firstOrNull { it.isSelected }
-                holder.bind(isSelected == null)
-                holder.itemView.setOnClickListener {
-                    onIntervalClickListener.onCustomIntervalClick()
-                }
+                holder.bind(isSelected == null, onIntervalClickListener)
+            }
+            is IntervalViewHolder -> {
+                // [position - 1] because a custom interval item is added in the begging of the list
+                val item = intervalList[position - 1]
+                holder.bind(item, onIntervalClickListener)
             }
         }
     }
