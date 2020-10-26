@@ -28,7 +28,10 @@
             android:id="@+id/selectValueAutoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:inputType="none"
+            android:textIsSelectable="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,13 +50,16 @@
             android:id="@+id/selectMeasurementAutoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:inputType="none"
+            android:textIsSelectable="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        style="@style/ActionButtonStyle"
         android:id="@+id/doneButton"
+        style="@style/ActionButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:enabled="false"
