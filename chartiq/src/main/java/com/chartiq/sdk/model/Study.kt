@@ -3,6 +3,7 @@ package com.chartiq.sdk.model
 import java.io.Serializable
 
 // TODO: 02.09.20 Have a look if parameters can actually be var
+// todo replace Objects with more concrete types
 data class Study(
     val attributes: Map<String, Object>,
     val centerLine: Double,

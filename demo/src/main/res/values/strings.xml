@@ -114,5 +114,8 @@
     <string name="drawing_tool_category_fibonacci">Fibonacci</string>
     <string name="drawing_tool_category_markings">Markings</string>
     <string name="drawing_tool_category_lines">Lines</string>
-
+    <!-- Studies -->
+    <string name="add_studies">Add studies</string>
+    <string name="empty_active_study">No Active Studies to display yet</string>
+    <string name="delete_caps">DELETE</string>
 </resources>

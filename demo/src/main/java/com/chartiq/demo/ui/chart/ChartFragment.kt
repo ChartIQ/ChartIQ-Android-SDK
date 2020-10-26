@@ -19,6 +19,7 @@ import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
+import com.chartiq.sdk.model.Study
 
 class ChartFragment : Fragment() {
 
@@ -83,6 +84,30 @@ class ChartFragment : Fragment() {
                     is ChartIQCommand.AddStudy -> {
                         //todo identify when to pass true/false [Add Study case]
                         chartIQView.addStudy(command.study, true)
+                    }
+                    ChartIQCommand.GetActiveStudies -> {
+                        chartIQView.getActiveStudies { studyList ->
+                            val list = listOf(
+                                Study(
+                                    attributes = emptyMap(),
+                                    centerLine = 1.0,
+                                    customRemoval = false,
+                                    display = "display",
+                                    deferUpdate = false,
+                                    inputs = emptyMap(),
+                                    outputs = emptyMap(),
+                                    name = "First study",
+                                    overlay = false,
+                                    parameters = emptyMap(),
+                                    range = "1.2.3.4.5",
+                                    shortName = "shortName",
+                                    underlay = false,
+                                    yAxis = emptyMap(),
+                                    type = "Type"
+                                ),
+                            )
+                            mainViewModel.activeStudies.postValue(list)
+                        }
                     }
                 }
             }

@@ -21,6 +21,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
+        android:textColor="@color/cadetBlue"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/fundTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/symbolTextView"
