@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
@@ -71,7 +71,7 @@ class DrawingToolFragment : Fragment() {
     }
 
     override fun onPause() {
-        viewModel.onPause(toolsList)
+        viewModel.saveUserPreferences(toolsList)
         super.onPause()
     }
 
@@ -114,8 +114,9 @@ class DrawingToolFragment : Fragment() {
             }
             drawingToolSelectEvent.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let { item ->
-                    drawingToolAdapter.selectItem(item)
-                    toolsList.find { it == item }?.isSelected = true
+                    toolsList = toolsList.map { it.copy(isSelected = it == item) }
+                    viewModel.saveUserPreferences(toolsList)
+                    findNavController().navigateUp()
                 }
             }
         }

@@ -29,7 +29,7 @@ class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel()
         }
     }
 
-    fun onPause(toolsList: List<DrawingToolItem>) {
+    fun saveUserPreferences(toolsList: List<DrawingToolItem>) {
         val favoriteDrawingTools = toolsList
             .filter { it.isStarred }
             .map { it.tool }

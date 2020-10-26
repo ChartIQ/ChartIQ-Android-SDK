@@ -79,19 +79,6 @@ class DrawingToolAdapter(private val adapterListener: OnDrawingToolClick) :
         notifyDataSetChanged()
     }
 
-    fun selectItem(item: DrawingToolItem) {
-        // Uncheck the previous item
-        items
-            .find { it.isSelected }
-            ?.let {
-                it.isSelected = false
-                notifyItemChanged(items.indexOf(it))
-            }
-        val index = items.indexOf(item)
-        items[index].isSelected = true
-        notifyItemChanged(index)
-    }
-
     companion object {
         const val VIEW_TYPE_HEADER = 0
         const val VIEW_TYPE_TOOL = 1
