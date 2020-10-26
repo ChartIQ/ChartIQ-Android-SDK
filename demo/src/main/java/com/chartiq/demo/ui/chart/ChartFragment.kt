@@ -145,14 +145,18 @@ class ChartFragment : Fragment() {
 
         chartViewModel.drawingTool.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { drawingTool ->
-                binding.drawCheckBox.isChecked = drawingTool != DrawingTool.NO_TOOL
-                binding.panelRecyclerView.visibility =
-                    if (drawingTool != DrawingTool.NO_TOOL) {
-                        setupPanel(drawingTool)
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
+                with(binding) {
+                    drawCheckBox.isChecked = drawingTool != DrawingTool.NO_TOOL
+                    panelRecyclerView.visibility =
+                        if (drawingTool != DrawingTool.NO_TOOL) {
+                            setupPanel(drawingTool)
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
+                    redoImageView.visibility = panelRecyclerView.visibility
+                    undoImageView.visibility = panelRecyclerView.visibility
+                }
             }
         }
         chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
@@ -193,7 +197,7 @@ class ChartFragment : Fragment() {
                             View.GONE
                         } else {
                             adapter = getColorsAdapter(resources.obtainTypedArray(R.array.colors))
-                             View.VISIBLE
+                            View.VISIBLE
                         }
                     }
                     Instrument.LINE_TYPE -> binding.instrumentRecyclerView.apply {
