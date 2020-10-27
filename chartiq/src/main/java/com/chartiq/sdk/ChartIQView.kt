@@ -11,6 +11,9 @@ import android.webkit.WebViewClient
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.util.*
+import kotlin.collections.HashMap
 
 class ChartIQView @JvmOverloads constructor(
     context: Context,
@@ -153,15 +156,23 @@ class ChartIQView @JvmOverloads constructor(
     }
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
-        executeJavascript(scriptManager.getGetStudyListScript()) { value ->
-            callback.onReturn(Gson().fromJson(value, Array<Study>::class.java).toList())
+        executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
+            val result = Gson().fromJson(value, Object::class.java)
+            val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
+            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
+                result.toString(), typeToken
+            ).map { (key, value) ->
+                value.copy(shortName = key)
+                    .toStudy()
+            }
+            callback.onReturn(studyList)
         }
     }
 
     override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
-            val result = if (value.toLowerCase() == "null") {
-                "[]";
+            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+                "[]"
             } else {
                 value
             }

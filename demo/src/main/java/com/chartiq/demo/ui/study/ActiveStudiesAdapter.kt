@@ -9,10 +9,10 @@ import com.chartiq.sdk.model.Study
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
 
     var items = listOf<Study>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     var listener: StudyListener? = null
 
@@ -41,10 +41,17 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                 optionsImageView.setOnClickListener {
                     listener?.onOptionsClicked(item)
                 }
-                studyNameTextView.text = item.name
-                studyValueTextView.text = item.range
+                val finalName = parseName(item.name)
+                studyNameTextView.text = finalName.first
+                studyValueTextView.text = finalName.second
             }
         }
+    }
+
+    private fun parseName(name: String): Pair<String, String> {
+        //divide a name by 'ZERO WIDTH NON-JOINER' (U+200C)
+        val result = name.split("\\u200C")
+        return Pair(result.first(), result.lastOrNull() ?: "")
     }
 }
 

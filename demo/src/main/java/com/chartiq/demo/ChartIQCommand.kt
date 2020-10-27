@@ -6,6 +6,8 @@ sealed class ChartIQCommand {
 
     object GetActiveStudies : ChartIQCommand()
 
+    object GetAllStudies : ChartIQCommand()
+
     data class AddStudy(
         val study: Study
     ) : ChartIQCommand()

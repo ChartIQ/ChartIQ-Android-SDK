@@ -6,21 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.study.StudyFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/AppToolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ghostWhite"
-        android:elevation="8dp"
-        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/title_study" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/AppToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/ghostWhite"
+            android:elevation="8dp"
+            android:minHeight="?attr/actionBarSize"
+            app:title="@string/title_study">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/addStudyImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end"
+                android:padding="@dimen/padding_medium"
+                android:src="@drawable/ic_add_circle_outline" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include
-        android:visibility="gone"
         android:id="@+id/noActiveStudiesPlaceholder"
         layout="@layout/placeholder_no_active_studies"
         android:layout_width="wrap_content"
@@ -28,11 +46,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="@id/appBar" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addStudiesButton"
-        android:visibility="gone"
         style="@style/ActionButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,9 +66,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activeStudiesRecyclerView"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:listitem="@layout/item_active_study" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
