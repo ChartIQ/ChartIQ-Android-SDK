@@ -39,7 +39,7 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
         fun bind(item: Study) {
             with(binding) {
                 optionsImageView.setOnClickListener {
-                    listener?.onOptionsClicked(item)
+                    listener?.onOptionsClick(item)
                 }
                 val finalName = parseName(item.name)
                 studyNameTextView.text = finalName.first
@@ -53,8 +53,8 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
         val result = name.split("\\u200C")
         return Pair(result.first(), result.lastOrNull() ?: "")
     }
-}
 
-interface StudyListener {
-    fun onOptionsClicked(study: Study)
+    interface StudyListener {
+        fun onOptionsClick(study: Study)
+    }
 }

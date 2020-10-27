@@ -43,8 +43,8 @@ class StudyFragment : Fragment() {
             activeStudiesRecyclerView.apply {
                 adapter = activeStudiesAdapter
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
-                activeStudiesAdapter.listener = object : StudyListener {
-                    override fun onOptionsClicked(study: Study) {
+                activeStudiesAdapter.listener = object : ActiveStudiesAdapter.StudyListener {
+                    override fun onOptionsClick(study: Study) {
                         // todo open bottom sheet
                     }
                 }
