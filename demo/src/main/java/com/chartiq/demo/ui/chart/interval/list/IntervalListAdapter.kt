@@ -8,10 +8,14 @@ import com.chartiq.demo.databinding.ItemIntervalChooseCustomBinding
 import com.chartiq.demo.ui.chart.interval.list.viewholder.CustomIntervalViewHolder
 import com.chartiq.demo.ui.chart.interval.list.viewholder.IntervalViewHolder
 
-class IntervalListAdapter(
-    private val intervalList: List<IntervalItem>,
-    private val onIntervalClickListener: OnIntervalClickListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class IntervalListAdapter(private val onSelectInterval: OnIntervalSelectListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var items = listOf<IntervalItem>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
@@ -35,20 +39,17 @@ class IntervalListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is CustomIntervalViewHolder -> {
-                val isSelected = intervalList.firstOrNull { it.isSelected }
-                holder.bind(isSelected == null, onIntervalClickListener)
-            }
-            is IntervalViewHolder -> {
-                // [position - 1] because a custom interval item is added in the begging of the list
-                val item = intervalList[position - 1]
-                holder.bind(item, onIntervalClickListener)
-            }
+        val item = items[position]
+        when (getItemViewType(position)) {
+            TYPE_CUSTOM ->
+                (holder as CustomIntervalViewHolder).bind(item, onSelectInterval)
+            TYPE_REGULAR ->
+                (holder as IntervalViewHolder).bind(item, onSelectInterval)
+
         }
     }
 
-    override fun getItemCount(): Int = intervalList.size + 1
+    override fun getItemCount(): Int = items.size
 
     companion object {
         private const val TYPE_CUSTOM = 0

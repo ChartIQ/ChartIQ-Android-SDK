@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
@@ -12,27 +13,16 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
-import com.chartiq.demo.ui.chart.interval.list.IntervalItem
-import com.chartiq.demo.ui.chart.interval.list.OnIntervalClickListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class ChooseIntervalFragment : Fragment() {
 
-    private val appPrefs: ApplicationPrefs by lazy {
-        ApplicationPrefs.Default(requireContext())
-    }
-    private val onIntervalClickListener = object : OnIntervalClickListener {
-        override fun onCustomIntervalClick() {
-            NavHostFragment.findNavController(this@ChooseIntervalFragment)
-                .navigate(R.id.action_chooseIntervalFragment_to_customIntervalFragment)
-        }
-
-        override fun onIntervalClick(interval: IntervalItem) {
-            appPrefs.saveChartInterval(Interval(interval.duration, interval.timeUnit))
-            findNavController().navigateUp()
-        }
-    }
+    private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
+        ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
+            ApplicationPrefs.Default(requireContext())
+        )
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,11 +35,20 @@ class ChooseIntervalFragment : Fragment() {
     }
 
     private fun setupViews(binding: FragmentChooseIntervalBinding) {
-        val selectedInterval = appPrefs.getChartInterval()
-        val intervalList = DEFAULT_INTERVAL_LIST
-            .map { IntervalItem(it.duration, it.timeUnit, it == selectedInterval) }
+        viewModel.intervalSelectEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { interval ->
+                viewModel.saveUserPreferences(interval)
+                findNavController().navigateUp()
+            }
+        }
+        viewModel.chooseCustomIntervalEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                navigateToChooseCustomInterval()
+            }
+        }
 
-        val intervalAdapter = IntervalListAdapter(intervalList, onIntervalClickListener)
+        val intervalAdapter = IntervalListAdapter(viewModel)
+        intervalAdapter.items = viewModel.setupList(DEFAULT_INTERVAL_LIST)
 
         with(binding) {
             intervalsRecyclerView.apply {
@@ -61,6 +60,11 @@ class ChooseIntervalFragment : Fragment() {
                 findNavController().navigateUp()
             }
         }
+    }
+
+    private fun navigateToChooseCustomInterval() {
+        NavHostFragment.findNavController(this@ChooseIntervalFragment)
+            .navigate(R.id.action_chooseIntervalFragment_to_customIntervalFragment)
     }
 
     companion object {

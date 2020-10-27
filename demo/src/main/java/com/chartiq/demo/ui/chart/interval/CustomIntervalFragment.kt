@@ -8,16 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
-import com.chartiq.demo.ui.chart.interval.model.Interval
+import com.chartiq.demo.ui.chart.interval.list.IntervalItem
+import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class CustomIntervalFragment : Fragment() {
 
     private lateinit var binding: FragmentChooseCustomIntervalBinding
 
+    // The viewModel is used as an onSelectInterval listener instance here
+    private val onSelectIntervalListener: OnIntervalSelectListener by activityViewModels<ChooseIntervalViewModel>(
+        factoryProducer = {
+            ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
+                ApplicationPrefs.Default(requireContext())
+            )
+        })
     private val intervalTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -37,12 +46,13 @@ class CustomIntervalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseCustomIntervalBinding.inflate(inflater, container, false)
+
         setupViews()
         return binding.root
     }
 
     private fun setupViews() {
-        binding.run {
+        with(binding) {
             selectValueAutoCompleteTextView.apply {
                 val items = (MINIMAL_INTERVAL_VALUE..MAX_INTERVAL_VALUE)
                     .toList()
@@ -52,7 +62,7 @@ class CustomIntervalFragment : Fragment() {
             }
 
             selectMeasurementAutoCompleteTextView.apply {
-                val items = DEFAULT_MEASUREMENT_ITEMS
+                val items = DEFAULT_MEASUREMENT_LIST
                     .map { timeUnit ->
                         timeUnit
                             .toString()
@@ -67,14 +77,14 @@ class CustomIntervalFragment : Fragment() {
                 findNavController().navigateUp()
             }
             doneButton.setOnClickListener {
-                ApplicationPrefs.Default(requireContext()).saveChartInterval(
-                    Interval(
-                        selectValueAutoCompleteTextView.text.toString().toInt(),
-                        TimeUnit.valueOf(
-                            selectMeasurementAutoCompleteTextView.text.toString().toUpperCase()
-                        )
-                    )
+                val duration = selectValueAutoCompleteTextView.text.toString().toInt()
+                val unit = TimeUnit.valueOf(
+                    selectMeasurementAutoCompleteTextView.text
+                        .toString()
+                        .toUpperCase()
                 )
+                val item = IntervalItem(duration, unit, true)
+                onSelectIntervalListener.onIntervalSelect(item)
                 findNavController().navigateUp()
             }
         }
@@ -84,7 +94,7 @@ class CustomIntervalFragment : Fragment() {
         private const val MINIMAL_INTERVAL_VALUE = 1
         private const val MAX_INTERVAL_VALUE = 99
 
-        private val DEFAULT_MEASUREMENT_ITEMS = listOf(
+        private val DEFAULT_MEASUREMENT_LIST = listOf(
             TimeUnit.MINUTE,
             TimeUnit.HOUR,
             TimeUnit.DAY,
