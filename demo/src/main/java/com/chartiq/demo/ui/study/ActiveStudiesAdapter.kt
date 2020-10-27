@@ -41,6 +41,12 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                 optionsImageView.setOnClickListener {
                     listener?.onOptionsClick(item)
                 }
+                studyNameTextView.setOnClickListener {
+                    listener?.onOptionsClick(item)
+                }
+                studyValueTextView.setOnClickListener {
+                    listener?.onOptionsClick(item)
+                }
                 val finalName = parseName(item.name)
                 studyNameTextView.text = finalName.first
                 studyValueTextView.text = finalName.second
