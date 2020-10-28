@@ -15,14 +15,22 @@ class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
         val gson = Gson()
         val studyEntity: StudyEntity = gson.fromJson(json, StudyEntity::class.java)
         val typeToken = object : TypeToken<Map<String, Object>>() {}.type
-        val values: Map<String, Object>
-        values = if (decodeObj["outputs"].isJsonArray) {
+        val outputs: Map<String, Object>
+        val inputs: Map<String, Object>
+        outputs = if (decodeObj["outputs"].isJsonArray) {
             emptyMap()
         } else {
             val single: Map<String, Object> = gson.fromJson(decodeObj["outputs"], typeToken)
             single
         }
-        studyEntity.my_outputs = listOf(values)
+        inputs = if (decodeObj["inputs"].isJsonArray) {
+            emptyMap()
+        } else {
+            val single: Map<String, Object> = gson.fromJson(decodeObj["inputs"], typeToken)
+            single
+        }
+        studyEntity.parsed_outputs = listOf(outputs)
+        studyEntity.parsed_inputs = listOf(inputs)
         return studyEntity
     }
 }
