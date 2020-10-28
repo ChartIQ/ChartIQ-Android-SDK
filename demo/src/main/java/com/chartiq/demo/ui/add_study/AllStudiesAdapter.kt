@@ -3,7 +3,6 @@ package com.chartiq.demo.ui.add_study
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.databinding.ItemActiveStudyBinding
 import com.chartiq.demo.databinding.ItemStudyBinding
 import com.chartiq.sdk.model.Study
 
@@ -44,6 +43,9 @@ class AllStudiesAdapter : RecyclerView.Adapter<AllStudiesAdapter.StudyViewHolder
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Study) {
             with(binding) {
+                root.setOnClickListener {
+                    studyCheckBox.isChecked = true
+                }
                 studyCheckBox.apply {
                     setOnCheckedChangeListener(null)
                     isChecked = selectedItems.contains(item)

@@ -39,7 +39,9 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/padding_medium"
                     android:text="@string/done"
+                    android:textSize="@dimen/text_size_secondary_text"
                     android:textAllCaps="true"
+                    android:textStyle="bold"
                     android:textColor="@color/colorPrimary" />
             </androidx.appcompat.widget.Toolbar>
 
