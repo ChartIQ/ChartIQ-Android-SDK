@@ -158,14 +158,8 @@ class ChartIQHandler(
     }
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
-
         executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
-            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
-                "[]"
-            } else {
-                value
-            }
-            val result = Gson().fromJson(safeValue, Object::class.java)
+            val result = Gson().fromJson(value, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
             val studyList = Gson().fromJson<Map<String, StudyEntity>>(
                 result.toString(), typeToken
@@ -179,20 +173,15 @@ class ChartIQHandler(
 
     override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
-            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-            val result = Gson().fromJson(safeValue, Object::class.java)
-            val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
-            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                result.toString(), typeToken
-            ).map { (key, value) ->
-                value.copy(shortName = key)
-                    .toStudy()
-            }
-            callback.onReturn(studyList)
+            val response = Gson().fromJson(result, Array<StudyEntity>::class.java)
+            callback.onReturn(response.toList().map {
+                it.toStudy()
+            })
         }
     }
 
@@ -220,9 +209,7 @@ class ChartIQHandler(
             inputs = null
             outputs = null
         }
-        val scripts = study.type?.run {
-            scriptManager.getAddStudyScript(study.type, inputs, outputs, params)
-        } ?: scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
+        val scripts = scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
         executeJavascript(scripts)
     }
 
@@ -234,13 +221,19 @@ class ChartIQHandler(
         parameters = talkbackFields
     }
 
-    override fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>) {
+    override fun getStudyInputParameters(
+        studyName: String,
+        callback: OnReturnCallback<String>,
+    ) {
         executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName)) { value ->
             callback.onReturn(value)
         }
     }
 
-    override fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>) {
+    override fun getStudyOutputParameters(
+        studyName: String,
+        callback: OnReturnCallback<String>,
+    ) {
         executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName)) { value ->
             callback.onReturn(value)
         }
