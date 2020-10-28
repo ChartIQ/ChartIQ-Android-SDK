@@ -77,9 +77,13 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-               findNavController().navigate(R.id.addStudyFragment)
+                findNavController().navigate(R.id.addStudyFragment)
+            }
+            addStudyImageView.setOnClickListener {
+                findNavController().navigate(R.id.addStudyFragment)
             }
             mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+                progressBar.isVisible = false
                 activeStudiesAdapter.items = studies
                 addStudyImageView.isVisible = studies.isNotEmpty()
                 noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()

@@ -30,8 +30,8 @@
                 android:id="@+id/addStudyImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_gravity="end"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/padding_medium"
                 android:src="@drawable/ic_add_circle_outline" />
         </androidx.appcompat.widget.Toolbar>
@@ -71,4 +71,13 @@
         app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:listitem="@layout/item_active_study" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

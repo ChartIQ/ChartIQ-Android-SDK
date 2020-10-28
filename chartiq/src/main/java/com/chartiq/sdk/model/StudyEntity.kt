@@ -2,7 +2,7 @@ package com.chartiq.sdk.model
 
 import java.io.Serializable
 
-data class StudyEntity(
+ data class StudyEntity(
     val attributes: Map<String, Object>?,
     val centerLine: Double,
     val customRemoval: Boolean,
@@ -18,7 +18,9 @@ data class StudyEntity(
     val type: String?,
     val underlay: Boolean,
     val yAxis: Map<String, Object>?
-) : Serializable
+) : Serializable{
+     
+ }
 
 fun StudyEntity.toStudy(): Study {
     return Study(

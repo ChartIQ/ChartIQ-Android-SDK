@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -41,6 +42,7 @@ class AddStudyFragment : Fragment() {
 
     private fun setupViews() {
         with(binding) {
+            progressBar.isVisible = true
             studiesRecyclerView.apply {
                 adapter = studiesAdapter
                 studiesAdapter.listener = object : AllStudiesAdapter.StudyListener {
@@ -50,6 +52,7 @@ class AddStudyFragment : Fragment() {
                 }
             }
             addStudyTextView.setOnClickListener {
+                progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
                 mainViewModel.fetchActiveStudyData(chartIQHandler)
                 findNavController().navigateUp()
@@ -60,10 +63,12 @@ class AddStudyFragment : Fragment() {
             }
 
             searchEditText.addTextChangedListener {
+                progressBar.isVisible = true
                 addStudiesViewModel.query.postValue(it.toString())
             }
 
             addStudiesViewModel.filteredStudies.observe(viewLifecycleOwner) { studies ->
+                progressBar.isVisible = false
                 studiesAdapter.items = studies
             }
         }
