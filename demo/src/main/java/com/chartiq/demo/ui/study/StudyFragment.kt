@@ -8,26 +8,31 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.ChartIQCommand
-import com.chartiq.demo.MainViewModel
+import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.ui.LineItemDecoration
-import com.chartiq.demo.util.Event
+import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
 
 
 class StudyFragment : Fragment() {
 
+    private val chartIQHandler by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQHandler
+    }
+
+    private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
+        StudyViewModel.ViewModelFactory(chartIQHandler)
+    })
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +76,7 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-                findNavController().navigate(R.id.addStudyFragment)
+                //todo navigate to add studies fragment
             }
             mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies
@@ -82,18 +87,8 @@ class StudyFragment : Fragment() {
         }
     }
 
-    private fun refreshActiveStudies() {
-        mainViewModel.chartEvent.postValue(Event(ChartIQCommand.GetActiveStudies))
-    }
-
     fun deleteStudy(studyToDelete: Study) {
-        mainViewModel.chartEvent.postValue(
-            Event(
-                ChartIQCommand.DeleteStudy(
-                    studyToDelete
-                )
-            )
-        )
-        refreshActiveStudies()
+        studyViewModel.deleteStudy(studyToDelete)
+        mainViewModel.fetchActiveStudyData(chartIQHandler)
     }
 }
