@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.*
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.BuildConfig
+import com.chartiq.demo.ChartIQApplication
+import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
@@ -137,7 +138,7 @@ class ChartFragment : Fragment() {
 
     private fun loadChartData(
         quoteFeedParams: QuoteFeedParams,
-        callback: DataSourceCallback
+        callback: DataSourceCallback,
     ) {
         chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
