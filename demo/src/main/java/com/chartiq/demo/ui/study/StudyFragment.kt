@@ -7,31 +7,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.ChartIQCommand
-import com.chartiq.demo.MainViewModel
+import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.ui.LineItemDecoration
-import com.chartiq.demo.util.Event
 import com.chartiq.sdk.model.Study
 
 
 class StudyFragment : Fragment() {
 
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val viewModel: StudyViewModel by viewModels(factoryProducer = {
+        StudyViewModel.ViewModelFactory(
+            (requireActivity().application as ChartIQApplication).chartIQHandler
+        )
+    })
 
     val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
         setupViews()
@@ -56,7 +57,7 @@ class StudyFragment : Fragment() {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
                             override fun onSwiped(
                                 viewHolder: RecyclerView.ViewHolder,
-                                direction: Int
+                                direction: Int,
                             ) {
                                 val position = viewHolder.adapterPosition
                                 val studyToDelete = activeStudiesAdapter.items[position]
@@ -72,7 +73,7 @@ class StudyFragment : Fragment() {
             addStudiesButton.setOnClickListener {
                 // todo navigate to add studies list
             }
-            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+            viewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies
                 addStudyImageView.isVisible = studies.isNotEmpty()
                 noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
@@ -81,18 +82,7 @@ class StudyFragment : Fragment() {
         }
     }
 
-    private fun refreshActiveStudies() {
-        mainViewModel.chartEvent.postValue(Event(ChartIQCommand.GetActiveStudies))
-    }
-
     fun deleteStudy(studyToDelete: Study) {
-        mainViewModel.chartEvent.postValue(
-            Event(
-                ChartIQCommand.DeleteStudy(
-                    studyToDelete
-                )
-            )
-        )
-        refreshActiveStudies()
+        viewModel.deleteStudy(studyToDelete)
     }
 }
