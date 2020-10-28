@@ -51,7 +51,7 @@ class AddStudyFragment : Fragment() {
             }
             addStudyTextView.setOnClickListener {
                 addStudiesViewModel.saveStudies()
-//                mainViewModel.fetchActiveStudyData(chartIQHandler)
+                mainViewModel.fetchActiveStudyData(chartIQHandler)
                 findNavController().navigateUp()
             }
 

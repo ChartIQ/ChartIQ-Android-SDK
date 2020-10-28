@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,7 +18,6 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.ChartIQView
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
@@ -30,8 +30,6 @@ class ChartFragment : Fragment() {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
     private lateinit var binding: FragmentChartBinding
-
-    private lateinit var chartIQView: ChartIQView
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
@@ -53,7 +51,10 @@ class ChartFragment : Fragment() {
 
     private fun initChartIQ() {
         chartIQHandler.apply {
-            chartIQView = binding.chartIqView
+            binding.chartIqView.apply {
+                (chartIQView.parent as? FrameLayout)?.removeAllViews()
+                addView(chartIQView)
+            }
             start {
                 setDataSource(object : DataSource {
                     override fun pullInitialData(
@@ -85,7 +86,6 @@ class ChartFragment : Fragment() {
 
     private fun setupViews() {
         with(binding) {
-            chartIQView = chartIqView
             symbolButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
