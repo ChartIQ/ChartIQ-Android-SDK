@@ -52,7 +52,11 @@
         android:id="@+id/navigation_study"
         android:name="com.chartiq.demo.ui.study.StudyFragment"
         android:label="@string/title_study"
-        tools:layout="@layout/fragment_study" />
+        tools:layout="@layout/fragment_study" >
+        <action
+            android:id="@+id/action_navigation_study_to_addStudyFragment"
+            app:destination="@id/addStudyFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -83,4 +87,8 @@
         android:id="@+id/drawingToolFragment"
         android:name="com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment"
         android:label="DrawingToolFragment" />
+    <fragment
+        android:id="@+id/addStudyFragment"
+        android:name="com.chartiq.demo.ui.add_study.AddStudyDialogFragment"
+        android:label="AddStudyFragment" />
 </navigation>

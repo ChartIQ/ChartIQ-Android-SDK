@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQCommand
@@ -31,7 +32,7 @@ class StudyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
         setupViews()
@@ -56,7 +57,7 @@ class StudyFragment : Fragment() {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
                             override fun onSwiped(
                                 viewHolder: RecyclerView.ViewHolder,
-                                direction: Int
+                                direction: Int,
                             ) {
                                 val position = viewHolder.adapterPosition
                                 val studyToDelete = activeStudiesAdapter.items[position]
@@ -70,7 +71,7 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-                // todo navigate to add studies list
+                findNavController().navigate(R.id.addStudyFragment)
             }
             mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies

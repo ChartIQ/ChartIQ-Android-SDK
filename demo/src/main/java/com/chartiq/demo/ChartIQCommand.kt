@@ -8,8 +8,8 @@ sealed class ChartIQCommand {
 
     object GetAllStudies : ChartIQCommand()
 
-    data class AddStudy(
-        val study: Study
+    data class AddStudyList(
+        val list: List<Study>
     ) : ChartIQCommand()
 
     data class DeleteStudy(

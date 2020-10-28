@@ -81,4 +81,11 @@
         <item name="android:textColor">@color/elevationDark</item>
     </style>
 
+    <style name="FullScreenDialog">
+            <item name="android:windowFullscreen">false</item>
+            <item name="android:windowIsFloating">false</item>
+            <item name="android:windowBackground">@color/backgroundColor</item>
+        </style>
+
+    <color name="backgroundColor">#000000</color>
 </resources>

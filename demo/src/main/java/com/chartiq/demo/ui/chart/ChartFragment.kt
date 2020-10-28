@@ -81,9 +81,11 @@ class ChartFragment : Fragment() {
         mainViewModel.chartEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { command ->
                 when (command) {
-                    is ChartIQCommand.AddStudy -> {
+                    is ChartIQCommand.AddStudyList -> {
                         //todo identify when to pass true/false [Add Study case]
-                        chartIQView.addStudy(command.study, true)
+                       command.list.forEach {
+                           chartIQView.addStudy(it, false)
+                       }
                     }
                     ChartIQCommand.GetActiveStudies -> {
                         chartIQView.getActiveStudies { studyList ->
@@ -91,7 +93,7 @@ class ChartFragment : Fragment() {
                         }
                     }
                     ChartIQCommand.GetAllStudies -> {
-                        chartIQView.getActiveStudies { studyList ->
+                        chartIQView.getStudyList { studyList ->
                             mainViewModel.allStudies.postValue(studyList)
                         }
                     }

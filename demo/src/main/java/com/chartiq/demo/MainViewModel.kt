@@ -9,6 +9,7 @@ class MainViewModel : ViewModel() {
 
     fun fetchData() {
         chartEvent.postValue(Event(ChartIQCommand.GetActiveStudies))
+        chartEvent.postValue(Event(ChartIQCommand.GetAllStudies))
     }
 
     val activeStudies = MutableLiveData<List<Study>>(emptyList())
