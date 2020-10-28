@@ -3,10 +3,13 @@ package com.chartiq.demo
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 
 class MainActivity : AppCompatActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     private val appPrefs by lazy {
         ApplicationPrefs.Default(this)
