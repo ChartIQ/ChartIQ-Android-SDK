@@ -10,19 +10,8 @@ class StudyViewModel(
     private val chartIQHandler: ChartIQHandler,
 ) : ViewModel() {
 
-    val activeStudies = MutableLiveData<List<Study>>(emptyList())
-
-    init {
-        fetchActiveStudies()
-    }
-
-    private fun fetchActiveStudies() {
-        chartIQHandler.getStudyList() { result -> activeStudies.postValue(result) }
-    }
-
     fun deleteStudy(studyToDelete: Study) {
         chartIQHandler.removeStudy(studyToDelete.shortName)
-        fetchActiveStudies()
     }
     class ViewModelFactory(
         private val  chartIQHandler: ChartIQHandler

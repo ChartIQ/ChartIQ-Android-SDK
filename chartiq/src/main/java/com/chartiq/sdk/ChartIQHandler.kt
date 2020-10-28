@@ -9,17 +9,19 @@ import android.webkit.WebViewClient
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.util.*
 
-class ChartIQHandler(private val chartIQUrl: String) : ChartIQ, JavaScriptHandler {
+class ChartIQHandler(
+    private val chartIQUrl: String,
+) : ChartIQ, JavaScriptHandler {
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
     var chartIQView: ChartIQView? = null
 
-
     @SuppressLint("SetJavaScriptEnabled")
-    override fun start(chartIQUrl: String, onStartCallback: OnStartCallback) {
+    override fun start(onStartCallback: OnStartCallback) {
         if (chartIQView == null) {
             Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
         } else
@@ -156,25 +158,41 @@ class ChartIQHandler(private val chartIQUrl: String) : ChartIQ, JavaScriptHandle
     }
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
-        executeJavascript(scriptManager.getGetStudyListScript()) { value ->
-            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+
+        executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
+            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-            callback.onReturn(Gson().fromJson(result, Array<Study>::class.java).toList())
+            val result = Gson().fromJson(safeValue, Object::class.java)
+            val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
+            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
+                result.toString(), typeToken
+            ).map { (key, value) ->
+                value.copy(shortName = key)
+                    .toStudy()
+            }
+            callback.onReturn(studyList)
         }
     }
 
     override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
-            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-
-            callback.onReturn(Gson().fromJson(result, Array<Study>::class.java).toList())
+            val result = Gson().fromJson(safeValue, Object::class.java)
+            val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
+            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
+                result.toString(), typeToken
+            ).map { (key, value) ->
+                value.copy(shortName = key)
+                    .toStudy()
+            }
+            callback.onReturn(studyList)
         }
     }
 

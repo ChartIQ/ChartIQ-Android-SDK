@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,16 +15,20 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.ui.LineItemDecoration
+import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
 
 
 class StudyFragment : Fragment() {
 
-    private val viewModel: StudyViewModel by viewModels(factoryProducer = {
-        StudyViewModel.ViewModelFactory(
-            (requireActivity().application as ChartIQApplication).chartIQHandler
-        )
+    private val chartIQHandler by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQHandler
+    }
+
+    private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
+        StudyViewModel.ViewModelFactory(chartIQHandler)
     })
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     val activeStudiesAdapter = ActiveStudiesAdapter()
 
@@ -73,7 +78,7 @@ class StudyFragment : Fragment() {
             addStudiesButton.setOnClickListener {
                 // todo navigate to add studies list
             }
-            viewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies
                 addStudyImageView.isVisible = studies.isNotEmpty()
                 noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
@@ -83,6 +88,7 @@ class StudyFragment : Fragment() {
     }
 
     fun deleteStudy(studyToDelete: Study) {
-        viewModel.deleteStudy(studyToDelete)
+        studyViewModel.deleteStudy(studyToDelete)
+        mainViewModel.fetchActiveStudyData(chartIQHandler)
     }
 }
