@@ -1,49 +1,55 @@
 package com.chartiq.sdk
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
-import com.google.gson.Gson
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
+
+@SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
     private val chartIQUrl: String,
+    private val context: Context,
 ) : ChartIQ, JavaScriptHandler {
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
-    var chartIQView: ChartIQView? = null
+    val chartIQView = ChartIQView(context)
 
-    @SuppressLint("SetJavaScriptEnabled")
+    init {
+        chartIQView.apply {
+            settings.apply {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+            }
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
+            loadUrl(chartIQUrl)
+        }
+    }
+
     override fun start(onStartCallback: OnStartCallback) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        } else
-            chartIQView!!.apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    domStorageEnabled = true
-                }
-                addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-                addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
-                loadUrl(chartIQUrl)
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        executeJavascript(scriptManager.getDetermineOSScript())
-                        executeJavascript(scriptManager.getNativeQuoteFeedScript())
-                        executeJavascript(scriptManager.getAddDrawingListenerScript())
-                        executeJavascript(scriptManager.getAddLayoutListenerScript())
-
-                        onStartCallback.onStart()
-                    }
+        chartIQView.apply {
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    executeJavascript(scriptManager.getDetermineOSScript())
+                    executeJavascript(scriptManager.getNativeQuoteFeedScript())
+                    executeJavascript(scriptManager.getAddDrawingListenerScript())
+                    executeJavascript(scriptManager.getAddLayoutListenerScript())
+                    executeJavascript(scriptManager.getAddMeasureListener())
+                    onStartCallback.onStart()
                 }
             }
+        }
     }
 
     @JavascriptInterface
@@ -178,10 +184,14 @@ class ChartIQHandler(
             } else {
                 value
             }
-            val response = Gson().fromJson(result, Array<StudyEntity>::class.java)
-            callback.onReturn(response.toList().map {
-                it.toStudy()
-            })
+            val typeToken = object : TypeToken<List<StudyEntity>>() {}.type
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                .create()
+            val response: List<StudyEntity> = gson.fromJson(result, typeToken)
+            val studyList = response.map { it.toStudy() }
+            callback.onReturn(studyList)
         }
     }
 
@@ -246,10 +256,7 @@ class ChartIQHandler(
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        }
-        chartIQView?.evaluateJavascript(script, callback)
+        chartIQView.evaluateJavascript(script, callback)
     }
 
     private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
@@ -260,4 +267,7 @@ class ChartIQHandler(
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
     }
+
+
 }
+
