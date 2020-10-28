@@ -50,7 +50,7 @@ class ChartViewModel(
 
     class ChartViewModelFactory(
         private val argNetworkManager: NetworkManager,
-        private val argApplicationPrefs: ApplicationPrefs
+        private val argApplicationPrefs: ApplicationPrefs,
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -31,8 +31,6 @@ class ChartFragment : Fragment() {
 
     private lateinit var chartIQView: ChartIQView
 
-    private val mainViewModel: MainViewModel by activityViewModels()
-
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
             ChartIQNetworkManager(), ApplicationPrefs.Default(requireContext())
@@ -45,8 +43,8 @@ class ChartFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentChartBinding.inflate(inflater, container, false)
-        initChartIQ()
         setupViews()
+        initChartIQ()
         return binding.root
     }
 
@@ -84,6 +82,7 @@ class ChartFragment : Fragment() {
     private fun setupViews() {
 
         with(binding) {
+            chartIQView = chartIqView
             symbolButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
@@ -92,16 +91,6 @@ class ChartFragment : Fragment() {
             }
             drawCheckBox.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
-            }
-            mainViewModel.chartEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let { command ->
-                    when (command) {
-                        is ChartIQCommand.AddStudy -> {
-                            //todo identify when to pass true/false [Add Study case]
-                            chartIQHandler.addStudy(command.study, true)
-                        }
-                    }
-                }
             }
 
             chartViewModel.currentSymbol.observe(viewLifecycleOwner) { symbol ->
@@ -148,7 +137,7 @@ class ChartFragment : Fragment() {
 
     private fun loadChartData(
         quoteFeedParams: QuoteFeedParams,
-        callback: DataSourceCallback,
+        callback: DataSourceCallback
     ) {
         chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
