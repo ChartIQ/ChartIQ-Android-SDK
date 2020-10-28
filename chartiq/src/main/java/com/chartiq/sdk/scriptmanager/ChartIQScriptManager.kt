@@ -138,7 +138,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStudyInputParameterScript(
         studyName: String,
         parameter: String,
-        value: String
+        value: String,
     ): String {
         TODO("Not yet implemented")
     }
@@ -146,7 +146,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStudyOutputParameterScript(
         studyName: String,
         parameter: String,
-        value: String
+        value: String,
     ): String {
         TODO("Not yet implemented")
     }

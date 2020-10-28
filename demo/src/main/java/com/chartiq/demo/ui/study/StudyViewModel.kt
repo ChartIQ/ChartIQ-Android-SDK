@@ -13,6 +13,7 @@ class StudyViewModel(
     fun deleteStudy(studyToDelete: Study) {
         chartIQHandler.removeStudy(studyToDelete.shortName)
     }
+
     class ViewModelFactory(
         private val  chartIQHandler: ChartIQHandler
     ) :

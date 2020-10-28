@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQApplication
@@ -76,7 +77,7 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-                //todo navigate to add studies fragment
+               findNavController().navigate(R.id.addStudyFragment)
             }
             mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies

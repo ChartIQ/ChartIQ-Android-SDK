@@ -54,6 +54,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bordered_input_background"
                     android:hint="@string/search"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:padding="@dimen/margin_medium_small"
                     android:textSize="@dimen/text_size_subtitle" />
             </FrameLayout>
@@ -64,10 +66,10 @@
         android:id="@+id/studies_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_study" />
 </androidx.constraintlayout.widget.ConstraintLayout>
