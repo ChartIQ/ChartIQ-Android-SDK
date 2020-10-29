@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 interface ApplicationPrefs {
 

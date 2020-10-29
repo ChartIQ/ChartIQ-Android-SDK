@@ -1,6 +1,5 @@
 package com.chartiq.demo.ui.chart.panel
 
-import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -9,7 +8,6 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemPanelInstrumentBinding
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
-import com.chartiq.sdk.model.LineType
 
 class InstrumentViewHolder(private val binding: ItemPanelInstrumentBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -23,23 +21,37 @@ class InstrumentViewHolder(private val binding: ItemPanelInstrumentBinding) :
                     setPadding(dimen, dimen, dimen, dimen)
                 }
                 Instrument.COLOR -> {
-                    // TODO: 28.10.20 Check the actual color
                     val drawable = (drawable as LayerDrawable)
                         .findDrawableByLayerId(R.id.colorPicker)
-                    DrawableCompat.setTint(drawable.mutate(), Color.RED)
+
+//                    getDrawingToolParameters()?.let {
+//                        val color = if (it.color == COLOR_AUTO) {
+//                            Color.BLACK
+//                        } else {
+//                            Color.parseColor(it.color)
+//                        }
+//                        DrawableCompat.setTint(drawable.mutate(), color)
+//                    }
                 }
                 Instrument.FILL -> {
-                    // TODO: 28.10.20 Check the actual color
                     val drawable = (drawable as LayerDrawable)
                         .findDrawableByLayerId(R.id.colorPicker)
-                    DrawableCompat.setTint(drawable.mutate(), Color.GREEN)
+//                    getDrawingToolParameters()?.let {
+//                        val color = if (it.fillColor == COLOR_AUTO) {
+//                            Color.BLACK
+//                        } else {
+//                            Color.parseColor(it.fillColor)
+//                        }
+//                        DrawableCompat.setTint(drawable.mutate(), color)
+//                    }
                 }
                 Instrument.LINE_TYPE -> {
-                    // TODO: 28.10.20 Check the actual line type
-                    val lineType = LineType.DOTTED
-                    val lineWidth = 2
-                    val lineTypeDrawable = getLineType(lineType, lineWidth)
-                    setImageResource(lineTypeDrawable)
+//                    getDrawingToolParameters()?.let {
+//                        val lineType = it.pattern
+//                        val lineWidth = it.lineWidth
+//                        val lineTypeDrawable = getLineType(lineType, lineWidth)
+//                        setImageResource(lineTypeDrawable)
+//                    }
                 }
             }
             setOnClickListener {
@@ -54,5 +66,9 @@ class InstrumentViewHolder(private val binding: ItemPanelInstrumentBinding) :
             }
             DrawableCompat.setTint(background.mutate(), ContextCompat.getColor(context, colorInt))
         }
+    }
+
+    companion object {
+        private const val COLOR_AUTO = "auto"
     }
 }

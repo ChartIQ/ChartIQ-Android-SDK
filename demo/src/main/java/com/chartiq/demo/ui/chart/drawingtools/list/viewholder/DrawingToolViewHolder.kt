@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemDrawingToolBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 class DrawingToolViewHolder(
     private val binding: ItemDrawingToolBinding
@@ -19,15 +20,19 @@ class DrawingToolViewHolder(
             } else {
                 View.GONE
             }
-            starIndicatorImageView.apply {
-                isChecked = item.isStarred
-                setOnCheckedChangeListener { button, isChecked ->
-                    if(button.isPressed) {
-                        listener.onFavoriteCheck(item)
+            when (item.tool) {
+                DrawingTool.NO_TOOL,
+                DrawingTool.MEASURE -> starIndicatorImageView.visibility = View.GONE
+                else -> starIndicatorImageView.apply {
+                    isChecked = item.isStarred
+                    setOnCheckedChangeListener { button, isChecked ->
+                        if (button.isPressed) {
+                            listener.onFavoriteCheck(item)
+                        }
                     }
                 }
             }
-            binding.root.setOnClickListener {
+            root.setOnClickListener {
                 listener.onDrawingToolClick(item)
             }
         }

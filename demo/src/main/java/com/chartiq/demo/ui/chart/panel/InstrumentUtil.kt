@@ -1,10 +1,10 @@
 package com.chartiq.demo.ui.chart.panel
 
 import com.chartiq.demo.R
-import com.chartiq.sdk.model.LineType
+import com.chartiq.sdk.model.drawingtool.LineType
 
-const val LINE_WIDTH_BOLD = 2
-const val LINE_WIDTH_BOLDEST = 3
+private const val LINE_WIDTH_BOLD = 2
+private const val LINE_WIDTH_BOLDEST = 3
 
 fun getLineType(lineType: LineType, lineWidth: Int): Int {
     return when (lineType) {

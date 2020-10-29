@@ -17,7 +17,7 @@ import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.DrawingToolSettingsManager
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

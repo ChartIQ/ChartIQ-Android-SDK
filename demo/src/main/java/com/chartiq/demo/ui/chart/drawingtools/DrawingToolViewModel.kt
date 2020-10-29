@@ -8,7 +8,7 @@ import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
 import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.OnDrawingToolClick
 import com.chartiq.demo.util.Event
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel(),
     OnDrawingToolClick {

@@ -16,21 +16,21 @@ import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
-import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.PanelAdapter
 import com.chartiq.demo.ui.chart.panel.color.ColorItem
 import com.chartiq.demo.ui.chart.panel.color.ColorsAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.line.LineTypeAdapter
 import com.chartiq.demo.ui.chart.panel.line.LineTypeItem
+import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.sdk.ChartIQView
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
-import com.chartiq.sdk.model.DrawingTool
-import com.chartiq.sdk.model.LineType
 import com.chartiq.sdk.model.QuoteFeedParams
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.drawingtool.LineType
 import kotlinx.coroutines.*
 
 class ChartFragment : Fragment() {
@@ -225,6 +225,7 @@ class ChartFragment : Fragment() {
 
     private fun setupPanel(drawingTool: DrawingTool) {
         with(binding) {
+            // TODO: 29.10.20 Fetch drawing tool parameters
             panelAdapter = PanelAdapter(chartViewModel)
             val item = DrawingToolFragment.DEFAULT_TOOLS_LIST.find { it.tool == drawingTool }
             val list = chartViewModel.setupInstrumentsList(item!!)

@@ -13,7 +13,7 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.*
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.google.android.material.tabs.TabLayout
 
 class DrawingToolFragment : Fragment() {

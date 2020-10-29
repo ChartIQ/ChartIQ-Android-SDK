@@ -2,7 +2,7 @@ package com.chartiq.demo.ui.chart.drawingtools.list
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 data class DrawingToolItem(
     val tool: DrawingTool,
