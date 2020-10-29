@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.DialogManageLayersBinding
-import com.chartiq.demo.ui.chart.panel.OnSelectedListener
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.sdk.model.ChartLayer
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ManageLayersModelBottomSheet : BottomSheetDialogFragment() {
 
-    private val onLayerSelectedListener = OnSelectedListener<LayerItem> {
+    private val onLayerSelectedListener = OnSelectItemListener<LayerItem> {
         dismiss()
     }
 

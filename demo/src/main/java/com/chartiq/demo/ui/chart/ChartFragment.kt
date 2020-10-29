@@ -16,14 +16,14 @@ import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
-import com.chartiq.demo.ui.chart.panel.Instrument
+import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.PanelAdapter
-import com.chartiq.demo.ui.chart.panel.PanelItem
 import com.chartiq.demo.ui.chart.panel.color.ColorItem
 import com.chartiq.demo.ui.chart.panel.color.ColorsAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.line.LineTypeAdapter
 import com.chartiq.demo.ui.chart.panel.line.LineTypeItem
+import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.sdk.ChartIQView
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
@@ -38,7 +38,7 @@ class ChartFragment : Fragment() {
     private lateinit var binding: FragmentChartBinding
     private lateinit var chartIQView: ChartIQView
     private lateinit var panelAdapter: PanelAdapter
-    private lateinit var panelList: List<PanelItem>
+    private lateinit var panelList: List<InstrumentItem>
     private val mainViewModel: MainViewModel by activityViewModels()
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
@@ -173,7 +173,7 @@ class ChartFragment : Fragment() {
         }
         chartViewModel.panelItemSelect.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { item ->
-                val previousSelectedItem = panelAdapter.items.find { it.isSelected }
+                val previousSelectedItem = panelAdapter.items.find { item.isSelected }
                 panelAdapter.items = panelList.map {
                     it.copy(isSelected = it == item)
                 }
@@ -182,12 +182,7 @@ class ChartFragment : Fragment() {
                         findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
                     Instrument.DELETE,
                     Instrument.CLONE -> {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            delay(400L)
-                            withContext(Dispatchers.Main) {
-                                panelAdapter.items = panelList.map { it.copy(isSelected = false) }
-                            }
-                        }
+                        refreshItemsWithDelay(REFRESH_LENGTH_MILLIS)
                         binding.instrumentRecyclerView.visibility = View.GONE
                     }
                     Instrument.FILL,
@@ -209,11 +204,21 @@ class ChartFragment : Fragment() {
                             View.VISIBLE
                         }
                     }
-                    Instrument.LAYER_MANAGEMENT ->
+                    Instrument.LAYER_MANAGEMENT -> {
                         ManageLayersModelBottomSheet().show(parentFragmentManager, null)
-                    Instrument.OPTIONS -> Unit
-//                                findNavController().navigate(R.id.action_mainFragment_to_drawingToolSettingsFragment)
+                        refreshItemsWithDelay(0L)
+                    }
+                    Instrument.SETTINGS -> refreshItemsWithDelay(REFRESH_LENGTH_MILLIS)
                 }
+            }
+        }
+    }
+
+    private fun refreshItemsWithDelay(millis: Long) {
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(millis)
+            withContext(Dispatchers.Main) {
+                panelAdapter.items = panelList.map { it.copy(isSelected = false) }
             }
         }
     }
@@ -221,11 +226,8 @@ class ChartFragment : Fragment() {
     private fun setupPanel(drawingTool: DrawingTool) {
         with(binding) {
             panelAdapter = PanelAdapter(chartViewModel)
-            // TODO: 22.10.20 Refactor
             val item = DrawingToolFragment.DEFAULT_TOOLS_LIST.find { it.tool == drawingTool }
-            val list = DEFAULT_INSTRUMENTS_LIST
-                .toMutableList()
-            list.add(0, PanelItem(Instrument.DRAWING_TOOL, item!!.iconRes))
+            val list = chartViewModel.setupInstrumentsList(item!!)
             panelList = list
 
             panelAdapter.items = panelList
@@ -250,15 +252,7 @@ class ChartFragment : Fragment() {
         LineTypeAdapter().apply { items = DEFAULT_LINE_TYPE_LIST }
 
     companion object {
-        private val DEFAULT_INSTRUMENTS_LIST = listOf(
-            PanelItem(Instrument.FILL, R.drawable.ic_panel_fill),
-            PanelItem(Instrument.COLOR, R.drawable.ic_panel_color),
-            PanelItem(Instrument.LINE_TYPE, R.drawable.ic_panel_line_type),
-            PanelItem(Instrument.CLONE, R.drawable.ic_panel_clone),
-            PanelItem(Instrument.DELETE, R.drawable.ic_panel_delete),
-            PanelItem(Instrument.LAYER_MANAGEMENT, R.drawable.ic_panel_layers_management),
-            PanelItem(Instrument.OPTIONS, R.drawable.ic_panel_options)
-        )
+        private const val REFRESH_LENGTH_MILLIS = 400L
 
         private val DEFAULT_LINE_TYPE_LIST = listOf(
             LineTypeItem(LineType.SOLID, R.drawable.ic_line_type_solid),

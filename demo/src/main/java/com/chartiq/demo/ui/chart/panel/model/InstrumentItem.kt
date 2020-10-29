@@ -1,8 +1,8 @@
-package com.chartiq.demo.ui.chart.panel
+package com.chartiq.demo.ui.chart.panel.model
 
 import androidx.annotation.DrawableRes
 
-data class PanelItem(
+data class InstrumentItem(
     val instrument: Instrument,
     @DrawableRes
     val iconRes: Int,

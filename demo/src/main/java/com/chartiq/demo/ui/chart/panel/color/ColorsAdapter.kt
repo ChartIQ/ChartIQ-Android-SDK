@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemPanelColorBinding
-import com.chartiq.demo.ui.chart.panel.OnSelectedListener
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 
 class ColorsAdapter : RecyclerView.Adapter<ColorViewHolder>(),
-    OnSelectedListener<ColorItem> {
+    OnSelectItemListener<ColorItem> {
 
     var items = listOf<ColorItem>()
 

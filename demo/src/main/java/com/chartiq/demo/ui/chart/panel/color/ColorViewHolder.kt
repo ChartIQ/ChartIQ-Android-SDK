@@ -5,12 +5,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemPanelColorBinding
-import com.chartiq.demo.ui.chart.panel.OnSelectedListener
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 
 class ColorViewHolder(private val binding: ItemPanelColorBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ColorItem, listener: OnSelectedListener<ColorItem>) {
+    fun bind(item: ColorItem, listener: OnSelectItemListener<ColorItem>) {
         binding.colorView.apply {
             (background.mutate() as GradientDrawable).setColor(item.color)
             foreground = if (item.isSelected) {

@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemPanelInstrumentBinding
+import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 
-class PanelAdapter(private val listener: OnSelectedListener<PanelItem>) :
+class PanelAdapter(private val listener: OnSelectItemListener<InstrumentItem>) :
     RecyclerView.Adapter<InstrumentViewHolder>() {
 
-    var items = listOf<PanelItem>()
+    var items = listOf<InstrumentItem>()
     set(value) {
         field = value
         notifyDataSetChanged()

@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemPanelLineTypeBinding
-import com.chartiq.demo.ui.chart.panel.OnSelectedListener
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 
 class LineTypeAdapter : RecyclerView.Adapter<LineViewHolder>(),
-    OnSelectedListener<LineTypeItem> {
+    OnSelectItemListener<LineTypeItem> {
 
     var items = listOf<LineTypeItem>()
 

@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemPanelLayerBinding
-import com.chartiq.demo.ui.chart.panel.OnSelectedListener
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 
-class LayersAdapter(private val listener: OnSelectedListener<LayerItem>) :
+class LayersAdapter(private val listener: OnSelectItemListener<LayerItem>) :
     RecyclerView.Adapter<LayerViewHolder>() {
 
     var items = listOf<LayerItem>()

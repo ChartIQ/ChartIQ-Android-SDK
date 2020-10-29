@@ -15,17 +15,4 @@
         android:layout_height="match_parent"
         android:background="@drawable/shape_instrument_background"
         tools:src="@drawable/ic_panel_color" />
-
-    <View
-        android:id="@+id/colorImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_extra_small"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="@dimen/margin_extra_small"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/shape_color_picker_preview"
-        android:visibility="gone"
-        tools:backgroundTint="@color/black"
-        tools:visibility="visible" />
 </FrameLayout>
