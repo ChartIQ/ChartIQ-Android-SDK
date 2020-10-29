@@ -9,6 +9,9 @@ import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.drawingtool.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 
@@ -202,6 +205,14 @@ class ChartIQView @JvmOverloads constructor(
 
     override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
         executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+    }
+    override fun getDrawingParameters(tool: DrawingTool, callback: OnReturnCallback<DrawingToolParameters>) {
+        executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) {result ->
+            val rawJson = result.takeLast(result.length - 1)
+            val rr = rawJson.take(rawJson.length - 1 )
+            val json = Gson().fromJson(rr.replace("\\",""), DrawingToolParameters::class.java)
+            callback.onReturn(json)
+        }
     }
 
     override fun setOHLCParameters(params: HashMap<String, Boolean>) {

@@ -1,4 +1,4 @@
-package com.chartiq.sdk.model
+package com.chartiq.sdk.model.drawingtool
 
 enum class DrawingTool(val value: String) {
     ANNOTATION("annotation"),

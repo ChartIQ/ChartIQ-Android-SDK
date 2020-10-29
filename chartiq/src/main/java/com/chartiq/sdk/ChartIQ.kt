@@ -1,6 +1,9 @@
 package com.chartiq.sdk
 
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.drawingtool.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import java.util.*
 
 interface ChartIQ {
@@ -40,6 +43,8 @@ interface ChartIQ {
     fun addStudy(study: Study, firstLoad: Boolean)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
+
+    fun getDrawingParameters(tool: DrawingTool, callback: OnReturnCallback<DrawingToolParameters>)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 

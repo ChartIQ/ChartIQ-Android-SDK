@@ -2,7 +2,7 @@ package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.buildArgumentStringFromArgs
 import com.chartiq.sdk.model.AggregationType
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
 import com.google.gson.Gson
 
@@ -100,7 +100,7 @@ internal class ChartIQScriptManager : ScriptManager {
         MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
     override fun getEnableDrawingScript(type: DrawingTool): String =
-        CHART_IQ_JS_OBJECT + "changeVectorType(" + buildArgumentStringFromArgs(type.value) + ");"
+        "currentDrawing = \"${type.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
 
     override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NO_TOOL)
 

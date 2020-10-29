@@ -1,6 +1,6 @@
 package com.chartiq.sdk
 
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 object DrawingToolSettingsManager {
 

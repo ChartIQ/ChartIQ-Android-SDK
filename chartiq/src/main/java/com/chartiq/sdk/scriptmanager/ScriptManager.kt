@@ -1,7 +1,7 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.model.AggregationType
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
 
 internal interface ScriptManager {
