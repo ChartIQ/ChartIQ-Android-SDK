@@ -20,10 +20,6 @@
             style="@style/AppToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/ghostWhite"
-            android:elevation="8dp"
-            android:minHeight="?attr/actionBarSize"
             app:title="@string/title_study">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -53,12 +49,8 @@
         style="@style/ActionButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:backgroundTint="@drawable/primary_button"
-        android:padding="20dp"
-        android:text="@string/add_studies"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:text="@string/study_add_studies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noActiveStudiesPlaceholder" />
