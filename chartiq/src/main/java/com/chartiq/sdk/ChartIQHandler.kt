@@ -3,14 +3,12 @@ package com.chartiq.sdk
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import android.webkit.JavascriptInterface
-import android.webkit.ValueCallback
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
-import com.google.gson.*
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
@@ -115,10 +113,7 @@ class ChartIQHandler(
     }
 
     override fun setSymbol(symbol: String) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        }
-        if (chartIQView?.accessibilityManager?.isEnabled == true && chartIQView?.accessibilityManager?.isTouchExplorationEnabled == true) {
+        if (chartIQView.accessibilityManager.isEnabled && chartIQView.accessibilityManager.isTouchExplorationEnabled) {
             executeJavascript(scriptManager.getSetAccessibilityModeScript())
         }
         executeJavascript(scriptManager.getDateFromTickScript())
@@ -224,7 +219,7 @@ class ChartIQHandler(
             inputs = null
             outputs = null
         }
-        val scripts = scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
+        val scripts = scriptManager.getAddStudyScript(study.name, inputs, outputs, params)
         executeJavascript(scripts)
     }
 
