@@ -47,6 +47,12 @@ class ChartIQHandler(
                     onStartCallback.onStart()
                 }
             }
+            webChromeClient = object: WebChromeClient() {
+                override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                    Log.i("Y!!!!!!", consoleMessage?.message()?:"ooo")
+                    return super.onConsoleMessage(consoleMessage)
+                }
+            }
         }
     }
 
