@@ -87,24 +87,15 @@ class StudyFragment : Fragment() {
             addStudiesButton.setOnClickListener {
                 findNavController().navigate(R.id.addStudyFragment)
             }
-            addStudyImageView.setOnClickListener {
-                findNavController().navigate(R.id.addStudyFragment)
-            }
         }
-            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
-                binding.progressBar.isVisible = false
-                activeStudiesAdapter.items = studies
-<<<<<<< HEAD
-                binding.addStudyImageView.isVisible = studies.isNotEmpty()
-                binding.noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
-                binding.addStudiesButton.isVisible = studies.isEmpty()
-=======
-                noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
-                addStudiesButton.isVisible = studies.isEmpty()
-                requireActivity().invalidateOptionsMenu()
-                toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
->>>>>>> feature/studies_list
-            }
+        mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+            binding.progressBar.isVisible = false
+            activeStudiesAdapter.items = studies
+            binding.noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
+            binding.addStudiesButton.isVisible = studies.isEmpty()
+            requireActivity().invalidateOptionsMenu()
+            binding.toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
+        }
 
     }
 
