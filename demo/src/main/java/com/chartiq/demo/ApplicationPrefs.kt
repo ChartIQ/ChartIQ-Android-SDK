@@ -7,6 +7,7 @@ import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.sdk.model.DrawingTool
+import java.util.*
 
 interface ApplicationPrefs {
 
@@ -27,6 +28,9 @@ interface ApplicationPrefs {
     fun getFavoriteDrawingTools(): Set<DrawingTool>
 
     fun clearSession()
+
+    fun getApplicationId(): String
+
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
@@ -79,6 +83,17 @@ interface ApplicationPrefs {
                 putString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())
             }
         }
+
+        override fun getApplicationId(): String {
+            val storedId = prefs.getString(KEY_APPLICATION_ID, null)
+            return if (storedId == null) {
+                val newId = UUID.randomUUID().toString()
+                prefs.edit(true) {
+                    putString(KEY_APPLICATION_ID, newId)
+                }
+                newId
+            } else storedId
+        }
     }
 
     companion object {
@@ -88,6 +103,7 @@ interface ApplicationPrefs {
         private const val KEY_CHART_SYMBOL = "chart.iq.demo.chart.symbol"
         private const val KEY_DRAWING_TOOL_FAVORITE = "chart.iq.demo.chart.drawingtool.favorites"
         private const val KEY_DRAWING_TOOL = "chart.iq.demo.chart.drawingtool.tool"
+        private const val KEY_APPLICATION_ID = "chart.iq.demo.chart.applicationid"
 
         private const val DEFAULT_CHART_INTERVAL = "1 day"
         private const val DEFAULT_CHART_SYMBOL = "AAPL"

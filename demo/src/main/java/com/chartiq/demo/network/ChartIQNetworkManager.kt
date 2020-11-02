@@ -1,5 +1,6 @@
 package com.chartiq.demo.network
 
+import android.annotation.SuppressLint
 import com.chartiq.demo.network.api.ChartAPI
 import com.chartiq.demo.network.api.SymbolsAPI
 import com.chartiq.demo.network.model.SymbolResponse
@@ -18,7 +19,11 @@ class ChartIQNetworkManager : NetworkManager {
         getRetrofit(HOST_SYMBOLS, SymbolsAPI::class.java)
     }
 
-    override suspend fun fetchDataFeed(params: QuoteFeedParams): NetworkResult<List<OHLCParams>> {
+    @SuppressLint("HardwareIds")
+    override suspend fun fetchDataFeed(
+        params: QuoteFeedParams,
+        appliactionId: String
+    ): NetworkResult<List<OHLCParams>> {
         return chartRetrofit
             .fetchDataFeedAsync(
                 params.symbol,
@@ -26,7 +31,7 @@ class ChartIQNetworkManager : NetworkManager {
                 params.interval,
                 params.period?.toString(),
                 DEFAULT_VALUE_EXTENDED,
-                params.callbackId
+                appliactionId
             )
             .safeExtractNetworkResult()
     }
