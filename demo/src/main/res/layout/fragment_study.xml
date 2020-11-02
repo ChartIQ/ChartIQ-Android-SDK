@@ -58,7 +58,7 @@
         android:layout_height="0dp"
         android:paddingTop="@dimen/padding_small_m"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/item_active_study" />
 
     <ProgressBar
