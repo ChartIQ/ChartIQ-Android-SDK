@@ -29,7 +29,7 @@ class AddStudyViewModel(
 
     init {
         chartIQHandler.getStudyList {
-            originalStudies.postValue(it)
+            originalStudies.postValue(it.sortedBy { it.name })
         }
     }
 
