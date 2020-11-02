@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/padding_small"
-        android:src="@drawable/ic_more_vert"
+        android:src="@drawable/ic_more_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/studyNameTextView"

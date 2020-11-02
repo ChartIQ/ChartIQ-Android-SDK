@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.add_study
+package com.chartiq.demo.ui.addstudy
 
 import android.app.Activity
 import android.os.Bundle
@@ -25,10 +25,10 @@ class AddStudyFragment : Fragment() {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
 
-    val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
+    private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
         AddStudyViewModel.ViewModelFactory(chartIQHandler)
     })
-    val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     private lateinit var binding: FragmentAddStudyBinding
 
@@ -69,13 +69,14 @@ class AddStudyFragment : Fragment() {
                 progressBar.isVisible = true
                 addStudiesViewModel.query.postValue(it.toString())
             }
-
-            addStudiesViewModel.filteredStudies.observe(viewLifecycleOwner) { studies ->
-                progressBar.isVisible = false
-                studiesAdapter.items = studies
-            }
         }
+        addStudiesViewModel.filteredStudies.observe(viewLifecycleOwner) { studies ->
+            binding.progressBar.isVisible = false
+            studiesAdapter.items = studies
+        }
+
     }
+
     private fun hideKeyboard() {
         (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(view?.windowToken, 0)

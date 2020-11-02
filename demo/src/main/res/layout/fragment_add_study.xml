@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,10 +24,8 @@
                 style="@style/AppToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/ghostWhite"
                 android:elevation="0dp"
-                android:minHeight="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_clear_primary"
+                app:navigationIcon="@drawable/ic_close"
                 app:title="@string/title_add_study">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -54,8 +51,9 @@
                     android:id="@+id/searchEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bordered_input_background"
+                    android:background="@drawable/shape_search_input_background"
                     android:hint="@string/search"
+                    android:inputType="textMultiLine"
                     android:lines="1"
                     android:maxLines="1"
                     android:padding="@dimen/margin_medium_small"

@@ -9,7 +9,6 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/studyCheckBox"
-        android:hint=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:checked="true" />

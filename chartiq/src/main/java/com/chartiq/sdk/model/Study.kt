@@ -1,12 +1,7 @@
 package com.chartiq.sdk.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
-// TODO: 02.09.20 Have a look if parameters can actually be var
-// todo replace Objects with more concrete types
-@Parcelize
 data class Study(
     val attributes: @RawValue Map<String, Any>?,
     val centerLine: Double,
@@ -23,4 +18,4 @@ data class Study(
     val type: String?,
     val underlay: Boolean,
     val yAxis: @RawValue Map<String, Any>?,
-) : Parcelable
+)

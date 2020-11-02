@@ -65,6 +65,6 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
     }
 
     companion object {
-        val ZERO_WIDTH_NON_JOINER = "\\u200C"
+       private const val ZERO_WIDTH_NON_JOINER = "\\u200C"
     }
 }

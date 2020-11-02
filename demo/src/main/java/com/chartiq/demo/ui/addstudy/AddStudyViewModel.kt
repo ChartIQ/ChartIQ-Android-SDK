@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.add_study
+package com.chartiq.demo.ui.addstudy
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations

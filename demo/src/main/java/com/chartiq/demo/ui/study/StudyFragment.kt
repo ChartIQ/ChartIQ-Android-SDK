@@ -31,7 +31,7 @@ class StudyFragment : Fragment() {
     })
     private val mainViewModel by activityViewModels<MainViewModel>()
 
-    val activeStudiesAdapter = ActiveStudiesAdapter()
+    private val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
 
@@ -57,7 +57,7 @@ class StudyFragment : Fragment() {
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
                     SimpleItemTouchCallBack(
-                        getString(R.string.delete_caps),
+                        getString(R.string.delete).toUpperCase(),
                         ColorDrawable(resources.getColor(R.color.coralRed))
                     ).apply {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
@@ -82,14 +82,15 @@ class StudyFragment : Fragment() {
             addStudyImageView.setOnClickListener {
                 findNavController().navigate(R.id.addStudyFragment)
             }
-            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
-                progressBar.isVisible = false
-                activeStudiesAdapter.items = studies
-                addStudyImageView.isVisible = studies.isNotEmpty()
-                noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
-                addStudiesButton.isVisible = studies.isEmpty()
-            }
         }
+            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+                binding.progressBar.isVisible = false
+                activeStudiesAdapter.items = studies
+                binding.addStudyImageView.isVisible = studies.isNotEmpty()
+                binding.noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
+                binding.addStudiesButton.isVisible = studies.isEmpty()
+            }
+
     }
 
     fun deleteStudy(studyToDelete: Study) {

@@ -89,6 +89,6 @@
         android:label="DrawingToolFragment" />
     <fragment
         android:id="@+id/addStudyFragment"
-        android:name="com.chartiq.demo.ui.add_study.AddStudyFragment"
+        android:name="com.chartiq.demo.ui.addstudy.AddStudyFragment"
         android:label="AddStudyFragment" />
 </navigation>

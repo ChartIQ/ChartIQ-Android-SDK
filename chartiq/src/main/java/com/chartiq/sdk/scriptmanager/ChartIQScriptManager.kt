@@ -76,7 +76,7 @@ internal class ChartIQScriptManager : ScriptManager {
         studyName: String,
         inputs: Map<String, Any>?,
         outputs: Map<String, Any>?,
-        parameters: Map<String, Any>,
+        parameters: Map<String, Any>
     ): String {
 
         return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
@@ -138,7 +138,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStudyInputParameterScript(
         studyName: String,
         parameter: String,
-        value: String,
+        value: String
     ): String {
         TODO("Not yet implemented")
     }
@@ -146,7 +146,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStudyOutputParameterScript(
         studyName: String,
         parameter: String,
-        value: String,
+        value: String
     ): String {
         TODO("Not yet implemented")
     }

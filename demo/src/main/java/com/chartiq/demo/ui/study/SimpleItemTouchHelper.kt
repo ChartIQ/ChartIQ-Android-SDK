@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
@@ -47,7 +46,7 @@ class SimpleItemTouchCallBack(
         val text = text
         val paint = Paint().apply {
             color = Color.WHITE
-            textSize = 40F
+            textSize = TEXT_SIZE
             textAlign = Paint.Align.CENTER
         }
         val bounds = Rect()
@@ -77,10 +76,11 @@ class SimpleItemTouchCallBack(
             }
         }
         mBackground.draw(c)
-        Log.i("@@@", textY.toString())
-        Log.i("@@@", "bounds.height() ${bounds.height()}")
-        Log.i("@@@--", "${itemView.top} -- ${itemView.bottom}")
         c.drawText(text, textX, textY, paint)
+    }
+
+    companion object {
+        private const val TEXT_SIZE = 40F
     }
 
     interface OnSwipeListener {

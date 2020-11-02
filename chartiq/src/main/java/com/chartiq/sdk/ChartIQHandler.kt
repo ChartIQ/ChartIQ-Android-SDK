@@ -18,7 +18,7 @@ import java.util.*
 @SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
     private val chartIQUrl: String,
-    private val context: Context,
+    context: Context,
 ) : ChartIQ, JavaScriptHandler {
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
@@ -66,7 +66,7 @@ class ChartIQHandler(
         start: String?,
         end: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
@@ -84,7 +84,7 @@ class ChartIQHandler(
         interval: String?,
         start: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
@@ -103,7 +103,7 @@ class ChartIQHandler(
         start: String?,
         end: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
@@ -165,10 +165,15 @@ class ChartIQHandler(
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
-            val result = Gson().fromJson(value, Object::class.java)
+            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+                "[]"
+            } else {
+                value
+            }
+            val objectResult = Gson().fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
             val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                result.toString(), typeToken
+                objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
                     .toStudy()
