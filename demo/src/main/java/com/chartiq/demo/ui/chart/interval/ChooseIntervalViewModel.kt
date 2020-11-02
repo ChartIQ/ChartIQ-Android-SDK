@@ -10,18 +10,19 @@ import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.util.Event
 
-class ChooseIntervalViewModel(private val appPrefs: ApplicationPrefs) : ViewModel(),
-    OnIntervalSelectListener {
+class ChooseIntervalViewModel(private val appPrefs: ApplicationPrefs) : ViewModel() {
 
-    val intervalSelectEvent = MutableLiveData<Event<Interval>>()
+    val intervalSelectedEvent = MutableLiveData<Event<Unit>>()
     val chooseCustomIntervalEvent = MutableLiveData<Event<Unit>>()
 
-    override fun onCustomIntervalSelect() {
+    fun onCustomIntervalSelect() {
         chooseCustomIntervalEvent.value = Event(Unit)
     }
 
-    override fun onIntervalSelect(item: IntervalItem) {
-        intervalSelectEvent.value = Event(Interval(item.duration, item.timeUnit))
+    fun onIntervalSelect(item: IntervalItem) {
+        val interval = Interval(item.duration, item.timeUnit)
+        saveUserPreferences(interval)
+        intervalSelectedEvent.value = Event(Unit)
     }
 
     fun setupList(intervalsList: List<Interval>): List<IntervalItem> {
@@ -42,7 +43,7 @@ class ChooseIntervalViewModel(private val appPrefs: ApplicationPrefs) : ViewMode
         return intervalItemsList
     }
 
-    fun saveUserPreferences(interval: Interval) {
+    private fun saveUserPreferences(interval: Interval) {
         appPrefs.saveChartInterval(interval)
     }
 

@@ -20,13 +20,11 @@ class CustomIntervalFragment : Fragment() {
 
     private lateinit var binding: FragmentChooseCustomIntervalBinding
 
-    // The viewModel is used as an onSelectInterval listener instance here
-    private val onSelectIntervalListener: OnIntervalSelectListener by activityViewModels<ChooseIntervalViewModel>(
-        factoryProducer = {
-            ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
-                ApplicationPrefs.Default(requireContext())
-            )
-        })
+    private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
+        ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
+            ApplicationPrefs.Default(requireContext())
+        )
+    })
     private val intervalTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -84,7 +82,7 @@ class CustomIntervalFragment : Fragment() {
                         .toUpperCase()
                 )
                 val item = IntervalItem(duration, unit, true)
-                onSelectIntervalListener.onIntervalSelect(item)
+                viewModel.onIntervalSelect(item)
                 findNavController().navigateUp()
             }
         }
