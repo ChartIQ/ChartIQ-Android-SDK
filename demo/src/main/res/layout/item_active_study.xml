@@ -11,11 +11,10 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/studyNameTextView"
+        style="@style/SubtitleTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAllCaps="true"
-        android:textColor="@color/darkElectricBlue"
-        android:textSize="@dimen/text_size_subtitle"
         app:layout_constraintEnd_toStartOf="@+id/optionsImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,10 +22,9 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/studyValueTextView"
+        style="@style/SecondaryTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/cadetBlue"
-        android:textSize="@dimen/text_size_secondary_text"
         app:layout_constraintEnd_toStartOf="@+id/optionsImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studyNameTextView"

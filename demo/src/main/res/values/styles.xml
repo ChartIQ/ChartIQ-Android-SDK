@@ -49,9 +49,9 @@
 
     <style name="ActionButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_margin">@dimen/margin_medium</item>
-        <item name="android:textSize">@dimen/text_size_secondary_text</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:layout_width">0dp</item>
+        <item name="backgroundTint">@drawable/selector_button_primary</item>
         <item name="android:padding">@dimen/padding_medium_extra</item>
     </style>
 

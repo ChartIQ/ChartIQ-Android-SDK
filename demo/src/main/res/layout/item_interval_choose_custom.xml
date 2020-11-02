@@ -21,8 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/interval_select_custom"
-        android:textColor="@color/cadetBlue"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/customIntervalTextView"
         app:layout_constraintTop_toBottomOf="@id/customIntervalTextView" />
 

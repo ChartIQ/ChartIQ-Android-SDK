@@ -114,6 +114,7 @@
     <!-- Studies -->
     <string name="warning_something_went_wrong">Something went wrong</string>
     <string name="add_studies">Add studies</string>
+    <string name="study_add_studies">Add studies</string>
     <string name="empty_active_study">No Active Studies to display yet</string>
     <string name="delete">Delete</string>
     <string name="done">Done</string>
