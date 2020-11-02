@@ -18,20 +18,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/AppToolbar"
+            app:menu="@menu/menu_study"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/title_study">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/addStudyImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="end"
-                android:padding="@dimen/padding_medium"
-                android:src="@drawable/ic_add_circle_outline" />
-        </androidx.appcompat.widget.Toolbar>
-
+            app:title="@string/title_study" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
@@ -49,7 +39,7 @@
         style="@style/ActionButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@drawable/primary_button"
+        android:backgroundTint="@drawable/selector_button_primary"
         android:text="@string/study_add_studies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

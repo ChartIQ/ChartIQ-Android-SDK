@@ -30,9 +30,13 @@ class StudyFragment : Fragment() {
     })
     private val mainViewModel by activityViewModels<MainViewModel>()
 
-    val activeStudiesAdapter = ActiveStudiesAdapter()
+    private val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +50,10 @@ class StudyFragment : Fragment() {
 
     private fun setupViews() {
         with(binding) {
+            toolbar.menu.findItem(R.id.add_study).setOnMenuItemClickListener {
+                // todo navigate to add studies list
+                true
+            }
             activeStudiesRecyclerView.apply {
                 adapter = activeStudiesAdapter
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
@@ -80,9 +88,10 @@ class StudyFragment : Fragment() {
             }
             mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
                 activeStudiesAdapter.items = studies
-                addStudyImageView.isVisible = studies.isNotEmpty()
                 noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
                 addStudiesButton.isVisible = studies.isEmpty()
+                requireActivity().invalidateOptionsMenu()
+                toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
             }
         }
     }
