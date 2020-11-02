@@ -1,6 +1,5 @@
 package com.chartiq.demo.ui.study
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.sdk.ChartIQHandler
@@ -11,11 +10,11 @@ class StudyViewModel(
 ) : ViewModel() {
 
     fun deleteStudy(studyToDelete: Study) {
-        chartIQHandler.removeStudy(studyToDelete.shortName)
+        chartIQHandler.removeStudy(studyToDelete.name)
     }
 
     class ViewModelFactory(
-        private val  chartIQHandler: ChartIQHandler
+        private val chartIQHandler: ChartIQHandler
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
