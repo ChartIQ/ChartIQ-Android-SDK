@@ -33,7 +33,8 @@ class ChartViewModel(
     // TODO: 19.10.20 Review
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = networkManager.fetchDataFeed(params)) {
+            val applicationId = applicationPrefs.getApplicationId()
+            when (val result = networkManager.fetchDataFeed(params, applicationId)) {
                 is NetworkResult.Success -> resultLiveData
                     .postValue(ChartData(result.data, callback))
                 is NetworkResult.Failure -> errorLiveData

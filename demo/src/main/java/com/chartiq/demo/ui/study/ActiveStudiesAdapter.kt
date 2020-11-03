@@ -56,11 +56,19 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
 
     private fun parseName(name: String): Pair<String, String> {
         //divide a name by 'ZERO WIDTH NON-JOINER' (U+200C)
-        val result = name.split("\\u200C")
-        return Pair(result.first(), result.lastOrNull() ?: "")
+        val result = name.split(ZERO_WIDTH_NON_JOINER)
+        return when (result.size) {
+            3 -> Pair(result[1], result[2])
+            2 -> Pair(result.first(), result.last())
+            else -> Pair(result.toString(), "")
+        }
     }
 
     interface StudyListener {
         fun onOptionsClick(study: Study)
+    }
+
+    companion object {
+        private const val ZERO_WIDTH_NON_JOINER = "\u200C"
     }
 }

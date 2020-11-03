@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SimpleItemTouchCallBack(
     private val text: String,
-    private val color: ColorDrawable
+    private val color: ColorDrawable,
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     ItemTouchHelper.LEFT
@@ -19,7 +19,7 @@ class SimpleItemTouchCallBack(
 
     override fun onMove(
         recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+        viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder,
     ): Boolean {
         return false
     }
@@ -35,7 +35,7 @@ class SimpleItemTouchCallBack(
         dX: Float,
         dY: Float,
         actionState: Int,
-        isCurrentlyActive: Boolean
+        isCurrentlyActive: Boolean,
     ) {
 
         super.onChildDraw(
@@ -46,13 +46,13 @@ class SimpleItemTouchCallBack(
         val text = text
         val paint = Paint().apply {
             color = Color.WHITE
-            textSize = 40F
+            textSize = TEXT_SIZE
             textAlign = Paint.Align.CENTER
         }
         val bounds = Rect()
         paint.getTextBounds(text, 0, text.length, bounds)
         val textX: Float
-        val textY: Float
+        val textY = (itemView.bottom - itemView.height / 2 + bounds.height() / 2).toFloat()
         when {
             dX > 0 -> { // Swiping to the right
                 mBackground.setBounds(
@@ -62,7 +62,6 @@ class SimpleItemTouchCallBack(
                     itemView.bottom
                 )
                 textX = 0f
-                textY = 0f
             }
             dX < 0 -> { // Swiping to the left
                 mBackground.setBounds(
@@ -70,16 +69,18 @@ class SimpleItemTouchCallBack(
                     itemView.top, itemView.right, itemView.bottom
                 )
                 textX = (itemView.right - bounds.width()).toFloat()
-                textY = (itemView.bottom / 2 + bounds.height() / 2).toFloat()
             }
             else -> { // view is unSwiped
                 mBackground.setBounds(0, 0, 0, 0)
                 textX = 0f
-                textY = 0f
             }
         }
         mBackground.draw(c)
         c.drawText(text, textX, textY, paint)
+    }
+
+    companion object {
+        private const val TEXT_SIZE = 40F
     }
 
     interface OnSwipeListener {

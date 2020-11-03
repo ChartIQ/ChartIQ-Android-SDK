@@ -8,5 +8,5 @@ interface NetworkManager {
 
     suspend fun fetchSymbol(symbol: String): NetworkResult<SymbolResponse>
 
-    suspend fun fetchDataFeed(params: QuoteFeedParams): NetworkResult<List<OHLCParams>>
+    suspend fun fetchDataFeed(params: QuoteFeedParams, applicationId: String): NetworkResult<List<OHLCParams>>
 }

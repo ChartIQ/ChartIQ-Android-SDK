@@ -1,49 +1,59 @@
 package com.chartiq.sdk
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
-import android.webkit.JavascriptInterface
-import android.webkit.ValueCallback
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
+import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
+
+@SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
     private val chartIQUrl: String,
+    context: Context,
 ) : ChartIQ, JavaScriptHandler {
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
-    var chartIQView: ChartIQView? = null
+    val chartIQView = ChartIQView(context)
 
-    @SuppressLint("SetJavaScriptEnabled")
+    init {
+        chartIQView.apply {
+            settings.apply {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+            }
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
+            loadUrl(chartIQUrl)
+        }
+    }
+
     override fun start(onStartCallback: OnStartCallback) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        } else
-            chartIQView!!.apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    domStorageEnabled = true
-                }
-                addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-                addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
-                loadUrl(chartIQUrl)
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        executeJavascript(scriptManager.getDetermineOSScript())
-                        executeJavascript(scriptManager.getNativeQuoteFeedScript())
-                        executeJavascript(scriptManager.getAddDrawingListenerScript())
-                        executeJavascript(scriptManager.getAddLayoutListenerScript())
-
-                        onStartCallback.onStart()
-                    }
+        chartIQView.apply {
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    executeJavascript(scriptManager.getDetermineOSScript())
+                    executeJavascript(scriptManager.getNativeQuoteFeedScript())
+                    executeJavascript(scriptManager.getAddDrawingListenerScript())
+                    executeJavascript(scriptManager.getAddLayoutListenerScript())
+                    executeJavascript(scriptManager.getAddMeasureListener())
+                    onStartCallback.onStart()
                 }
             }
+            webChromeClient = object: WebChromeClient() {
+                override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                    Log.d(TAG, consoleMessage?.message()?:"Undefined JS exception")
+                    return super.onConsoleMessage(consoleMessage)
+                }
+            }
+        }
     }
 
     @JavascriptInterface
@@ -60,7 +70,7 @@ class ChartIQHandler(
         start: String?,
         end: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
@@ -78,7 +88,7 @@ class ChartIQHandler(
         interval: String?,
         start: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
@@ -97,7 +107,7 @@ class ChartIQHandler(
         start: String?,
         end: String?,
         meta: Any?,
-        callbackId: String?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
             QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
@@ -109,10 +119,7 @@ class ChartIQHandler(
     }
 
     override fun setSymbol(symbol: String) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        }
-        if (chartIQView?.accessibilityManager?.isEnabled == true && chartIQView?.accessibilityManager?.isTouchExplorationEnabled == true) {
+        if (chartIQView.accessibilityManager.isEnabled && chartIQView.accessibilityManager.isTouchExplorationEnabled) {
             executeJavascript(scriptManager.getSetAccessibilityModeScript())
         }
         executeJavascript(scriptManager.getDateFromTickScript())
@@ -158,17 +165,16 @@ class ChartIQHandler(
     }
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
-
         executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
-            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-            val result = Gson().fromJson(safeValue, Object::class.java)
+            val objectResult = Gson().fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
             val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                result.toString(), typeToken
+                objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
                     .toStudy()
@@ -179,19 +185,18 @@ class ChartIQHandler(
 
     override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
-            val safeValue = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-            val result = Gson().fromJson(safeValue, Object::class.java)
-            val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
-            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                result.toString(), typeToken
-            ).map { (key, value) ->
-                value.copy(shortName = key)
-                    .toStudy()
-            }
+            val typeToken = object : TypeToken<List<StudyEntity>>() {}.type
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                .create()
+            val response: List<StudyEntity> = gson.fromJson(result, typeToken)
+            val studyList = response.map { it.toStudy() }
             callback.onReturn(studyList)
         }
     }
@@ -220,9 +225,7 @@ class ChartIQHandler(
             inputs = null
             outputs = null
         }
-        val scripts = study.type?.run {
-            scriptManager.getAddStudyScript(study.type, inputs, outputs, params)
-        } ?: scriptManager.getAddStudyScript(study.shortName, inputs, outputs, params)
+        val scripts = scriptManager.getAddStudyScript(study.name, inputs, outputs, params)
         executeJavascript(scripts)
     }
 
@@ -234,13 +237,19 @@ class ChartIQHandler(
         parameters = talkbackFields
     }
 
-    override fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>) {
+    override fun getStudyInputParameters(
+        studyName: String,
+        callback: OnReturnCallback<String>,
+    ) {
         executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName)) { value ->
             callback.onReturn(value)
         }
     }
 
-    override fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>) {
+    override fun getStudyOutputParameters(
+        studyName: String,
+        callback: OnReturnCallback<String>,
+    ) {
         executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName)) { value ->
             callback.onReturn(value)
         }
@@ -253,10 +262,7 @@ class ChartIQHandler(
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
-        if (chartIQView == null) {
-            Log.d(javaClass.simpleName, "${ChartIQView::class.simpleName} is not initialized")
-        }
-        chartIQView?.evaluateJavascript(script, callback)
+        chartIQView.evaluateJavascript(script, callback)
     }
 
     private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
@@ -266,5 +272,9 @@ class ChartIQHandler(
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
+        private  val TAG = ChartIQHandler.javaClass.simpleName
     }
+
+
 }
+

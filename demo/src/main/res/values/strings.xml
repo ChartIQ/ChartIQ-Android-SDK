@@ -48,10 +48,6 @@
     <string name="interval_done">Done</string>
     <string name="search_title">Search symbols</string>
 
-    <!--Studies-->
-    <string name="studies_hint_no_active_studies_to_displays_yet">No Active Studies to displays yet</string>
-    <string name="warning_something_went_wrong">Something went wrong</string>
-
     <!--Drawing tools-->
     <string name="drawing_tool_title">Drawing Tool</string>
     <string name="drawing_tool_no_favorites_hint">No favorite drawing tools yet</string>
@@ -114,8 +110,15 @@
     <string name="drawing_tool_category_fibonacci">Fibonacci</string>
     <string name="drawing_tool_category_markings">Markings</string>
     <string name="drawing_tool_category_lines">Lines</string>
+
     <!-- Studies -->
     <string name="study_add_studies">Add studies</string>
-    <string name="empty_active_study">No Active Studies to display yet</string>
-    <string name="delete_caps">DELETE</string>
+    <string name="study_empty_active_study">No Active Studies to display yet</string>
+    <string name="study_delete">Delete</string>
+    <string name="study_title_add_study">Add Studies</string>
+
+    <!-- General strings -->
+    <string name="warning_something_went_wrong">Something went wrong</string>
+    <string name="done">Done</string>
+    <string name="search">Search</string>
 </resources>

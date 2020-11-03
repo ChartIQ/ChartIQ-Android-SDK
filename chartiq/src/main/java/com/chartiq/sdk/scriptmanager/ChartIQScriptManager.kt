@@ -77,12 +77,14 @@ internal class ChartIQScriptManager : ScriptManager {
         inputs: Map<String, Any>?,
         outputs: Map<String, Any>?,
         parameters: Map<String, Any>
-    ): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(" + buildArgumentStringFromArgs(
-        studyName,
-        inputs,
-        outputs,
-        parameters
-    ) + ");"
+    ): String {
+
+        return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
+            buildArgumentStringFromArgs(inputs)
+        },${
+            buildArgumentStringFromArgs(outputs)
+        });"
+    }
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/mountainMeadow</color>
     <color name="colorPrimaryDark">@color/ghostWhite</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">@color/mountainMeadow</color>
 
     <color name="white">#ffffff</color>
     <color name="cadetBlue">#abb0ba</color>

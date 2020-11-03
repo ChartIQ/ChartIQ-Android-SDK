@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQApplication
@@ -51,7 +53,7 @@ class StudyFragment : Fragment() {
     private fun setupViews() {
         with(binding) {
             toolbar.menu.findItem(R.id.add_study).setOnMenuItemClickListener {
-                // todo navigate to add studies list
+                navigateToStudyList()
                 true
             }
             activeStudiesRecyclerView.apply {
@@ -64,8 +66,8 @@ class StudyFragment : Fragment() {
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
                     SimpleItemTouchCallBack(
-                        getString(R.string.delete_caps),
-                        ColorDrawable(resources.getColor(R.color.coralRed))
+                        getString(R.string.study_delete).toUpperCase(),
+                        ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
                     ).apply {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
                             override fun onSwiped(
@@ -84,19 +86,25 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-                // todo navigate to add studies list
-            }
-            mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
-                activeStudiesAdapter.items = studies
-                noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
-                addStudiesButton.isVisible = studies.isEmpty()
-                requireActivity().invalidateOptionsMenu()
-                toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
+                navigateToStudyList()
             }
         }
+        mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
+            binding.progressBar.isVisible = false
+            activeStudiesAdapter.items = studies
+            binding.noActiveStudiesPlaceholder.root.isVisible = studies.isEmpty()
+            binding.addStudiesButton.isVisible = studies.isEmpty()
+            requireActivity().invalidateOptionsMenu()
+            binding.toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
+        }
+
     }
 
-    fun deleteStudy(studyToDelete: Study) {
+    private fun navigateToStudyList() {
+        findNavController().navigate(R.id.addStudyFragment)
+    }
+
+    private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
         mainViewModel.fetchActiveStudyData(chartIQHandler)
     }
