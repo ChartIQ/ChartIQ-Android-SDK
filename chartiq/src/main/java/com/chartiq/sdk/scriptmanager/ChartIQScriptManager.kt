@@ -80,9 +80,9 @@ internal class ChartIQScriptManager : ScriptManager {
     ): String {
 
         return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
-            buildArgumentStringFromArgs(inputs)
+            if (inputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(inputs)
         },${
-            buildArgumentStringFromArgs(outputs)
+            if (outputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(outputs)
         });"
     }
 
