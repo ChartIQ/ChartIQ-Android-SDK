@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
-import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
+import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.ChartIQView
@@ -37,6 +38,7 @@ class ChartFragment : Fragment() {
             ChartIQNetworkManager(), ApplicationPrefs.Default(requireContext())
         )
     })
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +54,7 @@ class ChartFragment : Fragment() {
     private fun initChartIQ() {
         chartIQHandler.apply {
             chartIQView = binding.chartIqView
-            start(BuildConfig.DEFAULT_CHART_URL) {
+            start {
                 setDataSource(object : DataSource {
                     override fun pullInitialData(
                         params: QuoteFeedParams,
@@ -76,12 +78,12 @@ class ChartFragment : Fragment() {
                     }
                 })
                 chartViewModel.fetchSavedSettings()
+                mainViewModel.fetchActiveStudyData(chartIQHandler)
             }
         }
     }
 
     private fun setupViews() {
-
         with(binding) {
             chartIQView = chartIqView
             symbolButton.setOnClickListener {
