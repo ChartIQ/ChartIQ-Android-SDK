@@ -10,6 +10,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.chartiq.sdk.model.*
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.util.*
+import kotlin.collections.HashMap
 
 class ChartIQView @JvmOverloads constructor(
     context: Context,

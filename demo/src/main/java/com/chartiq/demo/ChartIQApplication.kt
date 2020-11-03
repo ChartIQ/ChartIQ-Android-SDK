@@ -6,6 +6,6 @@ import com.chartiq.sdk.ChartIQHandler
 class ChartIQApplication : Application() {
 
     val chartIQHandler: ChartIQHandler by lazy {
-        ChartIQHandler()
+        ChartIQHandler(BuildConfig.DEFAULT_CHART_URL)
     }
 }

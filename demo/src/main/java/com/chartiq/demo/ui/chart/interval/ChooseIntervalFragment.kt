@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
-import com.chartiq.demo.ui.LineItemDecoration
+import com.chartiq.demo.ui.LineItemDecoration.*
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
 import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
@@ -64,7 +64,7 @@ class ChooseIntervalFragment : Fragment() {
         with(binding) {
             intervalsRecyclerView.apply {
                 adapter = intervalAdapter
-                addItemDecoration(LineItemDecoration.Default(context))
+                addItemDecoration(Default(requireContext()))
             }
 
             toolbar.setNavigationOnClickListener {
