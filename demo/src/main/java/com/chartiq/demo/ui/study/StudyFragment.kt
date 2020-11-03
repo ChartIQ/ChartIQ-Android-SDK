@@ -65,7 +65,7 @@ class StudyFragment : Fragment() {
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
                     SimpleItemTouchCallBack(
-                        getString(R.string.delete).toUpperCase(),
+                        getString(R.string.study_delete).toUpperCase(),
                         ColorDrawable(resources.getColor(R.color.coralRed))
                     ).apply {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
