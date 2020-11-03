@@ -26,6 +26,10 @@
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
         <item name="android:textColor">@color/cadetBlue</item>
     </style>
+    <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/text_size_secondary_text</item>
+        <item name="android:textColor">@color/darkElectricBlue</item>
+    </style>
 
     <style name="PlaceHolderHintTextStyle" parent="SecondaryTextStyle">
         <item name="android:textColor">@color/cadetBlue</item>

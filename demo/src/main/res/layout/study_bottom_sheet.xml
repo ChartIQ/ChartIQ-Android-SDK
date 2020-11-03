@@ -6,18 +6,18 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bottomSettingsTextView"
-        style="@style/SecondaryTextStyle"
+        style="@style/SecondaryMenuTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:drawableStart="@drawable/ic_settings"
+        android:drawableStart="@drawable/ic_menu_settings"
         android:drawablePadding="@dimen/margin_large"
         android:padding="@dimen/padding_medium"
         android:text="@string/study_settings" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bottomCloneTextView"
-        style="@style/SecondaryTextStyle"
+        style="@style/SecondaryMenuTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
