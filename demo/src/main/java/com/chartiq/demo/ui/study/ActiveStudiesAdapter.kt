@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemActiveStudyBinding
 import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.splitName
 
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
 
@@ -47,28 +48,14 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                 studyValueTextView.setOnClickListener {
                     listener?.onOptionsClick(item)
                 }
-                val finalName = parseName(item.name)
+                val finalName = item.splitName()
                 studyNameTextView.text = finalName.first
                 studyValueTextView.text = finalName.second
             }
         }
     }
 
-    private fun parseName(name: String): Pair<String, String> {
-        //divide a name by 'ZERO WIDTH NON-JOINER' (U+200C)
-        val result = name.split(ZERO_WIDTH_NON_JOINER)
-        return when (result.size) {
-            3 -> Pair(result[1], result[2])
-            2 -> Pair(result.first(), result.last())
-            else -> Pair(result.toString(), "")
-        }
-    }
-
     interface StudyListener {
         fun onOptionsClick(study: Study)
-    }
-
-    companion object {
-        private const val ZERO_WIDTH_NON_JOINER = "\u200C"
     }
 }

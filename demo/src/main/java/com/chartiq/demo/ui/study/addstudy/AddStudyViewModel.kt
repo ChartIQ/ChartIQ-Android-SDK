@@ -36,7 +36,7 @@ class AddStudyViewModel(
     fun saveStudies() {
         val finalList = selectedStudies.value ?: emptyList()
         finalList.forEach {
-            chartIQHandler.addStudy(it, false)
+            chartIQHandler.addStudy(it.name)
         }
     }
 

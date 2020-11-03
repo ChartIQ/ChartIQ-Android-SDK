@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bottomSettingsTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@drawable/ic_settings"
+        android:drawablePadding="@dimen/margin_large"
+        android:padding="@dimen/padding_medium"
+        android:text="@string/study_settings" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bottomCloneTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@drawable/ic_clone"
+        android:drawablePadding="@dimen/margin_large"
+        android:padding="@dimen/padding_medium"
+        android:text="@string/study_clone" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bottomDeleteTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@drawable/ic_delete"
+        android:drawablePadding="@dimen/margin_large"
+        android:padding="@dimen/padding_medium"
+        android:text="@string/study_delete"
+        android:textColor="@color/coralRed" />
+</LinearLayout>
