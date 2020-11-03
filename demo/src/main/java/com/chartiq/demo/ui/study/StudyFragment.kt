@@ -99,7 +99,7 @@ class StudyFragment : Fragment() {
 
     }
 
-    fun deleteStudy(studyToDelete: Study) {
+    private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
         mainViewModel.fetchActiveStudyData(chartIQHandler)
     }
