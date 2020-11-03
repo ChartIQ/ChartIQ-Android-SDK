@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.addstudy
+package com.chartiq.demo.ui.study.addstudy
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
