@@ -49,7 +49,7 @@ class ChartIQHandler(
             }
             webChromeClient = object: WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                    Log.i("Y!!!!!!", consoleMessage?.message()?:"ooo")
+                    Log.d(TAG, consoleMessage?.message()?:"Undefined JS exception")
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
@@ -272,6 +272,7 @@ class ChartIQHandler(
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
+        private  val TAG = ChartIQHandler.javaClass.simpleName
     }
 
 
