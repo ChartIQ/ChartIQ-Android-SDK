@@ -1,21 +1,19 @@
 package com.chartiq.sdk.model
 
-import kotlinx.android.parcel.RawValue
-
 data class Study(
-    val attributes: @RawValue Map<String, Any>?,
+    val attributes: Map<String, Any>?,
     val centerLine: Double,
     val customRemoval: Boolean,
     val deferUpdate: Boolean,
     val display: String?,
-    var inputs: @RawValue Map<String, Any>?,
-    var outputs: @RawValue Map<String, Any>?,
+    var inputs: Map<String, Any>?,
+    var outputs: Map<String, Any>?,
     val name: String,
     val overlay: Boolean,
-    var parameters: @RawValue Map<String, Any>,
+    var parameters: Map<String, Any>,
     val range: String?,
     val shortName: String,
     val type: String?,
     val underlay: Boolean,
-    val yAxis: @RawValue Map<String, Any>?,
+    val yAxis: Map<String, Any>?,
 )
