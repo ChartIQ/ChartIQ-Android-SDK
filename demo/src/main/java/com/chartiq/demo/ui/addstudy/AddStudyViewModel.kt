@@ -14,9 +14,9 @@ class AddStudyViewModel(
 ) : ViewModel() {
     private val originalStudies = MutableLiveData<List<Study>>(emptyList())
 
-    val selectedStudies = MutableLiveData<List<Study>>(emptyList())
+    private val selectedStudies = MutableLiveData<List<Study>>(emptyList())
 
-    val query = MutableLiveData("")
+    private val query = MutableLiveData("")
 
     val filteredStudies =
         Transformations.map(originalStudies.combineLatest(query)) { (list, query) ->
@@ -38,6 +38,14 @@ class AddStudyViewModel(
         finalList.forEach {
             chartIQHandler.addStudy(it, false)
         }
+    }
+
+    fun onSudiesSelect(studies: List<Study>) {
+        selectedStudies.postValue(studies)
+    }
+
+    fun onNewQuery(value: String) {
+        query.postValue(value)
     }
 
     class ViewModelFactory(private val chartIQHandler: ChartIQHandler) :

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
 /**
- * This function creates a [LiveData] of a [Pair] of the two types provided. The resulting LiveData is updated whenever either input LiveData updates and both LiveData have updated at least once before.
+ * This function creates a [LiveData] of a [Pair] of the two types provided. The resulting LiveData
+ * is updated whenever either input LiveData updates and both LiveData have updated at least once before.
  * @param a the first LiveData
  * @param b the second LiveData
  */

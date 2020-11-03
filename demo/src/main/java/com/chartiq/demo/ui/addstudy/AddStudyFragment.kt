@@ -49,7 +49,7 @@ class AddStudyFragment : Fragment() {
                 adapter = studiesAdapter
                 studiesAdapter.listener = object : AllStudiesAdapter.StudyListener {
                     override fun onStudiesSelected(studies: List<Study>) {
-                        addStudiesViewModel.selectedStudies.postValue(studies)
+                        addStudiesViewModel.onSudiesSelect(studies)
                     }
                 }
             }
@@ -67,7 +67,7 @@ class AddStudyFragment : Fragment() {
 
             searchEditText.addTextChangedListener {
                 progressBar.isVisible = true
-                addStudiesViewModel.query.postValue(it.toString())
+                addStudiesViewModel.onNewQuery(it.toString())
             }
         }
         addStudiesViewModel.filteredStudies.observe(viewLifecycleOwner) { studies ->
