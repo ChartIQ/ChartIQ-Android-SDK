@@ -27,7 +27,7 @@
                 android:elevation="0dp"
                 app:menu="@menu/menu_add_study"
                 app:navigationIcon="@drawable/ic_close"
-                app:title="@string/title_add_study" />
+                app:title="@string/study_title_add_study" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:id="@+id/studies_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="@dimen/padding_small_m"
+        android:paddingTop="@dimen/padding_medium_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

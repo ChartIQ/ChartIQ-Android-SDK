@@ -16,5 +16,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:gravity="center"
-        android:text="@string/empty_active_study" />
+        android:text="@string/study_empty_active_study" />
 </FrameLayout>

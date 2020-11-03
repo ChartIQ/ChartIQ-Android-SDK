@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_extra_large"
         android:layout_weight="1"
-        android:textAllCaps="true"
         android:textColor="@color/darkElectricBlue"
         android:textSize="@dimen/text_size_subtitle"
         tools:text="Anchored VWAP" />
