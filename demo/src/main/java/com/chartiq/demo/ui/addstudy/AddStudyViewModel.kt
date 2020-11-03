@@ -40,7 +40,7 @@ class AddStudyViewModel(
         }
     }
 
-    fun onSudiesSelect(studies: List<Study>) {
+    fun onStudiesSelect(studies: List<Study>) {
         selectedStudies.postValue(studies)
     }
 

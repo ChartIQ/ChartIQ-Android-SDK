@@ -50,7 +50,7 @@ class AddStudyFragment : Fragment() {
                 adapter = studiesAdapter
                 studiesAdapter.listener = object : AllStudiesAdapter.StudyListener {
                     override fun onStudiesSelected(studies: List<Study>) {
-                        addStudiesViewModel.onSudiesSelect(studies)
+                        addStudiesViewModel.onStudiesSelect(studies)
                     }
                 }
             }
