@@ -5,7 +5,7 @@ import java.util.*
 
 interface ChartIQ {
 
-    fun start( onStartCallback: OnStartCallback)
+    fun start(onStartCallback: OnStartCallback)
 
     fun setSymbol(symbol: String)
 
@@ -37,7 +37,7 @@ interface ChartIQ {
 
     fun removeStudy(studyName: String)
 
-    fun addStudy(study: Study, firstLoad: Boolean)
+    fun addStudy(studyName: String)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 

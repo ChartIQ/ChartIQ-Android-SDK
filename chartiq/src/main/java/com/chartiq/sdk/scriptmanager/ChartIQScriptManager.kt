@@ -72,18 +72,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartScaleScript(scale: String): String =
         CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
-    override fun getAddStudyScript(
-        studyName: String,
-        inputs: Map<String, Any>?,
-        outputs: Map<String, Any>?,
-        parameters: Map<String, Any>
-    ): String {
-
-        return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
-            if (inputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(inputs)
-        },${
-            if (outputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(outputs)
-        });"
+    override fun getAddStudyScript(studyName: String): String {
+        return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
     }
 
     override fun getRemoveStudyScript(studyName: String): String =

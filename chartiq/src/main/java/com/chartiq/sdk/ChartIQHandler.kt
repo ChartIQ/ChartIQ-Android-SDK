@@ -217,15 +217,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveStudyScript(studyName))
     }
 
-    override fun addStudy(study: Study, firstLoad: Boolean) {
-        var inputs = study.inputs
-        var outputs = study.outputs
-        val params = study.parameters
-        if (firstLoad) {
-            inputs = null
-            outputs = null
-        }
-        val scripts = scriptManager.getAddStudyScript(study.name, inputs, outputs, params)
+    override fun addStudy(studyName: String) {
+        val scripts = scriptManager.getAddStudyScript(studyName)
         executeJavascript(scripts)
     }
 

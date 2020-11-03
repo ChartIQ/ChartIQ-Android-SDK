@@ -44,12 +44,7 @@ internal interface ScriptManager {
 
     fun getSetChartScaleScript(scale: String): String
 
-    fun getAddStudyScript(
-        studyName: String,
-        inputs: Map<String, Any>?,
-        outputs: Map<String, Any>?,
-        parameters: Map<String, Any>
-    ): String
+    fun getAddStudyScript(studyName: String): String
 
     fun getRemoveStudyScript(studyName: String): String
 
