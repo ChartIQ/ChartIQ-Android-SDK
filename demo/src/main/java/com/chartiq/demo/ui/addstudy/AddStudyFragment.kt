@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
+import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
@@ -53,7 +54,7 @@ class AddStudyFragment : Fragment() {
                     }
                 }
             }
-            addStudyTextView.setOnClickListener {
+            toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
                 mainViewModel.fetchActiveStudyData(chartIQHandler)

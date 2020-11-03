@@ -52,7 +52,7 @@ class StudyFragment : Fragment() {
     private fun setupViews() {
         with(binding) {
             toolbar.menu.findItem(R.id.add_study).setOnMenuItemClickListener {
-                // todo navigate to add studies list
+                navigateToStudyList()
                 true
             }
             activeStudiesRecyclerView.apply {
@@ -85,7 +85,7 @@ class StudyFragment : Fragment() {
             }
 
             addStudiesButton.setOnClickListener {
-                findNavController().navigate(R.id.addStudyFragment)
+                navigateToStudyList()
             }
         }
         mainViewModel.activeStudies.observe(viewLifecycleOwner) { studies ->
@@ -97,6 +97,10 @@ class StudyFragment : Fragment() {
             binding.toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
         }
 
+    }
+
+    private fun navigateToStudyList() {
+        findNavController().navigate(R.id.addStudyFragment)
     }
 
     private fun deleteStudy(studyToDelete: Study) {
