@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -66,7 +67,7 @@ class StudyFragment : Fragment() {
                 val deleteItemTouchHelper = ItemTouchHelper(
                     SimpleItemTouchCallBack(
                         getString(R.string.study_delete).toUpperCase(),
-                        ColorDrawable(resources.getColor(R.color.coralRed))
+                        ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
                     ).apply {
                         onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
                             override fun onSwiped(
