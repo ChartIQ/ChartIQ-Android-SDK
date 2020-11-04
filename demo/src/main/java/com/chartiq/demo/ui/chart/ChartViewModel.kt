@@ -42,7 +42,8 @@ class ChartViewModel(
     // TODO: 19.10.20 Review
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = networkManager.fetchDataFeed(params)) {
+            val applicationId = applicationPrefs.getApplicationId()
+            when (val result = networkManager.fetchDataFeed(params, applicationId)) {
                 is NetworkResult.Success -> resultLiveData
                     .postValue(ChartData(result.data, callback))
                 is NetworkResult.Failure -> errorLiveData
@@ -96,7 +97,7 @@ class ChartViewModel(
 
     class ChartViewModelFactory(
         private val argNetworkManager: NetworkManager,
-        private val argApplicationPrefs: ApplicationPrefs
+        private val argApplicationPrefs: ApplicationPrefs,
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

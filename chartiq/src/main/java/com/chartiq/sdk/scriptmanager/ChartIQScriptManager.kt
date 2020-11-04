@@ -77,12 +77,14 @@ internal class ChartIQScriptManager : ScriptManager {
         inputs: Map<String, Any>?,
         outputs: Map<String, Any>?,
         parameters: Map<String, Any>
-    ): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(" + buildArgumentStringFromArgs(
-        studyName,
-        inputs,
-        outputs,
-        parameters
-    ) + ");"
+    ): String {
+
+        return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
+            if (inputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(inputs)
+        },${
+            if (outputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(outputs)
+        });"
+    }
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -116,7 +118,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetThemeScript(theme: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setTheme(\"$theme\");"
 
-    override fun getGetStudyListScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getStudyList()"
+    override fun getGetStudyListScript(): String = "JSON.stringify(CIQ.Studies.studyLibrary);"
 
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies();"

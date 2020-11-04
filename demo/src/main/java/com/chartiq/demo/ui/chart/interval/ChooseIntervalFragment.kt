@@ -5,21 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
+import com.chartiq.demo.ui.LineItemDecoration.*
+import com.chartiq.demo.ui.chart.interval.list.IntervalItem
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
-import com.chartiq.demo.ui.chart.interval.list.IntervalProps
-import com.chartiq.demo.ui.chart.interval.list.OnIntervalClickListener
+import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
-class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
+class ChooseIntervalFragment : Fragment() {
 
-    private val appPrefs: ApplicationPrefs by lazy {
-        ApplicationPrefs.Default(requireContext())
+    private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
+        ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
+            ApplicationPrefs.Default(requireContext())
+        )
+    })
+    private val onSelectIntervalListener = object : OnIntervalSelectListener {
+        override fun onCustomIntervalSelect() {
+            viewModel.onCustomIntervalSelect()
+        }
+
+        override fun onIntervalSelect(item: IntervalItem) {
+            viewModel.onIntervalSelect(item)
+        }
     }
 
     override fun onCreateView(
@@ -33,17 +46,25 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
     }
 
     private fun setupViews(binding: FragmentChooseIntervalBinding) {
-        val selectedInterval = appPrefs.getChartInterval()
+        viewModel.intervalSelectedEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigateUp()
+            }
+        }
+        viewModel.chooseCustomIntervalEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                navigateToChooseCustomInterval()
+            }
+        }
 
-        val intervalAdapter = IntervalListAdapter(
-            INTERVAL_LIST.map { IntervalProps(it.duration, it.timeUnit, it == selectedInterval) },
-            this
-        )
+        val intervalAdapter = IntervalListAdapter()
+        intervalAdapter.items = viewModel.setupList(DEFAULT_INTERVAL_LIST)
+        intervalAdapter.onSelectIntervalListener = onSelectIntervalListener
 
         with(binding) {
             intervalsRecyclerView.apply {
                 adapter = intervalAdapter
-                addItemDecoration(com.chartiq.demo.ui.LineItemDecoration.Default(context))
+                addItemDecoration(Default(requireContext()))
             }
 
             toolbar.setNavigationOnClickListener {
@@ -52,17 +73,13 @@ class ChooseIntervalFragment : Fragment(), OnIntervalClickListener {
         }
     }
 
-    override fun onCustomIntervalClick() {
-        NavHostFragment.findNavController(this)
+    private fun navigateToChooseCustomInterval() {
+        NavHostFragment.findNavController(this@ChooseIntervalFragment)
             .navigate(R.id.action_chooseIntervalFragment_to_customIntervalFragment)
     }
 
-    override fun onIntervalClick(interval: IntervalProps) {
-        appPrefs.saveChartInterval(Interval(interval.duration, interval.timeUnit))
-    }
-
     companion object {
-        private val INTERVAL_LIST = listOf(
+        private val DEFAULT_INTERVAL_LIST = listOf(
             Interval(1, TimeUnit.DAY),
             Interval(1, TimeUnit.WEEK),
             Interval(1, TimeUnit.MONTH),

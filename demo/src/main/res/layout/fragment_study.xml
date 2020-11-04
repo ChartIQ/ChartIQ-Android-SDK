@@ -14,26 +14,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_study"
         app:title="@string/title_study" />
 
     <include
+        android:id="@+id/noActiveStudiesPlaceholder"
+        layout="@layout/placeholder_no_active_studies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/noActiveStudiesPlaceholder"
-        layout="@layout/placeholder_no_active_studies"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/ActionButtonStyle"
         android:id="@+id/addStudiesButton"
+        style="@style/ActionButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Add studies"
+        android:layout_margin="@dimen/margin_medium"
+        android:text="@string/study_add_studies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noActiveStudiesPlaceholder" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activeStudiesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="@dimen/padding_medium_small"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/item_active_study" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

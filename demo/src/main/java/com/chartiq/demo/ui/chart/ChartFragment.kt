@@ -6,15 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.*
+import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.ChartIQApplication
+import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment
+import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.PanelAdapter
 import com.chartiq.demo.ui.chart.panel.color.ColorItem
@@ -25,6 +29,7 @@ import com.chartiq.demo.ui.chart.panel.line.LineTypeItem
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.sdk.ChartIQView
+import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
@@ -35,16 +40,19 @@ import kotlinx.coroutines.*
 
 class ChartFragment : Fragment() {
 
+    private val chartIQHandler: ChartIQHandler by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQHandler
+    }
     private lateinit var binding: FragmentChartBinding
-    private lateinit var chartIQView: ChartIQView
     private lateinit var panelAdapter: PanelAdapter
     private lateinit var panelList: List<InstrumentItem>
-    private val mainViewModel: MainViewModel by activityViewModels()
+
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
             ChartIQNetworkManager(), ApplicationPrefs.Default(requireContext())
         )
     })
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,15 +60,18 @@ class ChartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChartBinding.inflate(inflater, container, false)
-
         setupViews()
         initChartIQ()
         return binding.root
     }
 
     private fun initChartIQ() {
-        chartIQView.apply {
-            start(BuildConfig.DEFAULT_CHART_URL) {
+        chartIQHandler.apply {
+            binding.chartIqView.apply {
+                (chartIQView.parent as? FrameLayout)?.removeAllViews()
+                addView(chartIQView)
+            }
+            start {
                 setDataSource(object : DataSource {
                     override fun pullInitialData(
                         params: QuoteFeedParams,
@@ -84,24 +95,13 @@ class ChartFragment : Fragment() {
                     }
                 })
                 chartViewModel.fetchSavedSettings()
+                mainViewModel.fetchActiveStudyData(chartIQHandler)
             }
         }
     }
 
     private fun setupViews() {
-        mainViewModel.chartEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { command ->
-                when (command) {
-                    is ChartIQCommand.AddStudy -> {
-                        //todo identify when to pass true/false [Add Study case]
-                        chartIQView.addStudy(command.study, true)
-                    }
-                }
-            }
-        }
         with(binding) {
-            chartIQView = chartView
-
             symbolButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
@@ -122,6 +122,24 @@ class ChartFragment : Fragment() {
             }
         }
 
+            chartViewModel.currentSymbol.observe(viewLifecycleOwner) { symbol ->
+                binding.symbolButton.text = symbol.value
+                chartIQHandler.setSymbol(symbol.value)
+                chartIQHandler.setDataMethod(DataMethod.PULL, symbol.value)
+
+            }
+            chartViewModel.chartInterval.observe(viewLifecycleOwner) { chartInterval ->
+                chartInterval.apply {
+                    binding.intervalButton.text = when (timeUnit) {
+                        TimeUnit.SECOND,
+                        TimeUnit.MINUTE,
+                        -> {
+                            "$duration${timeUnit.toString().first().toLowerCase()}"
+                        }
+                        else -> "$duration${timeUnit.toString().first()}"
+                    }
+                }
+            }
         chartViewModel.currentSymbol.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { symbol ->
                 binding.symbolButton.text = symbol.value
@@ -143,6 +161,26 @@ class ChartFragment : Fragment() {
             }
         }
 
+            chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
+                binding.chartIqView.post {
+                    chartData.callback.execute(chartData.data)
+                }
+            }
+            chartViewModel.errorLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.warning_something_went_wrong),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            chartViewModel.drawingTool.observe(viewLifecycleOwner) { drawingTool ->
+                binding.drawCheckBox.isChecked = drawingTool != DrawingTool.NO_TOOL
+            }
+            chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
+                binding.chartIqView.post {
+                    chartData.callback.execute(chartData.data)
+                }
+            }
         chartViewModel.drawingTool.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { drawingTool ->
                 with(binding) {
@@ -236,7 +274,10 @@ class ChartFragment : Fragment() {
         }
     }
 
-    private fun loadChartData(quoteFeedParams: QuoteFeedParams, callback: DataSourceCallback) {
+    private fun loadChartData(
+        quoteFeedParams: QuoteFeedParams,
+        callback: DataSourceCallback
+    ) {
         chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
 

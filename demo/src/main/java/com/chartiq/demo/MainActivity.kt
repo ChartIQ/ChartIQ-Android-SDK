@@ -9,8 +9,6 @@ import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels()
-
     private val appPrefs by lazy {
         ApplicationPrefs.Default(this)
     }

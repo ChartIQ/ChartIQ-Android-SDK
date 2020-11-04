@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_medium">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/studyCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:checked="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_extra_large"
+        android:layout_weight="1"
+        android:textColor="@color/darkElectricBlue"
+        android:textSize="@dimen/text_size_subtitle"
+        tools:text="Anchored VWAP" />
+</LinearLayout>

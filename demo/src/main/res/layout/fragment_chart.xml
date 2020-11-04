@@ -56,6 +56,12 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <FrameLayout
+        android:id="@+id/chartIqView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize" />
+
     <com.chartiq.sdk.ChartIQView
         android:id="@+id/chartView"
         android:layout_width="0dp"
@@ -104,7 +110,7 @@
         tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/instrumentRecyclerView"
+        android:id="@+id/insturmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/white"
