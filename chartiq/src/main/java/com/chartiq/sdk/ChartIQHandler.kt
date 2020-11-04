@@ -217,8 +217,14 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveStudyScript(studyName))
     }
 
-    override fun addStudy(studyName: String) {
-        val scripts = scriptManager.getAddStudyScript(studyName)
+    /**
+     * Adds a selected study to active studies
+     * @param key the key identifier of the study to add.
+     * If this study is from  [getStudyList] use [Study.name]
+     * If this study is from [getActiveStudies] use [Study.type]
+     */
+    override fun addStudy(key: String) {
+        val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
 
