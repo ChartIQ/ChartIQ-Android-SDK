@@ -37,7 +37,7 @@ interface ChartIQ {
 
     fun removeStudy(studyName: String)
 
-    fun addStudy(studyName: String)
+    fun addStudy(key: String)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 
