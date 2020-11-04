@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemActiveStudyBinding
 import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.splitName
 
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
 
@@ -34,7 +33,6 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
 
     override fun getItemCount(): Int = items.size
 
-
     inner class StudyViewHolder(private val binding: ItemActiveStudyBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Study) {
@@ -57,5 +55,14 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
 
     interface StudyListener {
         fun onOptionsClick(study: Study)
+    }
+
+    fun Study.splitName(): Pair<String, String> {
+        val result = name.split("\u200C")
+        return when (result.size) {
+            3 -> Pair(result[1], result[2])
+            2 -> Pair(result.first(), result.last())
+            else -> Pair(result.toString(), "")
+        }
     }
 }

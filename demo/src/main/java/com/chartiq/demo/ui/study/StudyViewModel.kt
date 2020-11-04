@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.splitName
 
 class StudyViewModel(
     private val chartIQHandler: ChartIQHandler
@@ -14,9 +13,14 @@ class StudyViewModel(
         chartIQHandler.removeStudy(studyToDelete.name)
     }
 
+    /**
+     * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
+     * we should send [Study.type] to [ChartIQHandler.addStudy]
+     */
     fun cloneActiveStudy(study: Study) {
-        val finalName = study.splitName()
-        chartIQHandler.addStudy(finalName.first)
+        study.type?.let { type ->
+            chartIQHandler.addStudy(type)
+        }
     }
 
     class ViewModelFactory(
