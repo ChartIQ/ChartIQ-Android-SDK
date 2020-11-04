@@ -33,6 +33,10 @@ class AddStudyViewModel(
         }
     }
 
+    /**
+     * In case we want to add a study selected from [ChartIQHandler.getStudyList] list
+     * we should send [Study.name] to [ChartIQHandler.addStudy]
+     */
     fun saveStudies() {
         val finalList = selectedStudies.value ?: emptyList()
         finalList.forEach {
