@@ -117,10 +117,16 @@
     <string name="study_delete">Delete</string>
     <string name="study_title_add_study">Add Studies</string>
 
+    <!-- Study details -->
+    <string name="study_details_clone_study">Clone Study</string>
+    <string name="study_details_reset_to_defaults">Reset to Defaults</string>
+    <string name="study_details_delete_study">Delete Study</string>
+    <string name="study_settings">Settings</string>
+    <string name="study_clone">Clone</string>
+    <string name="study_details_save_study">Save</string>
+
     <!-- General strings -->
     <string name="warning_something_went_wrong">Something went wrong</string>
     <string name="done">Done</string>
     <string name="search">Search</string>
-    <string name="study_settings">Settings</string>
-    <string name="study_clone">Clone</string>
 </resources>

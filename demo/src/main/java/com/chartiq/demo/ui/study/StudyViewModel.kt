@@ -19,7 +19,7 @@ class StudyViewModel(
      */
     fun cloneActiveStudy(study: Study) {
         study.type?.let { type ->
-            chartIQHandler.addStudy(type)
+            chartIQHandler.addStudy(study.name)
         }
     }
 

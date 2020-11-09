@@ -18,6 +18,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
 import com.chartiq.sdk.model.Study
 
 
@@ -35,11 +36,6 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,7 +120,8 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     }
 
     override fun onSettings(study: Study) {
-        //todo navigate to study details
+        val bundle = ActiveStudyDetailsFragmentArgs.Builder(study).build().toBundle()
+        findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
     }
 
     companion object {
