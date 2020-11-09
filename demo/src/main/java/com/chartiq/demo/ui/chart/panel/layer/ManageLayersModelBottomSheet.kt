@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class ManageLayersModelBottomSheet : BottomSheetDialogFragment() {
 
     private val onLayerSelectedListener = OnSelectItemListener<LayerItem> {
+        (targetFragment as DialogFragmentListener).onManageLayer(it.layer)
         dismiss()
     }
 
@@ -57,5 +58,10 @@ class ManageLayersModelBottomSheet : BottomSheetDialogFragment() {
                 R.drawable.ic_toolbar_send_to_bottom
             )
         )
+    }
+
+    interface DialogFragmentListener {
+
+        fun onManageLayer(layer: ChartLayer)
     }
 }

@@ -32,6 +32,7 @@ import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
+import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
@@ -39,7 +40,7 @@ import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import com.chartiq.sdk.model.drawingtool.LineType
 import kotlinx.coroutines.*
 
-class ChartFragment : Fragment() {
+class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
     private val chartIQHandler: ChartIQHandler by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
@@ -114,6 +115,10 @@ class ChartFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         job.cancelChildren()
+    }
+
+    override fun onManageLayer(layer: ChartLayer) {
+        chartViewModel.manageLayer(layer)
     }
 
     private fun setupViews() {
@@ -361,8 +366,9 @@ class ChartFragment : Fragment() {
     }
 
     private fun showLayerManagementDialogue() {
-        // TODO: 07.11.20 Use TargetFragment
-        ManageLayersModelBottomSheet().show(parentFragmentManager, null)
+        val dialogue = ManageLayersModelBottomSheet()
+        dialogue.setTargetFragment(this, MANAGE_LAYERS_REQUEST_CODE)
+        dialogue.show(parentFragmentManager, null)
     }
 
     private fun findColorIndex(colors: List<ColorItem>, color: String?): Int? {
@@ -417,6 +423,8 @@ class ChartFragment : Fragment() {
     companion object {
         private const val CROSSHAIR_UPDATE_PERIOD = 300L
         private const val NO_SUCH_ITEM_IN_LIST_INDEX = -1
+
+        private const val MANAGE_LAYERS_REQUEST_CODE = 1012
 
         private val DEFAULT_LINE_TYPE_LIST = listOf(
             LineTypeItem(LineType.SOLID, 1, R.drawable.ic_line_type_solid),
