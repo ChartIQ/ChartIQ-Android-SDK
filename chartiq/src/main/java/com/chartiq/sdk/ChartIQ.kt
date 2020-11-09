@@ -46,6 +46,6 @@ interface ChartIQ {
     fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
-        callback: OnReturnCallback<String>
+        callback: OnReturnCallback<List<StudyParameter>>
     )
 }
