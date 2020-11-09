@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.StudyParameterType
+import com.chartiq.sdk.model.*
 
 class ActiveStudyDetailsViewModel(
     private val chartIQHandler: ChartIQHandler,
     private val study: Study
 ) : ViewModel() {
-    val params = MutableLiveData<List<Any>>()
+    val studyParams = MutableLiveData<List<StudyParameter>>()
 
     init {
         getStudyParameters()
@@ -20,14 +19,15 @@ class ActiveStudyDetailsViewModel(
 
     private fun getStudyParameters() {
         chartIQHandler.getStudyParameters(study, StudyParameterType.Inputs) {
-            Log.i("!!! input ", it)
+            Log.i("!!!", it.toString())
+            studyParams.postValue(it)
         }
-        chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
-            Log.i("!!! output ", it)
-        }
-        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
-            Log.i("!!! params ", it)
-        }
+//        chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
+////            Log.i("!!! output ", it)
+//        }
+//        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
+////            Log.i("!!! params ", it)
+//        }
     }
 
     fun cloneStudy() {

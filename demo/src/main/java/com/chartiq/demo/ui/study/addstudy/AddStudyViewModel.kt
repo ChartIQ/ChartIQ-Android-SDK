@@ -28,8 +28,8 @@ class AddStudyViewModel(
         }
 
     init {
-        chartIQHandler.getStudyList {
-            originalStudies.postValue(it.sortedBy { it.name })
+        chartIQHandler.getStudyList { list ->
+            originalStudies.postValue(list.sortedBy { it.name })
         }
     }
 
@@ -40,7 +40,7 @@ class AddStudyViewModel(
     fun saveStudies() {
         val finalList = selectedStudies.value ?: emptyList()
         finalList.forEach {
-            chartIQHandler.addStudy(it.name)
+            chartIQHandler.addStudy(it, false)
         }
     }
 

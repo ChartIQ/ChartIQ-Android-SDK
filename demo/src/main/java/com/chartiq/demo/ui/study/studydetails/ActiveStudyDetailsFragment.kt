@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
+import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.sdk.model.Study
 
 class ActiveStudyDetailsFragment : Fragment() {
@@ -56,6 +57,9 @@ class ActiveStudyDetailsFragment : Fragment() {
         }
         viewModel.params.observe(viewLifecycleOwner){
 
+        }
+        viewModel.studyParams.observe(viewLifecycleOwner) {
+            studyDetailsAdapter.items = it
         }
     }
 

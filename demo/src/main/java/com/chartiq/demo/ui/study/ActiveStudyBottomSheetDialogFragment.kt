@@ -59,5 +59,4 @@ class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
         fun onClone(study: Study)
         fun onSettings(study: Study)
     }
-
 }
