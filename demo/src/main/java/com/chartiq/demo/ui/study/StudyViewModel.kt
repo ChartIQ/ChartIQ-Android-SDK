@@ -10,7 +10,7 @@ class StudyViewModel(
 ) : ViewModel() {
 
     fun deleteStudy(studyToDelete: Study) {
-        chartIQHandler.removeStudy(studyToDelete.name)
+        chartIQHandler.removeStudy(studyToDelete)
     }
 
     /**

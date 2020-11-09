@@ -213,17 +213,22 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
-    override fun removeStudy(studyName: String) {
-        executeJavascript(scriptManager.getRemoveStudyScript(studyName))
+    override fun removeStudy(study: Study) {
+        executeJavascript(scriptManager.getRemoveStudyScript(study.name))
     }
 
     /**
      * Adds a selected study to active studies
-     * @param key the key identifier of the study to add.
-     * If this study is from  [getStudyList] use [Study.name]
-     * If this study is from [getActiveStudies] use [Study.type]
+     * @param study - a study to add/clone
+     * @param forClone - if [study] is from  [getStudyList] use `false`,
+     * if [study] is from [getActiveStudies] use `true`
      */
-    override fun addStudy(key: String) {
+    override fun addStudy(study: Study, forClone: Boolean) {
+        val key = if (forClone) {
+            study.type!!
+        } else {
+            study.shortName
+        }
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
@@ -236,26 +241,17 @@ class ChartIQHandler(
         parameters = talkbackFields
     }
 
-    override fun getStudyInputParameters(
-        studyName: String,
-        callback: OnReturnCallback<String>,
+    override fun getStudyParameters(
+        study: Study,
+        type: StudyParameterType,
+        callback: OnReturnCallback<String>
     ) {
-        executeJavascript(scriptManager.getGetStudyInputParametersScript(studyName)) { value ->
-            callback.onReturn(value)
+        val script = when (type) {
+            StudyParameterType.Inputs -> scriptManager.getStudyInputParametersScript(study.name)
+            StudyParameterType.Outputs -> scriptManager.getStudyOutputParametersScript(study.name)
+            StudyParameterType.Parameters -> scriptManager.getStudyParametersScript(study.name)
         }
-    }
-
-    override fun getStudyOutputParameters(
-        studyName: String,
-        callback: OnReturnCallback<String>,
-    ) {
-        executeJavascript(scriptManager.getGetStudyOutputParametersScript(studyName)) { value ->
-            callback.onReturn(value)
-        }
-    }
-
-    override fun getStudyParameters(studyName: String, callback: OnReturnCallback<String>) {
-        executeJavascript(scriptManager.getGetStudyParametersScript(studyName)) { value ->
+        executeJavascript(script) { value ->
             callback.onReturn(value)
         }
     }
@@ -271,7 +267,7 @@ class ChartIQHandler(
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
-        private val TAG = ChartIQHandler.javaClass.simpleName
+        private val TAG = ChartIQHandler::class.java.simpleName
     }
 
 
