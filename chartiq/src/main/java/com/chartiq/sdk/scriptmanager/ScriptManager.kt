@@ -1,6 +1,7 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.model.AggregationType
+import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
 
@@ -59,7 +60,7 @@ internal interface ScriptManager {
 
     fun getIsCrosshairsEnabledScript(): String
 
-    fun getGetCrosshairsHUDDetailScript(): String
+    fun getGetCrosshairHUDDetailsScript(): String
 
     fun getEnableDrawingScript(type: DrawingTool): String
 
@@ -106,4 +107,14 @@ internal interface ScriptManager {
     fun getGetEnginePropertyScript(property: String): String
 
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
+
+    fun getUndoScript(): String
+
+    fun getRedoScript(): String
+
+    fun getDeleteDrawingScript(): String
+
+    fun getCloneDrawingScript(): String
+
+    fun getLayerManagementScript(layer: ChartLayer): String
 }

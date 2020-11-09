@@ -1,12 +1,9 @@
 package com.chartiq.sdk
 
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.drawingtool.DrawingParameter
-import com.chartiq.sdk.model.drawingtool.DrawingTool
-import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import java.util.*
 
-interface ChartIQ {
+interface ChartIQ: ChartIQDrawingTool {
 
     fun start( onStartCallback: OnStartCallback)
 
@@ -22,12 +19,6 @@ interface ChartIQ {
 
     fun setPeriodicity(period: Int, interval: String, timeUnit: String)
 
-    fun enableDrawing(type: DrawingTool)
-
-    fun disableDrawing()
-
-    fun clearDrawing()
-
     fun getStudyList(callback: OnReturnCallback<List<Study>>)
 
     fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
@@ -42,10 +33,6 @@ interface ChartIQ {
 
     fun addStudy(study: Study, firstLoad: Boolean)
 
-    fun setDrawingParameter(parameter: DrawingParameter, value: String)
-
-    fun getDrawingParameters(tool: DrawingTool, callback: OnReturnCallback<DrawingToolParameters>)
-
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
     fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>)
@@ -53,4 +40,10 @@ interface ChartIQ {
     fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>)
 
     fun getStudyParameters(studyName: String, callback: OnReturnCallback<String>)
+
+    fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
+
+    fun undo(callback: OnReturnCallback<Boolean>)
+
+    fun redo(callback: OnReturnCallback<Boolean>)
 }

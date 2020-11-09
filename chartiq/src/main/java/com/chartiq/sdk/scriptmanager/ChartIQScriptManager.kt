@@ -2,6 +2,7 @@ package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.buildArgumentStringFromArgs
 import com.chartiq.sdk.model.AggregationType
+import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
 import com.google.gson.Gson
@@ -98,7 +99,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getIsCrosshairsEnabledScript(): String =
         "if (${CHART_IQ_JS_OBJECT}layout.crosshair == true) { \"true\" } else { \"false\" } "
 
-    override fun getGetCrosshairsHUDDetailScript(): String =
+    override fun getGetCrosshairHUDDetailsScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
     override fun getEnableDrawingScript(type: DrawingTool): String =
@@ -110,7 +111,7 @@ internal class ChartIQScriptManager : ScriptManager {
 
     // TODO: 03.09.20 Look into alternative "setDrawingParameters()"
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setCurrentVectorParameters($parameter, $value)"
+        MOBILE_BRIDGE_NAME_SPACE + "setCurrentVectorParameters(\"$parameter\", \"$value\")"
 
     override fun getSetStyleScript(obj: String, parameter: String, value: String): String =
         CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$parameter\", \"$value\");"
@@ -174,6 +175,21 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
+
+    override fun getUndoScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "undo();"
+
+    override fun getRedoScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "redo();"
+
+    override fun getDeleteDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "deleteDrawing();"
+
+    override fun getCloneDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "cloneDrawing();"
+
+    override fun getLayerManagementScript(layer: ChartLayer): String =
+        MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
 
     companion object {
         private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."

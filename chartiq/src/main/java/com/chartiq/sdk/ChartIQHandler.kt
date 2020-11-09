@@ -6,6 +6,9 @@ import android.util.Log
 import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.drawingtool.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,7 +28,7 @@ class ChartIQHandler(
 
     init {
         chartIQView.apply {
-            settings.apply {
+            with(settings) {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
@@ -230,7 +233,43 @@ class ChartIQHandler(
     }
 
     override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+        when (parameter) {
+            DrawingParameter.COLOR,
+            DrawingParameter.FILL_COLOR -> if (!value.startsWith(COLOR_HASH_SYMBOL)) {
+                throw IllegalStateException("The color must be in format of Hex color code")
+            }
+        }
+        // TODO: 09.11.20 Remove the temporary fix once it's known why library doesn't work with `color` property instead
+        if(parameter == DrawingParameter.COLOR) {
+            executeJavascript(scriptManager.getSetDrawingParameterScript("currentColor", value))
+        } else {
+            executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+        }
+    }
+
+    override fun getDrawingParameters(
+        tool: DrawingTool,
+        callback: OnReturnCallback<DrawingToolParameters>
+    ) {
+        executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
+            val result = value
+                .substring(1, value.length - 1)
+                .replace("\\", "")
+            val parameters = Gson().fromJson(result, DrawingToolParameters::class.java)
+            callback.onReturn(parameters)
+        }
+    }
+
+    override fun deleteDrawing() {
+        executeJavascript(scriptManager.getDeleteDrawingScript())
+    }
+
+    override fun cloneDrawing() {
+        executeJavascript(scriptManager.getCloneDrawingScript())
+    }
+
+    override fun manageLayer(layer: ChartLayer) {
+        executeJavascript(scriptManager.getLayerManagementScript(layer))
     }
 
     override fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>) {
@@ -261,6 +300,21 @@ class ChartIQHandler(
         }
     }
 
+    override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
+        executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
+            val hud = Gson().fromJson(value, CrosshairHUD::class.java)
+            callback.onReturn(hud)
+        }
+    }
+
+    override fun undo(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getUndoScript())
+    }
+
+    override fun redo(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getRedoScript())
+    }
+
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
         chartIQView.evaluateJavascript(script, callback)
     }
@@ -273,8 +327,8 @@ class ChartIQHandler(
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
         private val TAG = ChartIQHandler.javaClass.simpleName
+
+        private const val COLOR_HASH_SYMBOL = "#"
     }
-
-
 }
 
