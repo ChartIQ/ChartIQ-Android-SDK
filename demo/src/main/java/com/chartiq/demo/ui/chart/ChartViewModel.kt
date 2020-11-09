@@ -11,35 +11,43 @@ import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.model.Instrument
-import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
-import com.chartiq.demo.util.Event
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.DrawingToolSettingsManager
+import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.CrosshairHUD
+import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.chartiq.sdk.model.drawingtool.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
+import com.chartiq.sdk.model.drawingtool.LineType
+import kotlinx.coroutines.*
 
 class ChartViewModel(
     private val networkManager: NetworkManager,
-    private val applicationPrefs: ApplicationPrefs
-) : ViewModel(), OnSelectItemListener<InstrumentItem> {
+    private val applicationPrefs: ApplicationPrefs,
+    private val chartIQHandler: ChartIQ
+) : ViewModel() {
 
-    val currentSymbol = MutableLiveData<Event<Symbol>>()
+    val currentSymbol = MutableLiveData<Symbol>()
 
-    val chartInterval = MutableLiveData<Event<Interval>>()
+    val chartInterval = MutableLiveData<Interval>()
 
-    val drawingTool = MutableLiveData<Event<DrawingTool>>()
+    val drawingTool = MutableLiveData<DrawingTool>()
 
     val resultLiveData = MutableLiveData<ChartData>()
 
     val errorLiveData = MutableLiveData<Unit>()
 
-    val panelItemSelect = MutableLiveData<Event<InstrumentItem>>()
+    val resetInstrumentsLiveData = MutableLiveData<Unit>()
 
-    // TODO: 19.10.20 Review
+    val parameters = MutableLiveData<DrawingToolParameters>()
+
+    val crosshairHUD = MutableLiveData<CrosshairHUD>()
+
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -52,10 +60,18 @@ class ChartViewModel(
         }
     }
 
+    fun setSymbol(symbol: Symbol) {
+        chartIQHandler.setSymbol(symbol.value)
+    }
+
+    fun setDataMethod(dataMethod: DataMethod, symbol: Symbol) {
+        chartIQHandler.setDataMethod(dataMethod, symbol.value)
+    }
+
     fun fetchSavedSettings() {
-        currentSymbol.value = Event(applicationPrefs.getChartSymbol())
-        chartInterval.value = Event(applicationPrefs.getChartInterval())
-        drawingTool.value = Event(applicationPrefs.getDrawingTool())
+        currentSymbol.value = applicationPrefs.getChartSymbol()
+        chartInterval.value = applicationPrefs.getChartInterval()
+        drawingTool.value = applicationPrefs.getDrawingTool()
     }
 
     fun setupInstrumentsList(item: DrawingToolItem): List<InstrumentItem> {
@@ -95,19 +111,108 @@ class ChartViewModel(
         return instrumentList
     }
 
+    fun enableDrawing(drawingTool: DrawingTool) {
+        chartIQHandler.enableDrawing(drawingTool)
+    }
+
+    fun enableCrosshairs() {
+        chartIQHandler.enableCrosshairs()
+    }
+
+    fun disableCrosshairs() {
+        chartIQHandler.disableCrosshairs()
+    }
+
+    fun getHUDDetails() {
+        chartIQHandler.getHUDDetails { hud ->
+            crosshairHUD.value = hud
+        }
+    }
+
+    fun updateFillColor(color: Int) {
+        chartIQHandler.setDrawingParameter(
+            DrawingParameter.FILL_COLOR,
+            Integer.toHexString(color).replaceFirst("ff", "#")
+        )
+    }
+
+    fun updateColor(color: Int) {
+        chartIQHandler.setDrawingParameter(
+            DrawingParameter.COLOR,
+            Integer.toHexString(color).replaceFirst("ff", "#")
+        )
+    }
+
+    fun updateLineType(lineType: LineType) {
+        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE, lineType.value)
+    }
+
+    fun updateLineWidth(lineWidth: Int) {
+        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH, lineWidth.toString())
+    }
+
+    fun cloneDrawing() {
+        chartIQHandler.cloneDrawing()
+        resetInstruments(REFRESH_TIME_MILLIS)
+    }
+
+    fun deleteDrawing() {
+        chartIQHandler.deleteDrawing()
+        resetInstruments(REFRESH_TIME_MILLIS)
+    }
+
+    fun magnetDrawing() {
+    }
+
+    fun manageLayer(layer: ChartLayer) {
+        chartIQHandler.manageLayer(layer)
+        resetInstruments()
+    }
+
+    fun getDrawingToolParameters() {
+        if (drawingTool.value != null) {
+            chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
+                this.parameters.value = parameters
+            }
+        }
+    }
+
+    fun redo() {
+        chartIQHandler.redo {}
+    }
+
+    fun undo() {
+        chartIQHandler.undo {}
+    }
+
+    fun resetInstruments(delay: Long = REFRESH_IMMEDIATE_MILLIS) {
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(delay)
+            withContext(Dispatchers.Main) {
+                resetInstrumentsLiveData.value = Unit
+            }
+        }
+    }
+
     class ChartViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
+        private val chartIQHandler: ChartIQ
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java)
-                .newInstance(argNetworkManager, argApplicationPrefs)
+                .getConstructor(
+                    NetworkManager::class.java,
+                    ApplicationPrefs::class.java,
+                    ChartIQ::class.java
+                )
+                .newInstance(argNetworkManager, argApplicationPrefs, chartIQHandler)
         }
     }
 
-    override fun onSelected(item: InstrumentItem) {
-        panelItemSelect.value = Event(item)
+    companion object {
+        private const val REFRESH_TIME_MILLIS = 400L
+        private const val REFRESH_IMMEDIATE_MILLIS = 0L
     }
 }

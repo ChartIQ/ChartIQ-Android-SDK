@@ -25,7 +25,7 @@
         android:layout_marginStart="8dp"
         android:maxLength="6"
         app:layout_constraintStart_toEndOf="@id/priceLabelTextView"
-        android:text="117.79" />
+        tools:text="117.79" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/volLabelTextView"
@@ -44,7 +44,7 @@
         android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/priceValueTextView"
         app:layout_constraintTop_toTopOf="@id/volLabelTextView"
-        android:text="32.6 M" />
+        tools:text="32.6 M" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/openLabelTextView"
@@ -63,7 +63,7 @@
         android:layout_marginStart="8dp"
         android:maxLength="6"
         app:layout_constraintStart_toEndOf="@id/openLabelTextView"
-        android:text="116.23" />
+        tools:text="116.23" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/highLabelTextView"
@@ -82,7 +82,7 @@
         android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/openValueTextView"
         app:layout_constraintTop_toTopOf="@id/highLabelTextView"
-        android:text="116.23" />
+        tools:text="116.23" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/closeLabelTextView"
@@ -102,7 +102,7 @@
         android:maxLength="6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/closeLabelTextView"
-        android:text="116.23" />
+        tools:text="116.23" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lowLabelTextView"
@@ -121,7 +121,7 @@
         android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/closeValueTextView"
         app:layout_constraintTop_toTopOf="@id/lowLabelTextView"
-        android:text="111.23" />
+        tools:text="111.23" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerGuideline"

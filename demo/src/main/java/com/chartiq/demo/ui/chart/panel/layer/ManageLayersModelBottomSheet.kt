@@ -28,8 +28,9 @@ class ManageLayersModelBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupViews(binding: DialogManageLayersBinding) {
-        val layersAdapter = LayersAdapter(onLayerSelectedListener)
+        val layersAdapter = LayersAdapter()
         layersAdapter.items = DEFAULT_LAYERS_LIST
+        layersAdapter.listener = onLayerSelectedListener
         binding.layersRecyclerView.adapter = layersAdapter
     }
 

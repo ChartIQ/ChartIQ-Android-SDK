@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
-import com.chartiq.sdk.model.DrawingTool
 import java.util.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
@@ -31,7 +30,6 @@ interface ApplicationPrefs {
     fun clearSession()
 
     fun getApplicationId(): String
-
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
