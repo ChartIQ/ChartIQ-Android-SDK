@@ -226,7 +226,9 @@ class ChartIQHandler(
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
             study.type!!
-        } else study.shortName
+        } else {
+            study.shortName
+        }
 
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
