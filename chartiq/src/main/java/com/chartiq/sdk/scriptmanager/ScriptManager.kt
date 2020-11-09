@@ -45,12 +45,7 @@ internal interface ScriptManager {
 
     fun getSetChartScaleScript(scale: String): String
 
-    fun getAddStudyScript(
-        studyName: String,
-        inputs: Map<String, Any>?,
-        outputs: Map<String, Any>?,
-        parameters: Map<String, Any>
-    ): String
+    fun getAddStudyScript(studyName: String): String
 
     fun getRemoveStudyScript(studyName: String): String
 
@@ -80,11 +75,11 @@ internal interface ScriptManager {
 
     fun getSetAggregationTypeScript(aggregationType: AggregationType): String
 
-    fun getGetStudyInputParametersScript(studyName: String): String
+    fun getStudyInputParametersScript(studyName: String): String
 
-    fun getGetStudyOutputParametersScript(studyName: String): String
+    fun getStudyOutputParametersScript(studyName: String): String
 
-    fun getGetStudyParametersScript(studyName: String): String
+    fun getStudyParametersScript(studyName: String): String
 
     fun getSetStudyInputParameterScript(studyName: String, parameter: String, value: String): String
 

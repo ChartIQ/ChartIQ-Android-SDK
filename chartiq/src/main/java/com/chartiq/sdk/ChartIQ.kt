@@ -29,19 +29,19 @@ interface ChartIQ: ChartIQDrawingTool {
 
     fun setChartScale(scale: ChartScale)
 
-    fun removeStudy(studyName: String)
+    fun removeStudy(study: Study)
 
-    fun addStudy(study: Study, firstLoad: Boolean)
+    fun addStudy(study: Study, forClone: Boolean)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
-    fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>)
-
-    fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>)
-
-    fun getStudyParameters(studyName: String, callback: OnReturnCallback<String>)
-
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
+
+    fun getStudyParameters(
+        study: Study,
+        type: StudyParameterType,
+        callback: OnReturnCallback<String>
+    )
 
     fun undo(callback: OnReturnCallback<Boolean>)
 

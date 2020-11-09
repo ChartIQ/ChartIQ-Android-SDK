@@ -73,19 +73,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartScaleScript(scale: String): String =
         CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
-    override fun getAddStudyScript(
-        studyName: String,
-        inputs: Map<String, Any>?,
-        outputs: Map<String, Any>?,
-        parameters: Map<String, Any>
-    ): String {
-
-        return MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\", ${
-            if (inputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(inputs)
-        },${
-            if (outputs.isNullOrEmpty()) "{}" else buildArgumentStringFromArgs(outputs)
-        });"
-    }
+    override fun getAddStudyScript(studyName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -127,13 +116,13 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetAggregationTypeScript(aggregationType: AggregationType): String =
         CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ");"
 
-    override fun getGetStudyInputParametersScript(studyName: String): String =
+    override fun getStudyInputParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\", \"inputs\")"
 
-    override fun getGetStudyOutputParametersScript(studyName: String): String =
+    override fun getStudyOutputParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"outputs\")"
 
-    override fun getGetStudyParametersScript(studyName: String): String =
+    override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
     override fun getSetStudyInputParameterScript(
