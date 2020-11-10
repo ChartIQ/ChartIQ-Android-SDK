@@ -36,7 +36,9 @@ class ChartFragment : Fragment() {
             ChartIQNetworkManager(), ApplicationPrefs.Default(requireContext())
         )
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.MainViewModelFactory(chartIQHandler)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,7 +81,7 @@ class ChartFragment : Fragment() {
                     }
                 })
                 chartViewModel.fetchSavedSettings()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
+                mainViewModel.fetchActiveStudyData()
             }
         }
     }

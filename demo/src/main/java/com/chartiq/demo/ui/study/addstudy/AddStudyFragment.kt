@@ -20,18 +20,18 @@ import com.chartiq.sdk.model.Study
 
 class AddStudyFragment : Fragment() {
 
+    private lateinit var binding: FragmentAddStudyBinding
+    private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
+        AddStudyViewModel.ViewModelFactory(chartIQHandler)
+    })
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.MainViewModelFactory(chartIQHandler)
+    })
     private val studiesAdapter = AllStudiesAdapter()
 
     private val chartIQHandler by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
-
-    private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQHandler)
-    })
-    private val mainViewModel by activityViewModels<MainViewModel>()
-
-    private lateinit var binding: FragmentAddStudyBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class AddStudyFragment : Fragment() {
             toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
+                mainViewModel.fetchActiveStudyData()
                 hideKeyboard()
                 findNavController().navigateUp()
             }

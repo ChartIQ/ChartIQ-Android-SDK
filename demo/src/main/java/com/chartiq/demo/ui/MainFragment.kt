@@ -40,7 +40,6 @@ class MainFragment : Fragment() {
             mainViewPager.apply {
                 adapter = MainViewPagerAdapter(this@MainFragment)
                 isUserInputEnabled = false
-                currentItem = 1
             }
             navView.apply {
                 selectedItemId = R.id.navigation_study

@@ -23,18 +23,18 @@ import com.chartiq.sdk.model.Study
 
 class StudyFragment : Fragment() {
 
+    private lateinit var binding: FragmentStudyBinding
     private val chartIQHandler by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
-
     private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
         StudyViewModel.ViewModelFactory(chartIQHandler)
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
-
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.MainViewModelFactory(chartIQHandler)
+    })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
 
-    private lateinit var binding: FragmentStudyBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
@@ -46,6 +46,7 @@ class StudyFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
+
         setupViews()
         return binding.root
     }
@@ -69,20 +70,14 @@ class StudyFragment : Fragment() {
                         getString(R.string.study_delete).toUpperCase(),
                         ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
                     ).apply {
-                        onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
-                            override fun onSwiped(
-                                viewHolder: RecyclerView.ViewHolder,
-                                direction: Int,
-                            ) {
-                                val position = viewHolder.adapterPosition
-                                val studyToDelete = activeStudiesAdapter.items[position]
-                                deleteStudy(studyToDelete)
-                            }
+                        onSwipeListener = SimpleItemTouchCallBack.OnSwipeListener { viewHolder, _ ->
+                            val position = viewHolder.adapterPosition
+                            val studyToDelete = activeStudiesAdapter.items[position]
+                            deleteStudy(studyToDelete)
                         }
                     }
                 )
                 deleteItemTouchHelper.attachToRecyclerView(this)
-
             }
 
             addStudiesButton.setOnClickListener {
@@ -106,6 +101,6 @@ class StudyFragment : Fragment() {
 
     private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData()
     }
 }

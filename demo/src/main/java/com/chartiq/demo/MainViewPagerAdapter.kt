@@ -1,8 +1,6 @@
 package com.chartiq.demo
 
-import androidx.annotation.IntDef
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.chartiq.demo.ui.chart.ChartFragment
 import com.chartiq.demo.ui.settings.SettingsFragment
@@ -11,9 +9,13 @@ import com.chartiq.demo.ui.study.StudyFragment
 class MainViewPagerAdapter(fragment: Fragment) :
     FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = listOf(
+        FRAGMENT_CHART,
+        FRAGMENT_STUDIES,
+        FRAGMENT_SETTINGS
+    ).size
 
-    override fun createFragment(@ViewPagerFragment position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         return when (position) {
             FRAGMENT_CHART -> ChartFragment()
             FRAGMENT_STUDIES -> StudyFragment()
@@ -21,10 +23,6 @@ class MainViewPagerAdapter(fragment: Fragment) :
             else -> throw IllegalStateException()
         }
     }
-
-    @Retention(AnnotationRetention.SOURCE)
-    @IntDef(FRAGMENT_CHART, FRAGMENT_STUDIES, FRAGMENT_SETTINGS)
-    annotation class ViewPagerFragment
 
     companion object {
         const val FRAGMENT_CHART = 0

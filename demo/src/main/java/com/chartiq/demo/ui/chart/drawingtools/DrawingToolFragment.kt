@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.*
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolSection
 import com.chartiq.sdk.model.DrawingTool
 import com.google.android.material.tabs.TabLayout
 
