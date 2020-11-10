@@ -1,7 +1,6 @@
 package com.chartiq.sdk.model
 
 import com.google.gson.annotations.SerializedName
-import java.lang.IllegalArgumentException
 
 data class StudyParameterEntity(
     @SerializedName("defaultInput", alternate = ["defaultValue", "defaultOutput"])
@@ -66,7 +65,16 @@ fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyPa
             }
         }
         else ->
-            if (defaultValue == StudyParameter.AUTO_VALUE) {
+            if(color != null){
+                StudyParameter.Color(
+                    value = color,
+                    heading = heading,
+                    name = name,
+                    defaultValue = defaultValue as String,
+                    parameterType = parameterType
+                )
+            }
+            else if (defaultValue == StudyParameter.AUTO_VALUE) {
                 StudyParameter.Color(
                     value = color ?: defaultValue as String,
                     heading = heading,
