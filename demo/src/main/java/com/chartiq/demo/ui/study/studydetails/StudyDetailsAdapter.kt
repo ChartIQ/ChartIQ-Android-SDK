@@ -141,7 +141,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     inner class TextColorViewHolder(private val binding: ItemTextColorStudyParamBinding) :
         ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
-            val colorValue = (studyParameter as StudyParameter.Color).value
+            val colorValue = (studyParameter as StudyParameter.TextColor).color ?: studyParameter.defaultColor
+            val numValue = studyParameter.value ?: studyParameter.defaultValue
             with(binding) {
                 parameterTextColorTextView.text = studyParameter.name
                 parameterTextColor.apply {
@@ -154,7 +155,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
                     )
                     setOnClickListener { listener?.onColorParamChange(studyParameter) }
                 }
-                parameterTextColorEditText.setText(studyParameter.value)
+                parameterTextColorEditText.setText(numValue.toString())
                 parameterTextColorEditText.addTextChangedListener {
                     listener?.onTextParamChange(studyParameter, it.toString())
                 }
@@ -177,7 +178,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         fun onCheckboxParamChange(parameter: StudyParameter, isChecked: Boolean)
         fun onTextParamChange(parameter: StudyParameter, newValue: String)
         fun onNumberParamChange(parameter: StudyParameter, newValue: Double)
-        fun onColorParamChange(studyParameter: StudyParameter.Color)
+        fun onColorParamChange(studyParameter: StudyParameter)
         fun onSelectParamChange(studyParameter: StudyParameter.Select)
     }
 }

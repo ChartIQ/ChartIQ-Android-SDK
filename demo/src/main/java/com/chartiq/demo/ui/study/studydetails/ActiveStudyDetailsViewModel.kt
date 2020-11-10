@@ -30,9 +30,9 @@ class ActiveStudyDetailsViewModel(
         chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
             inputParameters.postValue(it)
         }
-//        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
-////            Log.i("!!! params ", it)
-//        }
+        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
+            parameters.postValue(it)
+        }
     }
 
     fun cloneStudy() {
