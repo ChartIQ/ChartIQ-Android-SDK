@@ -50,7 +50,7 @@ class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-        val TAG: String = ActiveStudyBottomSheetDialogFragment::class.java.name
+        private val TAG: String = ActiveStudyBottomSheetDialogFragment::class.java.name
         private const val ARG_STUDY = "ARG_STUDY"
     }
 
