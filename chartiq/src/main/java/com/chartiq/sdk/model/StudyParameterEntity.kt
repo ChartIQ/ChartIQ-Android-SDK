@@ -1,16 +1,21 @@
 package com.chartiq.sdk.model
 
-data class StudyInputParameterEntity(
+data class StudyParameterEntity(
     val defaultInput: Any, //Double/String/Boolean
     val heading: String,
     val name: String,
     val type: String, // number(Double), select(String), checkbox(Boolean)
     val value: Any, //Double/String/Boolean
-    val options: Map<String, String>?
+    val options: Map<String, String>?,
+// outputs
+    val color: String?,
+    val defaultOutput: String,
+//  val heading
+// val name
 
 )
 
-fun StudyInputParameterEntity.toInputParameter(): StudyParameter {
+fun StudyParameterEntity.toInputParameter(): StudyParameter {
     when (type) {
         "number" -> {
             return StudyParameter.Number(
@@ -44,7 +49,17 @@ fun StudyInputParameterEntity.toInputParameter(): StudyParameter {
     return StudyParameter.Text(
         value = "undefined",
         heading = "undefined",
-        name = "undefine",
+        name = "undefined",
+        parameterType = StudyParameterType.Inputs
+    )
+}
+
+fun StudyParameterEntity.toOutputParameter(): StudyParameter {
+    return StudyParameter.Color(
+        value = color ?: defaultOutput,
+        heading = heading,
+        name = name,
+        defaultValue = defaultOutput,
         parameterType = StudyParameterType.Inputs
     )
 }

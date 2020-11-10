@@ -1,9 +1,8 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.*
 
@@ -11,7 +10,14 @@ class ActiveStudyDetailsViewModel(
     private val chartIQHandler: ChartIQHandler,
     private val study: Study
 ) : ViewModel() {
-    val studyParams = MutableLiveData<List<StudyParameter>>()
+    private val outputParameters = MutableLiveData<List<StudyParameter>>()
+    private val inputParameters = MutableLiveData<List<StudyParameter>>()
+    private val parameters = MutableLiveData<List<StudyParameter>>()
+    val studyParams: LiveData<List<StudyParameter>> = Transformations.map(
+        combineLatest(outputParameters, inputParameters, parameters)
+    ) { (output, input, param) ->
+        (output ?: emptyList()) + (input ?: emptyList()) + (param ?: emptyList())
+    }
 
     init {
         getStudyParameters()
@@ -19,12 +25,11 @@ class ActiveStudyDetailsViewModel(
 
     private fun getStudyParameters() {
         chartIQHandler.getStudyParameters(study, StudyParameterType.Inputs) {
-            Log.i("!!!", it.toString())
-            studyParams.postValue(it)
+            outputParameters.postValue(it)
         }
-//        chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
-////            Log.i("!!! output ", it)
-//        }
+        chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
+            inputParameters.postValue(it)
+        }
 //        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
 ////            Log.i("!!! params ", it)
 //        }
