@@ -55,8 +55,11 @@ class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     interface DialogFragmentListener {
+
         fun onDelete(study: Study)
+
         fun onClone(study: Study)
+
         fun onSettings(study: Study)
     }
 

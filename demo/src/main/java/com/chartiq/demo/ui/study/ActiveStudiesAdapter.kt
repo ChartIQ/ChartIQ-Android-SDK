@@ -46,23 +46,27 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                 studyValueTextView.setOnClickListener {
                     listener?.onOptionsClick(item)
                 }
-                val finalName = item.splitName()
+                val finalName = splitName(item)
                 studyNameTextView.text = finalName.first
                 studyValueTextView.text = finalName.second
             }
         }
     }
 
-    interface StudyListener {
-        fun onOptionsClick(study: Study)
-    }
-
-    fun Study.splitName(): Pair<String, String> {
-        val result = name.split("\u200C")
+    fun splitName(study: Study): Pair<String, String> {
+        val result = study.name.split(ZERO_WIDTH_NON_JOINER)
         return when (result.size) {
             3 -> Pair(result[1], result[2])
             2 -> Pair(result.first(), result.last())
             else -> Pair(result.toString(), "")
         }
+    }
+
+    companion object {
+        private const val ZERO_WIDTH_NON_JOINER = "\u200C"
+    }
+
+    interface StudyListener {
+        fun onOptionsClick(study: Study)
     }
 }

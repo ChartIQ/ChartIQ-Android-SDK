@@ -66,7 +66,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                             .getInstance(study).apply {
                                 setTargetFragment(this@StudyFragment, REQUEST_CODE)
                             }
-                            .show(parentFragmentManager, ActiveStudyBottomSheetDialogFragment.TAG)
+                            .show(parentFragmentManager, ActiveStudyBottomSheetDialogFragment::class.java.simpleName)
                     }
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
