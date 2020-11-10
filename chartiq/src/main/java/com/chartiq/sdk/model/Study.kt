@@ -23,11 +23,3 @@ data class Study(
     val yAxis: @RawValue Map<String, Any>?,
 ) : Parcelable
 
-fun Study.splitName(): Pair<String, String>{
-    val result = name.split("\u200C")
-    return when (result.size) {
-        3 -> Pair(result[1], result[2])
-        2 -> Pair(result.first(), result.last())
-        else -> Pair(result.toString(), "")
-    }
-}
