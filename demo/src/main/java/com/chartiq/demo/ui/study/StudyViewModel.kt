@@ -15,12 +15,10 @@ class StudyViewModel(
 
     /**
      * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
-     * we should send [Study.type] to [ChartIQHandler.addStudy]
+     * `forClone = true`
      */
     fun cloneActiveStudy(study: Study) {
-        study.type?.let { type ->
-            chartIQHandler.addStudy(study, true)
-        }
+        chartIQHandler.addStudy(study, true)
     }
 
     class ViewModelFactory(

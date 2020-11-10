@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
@@ -53,9 +55,10 @@ class ActiveStudyDetailsFragment : Fragment() {
                 showDeleteDialog()
                 true
             }
-            detailsRecyclerView.adapter = studyDetailsAdapter
-        }
-        viewModel.params.observe(viewLifecycleOwner){
+            detailsRecyclerView.apply {
+                adapter = studyDetailsAdapter
+                addItemDecoration(StudyDetailsItemDecorator(requireContext()))
+            }
 
         }
         viewModel.studyParams.observe(viewLifecycleOwner) {
