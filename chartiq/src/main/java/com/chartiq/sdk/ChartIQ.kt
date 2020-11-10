@@ -35,17 +35,17 @@ interface ChartIQ {
 
     fun setChartScale(scale: ChartScale)
 
-    fun removeStudy(studyName: String)
+    fun removeStudy(study: Study)
 
-    fun addStudy(key: String)
+    fun addStudy(study: Study, forClone: Boolean)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
-    fun getStudyInputParameters(studyName: String, callback: OnReturnCallback<String>)
-
-    fun getStudyOutputParameters(studyName: String, callback: OnReturnCallback<String>)
-
-    fun getStudyParameters(studyName: String, callback: OnReturnCallback<String>)
+    fun getStudyParameters(
+        study: Study,
+        type: StudyParameterType,
+        callback: OnReturnCallback<String>
+    )
 }
