@@ -1,12 +1,5 @@
 package com.chartiq.sdk.model
 
-data class OutputStudyParameter(
-    val defaultOutput: String,
-    val color: String?,
-    val name: String,
-    val heading: String
-)
-
 sealed class StudyParameter {
     abstract val heading: String
     abstract val name: String
@@ -40,7 +33,9 @@ sealed class StudyParameter {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: Double,
-        val value: Double
+        val value: Double?,
+        val defaultColor: String,
+        val color: String?
     ) : StudyParameter()
 
     data class Checkbox(
@@ -59,6 +54,10 @@ sealed class StudyParameter {
         val value: String,
         val options: Map<String, String>
     ) : StudyParameter()
+
+    companion object {
+        const val AUTO_VALUE = "auto"
+    }
 }
 
 
