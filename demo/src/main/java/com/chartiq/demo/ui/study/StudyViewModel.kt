@@ -9,7 +9,7 @@ import com.chartiq.sdk.model.Study
 class StudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
 
     fun deleteStudy(studyToDelete: Study) {
-        chartIQHandler.removeStudy(studyToDelete.name)
+        chartIQHandler.removeStudy(studyToDelete)
     }
 
     class ViewModelFactory(private val chartIQHandler: ChartIQ) :
