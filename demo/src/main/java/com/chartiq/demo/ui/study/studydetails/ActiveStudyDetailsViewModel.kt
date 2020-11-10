@@ -13,6 +13,7 @@ class ActiveStudyDetailsViewModel(
     private val outputParameters = MutableLiveData<List<StudyParameter>>()
     private val inputParameters = MutableLiveData<List<StudyParameter>>()
     private val parameters = MutableLiveData<List<StudyParameter>>()
+
     val studyParams: LiveData<List<StudyParameter>> = Transformations.map(
         combineLatest(outputParameters, inputParameters, parameters)
     ) { (output, input, param) ->

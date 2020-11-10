@@ -2,11 +2,13 @@ package com.chartiq.demo.ui.study.studydetails
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQApplication
@@ -14,6 +16,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.StudyParameter
 
 class ActiveStudyDetailsFragment : Fragment() {
 
@@ -56,7 +59,29 @@ class ActiveStudyDetailsFragment : Fragment() {
                 true
             }
             detailsRecyclerView.apply {
-                adapter = studyDetailsAdapter
+                adapter = studyDetailsAdapter.apply {
+                    listener = object : StudyDetailsAdapter.StudyParameterListener {
+                        override fun onCheckboxParamChange(parameter: StudyParameter, isChecked: Boolean) {
+                            Log.i(TAG, "onCheckboxParamChange")
+                        }
+
+                        override fun onTextParamChange(parameter: StudyParameter, newValue: String) {
+                            Log.i(TAG, "onTextParamChange newValue $newValue")
+                        }
+
+                        override fun onNumberParamChange(parameter: StudyParameter, newValue: Double) {
+                            Log.i(TAG, "onNumberParamChange newValue $newValue")
+                        }
+
+                        override fun onColorParamChange(studyParameter: StudyParameter) {
+                            Log.i(TAG, "onColorParamChange")
+                        }
+
+                        override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
+                            Log.i(TAG, "onSelectParamChange")
+                        }
+                    }
+                }
                 addItemDecoration(StudyDetailsItemDecorator(requireContext()))
             }
 
@@ -68,19 +93,28 @@ class ActiveStudyDetailsFragment : Fragment() {
 
     private fun showDeleteDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Do You Want To Remove This Study?")
-            .setMessage("This study will be removed from the current chart.")
-            .setNegativeButton("Remove", null)
-            .setNeutralButton("Cancel", null)
+            .setTitle(getString(R.string.study_details_remove_alert_title))
+            .setMessage(getString(R.string.study_details_remove_alert_message))
+            .setNegativeButton(getString(R.string.study_details_remove)) { _, _ ->
+                viewModel.deleteStudy()
+                findNavController().navigateUp()
+            }
+            .setNeutralButton(getString(R.string.study_details_cancel), null)
             .show()
     }
 
     private fun showResetDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Do You Want To Reset This Study To Defaults?")
-            .setMessage("This study will be reset to default options.")
-            .setPositiveButton("Reset", null)
-            .setNeutralButton("Cancel", null)
+            .setTitle(getString(R.string.study_details_reset_alert_title))
+            .setMessage(getString(R.string.study_details_reset_alert_message))
+            .setPositiveButton(getString(R.string.study_details_reset)) { _, _ ->
+                viewModel.resetStudy()
+            }
+            .setNeutralButton(getString(R.string.study_details_cancel), null)
             .show()
+    }
+
+    companion object {
+        private val TAG = ActiveStudyDetailsFragment::class.java.simpleName
     }
 }
