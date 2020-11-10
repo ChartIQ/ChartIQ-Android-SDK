@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/padding_medium"
-    android:paddingTop="@dimen/padding_medium_small"
-    android:paddingEnd="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_medium_small">
+    android:paddingEnd="@dimen/padding_small">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterTextColorTextView"
         style="@style/SubtitleTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/parameterTextColorEditText"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,24 +21,36 @@
         tools:text="NYSE" />
 
     <androidx.appcompat.widget.AppCompatEditText
+        style="@style/SecondaryTextStyle"
         android:id="@+id/parameterTextColorEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_extra_large"
+        android:layout_marginEnd="@dimen/margin_medium_small"
+        android:background="@android:color/transparent"
         android:gravity="end"
+        android:maxWidth="100dp"
         android:minWidth="50dp"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/parameterTextColor"
+        app:layout_constraintEnd_toStartOf="@+id/parameterTextColorLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="20" />
 
-    <View
-        android:id="@+id/parameterTextColor"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="#ff0000"
-        android:padding="@dimen/padding_small"
+    <FrameLayout
+        android:id="@+id/parameterTextColorLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/parameterTextColor"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/shape_color_background"
+            tools:backgroundTint="@color/coralRed" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

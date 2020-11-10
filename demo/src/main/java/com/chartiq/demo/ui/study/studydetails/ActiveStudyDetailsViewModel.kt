@@ -1,10 +1,11 @@
 package com.chartiq.demo.ui.study.studydetails
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
     private val chartIQHandler: ChartIQHandler,

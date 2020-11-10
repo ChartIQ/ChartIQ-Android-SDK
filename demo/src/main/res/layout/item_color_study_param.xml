@@ -5,29 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/padding_medium"
-    android:paddingTop="@dimen/padding_medium_small"
-    android:paddingEnd="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_medium_small">
+    android:paddingEnd="@dimen/padding_small">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterTextView"
         style="@style/SubtitleTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/parameterColor"
+        app:layout_constraintEnd_toStartOf="@+id/parameterColorLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="NYSE" />
 
-    <View
-        android:id="@+id/parameterColor"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="#ff0000"
-        android:padding="@dimen/padding_small"
+    <FrameLayout
+        android:id="@+id/parameterColorLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/parameterTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/parameterColor"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/shape_color_background"
+            tools:backgroundTint="@color/coralRed" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

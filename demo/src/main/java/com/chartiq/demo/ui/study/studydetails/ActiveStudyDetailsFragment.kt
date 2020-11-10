@@ -9,12 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
-import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.sdk.model.Study
 import com.chartiq.sdk.model.StudyParameter
 
@@ -45,19 +42,25 @@ class ActiveStudyDetailsFragment : Fragment() {
 
     private fun setupViews() {
         with(binding) {
-            toolbar.title = study.type
-            toolbar.menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
-                viewModel.cloneStudy()
-                true
+            toolbar.apply {
+                title = study.type
+                menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
+                    viewModel.cloneStudy()
+                    true
+                }
+                menu.findItem(R.id.action_reset_details).setOnMenuItemClickListener {
+                    showResetDialog()
+                    true
+                }
+                menu.findItem(R.id.action_delete_details).setOnMenuItemClickListener {
+                    showDeleteDialog()
+                    true
+                }
+                setNavigationOnClickListener {
+                    findNavController().navigateUp()
+                }
             }
-            toolbar.menu.findItem(R.id.action_reset_details).setOnMenuItemClickListener {
-                showResetDialog()
-                true
-            }
-            toolbar.menu.findItem(R.id.action_delete_details).setOnMenuItemClickListener {
-                showDeleteDialog()
-                true
-            }
+
             detailsRecyclerView.apply {
                 adapter = studyDetailsAdapter.apply {
                     listener = object : StudyDetailsAdapter.StudyParameterListener {

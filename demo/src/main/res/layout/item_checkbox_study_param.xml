@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/padding_medium"
-    android:paddingTop="@dimen/padding_medium_small"
-    android:paddingEnd="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_medium_small">
+    android:paddingEnd="@dimen/padding_medium">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterTextView"
         style="@style/SubtitleTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/parameterSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="NYSE" />
+        tools:text="Nyse" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/parameterSwitch"

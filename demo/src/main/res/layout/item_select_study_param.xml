@@ -7,9 +7,7 @@
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingStart="@dimen/padding_medium"
-    android:paddingTop="@dimen/padding_medium_small"
-    android:paddingEnd="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_medium_small">
+    android:paddingEnd="@dimen/padding_small">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterSelectTextView"
@@ -21,6 +19,8 @@
         android:inputType="text"
         android:lines="1"
         android:maxLines="1"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/parameterSelectImageButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterSelectValueTextView"
-        style="@style/SubtitleTextStyle"
+        style="@style/SecondaryTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -45,6 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:padding="@dimen/padding_medium"
+        android:padding="@dimen/padding_small"
         android:src="@drawable/ic_chevron_right" />
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.chartiq.demo.ui.study.studydetails
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.*
 import com.chartiq.sdk.model.StudyParameter
-import java.lang.IllegalStateException
 
 class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder>() {
 
@@ -124,16 +124,14 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             val colorValue = (studyParameter as StudyParameter.Color).value
             with(binding) {
                 parameterTextView.text = studyParameter.name
-                parameterColor.apply {
-                    setBackgroundColor(
-                        if (colorValue == "auto") {
-                            Color.BLACK
-                        } else {
-                            Color.parseColor(colorValue)
-                        }
-                    )
-                    setOnClickListener { listener?.onColorParamChange(studyParameter) }
-                }
+                parameterColor.backgroundTintList = ColorStateList.valueOf(
+                    if (colorValue == StudyParameter.AUTO_VALUE) {
+                        Color.BLACK
+                    } else {
+                        Color.parseColor(colorValue)
+                    }
+                )
+                parameterColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
             }
         }
     }
@@ -146,8 +144,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             with(binding) {
                 parameterTextColorTextView.text = studyParameter.name
                 parameterTextColor.apply {
-                    setBackgroundColor(
-                        if (colorValue == "auto") {
+                    backgroundTintList = ColorStateList.valueOf(
+                        if (colorValue == StudyParameter.AUTO_VALUE) {
                             Color.BLACK
                         } else {
                             Color.parseColor(colorValue)
