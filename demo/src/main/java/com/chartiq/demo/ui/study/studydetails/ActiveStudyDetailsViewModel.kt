@@ -5,6 +5,7 @@ import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.Study
 import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.StudyParameterKeyValue
 import com.chartiq.sdk.model.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
@@ -20,6 +21,9 @@ class ActiveStudyDetailsViewModel(
     ) { (output, input, param) ->
         (output ?: emptyList()) + (input ?: emptyList()) + (param ?: emptyList())
     }
+    private val parametersToSave = MutableLiveData<Map<String, StudyParameterKeyValue>>(emptyMap())
+
+    val canUpdateParameters = Transformations.map(parametersToSave) { !it.isNullOrEmpty() }
 
     init {
         getStudyParameters()
@@ -47,6 +51,40 @@ class ActiveStudyDetailsViewModel(
 
     fun resetStudy() {
         // todo
+    }
+
+    fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, checked: Boolean) {
+        if (parameter.value != checked) {
+            val map = parametersToSave.value!!.toMutableMap()
+            map[parameter.name] = StudyParameterKeyValue(parameter.name, checked.toString())
+            parametersToSave.postValue(map)
+        }
+    }
+
+    fun onTextParamChange(parameter: StudyParameter, newValue: String) {
+        if (parameter is StudyParameter.TextColor && parameter.value.toString() != newValue
+            || parameter is StudyParameter.Text && parameter.value != newValue
+        ) {
+            val map = parametersToSave.value!!.toMutableMap()
+            map[parameter.name] = StudyParameterKeyValue(parameter.name, newValue)
+            parametersToSave.postValue(map)
+        }
+    }
+
+    fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double) {
+        if (parameter.value != newValue) {
+            val map = parametersToSave.value!!.toMutableMap()
+            map[parameter.name] = StudyParameterKeyValue(parameter.name, newValue.toString())
+            parametersToSave.postValue(map)
+        }
+    }
+
+    fun updateStudy() {
+        //todo check with [ChartIQHandler.setStudyParameters]
+        parametersToSave.value!!.forEach {
+            chartIQHandler.setStudyParameter(study, it.value)
+        }
+//        chartIQHandler.setStudyParameters(study, parametersToSave.value!!.values.toList())
     }
 
     class ViewModelFactory(

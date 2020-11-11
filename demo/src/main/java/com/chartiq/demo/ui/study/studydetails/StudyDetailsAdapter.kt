@@ -176,9 +176,9 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     }
 
     interface StudyParameterListener {
-        fun onCheckboxParamChange(parameter: StudyParameter, isChecked: Boolean)
+        fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean)
         fun onTextParamChange(parameter: StudyParameter, newValue: String)
-        fun onNumberParamChange(parameter: StudyParameter, newValue: Double)
+        fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double)
         fun onColorParamChange(studyParameter: StudyParameter)
         fun onSelectParamChange(studyParameter: StudyParameter.Select)
     }

@@ -64,33 +64,41 @@ class ActiveStudyDetailsFragment : Fragment() {
             detailsRecyclerView.apply {
                 adapter = studyDetailsAdapter.apply {
                     listener = object : StudyDetailsAdapter.StudyParameterListener {
-                        override fun onCheckboxParamChange(parameter: StudyParameter, isChecked: Boolean) {
+                        override fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean) {
+                            viewModel.onCheckboxParamChange(parameter, isChecked)
                             Log.i(TAG, "onCheckboxParamChange")
                         }
 
                         override fun onTextParamChange(parameter: StudyParameter, newValue: String) {
+                            viewModel.onTextParamChange(parameter, newValue)
                             Log.i(TAG, "onTextParamChange newValue $newValue")
                         }
 
-                        override fun onNumberParamChange(parameter: StudyParameter, newValue: Double) {
+                        override fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double) {
+                            viewModel.onNumberParamChange(parameter, newValue)
                             Log.i(TAG, "onNumberParamChange newValue $newValue")
                         }
 
                         override fun onColorParamChange(studyParameter: StudyParameter) {
+                            //todo open color picker
                             Log.i(TAG, "onColorParamChange")
                         }
 
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
+                            //todo open select picker
                             Log.i(TAG, "onSelectParamChange")
                         }
                     }
                 }
                 addItemDecoration(StudyDetailsItemDecorator(requireContext()))
             }
-
+            saveStudyButton.setOnClickListener { viewModel.updateStudy() }
         }
         viewModel.studyParams.observe(viewLifecycleOwner) {
             studyDetailsAdapter.items = it
+        }
+        viewModel.canUpdateParameters.observe(viewLifecycleOwner) {
+            binding.saveStudyButton.isEnabled = it
         }
     }
 
