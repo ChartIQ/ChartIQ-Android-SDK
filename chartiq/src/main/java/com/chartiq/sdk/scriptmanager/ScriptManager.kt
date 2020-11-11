@@ -3,6 +3,7 @@ package com.chartiq.sdk.scriptmanager
 import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.StudyParameterKeyValue
 
 internal interface ScriptManager {
 
@@ -80,13 +81,9 @@ internal interface ScriptManager {
 
     fun getStudyParametersScript(studyName: String): String
 
-    fun getSetStudyInputParameterScript(studyName: String, parameter: String, value: String): String
+    fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterKeyValue>): String
 
-    fun getSetStudyOutputParameterScript(
-        studyName: String,
-        parameter: String,
-        value: String
-    ): String
+    fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterKeyValue): String
 
     fun getGetDrawingParametersScript(drawingName: String): String
 
@@ -99,6 +96,5 @@ internal interface ScriptManager {
     fun getSetEnginePropertyScript(property: String, value: Any): String
 
     fun getGetEnginePropertyScript(property: String): String
-
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 }

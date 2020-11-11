@@ -233,6 +233,15 @@ class ChartIQHandler(
         executeJavascript(scripts)
     }
 
+    override fun setStudyParameter(study: Study, parameter: StudyParameterKeyValue) {
+        val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
+        executeJavascript(script)
+    }
+
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterKeyValue>) {
+        executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
+    }
+
     override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
         executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
     }

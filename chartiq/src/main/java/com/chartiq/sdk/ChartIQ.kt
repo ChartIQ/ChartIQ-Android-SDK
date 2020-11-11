@@ -39,6 +39,10 @@ interface ChartIQ {
 
     fun addStudy(study: Study, forClone: Boolean)
 
+    fun setStudyParameter(study: Study, parameter: StudyParameterKeyValue)
+
+    fun setStudyParameters(study: Study, parameters: List<StudyParameterKeyValue>)
+
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
