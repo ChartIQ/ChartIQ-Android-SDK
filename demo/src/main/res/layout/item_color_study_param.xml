@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterTextView"
-        style="@style/SubtitleTextStyle"
+        style="@style/SubtitleTextOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_medium_small"
@@ -24,6 +24,7 @@
         android:id="@+id/parameterColorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/padding_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

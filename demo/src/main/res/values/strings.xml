@@ -131,6 +131,7 @@
     <string name="study_details_reset_alert_title">Do You Want To Reset This Study To Defaults?</string>
     <string name="study_details_reset_alert_message">This study will be reset to default options.</string>
     <string name="study_details_reset">Reset</string>
+    <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
 
     <!-- General strings -->
     <string name="warning_something_went_wrong">Something went wrong</string>
