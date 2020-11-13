@@ -2,17 +2,8 @@ package com.chartiq.sdk
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.accessibility.AccessibilityManager
-import android.webkit.JavascriptInterface
-import android.webkit.ValueCallback
 import android.webkit.WebView
-import android.webkit.WebViewClient
-import com.chartiq.sdk.model.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.util.*
-import kotlin.collections.HashMap
 
 class ChartIQView @JvmOverloads constructor(
     context: Context,

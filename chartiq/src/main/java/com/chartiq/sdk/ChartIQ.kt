@@ -5,7 +5,7 @@ import java.util.*
 
 interface ChartIQ {
 
-    fun start( onStartCallback: OnStartCallback)
+    fun start(onStartCallback: OnStartCallback)
 
     fun setSymbol(symbol: String)
 
