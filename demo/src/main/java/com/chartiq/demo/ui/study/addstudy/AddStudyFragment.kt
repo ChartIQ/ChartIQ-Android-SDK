@@ -9,13 +9,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
-import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
 
 class AddStudyFragment : Fragment() {
@@ -29,7 +27,6 @@ class AddStudyFragment : Fragment() {
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
         AddStudyViewModel.ViewModelFactory(chartIQHandler)
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
 
     private lateinit var binding: FragmentAddStudyBinding
 
@@ -57,7 +54,6 @@ class AddStudyFragment : Fragment() {
             toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
                 hideKeyboard()
                 findNavController().navigateUp()
             }

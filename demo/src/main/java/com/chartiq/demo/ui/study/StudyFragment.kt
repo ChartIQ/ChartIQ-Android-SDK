@@ -105,18 +105,18 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
 
     private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData()
     }
 
     override fun onDelete(study: Study) {
         studyViewModel.deleteStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData()
 
     }
 
     override fun onClone(study: Study) {
         studyViewModel.cloneActiveStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData()
     }
 
     override fun onSettings(study: Study) {
