@@ -58,11 +58,19 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
     }
 
     fun Study.splitName(): Pair<String, String> {
-        val result = name.split("\u200C")
-        return when (result.size) {
-            3 -> Pair(result[1], result[2])
-            2 -> Pair(result.first(), result.last())
-            else -> Pair(result.toString(), "")
+        val nameWithoutLeading = name.replaceFirst(ZERO_WIDTH_NON_JOINER.toString(), "")
+        return if (nameWithoutLeading.split(ZERO_WIDTH_NON_JOINER).size == 1) {
+            Pair(nameWithoutLeading, "")
+        } else {
+            val indexOfDelimiter = nameWithoutLeading.indexOfFirst { it == ZERO_WIDTH_NON_JOINER }
+            Pair(
+                nameWithoutLeading.substring(0, indexOfDelimiter).trim(),
+                nameWithoutLeading.substring(indexOfDelimiter).replace(ZERO_WIDTH_NON_JOINER.toString(), "").trim()
+            )
         }
+    }
+
+    companion object {
+        private const val ZERO_WIDTH_NON_JOINER = '\u200C'
     }
 }

@@ -27,6 +27,7 @@
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
         <item name="android:textColor">@color/cadetBlue</item>
     </style>
+
     <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
         <item name="android:textColor">@color/darkElectricBlue</item>
@@ -86,9 +87,16 @@
     <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/elevationDark</item>
     </style>
+
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorHint">@color/cadetBlue</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="AppTheme">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/cadetBlue</item>
     </style>
 </resources>

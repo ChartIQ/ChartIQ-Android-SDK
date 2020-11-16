@@ -102,4 +102,12 @@
             android:name="study"
             app:argType="com.chartiq.sdk.model.Study" />
     </fragment>
+    <fragment
+        android:id="@+id/selectParameterDialogFragment"
+        android:name="com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment"
+        android:label="SelectParameterDialogFragment" >
+        <argument
+            android:name="parameter"
+            app:argType="com.chartiq.sdk.model.StudyParameter$Select" />
+    </fragment>
 </navigation>

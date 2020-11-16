@@ -125,13 +125,13 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterKeyValue): String {
         val script =
-            MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.key.asSafeScriptParameter}\", \"${parameter.value.asSafeScriptParameter}\");"
+            MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
         return script
     }
 
     override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterKeyValue>): String {
         val scriptList = parameters.map {
-            getUpdateStudyParametersScript(it.key, it.value)
+            getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
         }
         return getStudyDescriptorScript(name) +
                 "var helper = new CIQ.Studies.DialogHelper({\n" +

@@ -1,21 +1,25 @@
 package com.chartiq.demo.ui.study.studydetails
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
+import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
+import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragmentArgs
 import com.chartiq.sdk.model.Study
 import com.chartiq.sdk.model.StudyParameter
 
-class ActiveStudyDetailsFragment : Fragment() {
+class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.DialogFragmentListener {
 
     private val study: Study by lazy {
         ActiveStudyDetailsFragmentArgs.fromBundle(requireArguments()).study
@@ -85,8 +89,10 @@ class ActiveStudyDetailsFragment : Fragment() {
                         }
 
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
-                            //todo open select picker
-                            Log.i(TAG, "onSelectParamChange")
+                            val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
+                            SelectParameterDialogFragment.getInstance(bundle).apply {
+                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE)
+                            }.show(parentFragmentManager, SelectParameterDialogFragment::class.java.simpleName)
                         }
                     }
                 }
@@ -99,6 +105,7 @@ class ActiveStudyDetailsFragment : Fragment() {
         }
         viewModel.successUpdateEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
+                hideKeyboard()
                 findNavController().navigateUp()
             }
         }
@@ -127,7 +134,18 @@ class ActiveStudyDetailsFragment : Fragment() {
             .show()
     }
 
+    private fun hideKeyboard() {
+        (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
     companion object {
         private val TAG = ActiveStudyDetailsFragment::class.java.simpleName
+        private const val REQUEST_CODE = 102
+
+    }
+
+    override fun onSelect(parameter: StudyParameter.Select, neewValue: String) {
+        viewModel.onSelectChange(parameter, neewValue)
     }
 }

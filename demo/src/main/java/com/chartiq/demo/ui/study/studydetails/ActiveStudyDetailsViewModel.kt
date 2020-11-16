@@ -1,5 +1,6 @@
 package com.chartiq.demo.ui.study.studydetails
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.chartiq.demo.util.Event
 import com.chartiq.demo.util.combineLatest
@@ -20,6 +21,7 @@ class ActiveStudyDetailsViewModel(
     val studyParams: LiveData<List<StudyParameter>> = Transformations.map(
         combineLatest(outputParameters, inputParameters, parameters)
     ) { (output, input, param) ->
+        Log.i("&&&", "!!!")
         (output ?: emptyList()) + (input ?: emptyList()) + (param ?: emptyList())
     }
     private val parametersToSave = MutableLiveData<Map<String, StudyParameterKeyValue>>(emptyMap())
@@ -31,10 +33,10 @@ class ActiveStudyDetailsViewModel(
 
     private fun getStudyParameters() {
         chartIQHandler.getStudyParameters(study, StudyParameterType.Inputs) {
-            outputParameters.postValue(it)
+            inputParameters.postValue(it)
         }
         chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
-            inputParameters.postValue(it)
+            outputParameters.postValue(it)
         }
         chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
             parameters.postValue(it)
@@ -76,6 +78,38 @@ class ActiveStudyDetailsViewModel(
             val map = parametersToSave.value!!.toMutableMap()
             map[parameter.name] = StudyParameterKeyValue(parameter.name, newValue.toString())
             parametersToSave.postValue(map)
+        }
+    }
+
+    fun onSelectChange(parameter: StudyParameter.Select, newValue: String) {
+        if (parameter.value != newValue) {
+            val map = parametersToSave.value!!.toMutableMap()
+            map[parameter.name] = StudyParameterKeyValue(parameter.name, newValue)
+            parametersToSave.postValue(map)
+        }
+        val changedParameter = studyParams.value!!
+            .filterIsInstance<StudyParameter.Select>()
+            .find { it.name == parameter.name }!!
+
+        when (changedParameter.parameterType) {
+            StudyParameterType.Inputs -> inputParameters.value =
+                updateList(inputParameters.value ?: emptyList(), parameter, newValue)
+            StudyParameterType.Outputs -> outputParameters.value =
+                updateList(outputParameters.value ?: emptyList(), parameter, newValue)
+            StudyParameterType.Parameters -> parameters.value =
+                updateList(parameters.value ?: emptyList(), parameter, newValue)
+        }
+    }
+
+    private fun updateList(
+        originalList: List<StudyParameter>,
+        changedParameter: StudyParameter.Select,
+        newValue: String
+    ): List<StudyParameter> {
+        return originalList.toMutableList().map {
+            if (it.name == changedParameter.name) {
+                changedParameter.copy(value = newValue)
+            } else it
         }
     }
 

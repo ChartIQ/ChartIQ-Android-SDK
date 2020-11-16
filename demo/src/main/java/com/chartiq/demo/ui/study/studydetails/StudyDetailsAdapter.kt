@@ -169,8 +169,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         override fun bind(studyParameter: StudyParameter) {
             with(binding) {
                 parameterSelectTextView.text = (studyParameter as StudyParameter.Select).heading
-                parameterSelectValueTextView.text = studyParameter.value
-                parameterSelectImageButton.setOnClickListener { listener?.onSelectParamChange(studyParameter) }
+                parameterSelectValueTextView.text = studyParameter.options[studyParameter.value]
+                root.setOnClickListener {  listener?.onSelectParamChange(studyParameter)}
             }
         }
     }
