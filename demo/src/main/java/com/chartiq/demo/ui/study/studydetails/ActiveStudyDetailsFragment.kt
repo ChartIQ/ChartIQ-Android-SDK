@@ -97,8 +97,10 @@ class ActiveStudyDetailsFragment : Fragment() {
         viewModel.studyParams.observe(viewLifecycleOwner) {
             studyDetailsAdapter.items = it
         }
-        viewModel.canUpdateParameters.observe(viewLifecycleOwner) {
-            binding.saveStudyButton.isEnabled = it
+        viewModel.successUpdateEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigateUp()
+            }
         }
     }
 

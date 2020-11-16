@@ -2,7 +2,6 @@ package com.chartiq.demo
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
@@ -87,7 +86,6 @@ interface ApplicationPrefs {
 
         override fun getApplicationId(): String {
             val storedId = prefs.getString(KEY_APPLICATION_ID, null)
-            Log.i("storedId", storedId?:"")
             return if (storedId == null) {
                 val newId = UUID.randomUUID().toString()
                 prefs.edit(true) {

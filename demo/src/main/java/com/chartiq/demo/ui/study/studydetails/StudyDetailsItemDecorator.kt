@@ -29,7 +29,7 @@ class StudyDetailsItemDecorator(
             val child = parent.getChildAt(i)
             val adapterPosition = parent.getChildAdapterPosition(child)
             val viewType = parent.adapter?.getItemViewType(adapterPosition)
-            if (viewType != ParamViewType.Text.ordinal && viewType != ParamViewType.Number.ordinal) {
+            if (viewType != ParamViewType.TEXT.ordinal && viewType != ParamViewType.NUMBER.ordinal) {
                 divider?.apply {
                     val params = child.layoutParams as RecyclerView.LayoutParams
                     val top = child.bottom + params.bottomMargin

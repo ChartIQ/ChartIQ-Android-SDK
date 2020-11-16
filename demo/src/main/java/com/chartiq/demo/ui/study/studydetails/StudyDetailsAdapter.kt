@@ -27,22 +27,22 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     ): ParameterViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            ParamViewType.Text.ordinal -> TextViewHolder(
+            ParamViewType.TEXT.ordinal -> TextViewHolder(
                 ItemTextStudyParamBinding.inflate(inflater, parent, false)
             )
-            ParamViewType.Number.ordinal -> NumberViewHolder(
+            ParamViewType.NUMBER.ordinal -> NumberViewHolder(
                 ItemNumberStudyParamBinding.inflate(inflater, parent, false)
             )
-            ParamViewType.Color.ordinal -> ColorViewHolder(
+            ParamViewType.COLOR.ordinal -> ColorViewHolder(
                 ItemColorStudyParamBinding.inflate(inflater, parent, false)
             )
-            ParamViewType.TextColor.ordinal -> TextColorViewHolder(
+            ParamViewType.TEXT_COLOR.ordinal -> TextColorViewHolder(
                 ItemTextColorStudyParamBinding.inflate(inflater, parent, false)
             )
-            ParamViewType.Checkbox.ordinal -> CheckboxViewHolder(
+            ParamViewType.CHECKBOX.ordinal -> CheckboxViewHolder(
                 ItemCheckboxStudyParamBinding.inflate(inflater, parent, false)
             )
-            ParamViewType.Select.ordinal -> SelectViewHolder(
+            ParamViewType.SELECT.ordinal -> SelectViewHolder(
                 ItemSelectStudyParamBinding.inflate(inflater, parent, false)
             )
             else -> throw IllegalStateException("Invalid viewType $viewType")
@@ -51,12 +51,12 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is StudyParameter.Text -> ParamViewType.Text.ordinal
-            is StudyParameter.Number -> ParamViewType.Number.ordinal
-            is StudyParameter.Checkbox -> ParamViewType.Checkbox.ordinal
-            is StudyParameter.Color -> ParamViewType.Color.ordinal
-            is StudyParameter.TextColor -> ParamViewType.TextColor.ordinal
-            is StudyParameter.Select -> ParamViewType.Select.ordinal
+            is StudyParameter.Text -> ParamViewType.TEXT.ordinal
+            is StudyParameter.Number -> ParamViewType.NUMBER.ordinal
+            is StudyParameter.Checkbox -> ParamViewType.CHECKBOX.ordinal
+            is StudyParameter.Color -> ParamViewType.COLOR.ordinal
+            is StudyParameter.TextColor -> ParamViewType.TEXT_COLOR.ordinal
+            is StudyParameter.Select -> ParamViewType.SELECT.ordinal
         }
     }
 

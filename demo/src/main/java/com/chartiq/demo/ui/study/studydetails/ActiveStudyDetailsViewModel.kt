@@ -1,6 +1,7 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import androidx.lifecycle.*
+import com.chartiq.demo.util.Event
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.Study
@@ -22,8 +23,7 @@ class ActiveStudyDetailsViewModel(
         (output ?: emptyList()) + (input ?: emptyList()) + (param ?: emptyList())
     }
     private val parametersToSave = MutableLiveData<Map<String, StudyParameterKeyValue>>(emptyMap())
-
-    val canUpdateParameters = Transformations.map(parametersToSave) { !it.isNullOrEmpty() }
+    val successUpdateEvent = MutableLiveData<Event<Unit>>()
 
     init {
         getStudyParameters()
@@ -80,11 +80,8 @@ class ActiveStudyDetailsViewModel(
     }
 
     fun updateStudy() {
-        //todo check with [ChartIQHandler.setStudyParameters]
-        parametersToSave.value!!.forEach {
-            chartIQHandler.setStudyParameter(study, it.value)
-        }
-//        chartIQHandler.setStudyParameters(study, parametersToSave.value!!.values.toList())
+        chartIQHandler.setStudyParameters(study, parametersToSave.value!!.values.toList())
+        successUpdateEvent.postValue(Event(Unit))
     }
 
     class ViewModelFactory(

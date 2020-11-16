@@ -32,9 +32,10 @@ class ChartViewModel(
     @Deprecated("This logic was moved to MainViewModel class")
     val errorLiveData = MutableLiveData<Unit>()
 
-    init{
+    init {
         fetchSavedSettings()
     }
+
     // TODO: 19.10.20 Review
     @Deprecated("All state data that should be kept during the whole app live  and should not be attached to a concrete fragment is moved to MainViewModel")
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
@@ -48,6 +49,7 @@ class ChartViewModel(
             }
         }
     }
+
     private fun fetchSavedSettings() {
         currentSymbol.value = applicationPrefs.getChartSymbol()
         chartInterval.value = applicationPrefs.getChartInterval()
