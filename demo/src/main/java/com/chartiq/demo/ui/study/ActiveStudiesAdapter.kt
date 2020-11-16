@@ -33,7 +33,6 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
 
     override fun getItemCount(): Int = items.size
 
-
     inner class StudyViewHolder(private val binding: ItemActiveStudyBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Study) {
@@ -47,16 +46,15 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                 studyValueTextView.setOnClickListener {
                     listener?.onOptionsClick(item)
                 }
-                val finalName = parseName(item.name)
+                val finalName = splitName(item)
                 studyNameTextView.text = finalName.first
                 studyValueTextView.text = finalName.second
             }
         }
     }
 
-    private fun parseName(name: String): Pair<String, String> {
-        //divide a name by 'ZERO WIDTH NON-JOINER' (U+200C)
-        val result = name.split(ZERO_WIDTH_NON_JOINER)
+    fun splitName(study: Study): Pair<String, String> {
+        val result = study.name.split(ZERO_WIDTH_NON_JOINER)
         return when (result.size) {
             3 -> Pair(result[1], result[2])
             2 -> Pair(result.first(), result.last())
@@ -64,11 +62,11 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
         }
     }
 
-    interface StudyListener {
-        fun onOptionsClick(study: Study)
-    }
-
     companion object {
         private const val ZERO_WIDTH_NON_JOINER = "\u200C"
+    }
+
+    interface StudyListener {
+        fun onOptionsClick(study: Study)
     }
 }

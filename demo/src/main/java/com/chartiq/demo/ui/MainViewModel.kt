@@ -14,5 +14,4 @@ class MainViewModel : ViewModel() {
             activeStudies.postValue(result)
         }
     }
-
 }
