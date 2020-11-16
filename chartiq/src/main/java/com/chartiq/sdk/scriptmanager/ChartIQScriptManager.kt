@@ -179,7 +179,7 @@ internal class ChartIQScriptManager : ScriptManager {
                 "           newInputParameters[\"$safeStudyParameter\"] = parseFloat(\"$safeStudyValue\"); " +
                 "       } else if (input[\"type\"] === \"checkbox\") { " +
                 "           newInputParameters[\"$safeStudyParameter\"] =" +
-                " ($safeStudyValue == \"false\" || $safeStudyValue == \"0\" ? false : true); " +
+                " (\"$safeStudyValue\" == \"false\" || \"$safeStudyValue\" == \"0\" ? false : true); " +
                 "       } " +
                 "   } " +
                 "} " +
@@ -196,7 +196,7 @@ internal class ChartIQScriptManager : ScriptManager {
                 "       newParameters[\"$safeStudyParameter\"] = \"$safeStudyValue\"; " +
                 "   } else if(\"$safeStudyParameter\".includes(\"Enabled\")) { " +
                 "       newParameters[\"$safeStudyParameter\"] =" +
-                " ($safeStudyValue == \"false\" || safeStudyValue == \"0\" ? false : true); " +
+                " (\"$safeStudyValue\" == \"false\" || \"$safeStudyValue\" == \"0\" ? false : true); " +
                 "   } else { " +
                 "       newParameters[\"$safeStudyParameter\"] = parseFloat(\"$safeStudyValue\"); " +
                 "   } " +
