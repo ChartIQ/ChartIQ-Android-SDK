@@ -40,7 +40,7 @@ class ChartIQHandler(
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
-                    executeJavascript(scriptManager.getNativeQuoteFeedScript())
+//                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
                     executeJavascript(scriptManager.getAddDrawingListenerScript())
                     executeJavascript(scriptManager.getAddLayoutListenerScript())
                     executeJavascript(scriptManager.getAddMeasureListener())
@@ -232,12 +232,21 @@ class ChartIQHandler(
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
-
+    /**
+     * Changes the active [Study] with a single parameter
+     * @param study -  a [Study] to update
+     * @param parameter - a [StudyParameterKeyValue] that contains key-value to be updated
+     */
     override fun setStudyParameter(study: Study, parameter: StudyParameterKeyValue) {
         val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
         executeJavascript(script)
     }
 
+    /**
+     * Changes the active [Study] with the provided inputs, outputs and parameters
+     * @param study -  a [Study] to update
+     * @param parameters -  a list of [StudyParameterKeyValue] that contains values to be updated
+     */
     override fun setStudyParameters(study: Study, parameters: List<StudyParameterKeyValue>) {
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
