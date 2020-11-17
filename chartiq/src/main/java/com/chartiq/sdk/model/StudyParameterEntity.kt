@@ -61,6 +61,7 @@ fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyPa
                     heading = heading,
                     name = name,
                     parameterType = parameterType,
+                    defaultValue = defaultValue as String
                 )
             }
         }

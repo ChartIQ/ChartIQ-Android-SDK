@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 sealed class StudyParameter : Parcelable {
     abstract val heading: String
     abstract val name: String
+    abstract val value: Any?
     abstract val parameterType: StudyParameterType
 
     @Parcelize
@@ -13,7 +14,8 @@ sealed class StudyParameter : Parcelable {
         override val heading: String,
         override val name: String,
         override val parameterType: StudyParameterType,
-        val value: String
+        val defaultValue: String,
+        override val value: String
     ) : StudyParameter()
 
     @Parcelize
@@ -22,7 +24,7 @@ sealed class StudyParameter : Parcelable {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: Double,
-        val value: Double
+        override val value: Double
     ) : StudyParameter()
 
     @Parcelize
@@ -31,7 +33,7 @@ sealed class StudyParameter : Parcelable {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: String,
-        val value: String
+        override val value: String
     ) : StudyParameter()
 
     @Parcelize
@@ -40,7 +42,7 @@ sealed class StudyParameter : Parcelable {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: Double,
-        val value: Double?,
+        override val value: Double?,
         val defaultColor: String,
         val color: String?
     ) : StudyParameter()
@@ -51,7 +53,7 @@ sealed class StudyParameter : Parcelable {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: Boolean,
-        val value: Boolean
+        override val value: Boolean
     ) : StudyParameter()
 
     @Parcelize
@@ -60,12 +62,18 @@ sealed class StudyParameter : Parcelable {
         override val name: String,
         override val parameterType: StudyParameterType,
         val defaultValue: String,
-        val value: String,
+        override val value: String,
         val options: Map<String, String>
     ) : StudyParameter()
 
     companion object {
         const val AUTO_VALUE = "auto"
+    }
+
+    enum class StudyParameterNamePostfix {
+        Enabled,
+        Value,
+        Color
     }
 }
 
