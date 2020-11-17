@@ -1,13 +1,13 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -70,17 +70,14 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                     listener = object : StudyDetailsAdapter.StudyParameterListener {
                         override fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean) {
                             viewModel.onCheckboxParamChange(parameter, isChecked)
-                            Log.i(TAG, "onCheckboxParamChange")
                         }
 
                         override fun onTextParamChange(parameter: StudyParameter, newValue: String) {
                             viewModel.onTextParamChange(parameter, newValue)
-                            Log.i(TAG, "onTextParamChange newValue $newValue")
                         }
 
                         override fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double) {
                             viewModel.onNumberParamChange(parameter, newValue)
-                            Log.i(TAG, "onNumberParamChange newValue $newValue")
                         }
 
                         override fun onColorParamChange(studyParameter: StudyParameter) {
@@ -112,25 +109,25 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     }
 
     private fun showDeleteDialog() {
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.NegativeAlertDialogTheme)
             .setTitle(getString(R.string.study_details_remove_alert_title))
             .setMessage(getString(R.string.study_details_remove_alert_message))
-            .setNegativeButton(getString(R.string.study_details_remove)) { _, _ ->
+            .setPositiveButton(getString(R.string.study_details_remove)) { _, _ ->
                 viewModel.deleteStudy()
                 findNavController().navigateUp()
             }
-            .setNeutralButton(getString(R.string.study_details_cancel), null)
+            .setNegativeButton(getString(R.string.study_details_cancel), null)
             .show()
     }
 
     private fun showResetDialog() {
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
             .setTitle(getString(R.string.study_details_reset_alert_title))
             .setMessage(getString(R.string.study_details_reset_alert_message))
             .setPositiveButton(getString(R.string.study_details_reset)) { _, _ ->
                 viewModel.resetStudy()
             }
-            .setNeutralButton(getString(R.string.study_details_cancel), null)
+            .setNegativeButton(getString(R.string.study_details_cancel), null)
             .show()
     }
 
@@ -145,7 +142,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
 
     }
 
-    override fun onSelect(parameter: StudyParameter.Select, neewValue: String) {
-        viewModel.onSelectChange(parameter, neewValue)
+    override fun onSelect(parameter: StudyParameter.Select, newValue: String) {
+        viewModel.onSelectChange(parameter, newValue)
     }
 }

@@ -13,12 +13,12 @@ import com.chartiq.demo.MainViewPagerAdapter
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
-import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.ChartIQ
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFragment : Fragment() {
 
-    private val chartIQHandler: ChartIQHandler by lazy {
+    private val chartIQHandler: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
 

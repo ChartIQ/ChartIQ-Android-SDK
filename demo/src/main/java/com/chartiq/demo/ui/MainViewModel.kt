@@ -9,7 +9,7 @@ import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
-import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
@@ -23,16 +23,10 @@ import kotlinx.coroutines.withContext
 class MainViewModel(
     private val networkManager: NetworkManager,
     private val applicationPrefs: ApplicationPrefs,
-    private val chartIQHandler: ChartIQHandler,
+    private val chartIQHandler: ChartIQ,
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
-
-    val currentSymbol = MutableLiveData<Symbol>()
-
-    val chartInterval = MutableLiveData<Interval>()
-
-    val drawingTool = MutableLiveData<DrawingTool>()
 
     val errorLiveData = MutableLiveData<Unit>()
 
@@ -94,13 +88,13 @@ class MainViewModel(
     class ViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
-        private val chartIQHandler: ChartIQHandler
+        private val argChartIQHandler: ChartIQ
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java, ChartIQHandler::class.java)
-                .newInstance(argNetworkManager, argApplicationPrefs, chartIQHandler)
+                .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java, ChartIQ::class.java)
+                .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
         }
     }
 }
