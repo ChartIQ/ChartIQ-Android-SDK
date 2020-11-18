@@ -18,6 +18,7 @@ import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragmentArgs
 import com.chartiq.sdk.model.Study
 import com.chartiq.sdk.model.StudyParameter
+import kotlinx.android.synthetic.main.fragment_study_details.*
 
 class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.DialogFragmentListener {
 
@@ -50,6 +51,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                 title = study.type
                 menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
                     viewModel.cloneStudy()
+                    findNavController().navigateUp()
                     true
                 }
                 menu.findItem(R.id.action_reset_details).setOnMenuItemClickListener {
@@ -74,10 +76,14 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
 
                         override fun onTextParamChange(parameter: StudyParameter, newValue: String) {
                             viewModel.onTextParamChange(parameter, newValue)
+                            Log.i(TAG, "onTextParamChange $newValue")
+
                         }
 
-                        override fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double) {
+                        override fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double?) {
                             viewModel.onNumberParamChange(parameter, newValue)
+                            Log.i(TAG, "onNumberParamChange $newValue")
+
                         }
 
                         override fun onColorParamChange(studyParameter: StudyParameter) {
@@ -105,6 +111,9 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                 hideKeyboard()
                 findNavController().navigateUp()
             }
+        }
+        viewModel.errorList.observe(viewLifecycleOwner) { errorSet ->
+            saveStudyButton.isEnabled = errorSet.isEmpty()
         }
     }
 

@@ -96,6 +96,10 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
                         if (it.isNullOrEmpty()) {
                             parameterNumberInputLayout.error =
                                 context.getString(R.string.study_details_validation_error_empty_value)
+                            listener?.onNumberParamChange(
+                                studyParameter,
+                                null
+                            )
                         } else {
                             parameterNumberInputLayout.error = null
                             listener?.onNumberParamChange(
@@ -159,7 +163,14 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
                 parameterTextColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
                 parameterTextColorEditText.setText(numValue.toString())
                 parameterTextColorEditText.addTextChangedListener {
-                    listener?.onTextParamChange(studyParameter, it.toString())
+                    if (it.isNullOrEmpty()) {
+                        parameterTextColorEditText.error =
+                            root.context.getString(R.string.study_details_validation_error_empty_value)
+                        listener?.onTextParamChange(studyParameter, it.toString())
+                    } else {
+                        parameterTextColorEditText.error = null
+                        listener?.onTextParamChange(studyParameter, it.toString())
+                    }
                 }
             }
         }
@@ -170,7 +181,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             with(binding) {
                 parameterSelectTextView.text = (studyParameter as StudyParameter.Select).heading
                 parameterSelectValueTextView.text = studyParameter.options[studyParameter.value]
-                root.setOnClickListener {  listener?.onSelectParamChange(studyParameter)}
+                root.setOnClickListener { listener?.onSelectParamChange(studyParameter) }
             }
         }
     }
@@ -178,7 +189,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     interface StudyParameterListener {
         fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean)
         fun onTextParamChange(parameter: StudyParameter, newValue: String)
-        fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double)
+        fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double?)
         fun onColorParamChange(studyParameter: StudyParameter)
         fun onSelectParamChange(studyParameter: StudyParameter.Select)
     }

@@ -18,6 +18,7 @@ class ActiveStudyDetailsViewModel(
     private val parametersToSave = MutableLiveData<Map<String, StudyParameterKeyValue>>(emptyMap())
     val studyParams = MutableLiveData<List<StudyParameter>>(emptyList())
     val successUpdateEvent = MutableLiveData<Event<Unit>>()
+    val errorList = MutableLiveData<Set<String>>(emptySet())
 
     init {
         getStudyParameters()
@@ -79,15 +80,31 @@ class ActiveStudyDetailsViewModel(
 
     fun onTextParamChange(parameter: StudyParameter, newValue: String) {
         val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Value)
+        val errors = errorList.value!!.toMutableSet()
         val map = parametersToSave.value!!.toMutableMap()
-        map[name] = StudyParameterKeyValue(name, newValue)
+        if (newValue.isEmpty()) {
+            errors.add(name)
+            map.remove(name)
+        } else {
+            errors.remove(name)
+            map[name] = StudyParameterKeyValue(name, newValue)
+        }
+        errorList.value = errors
         parametersToSave.value = map
     }
 
-    fun onNumberParamChange(parameter: StudyParameter, newValue: Double) {
-        val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Value)
+    fun onNumberParamChange(parameter: StudyParameter, newValue: Double?) {
         val map = parametersToSave.value!!.toMutableMap()
-        map[name] = StudyParameterKeyValue(name, newValue.toString())
+        val errors = errorList.value!!.toMutableSet()
+        val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Value)
+        if (newValue == null) {
+            errors.add(name)
+            map.remove(name)
+        } else {
+            errors.remove(name)
+            map[name] = StudyParameterKeyValue(name, newValue.toString())
+        }
+        errorList.value = errors
         parametersToSave.value = map
     }
 
