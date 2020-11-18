@@ -52,8 +52,8 @@ class ChartFragment : Fragment() {
     private fun initChartIQ() {
         chartIQHandler.apply {
             binding.chartIqView.apply {
-                (chartIQView.parent as? FrameLayout)?.removeAllViews()
-                addView(chartIQView)
+                (chartView.parent as? FrameLayout)?.removeAllViews()
+                addView(chartView)
             }
             start {
                 setDataSource(object : DataSource {

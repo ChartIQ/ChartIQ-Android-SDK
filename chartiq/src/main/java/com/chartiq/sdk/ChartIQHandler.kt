@@ -3,6 +3,7 @@ package com.chartiq.sdk
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
@@ -21,7 +22,10 @@ class ChartIQHandler(
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
-    val chartIQView = ChartIQView(context)
+    private val chartIQView = ChartIQView(context)
+
+    val chartView: View
+        get() = chartIQView
 
     init {
         chartIQView.apply {
