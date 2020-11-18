@@ -3,12 +3,12 @@ package com.chartiq.demo
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.webkit.WebView
-import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.ChartIQ
 
 class ChartIQApplication : Application() {
 
-    val chartIQHandler: ChartIQHandler by lazy {
-        ChartIQHandler(BuildConfig.DEFAULT_CHART_URL, this)
+    val chartIQ: ChartIQ by lazy {
+        ChartIQ.getInstance(BuildConfig.DEFAULT_CHART_URL, this)
     }
 
     override fun onCreate() {

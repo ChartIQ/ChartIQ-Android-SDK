@@ -22,12 +22,12 @@ class AddStudyFragment : Fragment() {
 
     private val studiesAdapter = AllStudiesAdapter()
 
-    private val chartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
 
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQHandler)
+        AddStudyViewModel.ViewModelFactory(chartIQ)
     })
     private val mainViewModel by activityViewModels<MainViewModel>()
 
@@ -57,7 +57,7 @@ class AddStudyFragment : Fragment() {
             toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
+                mainViewModel.fetchActiveStudyData(chartIQ)
                 hideKeyboard()
                 findNavController().navigateUp()
             }

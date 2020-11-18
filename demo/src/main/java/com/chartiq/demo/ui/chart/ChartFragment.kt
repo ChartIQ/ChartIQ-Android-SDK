@@ -17,7 +17,7 @@ import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
-import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
@@ -26,8 +26,8 @@ import com.chartiq.sdk.model.QuoteFeedParams
 
 class ChartFragment : Fragment() {
 
-    private val chartIQHandler: ChartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private lateinit var binding: FragmentChartBinding
 
@@ -50,7 +50,7 @@ class ChartFragment : Fragment() {
     }
 
     private fun initChartIQ() {
-        chartIQHandler.apply {
+        chartIQ.apply {
             binding.chartIqView.apply {
                 (chartView.parent as? FrameLayout)?.removeAllViews()
                 addView(chartView)
@@ -79,7 +79,7 @@ class ChartFragment : Fragment() {
                     }
                 })
                 chartViewModel.fetchSavedSettings()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
+                mainViewModel.fetchActiveStudyData(chartIQ)
             }
         }
     }
@@ -98,8 +98,8 @@ class ChartFragment : Fragment() {
 
             chartViewModel.currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
-                chartIQHandler.setSymbol(symbol.value)
-                chartIQHandler.setDataMethod(DataMethod.PULL, symbol.value)
+                chartIQ.setSymbol(symbol.value)
+                chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
 
             }
             chartViewModel.chartInterval.observe(viewLifecycleOwner) { chartInterval ->

@@ -23,12 +23,12 @@ import com.chartiq.sdk.model.Study
 
 class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFragmentListener {
 
-    private val chartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
 
     private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
-        StudyViewModel.ViewModelFactory(chartIQHandler)
+        StudyViewModel.ViewModelFactory(chartIQ)
     })
     private val mainViewModel by activityViewModels<MainViewModel>()
 
@@ -109,18 +109,18 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
 
     private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData(chartIQ)
     }
 
     override fun onDelete(study: Study) {
         studyViewModel.deleteStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData(chartIQ)
 
     }
 
     override fun onClone(study: Study) {
         studyViewModel.cloneActiveStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQHandler)
+        mainViewModel.fetchActiveStudyData(chartIQ)
     }
 
     override fun onSettings(study: Study) {

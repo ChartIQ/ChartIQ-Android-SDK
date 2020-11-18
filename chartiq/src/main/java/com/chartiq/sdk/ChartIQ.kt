@@ -1,9 +1,13 @@
 package com.chartiq.sdk
 
+import android.content.Context
+import android.view.View
 import com.chartiq.sdk.model.*
 import java.util.*
 
 interface ChartIQ {
+
+    val chartView: View
 
     fun start(onStartCallback: OnStartCallback)
 
@@ -48,4 +52,10 @@ interface ChartIQ {
         type: StudyParameterType,
         callback: OnReturnCallback<String>
     )
+
+    companion object {
+        fun getInstance(url: String, context: Context): ChartIQ {
+            return ChartIQHandler(url, context)
+        }
+    }
 }

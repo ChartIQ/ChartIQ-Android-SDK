@@ -24,7 +24,7 @@ class ChartIQHandler(
     private var parameters = HashMap<String, Boolean>()
     private val chartIQView = ChartIQView(context)
 
-    val chartView: View
+    override val chartView: View
         get() = chartIQView
 
     init {
