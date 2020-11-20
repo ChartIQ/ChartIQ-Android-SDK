@@ -21,7 +21,7 @@ import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
 
 
-class StudyFragment : Fragment() {
+class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFragmentListener {
 
     private lateinit var binding: FragmentStudyBinding
     private val chartIQHandler by lazy {
@@ -62,7 +62,11 @@ class StudyFragment : Fragment() {
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
                 activeStudiesAdapter.listener = object : ActiveStudiesAdapter.StudyListener {
                     override fun onOptionsClick(study: Study) {
-                        // todo open bottom sheet
+                        ActiveStudyBottomSheetDialogFragment
+                            .getInstance(study).apply {
+                                setTargetFragment(this@StudyFragment, REQUEST_CODE)
+                            }
+                            .show(parentFragmentManager, ActiveStudyBottomSheetDialogFragment::class.java.simpleName)
                     }
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
@@ -92,7 +96,6 @@ class StudyFragment : Fragment() {
             requireActivity().invalidateOptionsMenu()
             binding.toolbar.menu.findItem(R.id.add_study).isVisible = studies.isNotEmpty()
         }
-
     }
 
     private fun navigateToStudyList() {
@@ -102,5 +105,24 @@ class StudyFragment : Fragment() {
     private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
         mainViewModel.fetchActiveStudyData()
+    }
+
+    override fun onDelete(study: Study) {
+        studyViewModel.deleteStudy(study)
+        mainViewModel.fetchActiveStudyData(chartIQHandler)
+
+    }
+
+    override fun onClone(study: Study) {
+        studyViewModel.cloneActiveStudy(study)
+        mainViewModel.fetchActiveStudyData(chartIQHandler)
+    }
+
+    override fun onSettings(study: Study) {
+        //todo navigate to study details
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 101
     }
 }

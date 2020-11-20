@@ -218,10 +218,10 @@ class ChartIQHandler(
     }
 
     /**
-     * Adds a selected type of study to active studies
-     * @param study - a study to add/clone
-     * @param forClone - if [study] is from  [getStudyList] use `false`,
-     * if [study] is from [getActiveStudies] use `true`
+     * Adds a selected study to active studies
+     * @param key the key identifier of the study to add.
+     * If this study is from  [getStudyList] use [Study.name]
+     * If this study is from [getActiveStudies] use [Study.type]
      */
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
@@ -229,7 +229,6 @@ class ChartIQHandler(
         } else {
             study.shortName
         }
-
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
@@ -268,7 +267,7 @@ class ChartIQHandler(
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
-        private val TAG = ChartIQHandler.javaClass.simpleName
+        private val TAG = ChartIQHandler::class.java.simpleName
     }
 
 

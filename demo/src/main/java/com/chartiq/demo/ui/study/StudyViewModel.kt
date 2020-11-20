@@ -12,8 +12,17 @@ class StudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         chartIQHandler.removeStudy(studyToDelete)
     }
 
-    class ViewModelFactory(private val chartIQHandler: ChartIQ) :
-        ViewModelProvider.Factory {
+    /**
+     * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
+     * we should send [Study.type] to [ChartIQHandler.addStudy]
+     */
+    fun cloneActiveStudy(study: Study) {
+        study.type?.let { type ->
+            chartIQHandler.addStudy(type)
+        }
+    }
+
+    class ViewModelFactory(private val chartIQHandler: ChartIQ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java)
