@@ -1,6 +1,10 @@
 package com.chartiq.sdk.model.drawingtool
 
-enum class DrawingTool(val value: String) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+enum class DrawingTool(val value: String) : Parcelable {
     ANNOTATION("annotation"),
     ARROW("arrow"),
     AVERAGE_LINE("average"),
@@ -11,7 +15,7 @@ enum class DrawingTool(val value: String) {
     CROSS("xcross"),
     CROSSLINE("crossline"),
     DOODLE("freeform"),
-    ELLIOTT_WAVE(""),
+    ELLIOTT_WAVE("elliottwave"),
     ELLIPSE("ellipse"),
     FIB_ARC("fibarc"),
     FIB_FAN("fibfan"),
@@ -25,7 +29,7 @@ enum class DrawingTool(val value: String) {
     HORIZONTAL_LINE("horizontal"),
     LINE("line"),
     MEASURE("measure"),
-    NO_TOOL(""),
+    NO_TOOL("notool"),
     PITCHFORK("pitchfork"),
     QUADRANT_LINES("quadrant"),
     RAY("ray"),
@@ -39,4 +43,5 @@ enum class DrawingTool(val value: String) {
     TIRONE_LEVELS("tirone"),
     TREND_LINE("trendline"),
     VERTICAL_LINE("vertical"),
+    NONE("")
 }

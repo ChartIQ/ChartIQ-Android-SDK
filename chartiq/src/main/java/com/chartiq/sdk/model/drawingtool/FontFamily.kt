@@ -2,22 +2,22 @@ package com.chartiq.sdk.model.drawingtool
 
 import com.google.gson.annotations.SerializedName
 
-enum class FontFamily {
+enum class FontFamily(val value: String) {
     @SerializedName("Default")
-    DEFAULT,
+    DEFAULT("Default"),
 
     @SerializedName("Helvetica")
-    HELVETICA,
+    HELVETICA("Helvetica"),
 
     @SerializedName("Courier")
-    COURIER,
+    COURIER("Courier"),
 
     @SerializedName("Garamond")
-    GARAMOND,
+    GARAMOND("Garamond"),
 
     @SerializedName("Palatino")
-    PALATINO,
+    PALATINO("Palatino"),
 
     @SerializedName("Times New Roman")
-    TIMES_NEW_ROMAN
+    TIMES_NEW_ROMAN("Times New Roman")
 }

@@ -1,10 +1,10 @@
-package com.chartiq.sdk
+package com.chartiq.sdk.model.drawingtool.drawingmanager
 
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
-object DrawingToolSettingsManager {
+class ChartIQDrawingManager : DrawingManager {
 
-    fun isSupportingFillColor(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingFillColor(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ARROW,
             DrawingTool.CHANNEL,
@@ -33,14 +33,14 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingLineColor(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingLineColor(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.NO_TOOL -> false
             else -> true
         }
     }
 
-    fun isSupportingLineType(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingLineType(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ANNOTATION,
             DrawingTool.NO_TOOL -> false
@@ -48,7 +48,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingSettings(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingSettings(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.NO_TOOL,
             DrawingTool.MEASURE -> false
@@ -56,7 +56,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingFont(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingFont(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ANNOTATION,
             DrawingTool.CALLOUT,
@@ -66,7 +66,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingAxisLabel(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingAxisLabel(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.AVERAGE_LINE,
             DrawingTool.CROSSLINE,
@@ -76,7 +76,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingDeviations(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingDeviations(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.AVERAGE_LINE,
             DrawingTool.REGRESSION_LINE -> true
@@ -84,7 +84,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingFibonacci(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingFibonacci(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.FIB_ARC,
             DrawingTool.FIB_FAN,
@@ -94,7 +94,7 @@ object DrawingToolSettingsManager {
         }
     }
 
-    fun isSupportingElliottWave(drawingTool: DrawingTool): Boolean {
+    override fun isSupportingElliottWave(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ELLIOTT_WAVE -> true
             else -> false

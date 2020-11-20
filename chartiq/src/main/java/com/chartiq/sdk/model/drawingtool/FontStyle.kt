@@ -2,13 +2,13 @@ package com.chartiq.sdk.model.drawingtool
 
 import com.google.gson.annotations.SerializedName
 
-enum class FontStyle {
+enum class FontStyle(val value: String) {
     @SerializedName("bold")
-    BOLD,
+    BOLD("bold"),
 
     @SerializedName("italic")
-    ITALIC,
+    ITALIC("italic"),
 
     @SerializedName("normal")
-    NORMAL
+    NORMAL("normal")
 }

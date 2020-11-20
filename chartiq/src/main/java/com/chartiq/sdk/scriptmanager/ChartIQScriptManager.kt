@@ -1,6 +1,5 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.buildArgumentStringFromArgs
 import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
@@ -98,9 +97,8 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
-    // TODO: 03.09.20 Look into alternative "setDrawingParameters()"
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setCurrentVectorParameters(\"$parameter\", \"$value\")"
+        MOBILE_BRIDGE_NAME_SPACE + "setDrawingParameters(\"$parameter\", \"$value\");"
 
     override fun getSetStyleScript(obj: String, parameter: String, value: String): String =
         CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$parameter\", \"$value\");"

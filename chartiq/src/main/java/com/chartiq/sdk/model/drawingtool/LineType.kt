@@ -1,8 +1,11 @@
 package com.chartiq.sdk.model.drawingtool
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-enum class LineType(val value: String) {
+@Parcelize
+enum class LineType(val value: String) : Parcelable {
     @SerializedName("solid")
     SOLID("solid"),
 

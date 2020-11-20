@@ -6,9 +6,7 @@ import android.util.Log
 import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.drawingtool.DrawingParameter
 import com.chartiq.sdk.model.drawingtool.DrawingTool
-import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -237,30 +235,20 @@ class ChartIQHandler(
         executeJavascript(scripts)
     }
 
-    override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
-        when (parameter) {
-            DrawingParameter.COLOR,
-            DrawingParameter.FILL_COLOR -> if (!value.startsWith(COLOR_HASH_SYMBOL)) {
-                throw IllegalStateException("The color must be in format of Hex color code")
-            }
-        }
-        // TODO: 09.11.20 Remove the temporary fix once it's known why library doesn't work with `color` property instead
-        if(parameter == DrawingParameter.COLOR) {
-            executeJavascript(scriptManager.getSetDrawingParameterScript("currentColor", value))
-        } else {
-            executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
-        }
+    override fun setDrawingParameter(parameter: String, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
     }
 
     override fun getDrawingParameters(
         tool: DrawingTool,
-        callback: OnReturnCallback<DrawingToolParameters>
+        callback: OnReturnCallback<Map<String, Any>>
     ) {
         executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
             val result = value
                 .substring(1, value.length - 1)
                 .replace("\\", "")
-            val parameters = Gson().fromJson(result, DrawingToolParameters::class.java)
+            val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+            val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
             callback.onReturn(parameters)
         }
     }
@@ -323,8 +311,6 @@ class ChartIQHandler(
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
         private val TAG = ChartIQHandler.javaClass.simpleName
-
-        private const val COLOR_HASH_SYMBOL = "#"
     }
 }
 
