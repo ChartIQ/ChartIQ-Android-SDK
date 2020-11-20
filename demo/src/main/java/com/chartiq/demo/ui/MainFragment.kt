@@ -16,9 +16,9 @@ class MainFragment : Fragment() {
     private val onNavItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val page = when (item.itemId) {
-                R.id.navigation_chart -> MainViewPagerAdapter.FRAGMENT_CHART
-                R.id.navigation_study -> MainViewPagerAdapter.FRAGMENT_STUDIES
-                R.id.navigation_settings -> MainViewPagerAdapter.FRAGMENT_SETTINGS
+                R.id.navigation_chart -> MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value
+                R.id.navigation_study -> MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.value
+                R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
                 else -> throw IllegalStateException()
             }
             binding.mainViewPager.setCurrentItem(page, true)
