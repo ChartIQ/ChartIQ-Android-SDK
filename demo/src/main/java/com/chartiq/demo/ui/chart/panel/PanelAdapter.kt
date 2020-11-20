@@ -9,10 +9,9 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemPanelInstrumentBinding
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
-import com.chartiq.sdk.model.drawingtool.DrawingTool
-import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
+import com.chartiq.demo.network.model.PanelDrawingToolParameters
 
-class PanelAdapter(private val parameters: DrawingToolParameters) :
+class PanelAdapter(private val parameters: PanelDrawingToolParameters) :
     RecyclerView.Adapter<PanelAdapter.InstrumentViewHolder>() {
 
     var items = listOf<InstrumentItem>()

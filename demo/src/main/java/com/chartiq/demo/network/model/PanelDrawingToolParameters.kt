@@ -1,8 +1,11 @@
-package com.chartiq.sdk.model.drawingtool
+package com.chartiq.demo.network.model
 
+import com.chartiq.sdk.model.drawingtool.Fib
+import com.chartiq.sdk.model.drawingtool.Font
+import com.chartiq.sdk.model.drawingtool.LineType
 import com.google.gson.annotations.SerializedName
 
-data class DrawingToolParameters(
+data class PanelDrawingToolParameters(
     @SerializedName("pattern")
     val lineType: LineType?,
     @SerializedName("lineWidth")
@@ -12,7 +15,7 @@ data class DrawingToolParameters(
     @SerializedName("color")
     val color: String?,
     @SerializedName("font")
-    val font: Font,
+    val font: Font?,
     @SerializedName("fibs")
     val fibs: List<Fib>
 )

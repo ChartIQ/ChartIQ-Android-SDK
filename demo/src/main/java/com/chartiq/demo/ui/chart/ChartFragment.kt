@@ -22,13 +22,16 @@ import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.PanelAdapter
-import com.chartiq.demo.ui.chart.panel.color.ColorItem
-import com.chartiq.demo.ui.chart.panel.color.ColorsAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
-import com.chartiq.demo.ui.chart.panel.line.LineTypeAdapter
-import com.chartiq.demo.ui.chart.panel.line.LineTypeItem
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
+import com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsFragmentArgs
+import com.chartiq.demo.ui.common.colorpicker.ColorItem
+import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
+import com.chartiq.demo.ui.common.colorpicker.findColorIndex
+import com.chartiq.demo.ui.common.linepicker.LineAdapter
+import com.chartiq.demo.ui.common.linepicker.LineItem
+import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
@@ -36,8 +39,9 @@ import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
-import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
+import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.sdk.model.drawingtool.LineType
+import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 import kotlinx.coroutines.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
@@ -50,13 +54,14 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private lateinit var panelList: List<InstrumentItem>
     private val job = SupervisorJob()
     private val chartScope = CoroutineScope(job + Dispatchers.IO)
-    private var drawingToolParameters: DrawingToolParameters? = null
+    private var drawingToolParameters: PanelDrawingToolParameters? = null
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQHandler
+            chartIQHandler,
+            ChartIQDrawingManager()
         )
     })
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -284,8 +289,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
     }
 
-    // TODO: 07.11.20 Add implementation
-    private fun navigateToInstrumentSettings() = Unit
+    private fun navigateToInstrumentSettings() {
+        findNavController().navigate(
+            R.id.action_mainFragment_to_drawingToolSettingsFragment,
+            DrawingToolSettingsFragmentArgs(chartViewModel.drawingTool.value!!).toBundle()
+        )
+    }
 
     private fun deleteDrawing() {
         chartViewModel.deleteDrawing()
@@ -340,7 +349,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun showLineTypeCarousel() {
         val lines = DEFAULT_LINE_TYPE_LIST
-        val linesAdapter = LineTypeAdapter()
+        val linesAdapter = LineAdapter()
 
         val scrollIndex = findLineIndex(
             lines,
@@ -367,42 +376,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun showLayerManagementDialogue() {
         val dialogue = ManageLayersModelBottomSheet()
-        dialogue.setTargetFragment(this, MANAGE_LAYERS_REQUEST_CODE)
+        dialogue.setTargetFragment(this, REQUEST_CODE_MANAGE_LAYERS)
         dialogue.show(parentFragmentManager, null)
-    }
-
-    private fun findColorIndex(colors: List<ColorItem>, color: String?): Int? {
-        if (color != null) {
-            val selectedColor = if (color == "auto") {
-                colors.find { it.color == Color.BLACK }
-            } else {
-                colors.find { it.color == Color.parseColor(color) }
-            }
-            if (selectedColor != null) {
-                val index = colors.indexOf(selectedColor)
-                if (index != NO_SUCH_ITEM_IN_LIST_INDEX) {
-                    return index
-                }
-            }
-        }
-        return null
-    }
-
-    private fun findLineIndex(
-        lines: List<LineTypeItem>,
-        lineType: LineType?,
-        lineWidth: Int?
-    ): Int? {
-        val selectedLine = lines.find {
-            it.lineType == lineType && it.lineWidth == lineWidth
-        }
-        if (selectedLine != null) {
-            val index = lines.indexOf(selectedLine)
-            if (index != NO_SUCH_ITEM_IN_LIST_INDEX) {
-                return index
-            }
-        }
-        return null
     }
 
     private fun refreshDrawingToolInstruments() {
@@ -422,18 +397,17 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     companion object {
         private const val CROSSHAIR_UPDATE_PERIOD = 300L
-        private const val NO_SUCH_ITEM_IN_LIST_INDEX = -1
 
-        private const val MANAGE_LAYERS_REQUEST_CODE = 1012
+        private const val REQUEST_CODE_MANAGE_LAYERS = 1012
 
-        private val DEFAULT_LINE_TYPE_LIST = listOf(
-            LineTypeItem(LineType.SOLID, 1, R.drawable.ic_line_type_solid),
-            LineTypeItem(LineType.SOLID, 2, R.drawable.ic_line_type_solid_bold),
-            LineTypeItem(LineType.SOLID, 3, R.drawable.ic_line_type_solid_boldest),
-            LineTypeItem(LineType.DOTTED, 1, R.drawable.ic_line_type_dotted),
-            LineTypeItem(LineType.DOTTED, 2, R.drawable.ic_line_type_dotted_bold),
-            LineTypeItem(LineType.DASHED, 1, R.drawable.ic_line_type_dash),
-            LineTypeItem(LineType.DASHED, 2, R.drawable.ic_line_type_dash_bold)
+        val DEFAULT_LINE_TYPE_LIST = listOf(
+            LineItem(LineType.SOLID, 1, R.drawable.ic_line_type_solid),
+            LineItem(LineType.SOLID, 2, R.drawable.ic_line_type_solid_bold),
+            LineItem(LineType.SOLID, 3, R.drawable.ic_line_type_solid_boldest),
+            LineItem(LineType.DOTTED, 1, R.drawable.ic_line_type_dotted),
+            LineItem(LineType.DOTTED, 2, R.drawable.ic_line_type_dotted_bold),
+            LineItem(LineType.DASHED, 1, R.drawable.ic_line_type_dash),
+            LineItem(LineType.DASHED, 2, R.drawable.ic_line_type_dash_bold)
         )
     }
 }

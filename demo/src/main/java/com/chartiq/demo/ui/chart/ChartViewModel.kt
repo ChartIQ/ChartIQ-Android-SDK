@@ -8,6 +8,7 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
+import com.chartiq.demo.network.model.DrawingParameter
 import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.model.Instrument
@@ -15,21 +16,23 @@ import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSourceCallback
-import com.chartiq.sdk.DrawingToolSettingsManager
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.sdk.model.drawingtool.DrawingParameter
-import com.chartiq.sdk.model.drawingtool.DrawingToolParameters
+import com.chartiq.demo.network.model.PanelDrawingToolParameters
+import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.sdk.model.drawingtool.LineType
+import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
+import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class ChartViewModel(
     private val networkManager: NetworkManager,
     private val applicationPrefs: ApplicationPrefs,
-    private val chartIQHandler: ChartIQ
+    private val chartIQHandler: ChartIQ,
+    private val drawingManager: DrawingManager
 ) : ViewModel() {
 
     val currentSymbol = MutableLiveData<Symbol>()
@@ -44,7 +47,7 @@ class ChartViewModel(
 
     val resetInstrumentsLiveData = MutableLiveData<Unit>()
 
-    val parameters = MutableLiveData<DrawingToolParameters>()
+    val parameters = MutableLiveData<PanelDrawingToolParameters>()
 
     val crosshairHUD = MutableLiveData<CrosshairHUD>()
 
@@ -77,7 +80,7 @@ class ChartViewModel(
     fun setupInstrumentsList(item: DrawingToolItem): List<InstrumentItem> {
         val instrumentList = mutableListOf<InstrumentItem>()
         instrumentList.add(InstrumentItem(Instrument.DRAWING_TOOL, item.iconRes))
-        with(DrawingToolSettingsManager) {
+        with(drawingManager) {
             if (isSupportingFillColor(item.tool)) {
                 instrumentList.add(
                     InstrumentItem(Instrument.FILL, R.drawable.ic_panel_fill)
@@ -131,24 +134,24 @@ class ChartViewModel(
 
     fun updateFillColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.FILL_COLOR,
-            Integer.toHexString(color).replaceFirst("ff", "#")
+            DrawingParameter.FILL_COLOR.value,
+            color.toHexStringWithHash()
         )
     }
 
     fun updateColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.COLOR,
-            Integer.toHexString(color).replaceFirst("ff", "#")
+            DrawingParameter.LINE_COLOR.value,
+            color.toHexStringWithHash()
         )
     }
 
     fun updateLineType(lineType: LineType) {
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE, lineType.value)
+        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE.value, lineType.value)
     }
 
     fun updateLineWidth(lineWidth: Int) {
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH, lineWidth.toString())
+        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH.value, lineWidth.toString())
     }
 
     fun cloneDrawing() {
@@ -172,7 +175,10 @@ class ChartViewModel(
     fun getDrawingToolParameters() {
         if (drawingTool.value != null) {
             chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
-                this.parameters.value = parameters
+                val gson = Gson()
+                val jsonElement = gson.toJsonTree(parameters)
+                this.parameters.value =
+                    gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
             }
         }
     }
@@ -197,7 +203,8 @@ class ChartViewModel(
     class ChartViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
-        private val chartIQHandler: ChartIQ
+        private val argChartIQHandler: ChartIQ,
+        private val argDrawingManager: DrawingManager
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -205,9 +212,15 @@ class ChartViewModel(
                 .getConstructor(
                     NetworkManager::class.java,
                     ApplicationPrefs::class.java,
-                    ChartIQ::class.java
+                    ChartIQ::class.java,
+                    DrawingManager::class.java
                 )
-                .newInstance(argNetworkManager, argApplicationPrefs, chartIQHandler)
+                .newInstance(
+                    argNetworkManager,
+                    argApplicationPrefs,
+                    argChartIQHandler,
+                    argDrawingManager
+                )
         }
     }
 

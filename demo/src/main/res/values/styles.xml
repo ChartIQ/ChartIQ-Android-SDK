@@ -95,4 +95,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="DialogFullscreenStyle" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 </resources>

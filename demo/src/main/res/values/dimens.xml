@@ -7,6 +7,12 @@
     <dimen name="toolbar_default_elevation">8dp</dimen>
     <dimen name="drawing_tool_item_decorator_margin_start">72dp</dimen>
 
+    <dimen name="list_item_line_min_width_fullscreen">74dp</dimen>
+    <dimen name="list_item_line_min_height_fullscreen">58dp</dimen>
+
+    <dimen name="list_item_color_min_width_fullscreen">56dp</dimen>
+    <dimen name="list_item_color_min_height_fullscreen">56dp</dimen>
+
     <dimen name="margin_extra_small">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium_small">12dp</dimen>

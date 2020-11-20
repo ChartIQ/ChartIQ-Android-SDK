@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.chart.panel.color
+package com.chartiq.demo.ui.common.colorpicker
 
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -18,6 +18,8 @@ class ColorsAdapter : RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
         }
     var listener: OnSelectItemListener<ColorItem>? = null
 
+    var viewHolderConfiguration: ColorViewHolderConfiguration? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ColorViewHolder(ItemPanelColorBinding.inflate(inflater, parent, false))
@@ -34,6 +36,10 @@ class ColorsAdapter : RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
 
         fun bind(item: ColorItem) {
             binding.colorView.apply {
+                viewHolderConfiguration?.let { config ->
+                    minimumWidth = config.minWidth ?: minimumWidth
+                    minimumHeight = config.minHeight ?: minimumHeight
+                }
                 (background.mutate() as GradientDrawable).setColor(item.color)
                 foreground = if (item.isSelected) {
                     ContextCompat.getDrawable(context, R.drawable.layer_color_selected_ok)

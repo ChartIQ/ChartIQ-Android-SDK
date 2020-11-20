@@ -134,4 +134,35 @@
     <string name="warning_something_went_wrong">Something went wrong</string>
     <string name="done">Done</string>
     <string name="search">Search</string>
+
+    <!-- Drawing Tool Settings -->
+    <string name="drawing_tool_settings_title_weight">Weight</string>
+    <string name="drawing_tool_settings_title_config">Config</string>
+    <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>
+    <string name="drawing_tool_settings_title_line_color">Line Color"</string>
+    <string name="drawing_tool_settings_title_line_type">Line Type"</string>
+    <string name="drawing_tool_settings_title_font_family">Font Family"</string>
+    <string name="drawing_tool_settings_title_font_size">Font Size"</string>
+    <string name="drawing_tool_settings_title_font_style">Font Style"</string>
+    <string name="drawing_tool_settings_title_axis_label">Axis Label"</string>
+    <string name="drawing_tool_settings_title_fibonacci_settings">Fibonacci Settings"</string>
+    <string name="drawing_tool_settings_title_wave_template">Wave Template"</string>
+    <string name="drawing_tool_settings_title_decoration">Decoration"</string>
+    <string name="drawing_tool_settings_title_impulse">Impulse"</string>
+    <string name="drawing_tool_settings_title_corrective">Corrective"</string>
+    <string name="drawing_tool_settings_title_show_lines">Show Lines"</string>
+    <string name="drawing_tool_settings_title_deviations_settings">STD Deviations"</string>
+    <string name="drawing_tool_settings_title_show_line_1">Show Line 1"</string>
+    <string name="drawing_tool_settings_title_show_line_2">Show Line 2"</string>
+    <string name="drawing_tool_settings_title_show_line_3">Show Line 3"</string>
+    <string name="drawing_tool_settings_title_line_1_color">Line 1 Color"</string>
+    <string name="drawing_tool_settings_title_line_2_color">Line 2 Color"</string>
+    <string name="drawing_tool_settings_title_line_3_color">Line 3 Color"</string>
+    <string name="drawing_tool_settings_title_line_1_type">Line 1 Type"</string>
+    <string name="drawing_tool_settings_title_line_2_type">Line 2 Type"</string>
+    <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
+
+    <string name="drawing_tool_settings_menu_save">Save as Template</string>
+    <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+
 </resources>

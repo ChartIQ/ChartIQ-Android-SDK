@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.chart.panel.color
+package com.chartiq.demo.ui.common.colorpicker
 
 import androidx.annotation.ColorInt
 

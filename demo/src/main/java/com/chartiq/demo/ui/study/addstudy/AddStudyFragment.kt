@@ -16,6 +16,7 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.util.hideKeyboard
 import com.chartiq.sdk.model.Study
 
 class AddStudyFragment : Fragment() {
@@ -58,7 +59,7 @@ class AddStudyFragment : Fragment() {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
                 mainViewModel.fetchActiveStudyData(chartIQHandler)
-                hideKeyboard()
+                requireContext().hideKeyboard(view?.windowToken)
                 findNavController().navigateUp()
             }
 
@@ -76,10 +77,5 @@ class AddStudyFragment : Fragment() {
             studiesAdapter.items = studies
         }
 
-    }
-
-    private fun hideKeyboard() {
-        (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

@@ -72,26 +72,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/undoImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_extra_small"
-        android:src="@drawable/ic_undo"
-        app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/redoImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_extra_small"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:src="@drawable/ic_redo"
-        app:layout_constraintStart_toEndOf="@+id/centerGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
     <include
         android:id="@+id/crosshairLayout"
         layout="@layout/layout_crosshairs"
@@ -102,6 +82,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/undoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_extra_small"
+        android:src="@drawable/ic_undo"
+        app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/redoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_extra_small"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:src="@drawable/ic_redo"
+        app:layout_constraintStart_toEndOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/instrumentRecyclerView"

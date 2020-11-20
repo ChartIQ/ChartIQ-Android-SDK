@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/linesToolbar"
+        style="@style/AppToolbar"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="Select Color" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        android:clipToPadding="true"
+        android:id="@+id/linesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_setting_line_type" />
+</FrameLayout>

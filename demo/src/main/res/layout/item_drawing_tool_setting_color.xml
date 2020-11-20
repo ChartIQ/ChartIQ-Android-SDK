@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="64dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTextView"
+        style="@style/SubtitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="@dimen/margin_medium"
+        tools:text="Show lines" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/colorImageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@drawable/shape_background_color"
+        tools:backgroundTint="@color/colorPrimary"
+        tools:checked="true" />
+
+</FrameLayout>
