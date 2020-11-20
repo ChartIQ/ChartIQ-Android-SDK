@@ -12,14 +12,13 @@ class StudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         chartIQHandler.removeStudy(studyToDelete)
     }
 
+    // TODO: 20.11.20 Study: Review the following hotfix
     /**
      * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
      * we should send [Study.type] to [ChartIQHandler.addStudy]
      */
     fun cloneActiveStudy(study: Study) {
-        study.type?.let { type ->
-            chartIQHandler.addStudy(type)
-        }
+        chartIQHandler.addStudy(study, true)
     }
 
     class ViewModelFactory(private val chartIQHandler: ChartIQ) : ViewModelProvider.Factory {

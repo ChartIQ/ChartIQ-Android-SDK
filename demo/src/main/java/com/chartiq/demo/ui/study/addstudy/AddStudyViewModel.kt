@@ -34,6 +34,7 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         }
     }
 
+    // TODO: 20.11.20 Study: Review the following hotfix
     /**
      * In case we want to add a study selected from [ChartIQHandler.getStudyList] list
      * we should send [Study.name] to [ChartIQHandler.addStudy]
@@ -41,7 +42,7 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
     fun saveStudies() {
         val finalList = selectedStudies.value ?: emptyList()
         finalList.forEach {
-            chartIQHandler.addStudy(it.name)
+            chartIQHandler.addStudy(it, false)
         }
     }
 
