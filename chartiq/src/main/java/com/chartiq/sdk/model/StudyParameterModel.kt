@@ -1,6 +1,6 @@
 package com.chartiq.sdk.model
 
-data class StudyParameterKeyValue(
+data class StudyParameterModel(
     val fieldName: String,
     val fieldSelectedValue: String
 )

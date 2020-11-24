@@ -235,9 +235,9 @@ class ChartIQHandler(
     /**
      * Changes the active [Study] with a single parameter
      * @param study -  a [Study] to update
-     * @param parameter - a [StudyParameterKeyValue] that contains key-value to be updated
+     * @param parameter - a [StudyParameterModel] that contains key-value to be updated
      */
-    override fun setStudyParameter(study: Study, parameter: StudyParameterKeyValue) {
+    override fun setStudyParameter(study: Study, parameter: StudyParameterModel) {
         val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
         executeJavascript(script)
     }
@@ -245,9 +245,9 @@ class ChartIQHandler(
     /**
      * Changes the active [Study] with the provided inputs, outputs and parameters
      * @param study -  a [Study] to update
-     * @param parameters -  a list of [StudyParameterKeyValue] that contains values to be updated
+     * @param parameters -  a list of [StudyParameterModel] that contains values to be updated
      */
-    override fun setStudyParameters(study: Study, parameters: List<StudyParameterKeyValue>) {
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>) {
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 

@@ -39,9 +39,9 @@ interface ChartIQ {
 
     fun addStudy(study: Study, forClone: Boolean)
 
-    fun setStudyParameter(study: Study, parameter: StudyParameterKeyValue)
+    fun setStudyParameter(study: Study, parameter: StudyParameterModel)
 
-    fun setStudyParameters(study: Study, parameters: List<StudyParameterKeyValue>)
+    fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 

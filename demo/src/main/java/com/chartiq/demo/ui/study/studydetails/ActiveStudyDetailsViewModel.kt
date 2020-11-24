@@ -8,14 +8,14 @@ import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.Study
 import com.chartiq.sdk.model.StudyParameter
-import com.chartiq.sdk.model.StudyParameterKeyValue
+import com.chartiq.sdk.model.StudyParameterModel
 import com.chartiq.sdk.model.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
     private val chartIQHandler: ChartIQ,
     private val study: Study
 ) : ViewModel() {
-    private val parametersToSave = MutableLiveData<Map<String, StudyParameterKeyValue>>(emptyMap())
+    private val parametersToSave = MutableLiveData<Map<String, StudyParameterModel>>(emptyMap())
     val studyParams = MutableLiveData<List<StudyParameter>>(emptyList())
     val successUpdateEvent = MutableLiveData<Event<Unit>>()
     val errorList = MutableLiveData<Set<String>>(emptySet())
@@ -74,7 +74,7 @@ class ActiveStudyDetailsViewModel(
     fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, checked: Boolean) {
         val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Enabled)
         val map = parametersToSave.value!!.toMutableMap()
-        map[name] = StudyParameterKeyValue(name, checked.toString())
+        map[name] = StudyParameterModel(name, checked.toString())
         parametersToSave.value = map
     }
 
@@ -87,7 +87,7 @@ class ActiveStudyDetailsViewModel(
             map.remove(name)
         } else {
             errors.remove(name)
-            map[name] = StudyParameterKeyValue(name, newValue)
+            map[name] = StudyParameterModel(name, newValue)
         }
         errorList.value = errors
         parametersToSave.value = map
@@ -102,7 +102,7 @@ class ActiveStudyDetailsViewModel(
             map.remove(name)
         } else {
             errors.remove(name)
-            map[name] = StudyParameterKeyValue(name, newValue.toString())
+            map[name] = StudyParameterModel(name, newValue.toString())
         }
         errorList.value = errors
         parametersToSave.value = map
@@ -111,13 +111,13 @@ class ActiveStudyDetailsViewModel(
     fun onColorParamChange(parameter: StudyParameter, newValue: String) {
         val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Color)
         val map = parametersToSave.value!!.toMutableMap()
-        map[name] = StudyParameterKeyValue(name, newValue)
+        map[name] = StudyParameterModel(name, newValue)
         parametersToSave.value = map
     }
 
     fun onSelectChange(parameter: StudyParameter.Select, newValue: String) {
         val map = parametersToSave.value!!.toMutableMap()
-        map[parameter.name] = StudyParameterKeyValue(parameter.name, newValue)
+        map[parameter.name] = StudyParameterModel(parameter.name, newValue)
         parametersToSave.value = map
         val updatedList = updateList(studyParams.value ?: emptyList(), parameter, newValue)
         studyParams.value = updatedList
@@ -137,7 +137,9 @@ class ActiveStudyDetailsViewModel(
         return originalList.toMutableList().map {
             if (it.name == changedParameter.name) {
                 changedParameter.copy(value = newValue)
-            } else it
+            } else {
+                it
+            }
         }
     }
 

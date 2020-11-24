@@ -83,6 +83,8 @@ fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyPa
                     defaultValue = defaultValue as String,
                     parameterType = parameterType
                 )
-            } else throw IllegalArgumentException("Invalid Study Parameter $this")
+            } else {
+                throw IllegalArgumentException("Invalid Study Parameter $this")
+            }
     }
 }

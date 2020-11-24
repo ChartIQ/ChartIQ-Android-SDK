@@ -45,7 +45,9 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             ParamViewType.SELECT.ordinal -> SelectViewHolder(
                 ItemSelectStudyParamBinding.inflate(inflater, parent, false)
             )
-            else -> throw IllegalStateException("Invalid viewType $viewType")
+            else -> {
+                throw IllegalStateException("Invalid viewType $viewType")
+            }
         }
     }
 

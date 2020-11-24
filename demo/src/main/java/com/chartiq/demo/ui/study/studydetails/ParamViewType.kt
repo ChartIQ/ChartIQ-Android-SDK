@@ -6,5 +6,5 @@ enum class ParamViewType {
     COLOR,
     TEXT_COLOR,
     CHECKBOX,
-    SELECT,
+    SELECT
 }

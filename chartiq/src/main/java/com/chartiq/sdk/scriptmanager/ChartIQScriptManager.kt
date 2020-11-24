@@ -4,7 +4,7 @@ import com.chartiq.sdk.buildArgumentStringFromArgs
 import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.StudyParameterKeyValue
+import com.chartiq.sdk.model.StudyParameterModel
 import com.google.gson.Gson
 
 // TODO: 03.09.20 Add parameters safety check
@@ -123,13 +123,13 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
-    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterKeyValue): String {
+    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
         val script =
             MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
         return script
     }
 
-    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterKeyValue>): String {
+    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {
         val scriptList = parameters.map {
             getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
         }

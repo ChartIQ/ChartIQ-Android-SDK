@@ -92,7 +92,9 @@ interface ApplicationPrefs {
                     putString(KEY_APPLICATION_ID, newId)
                 }
                 newId
-            } else storedId
+            } else {
+                storedId
+            }
         }
     }
 
