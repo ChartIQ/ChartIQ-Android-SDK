@@ -31,7 +31,6 @@ interface ApplicationPrefs {
 
     fun getApplicationId(): String
 
-
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
             context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
@@ -111,4 +110,3 @@ interface ApplicationPrefs {
         private const val FORMATTING_INTERVAL = "%d %s"
     }
 }
-
