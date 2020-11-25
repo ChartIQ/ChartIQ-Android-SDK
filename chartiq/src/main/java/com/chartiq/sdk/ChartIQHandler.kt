@@ -308,7 +308,14 @@ class ChartIQHandler(
 
     override fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>) {
         val script = scriptManager.getInvertYAxisScript()
-        executeJavascript(script){
+        executeJavascript(script) {
+            callback.onReturn(it.toBoolean())
+        }
+    }
+
+    override fun getIsExtendedHours(callback: OnReturnCallback<Boolean>) {
+        val script = scriptManager.getIsExtendedHoursScript()
+        executeJavascript(script) {
             callback.onReturn(it.toBoolean())
         }
     }

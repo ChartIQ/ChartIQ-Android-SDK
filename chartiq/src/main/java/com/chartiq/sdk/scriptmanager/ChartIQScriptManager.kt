@@ -236,6 +236,8 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getInvertYAxisScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
 
+    override fun getIsExtendedHoursScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
+
     companion object {
         private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."
         private const val CHART_IQ_JS_OBJECT = "stxx."

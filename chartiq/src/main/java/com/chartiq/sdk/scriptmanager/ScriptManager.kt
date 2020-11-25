@@ -107,4 +107,6 @@ internal interface ScriptManager {
 
     fun getInvertYAxisScript(): String
 
+    fun getIsExtendedHoursScript(): String
+
 }
