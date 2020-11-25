@@ -30,7 +30,34 @@ class SettingsFragment : Fragment() {
 
     private fun setupViews() {
         with(binding) {
+            chartConfigContainer.setOnClickListener {
+                // todo open chart style options
+            }
+            languageContainer.setOnClickListener {
+                // todo open language screen
+            }
+            logScaleLayout.onCheckChangeListener = {
+                settingsViewModel.changeLogScale(it)
+            }
+            invertYLayout.onCheckChangeListener = {
+                settingsViewModel.changeInvertY(it)
+            }
+            extendHoursLayout.onCheckChangeListener = {
+                settingsViewModel.changeExtendHours(it)
+            }
+            settingsViewModel.chartStyle.observe(viewLifecycleOwner) {
+                chartConfigContainer.subtitle = it
+            }
+            settingsViewModel.logScale.observe(viewLifecycleOwner) {
+                logScaleLayout.isChecked = it
 
+            }
+            settingsViewModel.invertYAxis.observe(viewLifecycleOwner) {
+                invertYLayout.isChecked = it
+            }
+            settingsViewModel.extendHours.observe(viewLifecycleOwner) {
+                extendHoursLayout.isChecked = it
+            }
         }
     }
 }

@@ -12,8 +12,6 @@ class TwoLineSettingsView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    var onClick: () -> Unit = {}
-
     var title: String? = null
         set(value) {
             settingsTitleTextView.text = value
@@ -34,9 +32,6 @@ class TwoLineSettingsView @JvmOverloads constructor(
                 title = titleAttr
                 subtitle = subtitleAttr
             }
-        }
-        setOnClickListener {
-            onClick()
         }
     }
 }
