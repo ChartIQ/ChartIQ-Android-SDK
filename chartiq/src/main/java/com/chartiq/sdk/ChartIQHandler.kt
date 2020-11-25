@@ -237,7 +237,7 @@ class ChartIQHandler(
             }
         }
     }
-    
+
     override fun setChartScale(scale: ChartIQScale) {
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
@@ -306,7 +306,14 @@ class ChartIQHandler(
         }
     }
 
-        private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
+    override fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>) {
+        val script = scriptManager.getInvertYAxisScript()
+        executeJavascript(script){
+            callback.onReturn(it.toBoolean())
+        }
+    }
+
+    private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
         chartIQView.evaluateJavascript(script, callback)
     }
 

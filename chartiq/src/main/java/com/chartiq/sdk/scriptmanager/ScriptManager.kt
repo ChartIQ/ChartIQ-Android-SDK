@@ -105,4 +105,6 @@ internal interface ScriptManager {
 
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
+    fun getInvertYAxisScript(): String
+
 }

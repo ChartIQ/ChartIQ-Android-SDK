@@ -58,4 +58,6 @@ interface ChartIQ {
         type: StudyParameterType,
         callback: OnReturnCallback<List<StudyParameter>>
     )
+
+    fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 }
