@@ -27,6 +27,9 @@ class SettingsViewModel(
         chartIQ.getIsInvertYAxis {
             invertYAxis.value = it
         }
+        chartIQ.getIsExtendedHours {
+            extendHours.value = it
+        }
     }
 
     private fun initChartStyle() {
