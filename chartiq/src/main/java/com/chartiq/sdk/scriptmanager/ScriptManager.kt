@@ -35,6 +35,10 @@ internal interface ScriptManager {
 
     fun getSetChartTypeScript(chartType: String): String
 
+    fun getChartTypeScript(): String
+
+    fun getAggregationTypeScript(): String
+
     fun getAddSeriesScript(symbol: String, hexColor: String): String
 
     fun getRemoveSeriesScript(symbol: String): String
@@ -97,4 +101,5 @@ internal interface ScriptManager {
 
     fun getGetEnginePropertyScript(property: String): String
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
+
 }

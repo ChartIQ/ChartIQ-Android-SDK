@@ -57,6 +57,10 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartTypeScript(chartType: String): String =
             MOBILE_BRIDGE_NAME_SPACE + "setChartType(\"$chartType\");"
 
+    override fun getChartTypeScript(): String = "stxx.layout.chartType"
+
+    override fun getAggregationTypeScript(): String = "stxx.layout.aggregationType"
+
     override fun getAddSeriesScript(symbol: String, hexColor: String): String =
             CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", " +
                     "color: \"$hexColor\"  isComparison:true});"

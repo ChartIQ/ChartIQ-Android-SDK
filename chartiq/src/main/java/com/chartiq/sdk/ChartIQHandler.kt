@@ -209,6 +209,24 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.value))
     }
 
+    override fun getChartType(callback: OnReturnCallback<ChartType>) {
+        val script = scriptManager.getChartTypeScript()
+        executeJavascript(script) {
+            callback.onReturn(ChartType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+        }
+    }
+
+    override fun getAggregationChartType(callback: OnReturnCallback<AggregationType?>) {
+        val script = scriptManager.getAggregationTypeScript()
+        executeJavascript(script) {
+            if (it.isNullOrEmpty()) {
+                callback.onReturn(null)
+            } else {
+                callback.onReturn(AggregationType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+            }
+        }
+    }
+
     override fun setChartScale(scale: ChartScale) {
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
@@ -232,6 +250,7 @@ class ChartIQHandler(
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
+
     /**
      * Changes the active [Study] with a single parameter
      * @param study -  a [Study] to update
