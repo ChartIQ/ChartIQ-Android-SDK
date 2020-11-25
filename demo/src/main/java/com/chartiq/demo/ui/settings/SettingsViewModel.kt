@@ -24,6 +24,9 @@ class SettingsViewModel(
         chartIQ.getChartScale {
             logScale.value = it == ChartIQScale.LINEAR
         }
+        chartIQ.getIsInvertYAxis {
+            invertYAxis.value = it
+        }
     }
 
     private fun initChartStyle() {
