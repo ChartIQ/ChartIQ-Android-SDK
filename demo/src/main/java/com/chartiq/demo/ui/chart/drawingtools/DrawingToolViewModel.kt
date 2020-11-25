@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.ApplicationPrefs
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolCategory
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
-import com.chartiq.demo.ui.chart.drawingtools.list.viewholder.OnDrawingToolClick
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
+import com.chartiq.demo.ui.chart.drawingtools.list.OnDrawingToolClick
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.model.DrawingTool
 

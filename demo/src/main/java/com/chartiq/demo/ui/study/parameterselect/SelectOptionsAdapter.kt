@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.databinding.ItemSelectOptionBinding
+import com.chartiq.demo.databinding.ItemStudyDetailSelectBinding
 
 class SelectOptionsAdapter : RecyclerView.Adapter<SelectOptionsAdapter.ViewHolder>() {
 
@@ -23,14 +23,14 @@ class SelectOptionsAdapter : RecyclerView.Adapter<SelectOptionsAdapter.ViewHolde
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectOptionsAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(ItemSelectOptionBinding.inflate(inflater, parent, false))
+        return ViewHolder(ItemStudyDetailSelectBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items.entries.toList()[position])
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(private val binding: ItemSelectOptionBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemStudyDetailSelectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(keyValue: Map.Entry<String, String>) {
             with(binding) {
                 optionTextView.text = keyValue.value

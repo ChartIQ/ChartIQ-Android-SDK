@@ -28,19 +28,19 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             ParamViewType.TEXT.ordinal -> TextViewHolder(
-                ItemTextStudyParamBinding.inflate(inflater, parent, false)
+                ItemStudyDetailTextBinding.inflate(inflater, parent, false)
             )
             ParamViewType.NUMBER.ordinal -> NumberViewHolder(
-                ItemNumberStudyParamBinding.inflate(inflater, parent, false)
+                ItemStudyDetailNumberBinding.inflate(inflater, parent, false)
             )
             ParamViewType.COLOR.ordinal -> ColorViewHolder(
-                ItemColorStudyParamBinding.inflate(inflater, parent, false)
+                ItemStudyDetailColorBinding.inflate(inflater, parent, false)
             )
             ParamViewType.TEXT_COLOR.ordinal -> TextColorViewHolder(
-                ItemTextColorStudyParamBinding.inflate(inflater, parent, false)
+                ItemStudyDetailColorTextBinding.inflate(inflater, parent, false)
             )
             ParamViewType.CHECKBOX.ordinal -> CheckboxViewHolder(
-                ItemCheckboxStudyParamBinding.inflate(inflater, parent, false)
+                ItemStudyParamCheckboxBinding.inflate(inflater, parent, false)
             )
             ParamViewType.SELECT.ordinal -> SelectViewHolder(
                 ItemSelectStudyParamBinding.inflate(inflater, parent, false)
@@ -72,7 +72,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         abstract fun bind(studyParameter: StudyParameter)
     }
 
-    inner class TextViewHolder(private val binding: ItemTextStudyParamBinding) : ParameterViewHolder(binding.root) {
+    inner class TextViewHolder(private val binding: ItemStudyDetailTextBinding) : ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
             with(binding) {
                 parameterInputLayout.hint = (studyParameter as StudyParameter.Text).heading
@@ -87,7 +87,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class NumberViewHolder(private val binding: ItemNumberStudyParamBinding) : ParameterViewHolder(binding.root) {
+    inner class NumberViewHolder(private val binding: ItemStudyDetailNumberBinding) : ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
             with(binding) {
                 parameterNumberInputLayout.hint = (studyParameter as StudyParameter.Number).heading
@@ -115,7 +115,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class CheckboxViewHolder(private val binding: ItemCheckboxStudyParamBinding) :
+    inner class CheckboxViewHolder(private val binding: ItemStudyParamCheckboxBinding) :
         ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
             with(binding) {
@@ -131,7 +131,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class ColorViewHolder(private val binding: ItemColorStudyParamBinding) : ParameterViewHolder(binding.root) {
+    inner class ColorViewHolder(private val binding: ItemStudyDetailColorBinding) : ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
             val colorValue = (studyParameter as StudyParameter.Color).value
             with(binding) {
@@ -148,7 +148,7 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class TextColorViewHolder(private val binding: ItemTextColorStudyParamBinding) :
+    inner class TextColorViewHolder(private val binding: ItemStudyDetailColorTextBinding) :
         ParameterViewHolder(binding.root) {
         override fun bind(studyParameter: StudyParameter) {
             val colorValue = (studyParameter as StudyParameter.TextColor).color ?: studyParameter.defaultColor
@@ -190,9 +190,13 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
 
     interface StudyParameterListener {
         fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean)
+
         fun onTextParamChange(parameter: StudyParameter, newValue: String)
+
         fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double?)
+
         fun onColorParamChange(studyParameter: StudyParameter)
+
         fun onSelectParamChange(studyParameter: StudyParameter.Select)
     }
 }

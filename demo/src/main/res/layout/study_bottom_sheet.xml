@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:drawableStart="@drawable/ic_menu_settings"
-        android:drawablePadding="@dimen/margin_large"
+        android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
         android:text="@string/study_settings" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:drawableStart="@drawable/ic_clone"
-        android:drawablePadding="@dimen/margin_large"
+        android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
         android:text="@string/study_clone" />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:drawableStart="@drawable/ic_delete"
-        android:drawablePadding="@dimen/margin_large"
+        android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
         android:text="@string/study_delete"
         android:textColor="@color/coralRed" />

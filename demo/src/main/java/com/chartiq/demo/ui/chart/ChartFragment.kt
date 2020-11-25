@@ -28,23 +28,24 @@ class ChartFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-            ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
-            chartIQHandler
+                ChartIQNetworkManager(),
+                ApplicationPrefs.Default(requireContext()),
+                chartIQHandler
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ApplicationPrefs.Default(requireContext()),
-            ChartIQNetworkManager(),
+                ApplicationPrefs.Default(requireContext()),
+                ChartIQNetworkManager(),
         )
     })
 
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentChartBinding.inflate(inflater, container, false)
         setupViews()
@@ -95,9 +96,9 @@ class ChartFragment : Fragment() {
             }
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
-                    requireContext(),
-                    getString(R.string.warning_something_went_wrong),
-                    Toast.LENGTH_SHORT
+                        requireContext(),
+                        getString(R.string.warning_something_went_wrong),
+                        Toast.LENGTH_SHORT
                 ).show()
             }
         }
