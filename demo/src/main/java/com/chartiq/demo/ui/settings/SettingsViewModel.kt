@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.ChartIQScale
 
 class SettingsViewModel(
     val chartIQ: ChartIQ
@@ -16,6 +17,13 @@ class SettingsViewModel(
 
     init {
         initChartStyle()
+        initChartPreferences()
+    }
+
+    private fun initChartPreferences() {
+        chartIQ.getChartScale {
+            logScale.value = it == ChartIQScale.LINEAR
+        }
     }
 
     private fun initChartStyle() {
