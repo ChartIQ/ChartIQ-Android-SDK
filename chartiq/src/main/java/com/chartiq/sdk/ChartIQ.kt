@@ -37,7 +37,9 @@ interface ChartIQ {
 
     fun getAggregationChartType(callback: OnReturnCallback<AggregationType?>)
 
-    fun setChartScale(scale: ChartScale)
+    fun getChartScale(callback: OnReturnCallback<ChartIQScale>)
+
+    fun setChartScale(scale: ChartIQScale)
 
     fun removeStudy(study: Study)
 

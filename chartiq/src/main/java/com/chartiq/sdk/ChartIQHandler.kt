@@ -227,7 +227,18 @@ class ChartIQHandler(
         }
     }
 
-    override fun setChartScale(scale: ChartScale) {
+    override fun getChartScale(callback: OnReturnCallback<ChartIQScale>) {
+        val script = scriptManager.getChartScaleScript()
+        executeJavascript(script) {
+            try {
+                callback.onReturn(ChartIQScale.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+            } catch (e: Exception) {
+                callback.onReturn(ChartIQScale.LINEAR)
+            }
+        }
+    }
+    
+    override fun setChartScale(scale: ChartIQScale) {
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
@@ -295,7 +306,7 @@ class ChartIQHandler(
         }
     }
 
-    private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
+        private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
         chartIQView.evaluateJavascript(script, callback)
     }
 

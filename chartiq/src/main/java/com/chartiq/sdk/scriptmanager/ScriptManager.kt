@@ -47,6 +47,8 @@ internal interface ScriptManager {
 
     fun getClearChartScript(): String
 
+    fun getChartScaleScript(): String
+
     fun getSetChartScaleScript(scale: String): String
 
     fun getAddStudyScript(studyName: String): String
@@ -100,6 +102,7 @@ internal interface ScriptManager {
     fun getSetEnginePropertyScript(property: String, value: Any): String
 
     fun getGetEnginePropertyScript(property: String): String
+
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
 }

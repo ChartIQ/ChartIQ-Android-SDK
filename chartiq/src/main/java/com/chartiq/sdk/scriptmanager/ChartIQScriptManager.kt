@@ -74,6 +74,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getClearChartScript(): String =
             CHART_IQ_JS_OBJECT + "destroy();"
 
+    override fun getChartScaleScript(): String = "stxx.layout.chartScale"
+
     override fun getSetChartScaleScript(scale: String): String = CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
     override fun getAddStudyScript(studyName: String): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
@@ -231,6 +233,7 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
             MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
+
 
     companion object {
         private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."
