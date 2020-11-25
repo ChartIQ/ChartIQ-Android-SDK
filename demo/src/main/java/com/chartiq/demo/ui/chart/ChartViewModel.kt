@@ -9,24 +9,27 @@ import com.chartiq.demo.R
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.network.model.DrawingParameter
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
+import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
+import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.demo.network.model.PanelDrawingToolParameters
-import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
 import com.google.gson.Gson
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChartViewModel(
     private val networkManager: NetworkManager,
@@ -43,9 +46,9 @@ class ChartViewModel(
 
     val resultLiveData = MutableLiveData<ChartData>()
 
-    val errorLiveData = MutableLiveData<Unit>()
+    val errorLiveData = MutableLiveData<Event<Unit>>()
 
-    val resetInstrumentsLiveData = MutableLiveData<Unit>()
+    val resetInstrumentsLiveData = MutableLiveData<Event<Unit>>()
 
     val parameters = MutableLiveData<PanelDrawingToolParameters>()
 
@@ -58,7 +61,7 @@ class ChartViewModel(
                 is NetworkResult.Success -> resultLiveData
                     .postValue(ChartData(result.data, callback))
                 is NetworkResult.Failure -> errorLiveData
-                    .postValue(Unit)
+                    .postValue(Event(Unit))
             }
         }
     }
@@ -77,21 +80,24 @@ class ChartViewModel(
         drawingTool.value = applicationPrefs.getDrawingTool()
     }
 
-    fun setupInstrumentsList(item: DrawingToolItem): List<InstrumentItem> {
+    fun setupInstrumentsList(): List<InstrumentItem> {
+        val item = DrawingTools.values().find { it.tool == drawingTool.value!! } ?: return listOf()
+        val tool = item.tool
+
         val instrumentList = mutableListOf<InstrumentItem>()
         instrumentList.add(InstrumentItem(Instrument.DRAWING_TOOL, item.iconRes))
         with(drawingManager) {
-            if (isSupportingFillColor(item.tool)) {
+            if (isSupportingFillColor(tool)) {
                 instrumentList.add(
                     InstrumentItem(Instrument.FILL, R.drawable.ic_panel_fill)
                 )
             }
-            if (isSupportingLineColor(item.tool)) {
+            if (isSupportingLineColor(tool)) {
                 instrumentList.add(
                     InstrumentItem(Instrument.COLOR, R.drawable.ic_panel_color)
                 )
             }
-            if (isSupportingLineType(item.tool)) {
+            if (isSupportingLineType(tool)) {
                 instrumentList.add(
                     InstrumentItem(Instrument.LINE_TYPE, R.drawable.ic_panel_line_type)
                 )
@@ -105,7 +111,7 @@ class ChartViewModel(
             instrumentList.add(
                 InstrumentItem(Instrument.LAYER_MANAGEMENT, R.drawable.ic_panel_layers_management)
             )
-            if (isSupportingSettings(item.tool)) {
+            if (isSupportingSettings(tool)) {
                 instrumentList.add(
                     InstrumentItem(Instrument.SETTINGS, R.drawable.ic_panel_options)
                 )
@@ -116,6 +122,7 @@ class ChartViewModel(
 
     fun enableDrawing(drawingTool: DrawingTool) {
         chartIQHandler.enableDrawing(drawingTool)
+        getDrawingToolParameters()
     }
 
     fun enableCrosshairs() {
@@ -137,6 +144,7 @@ class ChartViewModel(
             DrawingParameter.FILL_COLOR.value,
             color.toHexStringWithHash()
         )
+        getDrawingToolParameters()
     }
 
     fun updateColor(color: Int) {
@@ -144,14 +152,13 @@ class ChartViewModel(
             DrawingParameter.LINE_COLOR.value,
             color.toHexStringWithHash()
         )
+        getDrawingToolParameters()
     }
 
-    fun updateLineType(lineType: LineType) {
+    fun updateLine(lineType: LineType, lineWidth: Int) {
         chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE.value, lineType.value)
-    }
-
-    fun updateLineWidth(lineWidth: Int) {
         chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH.value, lineWidth.toString())
+        getDrawingToolParameters()
     }
 
     fun cloneDrawing() {
@@ -172,31 +179,23 @@ class ChartViewModel(
         resetInstruments()
     }
 
-    fun getDrawingToolParameters() {
-        if (drawingTool.value != null) {
-            chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
-                val gson = Gson()
-                val jsonElement = gson.toJsonTree(parameters)
-                this.parameters.value =
-                    gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
-            }
-        }
-    }
+    fun undoDrawingChange() = chartIQHandler.undoDrawingChange {}
 
-    fun redo() {
-        chartIQHandler.redo {}
-    }
-
-    fun undo() {
-        chartIQHandler.undo {}
-    }
+    fun redoDrawingChange() = chartIQHandler.redoDrawingChange {}
 
     fun resetInstruments(delay: Long = REFRESH_IMMEDIATE_MILLIS) {
         viewModelScope.launch(Dispatchers.IO) {
             delay(delay)
-            withContext(Dispatchers.Main) {
-                resetInstrumentsLiveData.value = Unit
-            }
+            resetInstrumentsLiveData.postValue(Event(Unit))
+        }
+    }
+
+    private fun getDrawingToolParameters() {
+        chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
+            val gson = Gson()
+            val jsonElement = gson.toJsonTree(parameters)
+            this.parameters.value =
+                gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
         }
     }
 

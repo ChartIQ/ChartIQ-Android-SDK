@@ -248,6 +248,7 @@ class ChartIQHandler(
                 .substring(1, value.length - 1)
                 .replace("\\", "")
             val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+            // TODO: 25.11.20 Fix NO_TOOL crashing
             val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
             callback.onReturn(parameters)
         }
@@ -291,12 +292,12 @@ class ChartIQHandler(
         }
     }
 
-    override fun undo(callback: OnReturnCallback<Boolean>) {
-        executeJavascript(scriptManager.getUndoScript())
+    override fun undoDrawingChange(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getUndoDrawingChangeScript())
     }
 
-    override fun redo(callback: OnReturnCallback<Boolean>) {
-        executeJavascript(scriptManager.getRedoScript())
+    override fun redoDrawingChange(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getRedoDrawingChangeScript())
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {

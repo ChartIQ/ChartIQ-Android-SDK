@@ -18,10 +18,9 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
-import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
-import com.chartiq.demo.ui.chart.panel.PanelAdapter
+import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
@@ -50,7 +49,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
     private lateinit var binding: FragmentChartBinding
-    private lateinit var panelAdapter: PanelAdapter
+    private lateinit var panelAdapter: InstrumentPanelAdapter
     private lateinit var panelList: List<InstrumentItem>
     private val job = SupervisorJob()
     private val chartScope = CoroutineScope(job + Dispatchers.IO)
@@ -149,77 +148,87 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 }
             }
         }
-        chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
-            binding.chartIqView.post {
-                chartData.callback.execute(chartData.data)
-            }
-        }
-        chartViewModel.currentSymbol.observe(viewLifecycleOwner) { symbol ->
-            binding.symbolButton.text = symbol.value
-            chartViewModel.setSymbol(symbol)
-            chartViewModel.setDataMethod(DataMethod.PULL, symbol)
-        }
-        chartViewModel.chartInterval.observe(viewLifecycleOwner) { chartInterval ->
-            chartInterval.apply {
-                binding.intervalButton.text = when (timeUnit) {
-                    TimeUnit.SECOND,
-                    TimeUnit.MINUTE -> {
-                        "$duration${timeUnit.toString().first().toLowerCase()}"
-                    }
-                    else -> "$duration${timeUnit.toString().first()}"
+        with(chartViewModel) {
+            resultLiveData.observe(viewLifecycleOwner) { chartData ->
+                binding.chartIqView.post {
+                    chartData.callback.execute(chartData.data)
                 }
             }
-        }
-
-        chartViewModel.drawingTool.observe(viewLifecycleOwner) { drawingTool ->
-            val isDrawingToolSelected = drawingTool != DrawingTool.NO_TOOL
-            if (isDrawingToolSelected) {
-                chartViewModel.enableDrawing(drawingTool)
-                setupDrawingToolInstruments()
+            currentSymbol.observe(viewLifecycleOwner) { symbol ->
+                binding.symbolButton.text = symbol.value
+                chartViewModel.setSymbol(symbol)
+                chartViewModel.setDataMethod(DataMethod.PULL, symbol)
             }
-            with(binding) {
-                drawCheckBox.isChecked = isDrawingToolSelected
-                panelRecyclerView.isVisible = isDrawingToolSelected
-                redoImageView.isVisible = isDrawingToolSelected
-                undoImageView.isVisible = isDrawingToolSelected
-            }
-        }
-        chartViewModel.parameters.observe(viewLifecycleOwner) { parameters ->
-            drawingToolParameters = parameters
-
-            val tool = chartViewModel.drawingTool.value
-            val item = DrawingToolFragment.DEFAULT_TOOLS_LIST.find { it.tool == tool }
-            panelList = chartViewModel.setupInstrumentsList(item!!)
-
-            panelAdapter = PanelAdapter(parameters)
-            panelAdapter.items = panelList
-            panelAdapter.listener = OnSelectItemListener { item ->
-                onSelectItem(item)
+            chartInterval.observe(viewLifecycleOwner) { chartInterval ->
+                chartInterval.apply {
+                    binding.intervalButton.text = when (timeUnit) {
+                        TimeUnit.SECOND,
+                        TimeUnit.MINUTE -> {
+                            "$duration${timeUnit.toString().first().toLowerCase()}"
+                        }
+                        else -> "$duration${timeUnit.toString().first()}"
+                    }
+                }
             }
 
-            binding.panelRecyclerView.adapter = panelAdapter
-        }
-        chartViewModel.crosshairHUD.observe(viewLifecycleOwner) { hud ->
-            with(binding.crosshairLayout) {
-                priceValueTextView.text = hud.price
-                volValueTextView.text = hud.volume
-                openValueTextView.text = hud.open
-                highValueTextView.text = hud.high
-                closeValueTextView.text = hud.close
-                lowValueTextView.text = hud.low
+            drawingTool.observe(viewLifecycleOwner) { drawingTool ->
+                val isDrawingToolSelected = drawingTool != DrawingTool.NONE
+                if (isDrawingToolSelected) {
+                    chartViewModel.enableDrawing(drawingTool)
+                    binding.redoImageView.setOnClickListener {
+                        chartViewModel.redoDrawingChange()
+                    }
+                    binding.undoImageView.setOnClickListener {
+                        chartViewModel.undoDrawingChange()
+                    }
+                    panelAdapter = InstrumentPanelAdapter()
+                }
+
+                with(binding) {
+                    drawCheckBox.isChecked = isDrawingToolSelected
+                    panelRecyclerView.isVisible = isDrawingToolSelected
+                    redoImageView.isVisible = isDrawingToolSelected
+                    undoImageView.isVisible = isDrawingToolSelected
+                }
             }
-        }
+            parameters.observe(viewLifecycleOwner) { parameters ->
+                drawingToolParameters = parameters
+                panelList = chartViewModel.setupInstrumentsList()
 
-        chartViewModel.resetInstrumentsLiveData.observe(viewLifecycleOwner) {
-            panelAdapter.items = panelList.map { it.copy(isSelected = false) }
-        }
+                panelAdapter.parameters = parameters
+                panelAdapter.items = panelList
+                panelAdapter.listener = OnSelectItemListener {
+                    onSelectItem(it)
+                }
 
-        chartViewModel.errorLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.warning_something_went_wrong),
-                Toast.LENGTH_SHORT
-            ).show()
+                binding.panelRecyclerView.adapter = panelAdapter
+            }
+            crosshairHUD.observe(viewLifecycleOwner) { hud ->
+                with(binding.crosshairLayout) {
+                    priceValueTextView.text = hud.price
+                    volValueTextView.text = hud.volume
+                    openValueTextView.text = hud.open
+                    highValueTextView.text = hud.high
+                    closeValueTextView.text = hud.close
+                    lowValueTextView.text = hud.low
+                }
+            }
+
+            resetInstrumentsLiveData.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let{
+                    panelAdapter.items = panelList.map { it.copy(isSelected = false) }
+                }
+            }
+
+            errorLiveData.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.warning_something_went_wrong),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -238,18 +247,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private fun disableCrosshair() {
         chartViewModel.disableCrosshairs()
         job.cancelChildren()
-    }
-
-    private fun setupDrawingToolInstruments() {
-        with(binding) {
-            redoImageView.setOnClickListener {
-                chartViewModel.redo()
-            }
-            undoImageView.setOnClickListener {
-                chartViewModel.undo()
-            }
-            chartViewModel.getDrawingToolParameters()
-        }
     }
 
     private fun onSelectItem(item: InstrumentItem) {
@@ -313,7 +310,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateFillColor(colorItem.color)
-            refreshDrawingToolInstruments()
+            binding.instrumentRecyclerView.isVisible = false
         }
 
         binding.instrumentRecyclerView.apply {
@@ -335,7 +332,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateColor(colorItem.color)
-            refreshDrawingToolInstruments()
+            binding.instrumentRecyclerView.isVisible = false
         }
         binding.instrumentRecyclerView.apply {
             setHasFixedSize(true)
@@ -359,9 +356,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         linesAdapter.items = lines
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         linesAdapter.listener = OnSelectItemListener { lineItem ->
-            chartViewModel.updateLineType(lineItem.lineType)
-            chartViewModel.updateLineWidth(lineItem.lineWidth)
-            refreshDrawingToolInstruments()
+            chartViewModel.updateLine(lineItem.lineType, lineItem.lineWidth)
+            binding.instrumentRecyclerView.isVisible = false
         }
 
         binding.instrumentRecyclerView.apply {
@@ -378,11 +374,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         val dialogue = ManageLayersModelBottomSheet()
         dialogue.setTargetFragment(this, REQUEST_CODE_MANAGE_LAYERS)
         dialogue.show(parentFragmentManager, null)
-    }
-
-    private fun refreshDrawingToolInstruments() {
-        binding.instrumentRecyclerView.isVisible = false
-        chartViewModel.getDrawingToolParameters()
     }
 
     private fun getColors(): List<ColorItem> {

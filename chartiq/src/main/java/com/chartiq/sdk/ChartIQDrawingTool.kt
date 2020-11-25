@@ -20,4 +20,8 @@ interface ChartIQDrawingTool {
     fun cloneDrawing()
 
     fun manageLayer(layer: ChartLayer)
+
+    fun undoDrawingChange(callback: OnReturnCallback<Boolean>)
+
+    fun redoDrawingChange(callback: OnReturnCallback<Boolean>)
 }

@@ -13,8 +13,8 @@ private const val LINE_WIDTH_EXTRA_BOLD = 3
 
 private const val DEFAULT_COLOR_PICKER_COLOR = Color.BLACK
 
-fun getLineTypeResource(lineType: LineType, lineWidth: Int): Int {
-    return when (lineType) {
+fun LineType.getLineTypeResource(lineWidth: Int): Int {
+    return when (this) {
         LineType.SOLID ->
             when (lineWidth) {
                 LINE_WIDTH_BOLD -> R.drawable.ic_line_type_solid_bold
@@ -33,8 +33,8 @@ fun getLineTypeResource(lineType: LineType, lineWidth: Int): Int {
     }
 }
 
-fun updatePickerColor(drawable: Drawable, colorParameter: String?) {
-    val pickerDrawable = (drawable as LayerDrawable).findDrawableByLayerId(R.id.colorPicker)
+fun LayerDrawable.updatePickerColor(colorParameter: String?) {
+    val pickerDrawable = findDrawableByLayerId(R.id.colorPicker)
     val color = if (colorParameter == null || colorParameter == COLOR_AUTO) {
         DEFAULT_COLOR_PICKER_COLOR
     } else {

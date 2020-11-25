@@ -7,7 +7,7 @@ import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.model.drawingtool.LineType
 import kotlinx.android.parcel.Parcelize
 
-sealed class SettingsItem : Parcelable {
+sealed class DrawingToolSettingsItem : Parcelable {
 
     @Parcelize
     data class ChooseValue(
@@ -17,7 +17,7 @@ sealed class SettingsItem : Parcelable {
         val param: String,
         val valueList: List<OptionItem>,
         val isMultipleSelection: Boolean = false
-    ) : SettingsItem()
+    ) : DrawingToolSettingsItem()
 
     @Parcelize
     data class Switch(
@@ -25,7 +25,7 @@ sealed class SettingsItem : Parcelable {
         val title: Int,
         val checked: Boolean,
         val param: String
-    ) : SettingsItem()
+    ) : DrawingToolSettingsItem()
 
     @Parcelize
     data class Style(
@@ -35,7 +35,7 @@ sealed class SettingsItem : Parcelable {
         val isItalic: Boolean,
         val weightParam: String = DrawingParameter.WEIGHT.value,
         val styleParam: String = DrawingParameter.STYLE.value
-    ) : SettingsItem()
+    ) : DrawingToolSettingsItem()
 
     @Parcelize
     data class Line(
@@ -45,7 +45,7 @@ sealed class SettingsItem : Parcelable {
         val lineWidth: Int,
         val lineTypeParam: String = DrawingParameter.LINE_TYPE.value,
         val lineWidthParam: String = DrawingParameter.LINE_WIDTH.value
-    ) : SettingsItem()
+    ) : DrawingToolSettingsItem()
 
     @Parcelize
     data class Color(
@@ -53,12 +53,12 @@ sealed class SettingsItem : Parcelable {
         val title: Int,
         val color: String,
         val param: String
-    ) : SettingsItem()
+    ) : DrawingToolSettingsItem()
 
     @Parcelize
     data class Deviation(
         @StringRes
         val title: Int,
-        val settings: List<SettingsItem>
-    ) : SettingsItem()
+        val settings: List<DrawingToolSettingsItem>
+    ) : DrawingToolSettingsItem()
 }

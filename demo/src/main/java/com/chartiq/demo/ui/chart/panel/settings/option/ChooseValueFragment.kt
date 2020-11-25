@@ -31,10 +31,10 @@ class ChooseValueFragment : FullscreenDialogFragment() {
 
     private fun setupViews() {
         with(binding) {
-            val isMultipleSelect = arguments?.getBoolean(ARG_IS_MULTIPLE_SELECTION) ?: false
-            val parameter = arguments?.getString(ARG_PARAM)
+            val isMultipleSelect = requireArguments().getBoolean(ARG_IS_MULTIPLE_SELECTION)
+            val parameter = requireArguments().getString(ARG_PARAM)
                 ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
-            optionList = arguments?.getParcelableArrayList(ARG_OPTIONS)
+            optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
                 ?: throw IllegalStateException("No value options were passed to the fragment")
 
             valuesToolbar.setNavigationOnClickListener {
@@ -48,7 +48,7 @@ class ChooseValueFragment : FullscreenDialogFragment() {
                 val valuesAdapter = OptionsAdapter()
                 valuesAdapter.items = optionList
                 valuesAdapter.listener = OnSelectItemListener { selectedOption ->
-                    val param = arguments?.getString(ARG_PARAM) ?: ""
+                    val param = requireArguments().getString(ARG_PARAM) ?: ""
 
                     if (isMultipleSelect) {
                         optionList = optionList.map {

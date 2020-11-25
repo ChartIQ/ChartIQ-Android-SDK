@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
 import com.chartiq.demo.ui.LineItemDecoration
-import com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment.Companion.DEFAULT_TOOLS_LIST
+import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
 import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
@@ -33,24 +33,24 @@ class DrawingToolSettingsFragment : Fragment(),
     private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
         DrawingToolSettingsViewModel.ViewModelFactory(chartIQHandler, ChartIQDrawingManager())
     })
-    private val settingsAdapter = SettingsAdapter()
-    private val settingsListener = OnSelectItemListener<SettingsItem> { item ->
+    private val settingsAdapter = DrawingToolSettingsAdapter()
+    private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
         when (item) {
-            is SettingsItem.Switch -> updateBooleanParameter(item.param, item.checked)
-            is SettingsItem.Color -> navigateToChooseColor(item.param, item.color)
-            is SettingsItem.Deviation -> navigateToDeviationSettings(item)
-            is SettingsItem.Style -> settingsViewModel.updateAnnotationParameters(
+            is DrawingToolSettingsItem.Switch -> updateBooleanParameter(item.param, item.checked)
+            is DrawingToolSettingsItem.Color -> navigateToChooseColor(item.param, item.color)
+            is DrawingToolSettingsItem.Deviation -> navigateToDeviationSettings(item)
+            is DrawingToolSettingsItem.Style -> settingsViewModel.updateAnnotationParameters(
                 item.weightParam,
                 item.styleParam,
                 item.isBold,
                 item.isItalic
             )
-            is SettingsItem.ChooseValue -> navigateToChooseValueFromList(
+            is DrawingToolSettingsItem.ChooseValue -> navigateToChooseValueFromList(
                 item.param,
                 item.valueList,
                 item.isMultipleSelection
             )
-            is SettingsItem.Line -> navigateToChooseLine(
+            is DrawingToolSettingsItem.Line -> navigateToChooseLine(
                 item.lineTypeParam,
                 item.lineWidthParam,
                 item.lineType,
@@ -101,19 +101,17 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     private fun extractArguments() {
-        arguments?.let { it ->
-            val args = DrawingToolSettingsFragmentArgs.fromBundle(it)
-            val drawingTool = args.argDrawingTool
-            settingsViewModel.setDrawingTool(drawingTool)
-            if (args.argDeviation != null) {
-                val item = args.argDeviation
-                settingsViewModel.setTitle(getString(item.title))
-                settingsAdapter.items = item.settings
-            } else {
-                val item = DEFAULT_TOOLS_LIST.find { it.tool == drawingTool }!!
-                settingsViewModel.setTitle(getString(item.nameRes))
-                settingsViewModel.refreshDrawingParameters()
-            }
+        val args = DrawingToolSettingsFragmentArgs.fromBundle(requireArguments())
+        val drawingTool = args.argDrawingTool
+        settingsViewModel.setDrawingTool(drawingTool)
+        if (args.argDeviation != null) {
+            val item = args.argDeviation
+            binding.settingsToolbar.title = getString(item.title)
+            settingsAdapter.items = item.settings
+        } else {
+            val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
+            binding.settingsToolbar.title = getString(item.nameRes)
+            settingsViewModel.refreshDrawingParameters()
         }
     }
 
@@ -123,7 +121,6 @@ class DrawingToolSettingsFragment : Fragment(),
                 setNavigationOnClickListener {
                     findNavController().navigateUp()
                 }
-                title = settingsViewModel.title.value
             }
             settingsAdapter.listener = settingsListener
             settingsRecyclerView.addItemDecoration(LineItemDecoration.Default(requireContext()))
@@ -134,12 +131,11 @@ class DrawingToolSettingsFragment : Fragment(),
             val list = settingsViewModel.setupList(params)
 
             // TODO: 19.11.20 Review the following construction
-            val isNestedSettings = arguments?.let { it ->
-                DrawingToolSettingsFragmentArgs.fromBundle(it).argDeviation != null
-            } ?: false
+            val isNestedSettings =
+                DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
             if (isNestedSettings) {
-                list.find { it is SettingsItem.Deviation }?.let { deviation ->
-                    deviation as SettingsItem.Deviation
+                list.find { it is DrawingToolSettingsItem.Deviation }?.let { deviation ->
+                    deviation as DrawingToolSettingsItem.Deviation
                     settingsAdapter.items = deviation.settings
                 }
             } else {
@@ -159,7 +155,7 @@ class DrawingToolSettingsFragment : Fragment(),
         dialog.show(parentFragmentManager, null)
     }
 
-    private fun navigateToDeviationSettings(item: SettingsItem.Deviation) {
+    private fun navigateToDeviationSettings(item: DrawingToolSettingsItem.Deviation) {
         val direction = DrawingToolSettingsFragmentDirections.actionDrawingToolSettingsFragmentSelf(
             settingsViewModel.drawingTool.value!!,
             item

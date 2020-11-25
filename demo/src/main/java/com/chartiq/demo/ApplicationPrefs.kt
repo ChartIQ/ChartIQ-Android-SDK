@@ -62,7 +62,7 @@ interface ApplicationPrefs {
         }
 
         override fun getDrawingTool(): DrawingTool =
-            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())!!)
+            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
 
         override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
             val set = drawingToolsSet
@@ -79,7 +79,7 @@ interface ApplicationPrefs {
 
         override fun clearSession() {
             prefs.edit(true) {
-                putString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())
+                putString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())
             }
         }
 

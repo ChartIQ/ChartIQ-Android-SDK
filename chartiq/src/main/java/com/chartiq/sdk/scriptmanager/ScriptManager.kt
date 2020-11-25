@@ -103,9 +103,9 @@ internal interface ScriptManager {
 
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
-    fun getUndoScript(): String
+    fun getUndoDrawingChangeScript(): String
 
-    fun getRedoScript(): String
+    fun getRedoDrawingChangeScript(): String
 
     fun getDeleteDrawingScript(): String
 

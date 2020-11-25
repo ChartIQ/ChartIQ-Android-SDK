@@ -42,8 +42,4 @@ interface ChartIQ: ChartIQDrawingTool {
         type: StudyParameterType,
         callback: OnReturnCallback<String>
     )
-
-    fun undo(callback: OnReturnCallback<Boolean>)
-
-    fun redo(callback: OnReturnCallback<Boolean>)
 }

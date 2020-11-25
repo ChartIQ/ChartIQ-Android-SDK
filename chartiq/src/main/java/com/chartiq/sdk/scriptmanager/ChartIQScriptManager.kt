@@ -93,7 +93,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getEnableDrawingScript(type: DrawingTool): String =
         "currentDrawing = \"${type.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
 
-    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NO_TOOL)
+    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
@@ -163,10 +163,10 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
 
-    override fun getUndoScript(): String =
+    override fun getUndoDrawingChangeScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "undo();"
 
-    override fun getRedoScript(): String =
+    override fun getRedoDrawingChangeScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "redo();"
 
     override fun getDeleteDrawingScript(): String =

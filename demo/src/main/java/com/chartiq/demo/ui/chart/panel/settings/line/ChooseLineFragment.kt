@@ -40,11 +40,11 @@ class ChooseLineFragment : FullscreenDialogFragment() {
             linesRecyclerView.apply {
                 val linesAdapter = LineAdapter()
                 val selectedIndex =
-                    arguments?.let {
+                    requireArguments().run {
                         val selectedLineType =
-                            it.getParcelable<LineType>(ARG_SELECTED_LINE_TYPE)
+                            getParcelable<LineType>(ARG_SELECTED_LINE_TYPE)
                                 ?: throw IllegalStateException("No line type was passed to the fragment")
-                        val selectedLineWidth = it.getInt(ARG_SELECTED_LINE_WIDTH)
+                        val selectedLineWidth = getInt(ARG_SELECTED_LINE_WIDTH)
 
                         findLineIndex(DEFAULT_LINE_TYPE_LIST, selectedLineType, selectedLineWidth)
                     }
@@ -56,8 +56,8 @@ class ChooseLineFragment : FullscreenDialogFragment() {
                     minHeight = resources.getDimensionPixelSize(R.dimen.list_item_line_min_height_fullscreen)
                 )
                 linesAdapter.listener = OnSelectItemListener {
-                    val lineParam = arguments?.getString(ARG_LINE_PARAMETER) ?: ""
-                    val widthParam = arguments?.getString(ARG_WIDTH_PARAMETER) ?: ""
+                    val lineParam = requireArguments().getString(ARG_LINE_PARAMETER) ?: ""
+                    val widthParam = requireArguments().getString(ARG_WIDTH_PARAMETER) ?: ""
 
                     (targetFragment as DialogFragmentListener).onChooseLine(
                         lineParam,
@@ -76,7 +76,12 @@ class ChooseLineFragment : FullscreenDialogFragment() {
     }
 
     companion object {
-        fun getInstance(lineParam: String, widthParam: String, lineType: LineType, lineWidth: Int): ChooseLineFragment {
+        fun getInstance(
+            lineParam: String,
+            widthParam: String,
+            lineType: LineType,
+            lineWidth: Int
+        ): ChooseLineFragment {
             val dialog = ChooseLineFragment()
             dialog.arguments = bundleOf(
                 ARG_LINE_PARAMETER to lineParam,

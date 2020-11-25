@@ -114,7 +114,7 @@
             app:argType="com.chartiq.sdk.model.drawingtool.DrawingTool" />
         <argument
             android:name="argDeviation"
-            app:argType="com.chartiq.demo.ui.chart.panel.settings.SettingsItem$Deviation"
+            app:argType="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsItem$Deviation"
             app:nullable="true"
             android:defaultValue="@null" />
         <action

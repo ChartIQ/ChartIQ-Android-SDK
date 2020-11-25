@@ -40,7 +40,7 @@ class ChooseColorFragment : FullscreenDialogFragment() {
             colorsRecyclerView.apply {
                 val colorsAdapter = ColorsAdapter()
                 val colorList = getColors()
-                val color = arguments?.getString(ARG_SELECTED_COLOR)
+                val color = requireArguments().getString(ARG_SELECTED_COLOR)
                     ?: throw IllegalStateException("No default color was passed to the fragment")
                 val selectedIndex = findColorIndex(colorList, color)
 
@@ -51,14 +51,13 @@ class ChooseColorFragment : FullscreenDialogFragment() {
                     minHeight = resources.getDimensionPixelSize(R.dimen.list_item_color_min_height_fullscreen)
                 )
                 colorsAdapter.listener = OnSelectItemListener {
-                    val parameter = arguments?.getString(ARG_PARAMETER)
+                    val parameter = requireArguments().getString(ARG_PARAMETER)
                         ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
                     (targetFragment as DialogFragmentListener).onChooseColor(parameter, it.color)
 
                     dismiss()
                 }
 
-                layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, RecyclerView.VERTICAL)
                 adapter = colorsAdapter
                 post { selectedIndex?.let { smoothScrollToPosition(it) } }
             }
@@ -89,7 +88,6 @@ class ChooseColorFragment : FullscreenDialogFragment() {
 
         private const val ARG_PARAMETER = "choose.color.argument.parameter"
         private const val ARG_SELECTED_COLOR = "choose.color.argument.color.selected"
-        private const val SPAN_COUNT = 5
     }
 
     interface DialogFragmentListener {

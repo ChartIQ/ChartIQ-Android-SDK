@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/ghostWhite"
-    android:padding="8dp">
+    android:padding="@dimen/padding_small">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/priceLabelTextView"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/padding_small"
         android:text="@string/crosshair_label_price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,8 +22,7 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:maxLength="6"
+        android:layout_marginStart="@dimen/padding_small"
         app:layout_constraintStart_toEndOf="@id/priceLabelTextView"
         tools:text="117.79" />
 
@@ -41,7 +40,6 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/priceValueTextView"
         app:layout_constraintTop_toTopOf="@id/volLabelTextView"
         tools:text="32.6 M" />
@@ -60,8 +58,7 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:maxLength="6"
+        android:layout_marginStart="@dimen/padding_small"
         app:layout_constraintStart_toEndOf="@id/openLabelTextView"
         tools:text="116.23" />
 
@@ -79,7 +76,6 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/openValueTextView"
         app:layout_constraintTop_toTopOf="@id/highLabelTextView"
         tools:text="116.23" />
@@ -89,7 +85,7 @@
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/padding_small"
         android:text="@string/crosshair_label_close"
         app:layout_constraintEnd_toStartOf="@id/closeValueTextView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +95,6 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLength="6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/closeLabelTextView"
         tools:text="116.23" />
@@ -118,7 +113,6 @@
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLength="6"
         app:layout_constraintStart_toStartOf="@id/closeValueTextView"
         app:layout_constraintTop_toTopOf="@id/lowLabelTextView"
         tools:text="111.23" />

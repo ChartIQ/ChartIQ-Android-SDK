@@ -12,13 +12,16 @@
         app:title="Select Color" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
-        android:clipToPadding="true"
         android:id="@+id/linesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
+        android:clipToPadding="true"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="4"
         tools:itemCount="4"
         tools:listitem="@layout/item_setting_line_type" />
 </FrameLayout>

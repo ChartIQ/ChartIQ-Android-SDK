@@ -1,5 +1,6 @@
 package com.chartiq.demo.ui.chart.panel
 
+import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,8 +12,9 @@ import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 
-class PanelAdapter(private val parameters: PanelDrawingToolParameters) :
-    RecyclerView.Adapter<PanelAdapter.InstrumentViewHolder>() {
+class InstrumentPanelAdapter : RecyclerView.Adapter<InstrumentPanelAdapter.InstrumentViewHolder>() {
+
+    var parameters: PanelDrawingToolParameters? = null
 
     var items = listOf<InstrumentItem>()
         set(value) {
@@ -45,15 +47,18 @@ class PanelAdapter(private val parameters: PanelDrawingToolParameters) :
                         setPadding(dimen, dimen, dimen, dimen)
                     }
                     Instrument.COLOR -> {
-                        parameters.color?.let { updatePickerColor(drawable, it) }
+                        parameters?.color?.let {
+                            (drawable as LayerDrawable).updatePickerColor(it)
+                        }
                     }
                     Instrument.FILL -> {
-                        parameters.fillColor?.let { updatePickerColor(drawable, it) }
+                        parameters?.fillColor?.let {
+                            (drawable as LayerDrawable).updatePickerColor(it)
+                        }
                     }
                     Instrument.LINE_TYPE -> {
-                        if (parameters.lineType != null && parameters.lineWidth != null) {
-                            val lineType =
-                                getLineTypeResource(parameters.lineType!!, parameters.lineWidth!!)
+                        parameters?.lineType?.let {
+                            val lineType = it.getLineTypeResource(parameters?.lineWidth ?: 0)
                             setImageResource(lineType)
                         }
                     }
