@@ -246,7 +246,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             Instrument.LINE_TYPE -> showLineTypeCarousel()
             Instrument.CLONE -> cloneDrawing()
             Instrument.DELETE -> deleteDrawing()
-            Instrument.MAGNET -> chartViewModel.magnetDrawing()
             Instrument.LAYER_MANAGEMENT -> showLayerManagementDialogue()
             Instrument.SETTINGS -> navigateToInstrumentSettings()
         }

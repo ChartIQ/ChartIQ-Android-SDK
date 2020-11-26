@@ -7,7 +7,6 @@ enum class Instrument {
     LINE_TYPE,
     CLONE,
     DELETE,
-    MAGNET,
     LAYER_MANAGEMENT,
     SETTINGS
 }

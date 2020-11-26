@@ -160,9 +160,6 @@ class ChartViewModel(
         resetInstruments(REFRESH_TIME_MILLIS)
     }
 
-    fun magnetDrawing() {
-    }
-
     fun manageLayer(layer: ChartLayer) {
         chartIQHandler.manageLayer(layer)
         resetInstruments()
