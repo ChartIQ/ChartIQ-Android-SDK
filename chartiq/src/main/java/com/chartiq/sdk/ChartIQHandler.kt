@@ -244,13 +244,15 @@ class ChartIQHandler(
         callback: OnReturnCallback<Map<String, Any>>
     ) {
         executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
-            val result = value
-                .substring(1, value.length - 1)
-                .replace("\\", "")
-            val typeToken = object : TypeToken<Map<String, Any>>() {}.type
-            // TODO: 25.11.20 Fix NO_TOOL crashing
-            val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
-            callback.onReturn(parameters)
+            if (value != "null") {
+                val result = value
+                    .substring(1, value.length - 1)
+                    .replace("\\", "")
+                val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+                // TODO: 25.11.20 Fix NO_TOOL crashing
+                val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
+                callback.onReturn(parameters)
+            }
         }
     }
 
@@ -292,15 +294,16 @@ class ChartIQHandler(
         }
     }
 
-    override fun undoDrawingChange(callback: OnReturnCallback<Boolean>) {
-        executeJavascript(scriptManager.getUndoDrawingChangeScript())
+    override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getUndoDrawingScript())
     }
 
-    override fun redoDrawingChange(callback: OnReturnCallback<Boolean>) {
-        executeJavascript(scriptManager.getRedoDrawingChangeScript())
+    override fun redoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getRedoDrawingScript())
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
+        Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
     }
 

@@ -163,10 +163,10 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
 
-    override fun getUndoDrawingChangeScript(): String =
+    override fun getUndoDrawingScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "undo();"
 
-    override fun getRedoDrawingChangeScript(): String =
+    override fun getRedoDrawingScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "redo();"
 
     override fun getDeleteDrawingScript(): String =

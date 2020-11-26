@@ -21,7 +21,7 @@ interface ChartIQDrawingTool {
 
     fun manageLayer(layer: ChartLayer)
 
-    fun undoDrawingChange(callback: OnReturnCallback<Boolean>)
+    fun undoDrawing(callback: OnReturnCallback<Boolean>)
 
-    fun redoDrawingChange(callback: OnReturnCallback<Boolean>)
+    fun redoDrawing(callback: OnReturnCallback<Boolean>)
 }
