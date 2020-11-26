@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
+import com.chartiq.demo.network.model.DrawingParameter
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
@@ -36,26 +37,12 @@ class DrawingToolSettingsFragment : Fragment(),
     private val settingsAdapter = DrawingToolSettingsAdapter()
     private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
         when (item) {
-            is DrawingToolSettingsItem.Switch -> updateBooleanParameter(item.param, item.checked)
-            is DrawingToolSettingsItem.Color -> navigateToChooseColor(item.param, item.color)
+            is DrawingToolSettingsItem.Switch -> updateBooleanParameter(item)
+            is DrawingToolSettingsItem.Color -> navigateToChooseColor(item)
             is DrawingToolSettingsItem.Deviation -> navigateToDeviationSettings(item)
-            is DrawingToolSettingsItem.Style -> settingsViewModel.updateAnnotationParameters(
-                item.weightParam,
-                item.styleParam,
-                item.isBold,
-                item.isItalic
-            )
-            is DrawingToolSettingsItem.ChooseValue -> navigateToChooseValueFromList(
-                item.param,
-                item.valueList,
-                item.isMultipleSelection
-            )
-            is DrawingToolSettingsItem.Line -> navigateToChooseLine(
-                item.lineTypeParam,
-                item.lineWidthParam,
-                item.lineType,
-                item.lineWidth
-            )
+            is DrawingToolSettingsItem.Style -> settingsViewModel.updateAnnotationParameters(item)
+            is DrawingToolSettingsItem.ChooseValue -> navigateToChooseValueFromList(item)
+            is DrawingToolSettingsItem.Line -> navigateToChooseLine(item)
         }
     }
 
@@ -92,10 +79,11 @@ class DrawingToolSettingsFragment : Fragment(),
         valuesList: List<OptionItem>,
         isMultipleSelect: Boolean
     ) {
-        val value = if (isMultipleSelect) {
-            Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
-        } else {
-            valuesList.find { it.isSelected }!!.value
+        val value = when (parameter) {
+            DrawingParameter.FIBS.value ->
+                Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
+            else ->
+                valuesList.find { it.isSelected }!!.value
         }
         settingsViewModel.updateParameter(parameter, value)
     }
@@ -144,13 +132,13 @@ class DrawingToolSettingsFragment : Fragment(),
         }
     }
 
-    private fun navigateToChooseLine(
-        lineParam: String,
-        widthParam: String,
-        lineType: LineType,
-        lineWidth: Int
-    ) {
-        val dialog = ChooseLineFragment.getInstance(lineParam, widthParam, lineType, lineWidth)
+    private fun navigateToChooseLine(item: DrawingToolSettingsItem.Line) {
+        val dialog = ChooseLineFragment.getInstance(
+            item.lineTypeParam,
+            item.lineWidthParam,
+            item.lineType,
+            item.lineWidth
+        )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_LINE_PICKER)
         dialog.show(parentFragmentManager, null)
     }
@@ -163,24 +151,24 @@ class DrawingToolSettingsFragment : Fragment(),
         findNavController().navigate(direction)
     }
 
-    private fun navigateToChooseColor(param: String, selectedColor: String) {
-        val dialog = ChooseColorFragment.getInstance(param, selectedColor)
+    private fun navigateToChooseColor(item: DrawingToolSettingsItem.Color) {
+        val dialog = ChooseColorFragment.getInstance(item.param, item.color)
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_COLOR_PICKER)
         dialog.show(parentFragmentManager, null)
     }
 
-    private fun navigateToChooseValueFromList(
-        param: String,
-        valueList: List<OptionItem>,
-        multipleSelection: Boolean
-    ) {
-        val dialog = ChooseValueFragment.getInstance(param, valueList, multipleSelection)
+    private fun navigateToChooseValueFromList(item: DrawingToolSettingsItem.ChooseValue) {
+        val dialog = ChooseValueFragment.getInstance(
+            item.param,
+            item.valueList,
+            item.isMultipleSelection
+        )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)
     }
 
-    private fun updateBooleanParameter(param: String, checked: Boolean) {
-        settingsViewModel.updateSwitchParameter(param, checked)
+    private fun updateBooleanParameter(item: DrawingToolSettingsItem.Switch) {
+        settingsViewModel.updateSwitchParameter(item.param, item.checked)
     }
 
     companion object {

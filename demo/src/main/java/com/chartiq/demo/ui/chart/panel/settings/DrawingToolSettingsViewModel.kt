@@ -64,24 +64,19 @@ class DrawingToolSettingsViewModel(
         }
     }
 
-    fun updateAnnotationParameters(
-        weightParam: String,
-        styleParam: String,
-        isBold: Boolean,
-        isItalic: Boolean
-    ) {
-        val boldValue = if (isBold) {
+    fun updateAnnotationParameters(item: DrawingToolSettingsItem.Style) {
+        val boldValue = if (item.isBold) {
             DrawingParameter.BOLD.value
         } else {
             DrawingParameter.BOLD_OFF.value
         }
-        val italicValue = if (isItalic) {
+        val italicValue = if (item.isItalic) {
             DrawingParameter.ITALIC.value
         } else {
             DrawingParameter.NORMAL.value
         }
-        updateParameter(weightParam, boldValue)
-        updateParameter(styleParam, italicValue)
+        updateParameter(item.weightParam, boldValue)
+        updateParameter(item.styleParam, italicValue)
     }
 
     fun updateSwitchParameter(parameter: String, value: Boolean) {
@@ -102,7 +97,10 @@ class DrawingToolSettingsViewModel(
         this.drawingTool.value = drawingTool
     }
 
-    private fun addFillColorModel(params: Map<String, Any>, list: MutableList<DrawingToolSettingsItem>) {
+    private fun addFillColorModel(
+        params: Map<String, Any>,
+        list: MutableList<DrawingToolSettingsItem>
+    ) {
         val colorParam = DrawingParameter.FILL_COLOR.value
         val color = params[colorParam].toString()
         list.add(
@@ -138,13 +136,13 @@ class DrawingToolSettingsViewModel(
         )
     }
 
-    // TODO: 17.11.20 Discuss with Yuliya if it would be better to use Font object in SDK instead
     private fun MutableList<DrawingToolSettingsItem>.addFontModels(params: Map<String, Any>) {
-        val font = params[DrawingParameter.FONT.value] as Map<String, String>
+        val value = params[DrawingParameter.FONT.value].toString()
+        val font = Gson().fromJson(value, Font::class.java)
 
         // family
         val familyParam = DrawingParameter.FAMILY.value
-        val family = font[familyParam].toString()
+        val family = font.family.value
         add(
             DrawingToolSettingsItem.ChooseValue(
                 R.string.drawing_tool_settings_title_font_family,
@@ -157,18 +155,16 @@ class DrawingToolSettingsViewModel(
         )
         // style
         // is text italic
-        val styleParam = DrawingParameter.STYLE.value
-        val style = font[styleParam].toString()
+        val style = font.style.value
         val isItalic = style == DrawingParameter.ITALIC.value
 
         // is text bold
-        val weightParam = DrawingParameter.WEIGHT.value
         // if value equals `300` it's normal, but it can also be string `bold`
         val isBold: Boolean = try {
-            val weight = font[weightParam]?.toInt()
+            val weight = font.weight.toInt()
             !(weight != null && weight <= DrawingParameter.BOLD_OFF.value.toInt())
         } catch (e: NumberFormatException) {
-            font[weightParam] == DrawingParameter.BOLD.value
+            font.weight == DrawingParameter.BOLD.value
         }
 
         add(
@@ -181,7 +177,7 @@ class DrawingToolSettingsViewModel(
 
         // size
         val sizeParam = DrawingParameter.SIZE.value
-        val size = font[sizeParam].toString()
+        val size = font.size
         add(
             DrawingToolSettingsItem.ChooseValue(
                 R.string.drawing_tool_settings_title_font_size,
