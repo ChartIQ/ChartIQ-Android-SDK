@@ -80,11 +80,11 @@ class DrawingToolSettingsAdapter :
             item as DrawingToolSettingsItem.ChooseValue
             with(binding) {
                 titleTextView.text = root.resources.getString(item.title)
-                if (item.secondaryText.isEmpty()) {
-                    secondaryTextView.isVisible = false
-                } else {
+                val secondaryTextVisibility = item.secondaryText.isNotEmpty()
+                if (secondaryTextVisibility) {
                     secondaryTextView.text = item.secondaryText
                 }
+                secondaryTextView.isVisible = secondaryTextVisibility
                 root.setOnClickListener {
                     listener?.onSelected(item)
                 }

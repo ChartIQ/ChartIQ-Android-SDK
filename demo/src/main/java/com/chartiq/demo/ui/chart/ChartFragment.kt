@@ -41,7 +41,6 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
-import kotlinx.coroutines.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
@@ -51,8 +50,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private lateinit var binding: FragmentChartBinding
     private lateinit var panelAdapter: InstrumentPanelAdapter
     private lateinit var panelList: List<InstrumentItem>
-    private val job = SupervisorJob()
-    private val chartScope = CoroutineScope(job + Dispatchers.IO)
     private var drawingToolParameters: PanelDrawingToolParameters? = null
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
@@ -113,12 +110,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     override fun onResume() {
         super.onResume()
-        chartViewModel.fetchSavedSettings()
+        chartViewModel.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        job.cancelChildren()
+        chartViewModel.onPause()
     }
 
     override fun onManageLayer(layer: ChartLayer) {
@@ -138,13 +135,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             crosshairCheckBox.setOnClickListener {
                 crosshairLayout.root.apply {
-                    visibility = if (visibility == View.GONE) {
-                        enableCrosshair()
-                        View.VISIBLE
-                    } else {
-                        disableCrosshair()
-                        View.GONE
-                    }
+                    chartViewModel.toggleCrosshairs()
                 }
             }
         }
@@ -176,10 +167,10 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 if (isDrawingToolSelected) {
                     chartViewModel.enableDrawing(drawingTool)
                     binding.redoImageView.setOnClickListener {
-                        chartViewModel.redoDrawingChange()
+                        chartViewModel.redoDrawing()
                     }
                     binding.undoImageView.setOnClickListener {
-                        chartViewModel.undoDrawingChange()
+                        chartViewModel.undoDrawing()
                     }
                     panelAdapter = InstrumentPanelAdapter()
                 }
@@ -203,7 +194,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
                 binding.panelRecyclerView.adapter = panelAdapter
             }
-            crosshairHUD.observe(viewLifecycleOwner) { hud ->
+            crosshairsHUD.observe(viewLifecycleOwner) { hud ->
                 with(binding.crosshairLayout) {
                     priceValueTextView.text = hud.price
                     volValueTextView.text = hud.volume
@@ -215,7 +206,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
 
             resetInstrumentsLiveData.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let{
+                event.getContentIfNotHandled()?.let {
                     panelAdapter.items = panelList.map { it.copy(isSelected = false) }
                 }
             }
@@ -229,24 +220,10 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     ).show()
                 }
             }
-        }
-    }
-
-    private fun enableCrosshair() {
-        chartViewModel.enableCrosshairs()
-        chartScope.launch {
-            while (true) {
-                delay(CROSSHAIR_UPDATE_PERIOD)
-                withContext(Dispatchers.Main) {
-                    chartViewModel.getHUDDetails()
-                }
+            isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
+                binding.crosshairLayout.root.isVisible = value
             }
         }
-    }
-
-    private fun disableCrosshair() {
-        chartViewModel.disableCrosshairs()
-        job.cancelChildren()
     }
 
     private fun onSelectItem(item: InstrumentItem) {
@@ -387,8 +364,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     companion object {
-        private const val CROSSHAIR_UPDATE_PERIOD = 300L
-
         private const val REQUEST_CODE_MANAGE_LAYERS = 1012
 
         val DEFAULT_LINE_TYPE_LIST = listOf(

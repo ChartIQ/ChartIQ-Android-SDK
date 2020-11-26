@@ -26,10 +26,7 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ChartViewModel(
     private val networkManager: NetworkManager,
@@ -37,6 +34,10 @@ class ChartViewModel(
     private val chartIQHandler: ChartIQ,
     private val drawingManager: DrawingManager
 ) : ViewModel() {
+
+    private val job = SupervisorJob()
+
+    private val chartScope = CoroutineScope(job + Dispatchers.IO)
 
     val currentSymbol = MutableLiveData<Symbol>()
 
@@ -52,7 +53,9 @@ class ChartViewModel(
 
     val parameters = MutableLiveData<PanelDrawingToolParameters>()
 
-    val crosshairHUD = MutableLiveData<CrosshairHUD>()
+    val crosshairsHUD = MutableLiveData<CrosshairHUD>()
+
+    val isCrosshairsVisible = MutableLiveData(false)
 
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -125,20 +128,6 @@ class ChartViewModel(
         getDrawingToolParameters()
     }
 
-    fun enableCrosshairs() {
-        chartIQHandler.enableCrosshairs()
-    }
-
-    fun disableCrosshairs() {
-        chartIQHandler.disableCrosshairs()
-    }
-
-    fun getHUDDetails() {
-        chartIQHandler.getHUDDetails { hud ->
-            crosshairHUD.value = hud
-        }
-    }
-
     fun updateFillColor(color: Int) {
         chartIQHandler.setDrawingParameter(
             DrawingParameter.FILL_COLOR.value,
@@ -179,9 +168,9 @@ class ChartViewModel(
         resetInstruments()
     }
 
-    fun undoDrawingChange() = chartIQHandler.undoDrawingChange {}
+    fun undoDrawing() = chartIQHandler.undoDrawing {}
 
-    fun redoDrawingChange() = chartIQHandler.redoDrawingChange {}
+    fun redoDrawing() = chartIQHandler.redoDrawing {}
 
     fun resetInstruments(delay: Long = REFRESH_IMMEDIATE_MILLIS) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -190,12 +179,61 @@ class ChartViewModel(
         }
     }
 
+    fun toggleCrosshairs() {
+        val isVisible = isCrosshairsVisible.value!!
+        isCrosshairsVisible.value = if (isVisible) {
+            disableCrosshairs()
+            false
+        } else {
+            enableCrosshairs()
+            true
+        }
+    }
+
+    fun onResume() {
+        fetchSavedSettings()
+        if (isCrosshairsVisible.value!!) {
+            launchCrosshairsUpdate()
+        }
+    }
+
+    fun onPause() {
+        job.cancelChildren()
+    }
+
     private fun getDrawingToolParameters() {
         chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
             val gson = Gson()
             val jsonElement = gson.toJsonTree(parameters)
             this.parameters.value =
                 gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
+        }
+    }
+
+    private fun enableCrosshairs() {
+        launchCrosshairsUpdate()
+        chartIQHandler.enableCrosshairs()
+    }
+
+    private fun disableCrosshairs() {
+        job.cancelChildren()
+        chartIQHandler.disableCrosshairs()
+    }
+
+    private fun getHUDDetails() {
+        chartIQHandler.getHUDDetails { hud ->
+            crosshairsHUD.value = hud
+        }
+    }
+
+    private fun launchCrosshairsUpdate() {
+        chartScope.launch {
+            while (true) {
+                delay(CROSSHAIRS_UPDATE_PERIOD)
+                withContext(Dispatchers.Main) {
+                    getHUDDetails()
+                }
+            }
         }
     }
 
@@ -224,6 +262,8 @@ class ChartViewModel(
     }
 
     companion object {
+        private const val CROSSHAIRS_UPDATE_PERIOD = 300L
+
         private const val REFRESH_TIME_MILLIS = 400L
         private const val REFRESH_IMMEDIATE_MILLIS = 0L
     }
