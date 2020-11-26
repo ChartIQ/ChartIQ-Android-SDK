@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.SearchAutoComplete
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -42,9 +43,10 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             with(binding) {
-                typeToSearchPlaceHolder.root.visibility = View.GONE
+                symbolNotFoundPlaceholder.root.isVisible = false
+                typeToSearchPlaceholder.root.isVisible = false
+                searchSymbolProgressBar.isVisible = true
                 queryResultsRecyclerView.visibility = View.INVISIBLE
-                searchSymbolProgressBar.visibility = View.VISIBLE
             }
         }
 
@@ -53,7 +55,8 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
             if (query.isNotEmpty()) {
                 viewModel.fetchSymbol(query)
             } else {
-                binding.typeToSearchPlaceHolder.root.visibility = View.VISIBLE
+                binding.searchSymbolProgressBar.isVisible = false
+                binding.typeToSearchPlaceholder.root.visibility = View.VISIBLE
             }
         }
     }
@@ -98,16 +101,26 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
                 this.adapter = searchAdapter
                 addItemDecoration(LineItemDecoration.Default(context))
             }
+            symbolNotFoundPlaceholder.applyButton.setOnClickListener {
+                val query =
+                    (searchToolbar.menu.findItem(R.id.menu_search).actionView as SearchView).query
+                viewModel.fetchSymbol(query.toString())
+            }
+
             viewModel.errorLiveData.observe(viewLifecycleOwner, {
-                searchSymbolProgressBar.visibility = View.GONE
+                searchSymbolProgressBar.isVisible = false
                 Toast.makeText(
                     requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT
                 ).show()
             })
             viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
-                searchAdapter.list = list
-                searchSymbolProgressBar.visibility = View.GONE
-                queryResultsRecyclerView.visibility = View.VISIBLE
+                searchSymbolProgressBar.isVisible = false
+                if (list.isNotEmpty()) {
+                    searchAdapter.list = list
+                    queryResultsRecyclerView.isVisible = true
+                } else {
+                    symbolNotFoundPlaceholder.root.isVisible = true
+                }
             })
         }
 
