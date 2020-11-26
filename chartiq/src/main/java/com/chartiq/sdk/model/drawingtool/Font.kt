@@ -6,7 +6,7 @@ data class Font(
     @SerializedName("style")
     val style: FontStyle,
     @SerializedName("size")
-    val size: FontSize,
+    val size: String,
     @SerializedName("weight")
     val weight: String,
     @SerializedName("family")
