@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseLineBinding
-import com.chartiq.demo.ui.chart.ChartFragment.Companion.DEFAULT_LINE_TYPE_LIST
+import com.chartiq.demo.ui.chart.LineTypes
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.demo.ui.common.linepicker.LineAdapter
@@ -39,6 +39,9 @@ class ChooseLineFragment : FullscreenDialogFragment() {
             }
             linesRecyclerView.apply {
                 val linesAdapter = LineAdapter()
+                val lineTypesList = LineTypes
+                    .values()
+                    .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
                 val selectedIndex =
                     requireArguments().run {
                         val selectedLineType =
@@ -46,11 +49,11 @@ class ChooseLineFragment : FullscreenDialogFragment() {
                                 ?: throw IllegalStateException("No line type was passed to the fragment")
                         val selectedLineWidth = getInt(ARG_SELECTED_LINE_WIDTH)
 
-                        findLineIndex(DEFAULT_LINE_TYPE_LIST, selectedLineType, selectedLineWidth)
+                        findLineIndex(lineTypesList, selectedLineType, selectedLineWidth)
                     }
 
-                linesAdapter.items =
-                    DEFAULT_LINE_TYPE_LIST.mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }
+                linesAdapter.items = lineTypesList
+                    .mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }
                 linesAdapter.viewHolderConfiguration = LineViewHolderConfiguration(
                     minWidth = resources.getDimensionPixelSize(R.dimen.list_item_line_min_width_fullscreen),
                     minHeight = resources.getDimensionPixelSize(R.dimen.list_item_line_min_height_fullscreen)

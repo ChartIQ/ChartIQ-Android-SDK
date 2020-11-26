@@ -57,6 +57,8 @@ class ChartViewModel(
 
     val isCrosshairsVisible = MutableLiveData(false)
 
+    val isPickerItemSelected = MutableLiveData(false)
+
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -134,6 +136,7 @@ class ChartViewModel(
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
+        isPickerItemSelected.value = false
     }
 
     fun updateColor(color: Int) {
@@ -142,12 +145,14 @@ class ChartViewModel(
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
+        isPickerItemSelected.value = false
     }
 
     fun updateLine(lineType: LineType, lineWidth: Int) {
         chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE.value, lineType.value)
         chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH.value, lineWidth.toString())
         getDrawingToolParameters()
+        isPickerItemSelected.value = false
     }
 
     fun cloneDrawing() {
@@ -196,6 +201,14 @@ class ChartViewModel(
 
     fun onPause() {
         job.cancelChildren()
+    }
+
+    fun enablePicker() {
+        isPickerItemSelected.value = true
+    }
+
+    fun disablePicker() {
+        isPickerItemSelected.value = false
     }
 
     private fun getDrawingToolParameters() {

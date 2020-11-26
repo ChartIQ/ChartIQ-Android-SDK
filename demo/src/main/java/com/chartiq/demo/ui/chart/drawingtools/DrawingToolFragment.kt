@@ -12,9 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
-import com.chartiq.demo.ui.chart.DrawingTools
-import com.chartiq.demo.ui.chart.drawingtools.list.*
-import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolAdapter
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolCategory
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItemDecorator
 import com.google.android.material.tabs.TabLayout
 
 class DrawingToolFragment : Fragment() {

@@ -35,12 +35,7 @@ class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel()
             .filter { it.isStarred }
             .map { it.tool }
             .toHashSet()
-        val selectedDrawingTool = toolsList
-            .find { it.isSelected }?.tool ?: DrawingTool.NONE
-        with(appPrefs) {
-            saveFavoriteDrawingTools(favoriteDrawingTools)
-            saveDrawingTool(selectedDrawingTool)
-        }
+        appPrefs.saveFavoriteDrawingTools(favoriteDrawingTools)
     }
 
     override fun onDrawingToolClick(item: DrawingToolItem) {

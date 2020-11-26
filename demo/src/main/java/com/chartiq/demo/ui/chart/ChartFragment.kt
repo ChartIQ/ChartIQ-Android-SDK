@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
@@ -39,7 +40,6 @@ import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
-import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
@@ -51,6 +51,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private lateinit var panelAdapter: InstrumentPanelAdapter
     private lateinit var panelList: List<InstrumentItem>
     private var drawingToolParameters: PanelDrawingToolParameters? = null
+    private val colorsAdapter by lazy { ColorsAdapter() }
+    private val linesAdapter by lazy { LineAdapter() }
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
@@ -223,13 +225,17 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
                 binding.crosshairLayout.root.isVisible = value
             }
+            isPickerItemSelected.observe(viewLifecycleOwner) { value ->
+                binding.instrumentRecyclerView.isVisible = value
+            }
         }
     }
 
     private fun onSelectItem(item: InstrumentItem) {
         val previousItem = panelList.find { it.isSelected }
-        if (item.instrument == previousItem?.instrument && binding.instrumentRecyclerView.isVisible) {
-            binding.instrumentRecyclerView.isVisible = false
+        val isPickerItemSelected = chartViewModel.isPickerItemSelected.value!!
+        if (item.instrument == previousItem?.instrument && isPickerItemSelected) {
+            chartViewModel.disablePicker()
             chartViewModel.resetInstruments()
             return
         }
@@ -279,50 +285,31 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun showFillColorCarousel() {
         val colors = getColors()
-        val colorsAdapter = ColorsAdapter()
         // If `fillColor` color is in colors list then it should be selected
         val scrollIndex = findColorIndex(colors, drawingToolParameters?.fillColor)
         colorsAdapter.items = colors
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateFillColor(colorItem.color)
-            binding.instrumentRecyclerView.isVisible = false
         }
-
-        binding.instrumentRecyclerView.apply {
-            setHasFixedSize(true)
-            adapter = colorsAdapter
-            isVisible = true
-            post {
-                scrollIndex?.let { smoothScrollToPosition(it) }
-            }
-        }
+        setupInstrumentPicker(colorsAdapter, scrollIndex)
     }
 
     private fun showColorCarousel() {
         val colors = getColors()
-        val colorsAdapter = ColorsAdapter()
         // If `color` color is in colors list then it should be selected
         val scrollIndex = findColorIndex(colors, drawingToolParameters?.color)
         colorsAdapter.items = colors
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateColor(colorItem.color)
-            binding.instrumentRecyclerView.isVisible = false
         }
-        binding.instrumentRecyclerView.apply {
-            setHasFixedSize(true)
-            adapter = colorsAdapter
-            isVisible = true
-            post {
-                scrollIndex?.let { smoothScrollToPosition(it) }
-            }
-        }
+        setupInstrumentPicker(colorsAdapter, scrollIndex)
     }
 
     private fun showLineTypeCarousel() {
-        val lines = DEFAULT_LINE_TYPE_LIST
-        val linesAdapter = LineAdapter()
+        val lines = LineTypes.values()
+            .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
 
         val scrollIndex = findLineIndex(
             lines,
@@ -333,17 +320,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         linesAdapter.listener = OnSelectItemListener { lineItem ->
             chartViewModel.updateLine(lineItem.lineType, lineItem.lineWidth)
-            binding.instrumentRecyclerView.isVisible = false
         }
-
-        binding.instrumentRecyclerView.apply {
-            setHasFixedSize(true)
-            adapter = linesAdapter
-            isVisible = true
-            post {
-                scrollIndex?.let { smoothScrollToPosition(it) }
-            }
-        }
+        setupInstrumentPicker(linesAdapter, scrollIndex)
     }
 
     private fun showLayerManagementDialogue() {
@@ -362,17 +340,21 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         return colorsList
     }
 
+    private fun <VH, T : RecyclerView.Adapter<VH>> setupInstrumentPicker(
+        pickerAdapter: T,
+        scrollIndex: Int?
+    ) {
+        binding.instrumentRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = pickerAdapter
+            post {
+                scrollIndex?.let { smoothScrollToPosition(it) }
+            }
+        }
+        chartViewModel.enablePicker()
+    }
+
     companion object {
         private const val REQUEST_CODE_MANAGE_LAYERS = 1012
-
-        val DEFAULT_LINE_TYPE_LIST = listOf(
-            LineItem(LineType.SOLID, 1, R.drawable.ic_line_type_solid),
-            LineItem(LineType.SOLID, 2, R.drawable.ic_line_type_solid_bold),
-            LineItem(LineType.SOLID, 3, R.drawable.ic_line_type_solid_boldest),
-            LineItem(LineType.DOTTED, 1, R.drawable.ic_line_type_dotted),
-            LineItem(LineType.DOTTED, 2, R.drawable.ic_line_type_dotted_bold),
-            LineItem(LineType.DASHED, 1, R.drawable.ic_line_type_dash),
-            LineItem(LineType.DASHED, 2, R.drawable.ic_line_type_dash_bold)
-        )
     }
 }
