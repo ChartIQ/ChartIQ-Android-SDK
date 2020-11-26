@@ -116,19 +116,9 @@ class DrawingToolSettingsFragment : Fragment(),
         }
 
         settingsViewModel.parameters.observe(viewLifecycleOwner) { params ->
-            val list = settingsViewModel.setupList(params)
-
-            // TODO: 19.11.20 Review the following construction
             val isNestedSettings =
                 DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
-            if (isNestedSettings) {
-                list.find { it is DrawingToolSettingsItem.Deviation }?.let { deviation ->
-                    deviation as DrawingToolSettingsItem.Deviation
-                    settingsAdapter.items = deviation.settings
-                }
-            } else {
-                settingsAdapter.items = list
-            }
+             settingsAdapter.items = settingsViewModel.setupList(params, isNestedSettings)
         }
     }
 

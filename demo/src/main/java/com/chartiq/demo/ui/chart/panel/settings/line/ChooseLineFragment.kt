@@ -20,6 +20,19 @@ import com.chartiq.sdk.model.drawingtool.LineType
 class ChooseLineFragment : FullscreenDialogFragment() {
 
     private lateinit var binding: FragmentChooseLineBinding
+    private val selectedIndex by lazy {
+        with(requireArguments()) {
+            findLineIndex(
+                lineTypesList,
+                getParcelable(ARG_SELECTED_LINE_TYPE),
+                getInt(ARG_SELECTED_LINE_WIDTH)
+            )
+        }
+    }
+    private val lineTypesList = LineTypes
+        .values()
+        .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,18 +52,6 @@ class ChooseLineFragment : FullscreenDialogFragment() {
             }
             linesRecyclerView.apply {
                 val linesAdapter = LineAdapter()
-                val lineTypesList = LineTypes
-                    .values()
-                    .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
-                val selectedIndex =
-                    requireArguments().run {
-                        val selectedLineType =
-                            getParcelable<LineType>(ARG_SELECTED_LINE_TYPE)
-                                ?: throw IllegalStateException("No line type was passed to the fragment")
-                        val selectedLineWidth = getInt(ARG_SELECTED_LINE_WIDTH)
-
-                        findLineIndex(lineTypesList, selectedLineType, selectedLineWidth)
-                    }
 
                 linesAdapter.items = lineTypesList
                     .mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }

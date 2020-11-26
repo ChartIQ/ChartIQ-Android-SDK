@@ -25,7 +25,10 @@ class DrawingToolSettingsViewModel(
     val parameters = MutableLiveData<Map<String, Any>>()
     val drawingTool = MutableLiveData<DrawingTool>()
 
-    fun setupList(params: Map<String, Any>): List<DrawingToolSettingsItem> {
+    fun setupList(
+        params: Map<String, Any>,
+        isNestedSettings: Boolean
+    ): List<DrawingToolSettingsItem> {
         val list = mutableListOf<DrawingToolSettingsItem>()
         val tool = drawingTool.value!!
 
@@ -55,6 +58,14 @@ class DrawingToolSettingsViewModel(
                 list.addElliotWaveModels(params)
             }
         }
+
+        if (isNestedSettings) {
+            list.find { it is DrawingToolSettingsItem.Deviation }?.let { deviation ->
+                deviation as DrawingToolSettingsItem.Deviation
+                return deviation.settings
+            }
+        }
+
         return list
     }
 

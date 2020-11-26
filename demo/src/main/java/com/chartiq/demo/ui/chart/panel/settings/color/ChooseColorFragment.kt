@@ -41,7 +41,6 @@ class ChooseColorFragment : FullscreenDialogFragment() {
                 val colorsAdapter = ColorsAdapter()
                 val colorList = getColors()
                 val color = requireArguments().getString(ARG_SELECTED_COLOR)
-                    ?: throw IllegalStateException("No default color was passed to the fragment")
                 val selectedIndex = findColorIndex(colorList, color)
 
                 colorsAdapter.items =
