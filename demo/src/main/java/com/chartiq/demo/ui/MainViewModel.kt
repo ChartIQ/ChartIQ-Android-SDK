@@ -2,6 +2,7 @@ package com.chartiq.demo.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
@@ -18,9 +19,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-        private val networkManager: NetworkManager,
-        private val applicationPrefs: ApplicationPrefs,
-        private val chartIQHandler: ChartIQ,
+    private val networkManager: NetworkManager,
+    private val applicationPrefs: ApplicationPrefs,
+    private val chartIQ: ChartIQ,
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
@@ -28,7 +29,7 @@ class MainViewModel(
     val errorLiveData = MutableLiveData<Unit>()
 
     init {
-        chartIQHandler.apply {
+        chartIQ.apply {
                 start {
                 setDataSource(object : DataSource {
                     override fun pullInitialData(
@@ -72,12 +73,12 @@ class MainViewModel(
 
     private fun setupSymbolSettings() {
         val symbol = applicationPrefs.getChartSymbol()
-        chartIQHandler.setSymbol(symbol.value)
-        chartIQHandler.setDataMethod(DataMethod.PULL, symbol.value)
+        chartIQ.setSymbol(symbol.value)
+        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
     }
 
     fun fetchActiveStudyData() {
-        chartIQHandler.getActiveStudies { result ->
+        chartIQ.getActiveStudies { result ->
             activeStudies.value = result
         }
     }

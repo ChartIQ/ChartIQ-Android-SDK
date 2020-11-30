@@ -25,11 +25,11 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private val study: Study by lazy {
         ActiveStudyDetailsFragmentArgs.fromBundle(requireArguments()).study
     }
-    private val chartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val viewModel: ActiveStudyDetailsViewModel by viewModels(factoryProducer = {
-        ActiveStudyDetailsViewModel.ViewModelFactory(chartIQHandler, study)
+        ActiveStudyDetailsViewModel.ViewModelFactory(chartIQ, study)
     })
     private val studyDetailsAdapter = StudyDetailsAdapter()
 

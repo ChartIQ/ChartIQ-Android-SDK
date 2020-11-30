@@ -16,37 +16,37 @@ import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
-import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.DrawingTool
 
 class ChartFragment : Fragment() {
 
-    private val chartIQHandler: ChartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private lateinit var binding: FragmentChartBinding
 
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-                ChartIQNetworkManager(),
-                ApplicationPrefs.Default(requireContext()),
-                chartIQHandler
+            ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            chartIQ
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-                ApplicationPrefs.Default(requireContext()),
-                ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            ChartIQNetworkManager(),
         )
     })
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
-    ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
         binding = FragmentChartBinding.inflate(inflater, container, false)
         setupViews()
         setChartIQView()
@@ -54,11 +54,9 @@ class ChartFragment : Fragment() {
     }
 
     private fun setChartIQView() {
-        chartIQHandler.apply {
-            binding.chartIqView.apply {
-                (chartIQView.parent as? FrameLayout)?.removeAllViews()
-                addView(chartIQView)
-            }
+        chartIQ.chartView.apply {
+            (parent as? FrameLayout)?.removeAllViews()
+            binding.chartIqView.addView(this)
         }
     }
 
@@ -96,9 +94,9 @@ class ChartFragment : Fragment() {
             }
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
-                        requireContext(),
-                        getString(R.string.warning_something_went_wrong),
-                        Toast.LENGTH_SHORT
+                    requireContext(),
+                    getString(R.string.warning_something_went_wrong),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }
