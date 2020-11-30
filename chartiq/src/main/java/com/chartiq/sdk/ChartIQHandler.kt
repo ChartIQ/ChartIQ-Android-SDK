@@ -17,7 +17,7 @@ import java.util.*
 class ChartIQHandler(
     private val chartIQUrl: String,
     context: Context,
-) : ChartIQ, ChartIQStudy, JavaScriptHandler {
+) : ChartIQ, JavaScriptHandler {
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
