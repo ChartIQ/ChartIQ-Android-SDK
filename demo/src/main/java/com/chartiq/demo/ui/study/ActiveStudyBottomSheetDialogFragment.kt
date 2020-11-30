@@ -62,5 +62,4 @@ class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         fun onSettings(study: Study)
     }
-
 }

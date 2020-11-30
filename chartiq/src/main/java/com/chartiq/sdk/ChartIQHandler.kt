@@ -40,7 +40,7 @@ class ChartIQHandler(
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
-                    executeJavascript(scriptManager.getNativeQuoteFeedScript())
+//                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
                     executeJavascript(scriptManager.getAddDrawingListenerScript())
                     executeJavascript(scriptManager.getAddLayoutListenerScript())
                     executeJavascript(scriptManager.getAddMeasureListener())
@@ -219,9 +219,9 @@ class ChartIQHandler(
 
     /**
      * Adds a selected study to active studies
-     * @param key the key identifier of the study to add.
-     * If this study is from  [getStudyList] use [Study.name]
-     * If this study is from [getActiveStudies] use [Study.type]
+     * @param study - a study to add/clone
+     * @param forClone - if [study] is from  [getStudyList] use `false`,
+     * if [study] is from [getActiveStudies] use `true`
      */
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
@@ -231,6 +231,24 @@ class ChartIQHandler(
         }
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
+    }
+    /**
+     * Changes the active [Study] with a single parameter
+     * @param study -  a [Study] to update
+     * @param parameter - a [StudyParameterModel] that contains key-value to be updated
+     */
+    override fun setStudyParameter(study: Study, parameter: StudyParameterModel) {
+        val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
+        executeJavascript(script)
+    }
+
+    /**
+     * Changes the active [Study] with the provided inputs, outputs and parameters
+     * @param study -  a [Study] to update
+     * @param parameters -  a list of [StudyParameterModel] that contains values to be updated
+     */
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>) {
+        executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
     override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
@@ -244,7 +262,7 @@ class ChartIQHandler(
     override fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
-        callback: OnReturnCallback<String>
+        callback: OnReturnCallback<List<StudyParameter>>
     ) {
         val script = when (type) {
             StudyParameterType.Inputs -> scriptManager.getStudyInputParametersScript(study.name)
@@ -252,7 +270,9 @@ class ChartIQHandler(
             StudyParameterType.Parameters -> scriptManager.getStudyParametersScript(study.name)
         }
         executeJavascript(script) { value ->
-            callback.onReturn(value)
+            val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
+            val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
+            callback.onReturn(resultEntity.map { it.toParameter(type) })
         }
     }
 

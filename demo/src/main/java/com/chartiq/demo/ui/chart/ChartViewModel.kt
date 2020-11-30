@@ -16,8 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ChartViewModel(
-    private val networkManager: NetworkManager,
-    private val applicationPrefs: ApplicationPrefs
+    private val applicationPrefs: ApplicationPrefs,
+    private val networkManager: NetworkManager
 ) : ViewModel() {
 
     val currentSymbol = MutableLiveData<Symbol>()
@@ -26,11 +26,18 @@ class ChartViewModel(
 
     val drawingTool = MutableLiveData<DrawingTool>()
 
+    @Deprecated("This logic was moved to MainViewModel class")
     val resultLiveData = MutableLiveData<ChartData>()
 
+    @Deprecated("This logic was moved to MainViewModel class")
     val errorLiveData = MutableLiveData<Unit>()
 
+    init {
+        fetchSavedSettings()
+    }
+
     // TODO: 19.10.20 Review
+    @Deprecated("All state data that should be kept during the whole app live  and should not be attached to a concrete fragment is moved to MainViewModel")
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -43,21 +50,21 @@ class ChartViewModel(
         }
     }
 
-    fun fetchSavedSettings() {
+    private fun fetchSavedSettings() {
         currentSymbol.value = applicationPrefs.getChartSymbol()
         chartInterval.value = applicationPrefs.getChartInterval()
         drawingTool.value = applicationPrefs.getDrawingTool()
     }
 
     class ChartViewModelFactory(
-        private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
+        private val argNetworkManager: NetworkManager
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java)
-                .newInstance(argNetworkManager, argApplicationPrefs)
+                .getConstructor(ApplicationPrefs::class.java, NetworkManager::class.java)
+                .newInstance(argApplicationPrefs, argNetworkManager)
         }
     }
 }

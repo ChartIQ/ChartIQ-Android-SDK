@@ -15,7 +15,7 @@ class StudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
     // TODO: 20.11.20 Study: Review the following hotfix
     /**
      * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
-     * we should send [Study.type] to [ChartIQHandler.addStudy]
+     * `forClone = true`
      */
     fun cloneActiveStudy(study: Study) {
         chartIQHandler.addStudy(study, true)

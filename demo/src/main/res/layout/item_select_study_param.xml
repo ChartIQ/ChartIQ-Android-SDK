@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/padding_medium"
+    android:paddingEnd="@dimen/padding_small">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/parameterSelectTextView"
+        style="@style/SubtitleTextOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingTop="@dimen/padding_medium_small"
+        android:paddingBottom="@dimen/padding_medium_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/parameterSelectImageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="NYSE" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:clickable="false"
+        android:id="@+id/parameterSelectValueTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:lines="1"
+        android:maxLines="1"
+        tools:text="NYSE" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/parameterSelectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_chevron_right" />
+</LinearLayout>

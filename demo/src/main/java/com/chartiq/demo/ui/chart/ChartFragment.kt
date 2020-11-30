@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
@@ -18,11 +17,7 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.DataSource
-import com.chartiq.sdk.DataSourceCallback
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.DrawingTool
-import com.chartiq.sdk.model.QuoteFeedParams
 
 class ChartFragment : Fragment() {
 
@@ -31,57 +26,38 @@ class ChartFragment : Fragment() {
     }
     private lateinit var binding: FragmentChartBinding
 
-    private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
-        ChartViewModel.ChartViewModelFactory(
-            ChartIQNetworkManager(), ApplicationPrefs.Default(requireContext())
+    private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
+        MainViewModel.ViewModelFactory(
+                ChartIQNetworkManager(),
+                ApplicationPrefs.Default(requireContext()),
+                chartIQHandler
         )
     })
-    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
-        MainViewModel.MainViewModelFactory(chartIQHandler)
+
+    private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
+        ChartViewModel.ChartViewModelFactory(
+                ApplicationPrefs.Default(requireContext()),
+                ChartIQNetworkManager(),
+        )
     })
 
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentChartBinding.inflate(inflater, container, false)
         setupViews()
-        initChartIQ()
+        setChartIQView()
         return binding.root
     }
 
-    private fun initChartIQ() {
+    private fun setChartIQView() {
         chartIQHandler.apply {
             binding.chartIqView.apply {
                 (chartIQView.parent as? FrameLayout)?.removeAllViews()
                 addView(chartIQView)
-            }
-            start {
-                setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullUpdateData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullPaginationData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
-                chartViewModel.fetchSavedSettings()
-                mainViewModel.fetchActiveStudyData()
             }
         }
     }
@@ -100,8 +76,6 @@ class ChartFragment : Fragment() {
 
             chartViewModel.currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
-                chartIQHandler.setSymbol(symbol.value)
-                chartIQHandler.setDataMethod(DataMethod.PULL, symbol.value)
 
             }
             chartViewModel.chartInterval.observe(viewLifecycleOwner) { chartInterval ->
@@ -117,33 +91,16 @@ class ChartFragment : Fragment() {
                 }
             }
 
-            chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
-                binding.chartIqView.post {
-                    chartData.callback.execute(chartData.data)
-                }
-            }
-            chartViewModel.errorLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.warning_something_went_wrong),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
             chartViewModel.drawingTool.observe(viewLifecycleOwner) { drawingTool ->
                 binding.drawCheckBox.isChecked = drawingTool != DrawingTool.NO_TOOL
             }
-            chartViewModel.resultLiveData.observe(viewLifecycleOwner) { chartData ->
-                binding.chartIqView.post {
-                    chartData.callback.execute(chartData.data)
-                }
+            mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                        requireContext(),
+                        getString(R.string.warning_something_went_wrong),
+                        Toast.LENGTH_SHORT
+                ).show()
             }
         }
-    }
-
-    private fun loadChartData(
-        quoteFeedParams: QuoteFeedParams,
-        callback: DataSourceCallback,
-    ) {
-        chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
 }

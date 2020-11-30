@@ -116,11 +116,27 @@
     <string name="study_empty_active_study">No Active Studies to display yet</string>
     <string name="study_delete">Delete</string>
     <string name="study_title_add_study">Add Studies</string>
+    <string name="study_settings">Settings</string>
+    <string name="study_clone">Clone</string>
+
+    <!-- Study details -->
+    <string name="study_details_clone_study">Clone Study</string>
+    <string name="study_details_reset_to_defaults">Reset to Defaults</string>
+    <string name="study_details_delete_study">Delete Study</string>
+    <string name="study_details_save_study">Save</string>
+    <string name="study_details_remove_alert_title">Do You Want To Remove This Study?</string>
+    <string name="study_details_remove_alert_message">This study will be removed from the current chart.</string>
+    <string name="study_details_remove">Remove</string>
+    <string name="study_details_cancel">Cancel</string>
+    <string name="study_details_reset_alert_title">Do You Want To Reset This Study To Defaults?</string>
+    <string name="study_details_reset_alert_message">This study will be reset to default options.</string>
+    <string name="study_details_reset">Reset</string>
+    <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
+    <string name="study_details_select_parameter_title">Select Option</string>
 
     <!-- General strings -->
     <string name="warning_something_went_wrong">Something went wrong</string>
     <string name="done">Done</string>
     <string name="search">Search</string>
-    <string name="study_settings">Settings</string>
-    <string name="study_clone">Clone</string>
+
 </resources>

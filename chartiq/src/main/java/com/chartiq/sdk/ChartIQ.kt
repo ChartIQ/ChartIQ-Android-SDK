@@ -3,7 +3,7 @@ package com.chartiq.sdk
 import com.chartiq.sdk.model.*
 import java.util.*
 
-interface ChartIQ {
+interface ChartIQ: ChartIQStudy {
 
     fun start(onStartCallback: OnStartCallback)
 
@@ -25,9 +25,9 @@ interface ChartIQ {
 
     fun clearDrawing()
 
-    fun getStudyList(callback: OnReturnCallback<List<Study>>)
+    override fun getStudyList(callback: OnReturnCallback<List<Study>>)
 
-    fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
+    override fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
 
     fun setAggregationType(aggregationType: AggregationType)
 
@@ -35,17 +35,21 @@ interface ChartIQ {
 
     fun setChartScale(scale: ChartScale)
 
-    fun removeStudy(study: Study)
+    override fun removeStudy(study: Study)
 
-    fun addStudy(study: Study, forClone: Boolean)
+    override fun addStudy(study: Study, forClone: Boolean)
+
+    override fun setStudyParameter(study: Study, parameter: StudyParameterModel)
+
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
 
     fun setDrawingParameter(parameter: DrawingParameter, value: String)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
-    fun getStudyParameters(
+    override fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
-        callback: OnReturnCallback<String>
+        callback: OnReturnCallback<List<StudyParameter>>
     )
 }

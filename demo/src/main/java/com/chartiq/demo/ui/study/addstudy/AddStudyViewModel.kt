@@ -30,7 +30,7 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
 
     init {
         chartIQHandler.getStudyList { list ->
-            originalStudies.value = list.sortedBy { it.name }
+            originalStudies.postValue(list.sortedBy { it.name })
         }
     }
 

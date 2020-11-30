@@ -13,17 +13,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
 import com.chartiq.sdk.model.Study
 
 
 class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFragmentListener {
 
-    private lateinit var binding: FragmentStudyBinding
     private val chartIQHandler by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
@@ -31,14 +33,14 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
         StudyViewModel.ViewModelFactory(chartIQHandler)
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
-        MainViewModel.MainViewModelFactory(chartIQHandler)
+        MainViewModel.ViewModelFactory(
+                ChartIQNetworkManager(),
+                ApplicationPrefs.Default(requireContext()),
+                chartIQHandler)
     })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentStudyBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,7 +121,8 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     }
 
     override fun onSettings(study: Study) {
-        //todo navigate to study details
+        val bundle = ActiveStudyDetailsFragmentArgs.Builder(study).build().toBundle()
+        findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
     }
 
     companion object {

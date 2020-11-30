@@ -6,7 +6,7 @@
     android:layout_height="48dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/intervalTextView"
+        android:id="@+id/optionTextView"
         style="@style/SubtitleTextOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
