@@ -61,5 +61,9 @@ interface ChartIQ {
 
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
+    fun setIsInvertYAxis(inverted: Boolean)
+
     fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
+
+    fun setExtendedHours(extended: Boolean)
 }

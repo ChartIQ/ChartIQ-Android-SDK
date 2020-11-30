@@ -44,15 +44,18 @@ class SettingsViewModel(
     }
 
     fun changeLogScale(enabled: Boolean) {
-        //todo ("Not yet implemented")
+        chartIQ.setChartScale(if (enabled) ChartIQScale.LINEAR else ChartIQScale.LOG)
+        initChartPreferences()
     }
 
     fun changeInvertY(enabled: Boolean) {
-        //todo("Not yet implemented")
+        chartIQ.setIsInvertYAxis(enabled)
+        initChartPreferences()
     }
 
     fun changeExtendHours(enabled: Boolean) {
-        //todo ("Not yet implemented")
+        chartIQ.setExtendedHours(enabled)
+        initChartPreferences()
     }
 
     class ViewModelFactory(

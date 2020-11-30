@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.webkit.*
+import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
@@ -50,6 +51,8 @@ class ChartIQHandler(
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     Log.d(TAG, consoleMessage?.message() ?: "Undefined JS exception")
+                    Toast.makeText(context, consoleMessage?.message() ?: "Undefined JS exception", Toast.LENGTH_SHORT)
+                        .show()
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
@@ -313,11 +316,21 @@ class ChartIQHandler(
         }
     }
 
+    override fun setIsInvertYAxis(inverted: Boolean) {
+        val script = scriptManager.getSetInvertYAxisScript()
+        executeJavascript(script)
+    }
+
     override fun getIsExtendedHours(callback: OnReturnCallback<Boolean>) {
         val script = scriptManager.getIsExtendedHoursScript()
         executeJavascript(script) {
             callback.onReturn(it.toBoolean())
         }
+    }
+
+    override fun setExtendedHours(extended: Boolean) {
+        val script = scriptManager.getSetExtendedHoursScript(extended)
+        executeJavascript(script)
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
@@ -333,7 +346,5 @@ class ChartIQHandler(
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
-
-
 }
 
