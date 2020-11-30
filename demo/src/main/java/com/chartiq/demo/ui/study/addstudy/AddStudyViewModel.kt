@@ -12,6 +12,7 @@ import java.util.*
 class AddStudyViewModel(
     private val chartIQ: ChartIQ,
 ) : ViewModel() {
+
     private val originalStudies = MutableLiveData<List<Study>>(emptyList())
 
     private val selectedStudies = MutableLiveData<List<Study>>(emptyList())
@@ -21,7 +22,8 @@ class AddStudyViewModel(
     val filteredStudies =
         Transformations.map(originalStudies.combineLatest(query)) { (list, query) ->
             val filtered = list.filter {
-                it.name.toLowerCase(Locale.getDefault())
+                it.name
+                    .toLowerCase(Locale.getDefault())
                     .contains(query.toLowerCase(Locale.getDefault()))
             }
             filtered
@@ -33,6 +35,7 @@ class AddStudyViewModel(
         }
     }
 
+    // TODO: 20.11.20 Study: Review the following hotfix
     /**
      * In case we want to add a study selected from [ChartIQHandler.getStudyList] list
      * we should send [Study.name] to [ChartIQHandler.addStudy]
@@ -52,12 +55,11 @@ class AddStudyViewModel(
         query.postValue(value)
     }
 
-    class ViewModelFactory(private val argChartIQ: ChartIQ) :
-        ViewModelProvider.Factory {
+    class ViewModelFactory(private val chartIQ: ChartIQ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java)
-                .newInstance(argChartIQ)
+                .newInstance(chartIQ)
         }
     }
 }

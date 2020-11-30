@@ -79,11 +79,11 @@ class SimpleItemTouchCallBack(
         c.drawText(text, textX, textY, paint)
     }
 
-    companion object {
-        private const val TEXT_SIZE = 40F
+    fun interface OnSwipeListener {
+        fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int)
     }
 
-    interface OnSwipeListener {
-        fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int)
+    companion object {
+        private const val TEXT_SIZE = 40F
     }
 }

@@ -1,6 +1,6 @@
-package com.chartiq.demo.ui.chart.drawingtools.list.viewholder
+package com.chartiq.demo.ui.chart.drawingtools.list
 
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItem
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
 
 interface OnDrawingToolClick {
 

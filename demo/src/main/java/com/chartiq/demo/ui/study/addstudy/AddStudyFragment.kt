@@ -12,26 +12,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.Study
 
 class AddStudyFragment : Fragment() {
-
-    private val studiesAdapter = AllStudiesAdapter()
-
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
         AddStudyViewModel.ViewModelFactory(chartIQ)
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.ViewModelFactory(
+            ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            chartIQ
+        )
+    })
+
+    private val studiesAdapter = AllStudiesAdapter()
 
     private lateinit var binding: FragmentAddStudyBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +64,7 @@ class AddStudyFragment : Fragment() {
             toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
                 progressBar.isVisible = true
                 addStudiesViewModel.saveStudies()
-                mainViewModel.fetchActiveStudyData(chartIQ)
+                mainViewModel.fetchActiveStudyData()
                 hideKeyboard()
                 findNavController().navigateUp()
             }

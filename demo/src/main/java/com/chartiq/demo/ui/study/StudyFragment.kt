@@ -12,12 +12,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
 import com.chartiq.sdk.model.Study
 
 
@@ -26,20 +28,19 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-
     private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
         StudyViewModel.ViewModelFactory(chartIQ)
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
-
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.ViewModelFactory(
+            ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            chartIQ
+        )
+    })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
 
     private lateinit var binding: FragmentStudyBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +48,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
+
         setupViews()
         return binding.root
     }
@@ -74,15 +76,10 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                         getString(R.string.study_delete).toUpperCase(),
                         ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
                     ).apply {
-                        onSwipeListener = object : SimpleItemTouchCallBack.OnSwipeListener {
-                            override fun onSwiped(
-                                viewHolder: RecyclerView.ViewHolder,
-                                direction: Int,
-                            ) {
-                                val position = viewHolder.adapterPosition
-                                val studyToDelete = activeStudiesAdapter.items[position]
-                                deleteStudy(studyToDelete)
-                            }
+                        onSwipeListener = SimpleItemTouchCallBack.OnSwipeListener { viewHolder, _ ->
+                            val position = viewHolder.adapterPosition
+                            val studyToDelete = activeStudiesAdapter.items[position]
+                            deleteStudy(studyToDelete)
                         }
                     }
                 )
@@ -109,22 +106,22 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
 
     private fun deleteStudy(studyToDelete: Study) {
         studyViewModel.deleteStudy(studyToDelete)
-        mainViewModel.fetchActiveStudyData(chartIQ)
+        mainViewModel.fetchActiveStudyData()
     }
 
     override fun onDelete(study: Study) {
         studyViewModel.deleteStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQ)
-
+        mainViewModel.fetchActiveStudyData()
     }
 
     override fun onClone(study: Study) {
         studyViewModel.cloneActiveStudy(study)
-        mainViewModel.fetchActiveStudyData(chartIQ)
+        mainViewModel.fetchActiveStudyData()
     }
 
     override fun onSettings(study: Study) {
-        //todo navigate to study details
+        val bundle = ActiveStudyDetailsFragmentArgs.Builder(study).build().toBundle()
+        findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
     }
 
     companion object {
