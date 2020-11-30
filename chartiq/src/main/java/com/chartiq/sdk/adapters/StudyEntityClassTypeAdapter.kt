@@ -1,6 +1,6 @@
 package com.chartiq.sdk.adapters
 
-import com.chartiq.sdk.model.StudyEntity
+import com.chartiq.sdk.model.study.StudyEntity
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

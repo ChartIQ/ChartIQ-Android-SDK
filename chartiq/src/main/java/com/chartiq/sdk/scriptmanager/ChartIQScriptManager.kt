@@ -1,10 +1,10 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.buildArgumentStringFromArgs
-import com.chartiq.sdk.model.AggregationType
+import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
 // TODO: 03.09.20 Add parameters safety check
@@ -117,7 +117,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies();"
 
-    override fun getSetAggregationTypeScript(aggregationType: AggregationType): String =
+    override fun getSetAggregationTypeScript(aggregationType: AggregationChartType): String =
         CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ");"
 
     override fun getStudyInputParametersScript(studyName: String): String =

@@ -18,7 +18,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 
 class AddStudyFragment : Fragment() {
 

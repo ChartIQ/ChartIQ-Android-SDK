@@ -1,9 +1,9 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.model.AggregationType
+import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterModel
 
 internal interface ScriptManager {
 
@@ -79,7 +79,7 @@ internal interface ScriptManager {
 
     fun getGetActiveStudiesScript(): String
 
-    fun getSetAggregationTypeScript(aggregationType: AggregationType): String
+    fun getSetAggregationTypeScript(aggregationType: AggregationChartType): String
 
     fun getStudyInputParametersScript(studyName: String): String
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 
 class StudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
 

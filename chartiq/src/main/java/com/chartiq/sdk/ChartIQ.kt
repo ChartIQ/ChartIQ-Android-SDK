@@ -1,6 +1,12 @@
 package com.chartiq.sdk
 
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterType
 import java.util.*
 
 interface ChartIQ {
@@ -29,13 +35,13 @@ interface ChartIQ {
 
     fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
 
-    fun setAggregationType(aggregationType: AggregationType)
+    fun setAggregationType(aggregationType: AggregationChartType)
 
     fun setChartType(chartType: ChartType)
 
     fun getChartType(callback: OnReturnCallback<ChartType>)
 
-    fun getAggregationChartType(callback: OnReturnCallback<AggregationType?>)
+    fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
 
     fun getChartScale(callback: OnReturnCallback<ChartIQScale>)
 

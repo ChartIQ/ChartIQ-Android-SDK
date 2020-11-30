@@ -9,7 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.*
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameter
 
 class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder>() {
 

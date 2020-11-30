@@ -1,7 +1,9 @@
 package com.chartiq.sdk
 
-import com.chartiq.sdk.model.*
-import java.util.*
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterType
 
 interface ChartIQStudy {
 
@@ -19,8 +21,8 @@ interface ChartIQStudy {
     fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
 
     fun getStudyParameters(
-            study: Study,
-            type: StudyParameterType,
-            callback: OnReturnCallback<List<StudyParameter>>
+        study: Study,
+        type: StudyParameterType,
+        callback: OnReturnCallback<List<StudyParameter>>
     )
 }

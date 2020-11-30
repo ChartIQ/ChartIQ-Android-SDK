@@ -7,6 +7,9 @@ import android.webkit.*
 import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -204,7 +207,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun setAggregationType(aggregationType: AggregationType) {
+    override fun setAggregationType(aggregationType: AggregationChartType) {
         executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType))
     }
 
@@ -219,13 +222,13 @@ class ChartIQHandler(
         }
     }
 
-    override fun getAggregationChartType(callback: OnReturnCallback<AggregationType?>) {
+    override fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>) {
         val script = scriptManager.getAggregationTypeScript()
         executeJavascript(script) {
             if (it.isNullOrEmpty()) {
                 callback.onReturn(null)
             } else {
-                callback.onReturn(AggregationType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+                callback.onReturn(AggregationChartType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
             }
         }
     }
