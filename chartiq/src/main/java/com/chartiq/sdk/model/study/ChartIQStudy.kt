@@ -1,9 +1,6 @@
-package com.chartiq.sdk
+package com.chartiq.sdk.model.study
 
-import com.chartiq.sdk.model.study.Study
-import com.chartiq.sdk.model.study.StudyParameter
-import com.chartiq.sdk.model.study.StudyParameterModel
-import com.chartiq.sdk.model.study.StudyParameterType
+import com.chartiq.sdk.OnReturnCallback
 
 interface ChartIQStudy {
 

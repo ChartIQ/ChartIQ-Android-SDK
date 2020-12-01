@@ -100,14 +100,14 @@
         android:label="ActiveStudyDetailsFragment">
         <argument
             android:name="study"
-            app:argType="com.chartiq.sdk.model.Study" />
+            app:argType="com.chartiq.sdk.model.study.Study" />
     </fragment>
     <fragment
         android:id="@+id/selectParameterDialogFragment"
         android:name="com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment"
-        android:label="SelectParameterDialogFragment" >
+        android:label="SelectParameterDialogFragment">
         <argument
             android:name="parameter"
-            app:argType="com.chartiq.sdk.model.StudyParameter$Select" />
+            app:argType="com.chartiq.sdk.model.study.StudyParameter$Select" />
     </fragment>
 </navigation>
