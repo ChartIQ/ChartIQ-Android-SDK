@@ -40,6 +40,7 @@ import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
+import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
@@ -284,7 +285,10 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private fun showFillColorCarousel() {
         val colors = getColors()
         // If `fillColor` color is in colors list then it should be selected
-        val scrollIndex = findColorIndex(colors, drawingToolParameters?.fillColor)
+        val scrollIndex = drawingToolParameters?.fillColor?.let {
+            val paramColor = convertStringColorToInt(it)
+            findColorIndex(colors, paramColor)
+        }
         colorsAdapter.items = colors
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
@@ -296,7 +300,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private fun showColorCarousel() {
         val colors = getColors()
         // If `color` color is in colors list then it should be selected
-        val scrollIndex = findColorIndex(colors, drawingToolParameters?.color)
+        val scrollIndex = drawingToolParameters?.color?.let {
+            val paramColor = convertStringColorToInt(it)
+            findColorIndex(colors, paramColor)
+        }
+
         colorsAdapter.items = colors
             .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->

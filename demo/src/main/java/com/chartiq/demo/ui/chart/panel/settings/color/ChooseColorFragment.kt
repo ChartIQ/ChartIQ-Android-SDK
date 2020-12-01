@@ -12,10 +12,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseColorBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
-import com.chartiq.demo.ui.common.colorpicker.ColorItem
-import com.chartiq.demo.ui.common.colorpicker.ColorViewHolderConfiguration
-import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
-import com.chartiq.demo.ui.common.colorpicker.findColorIndex
+import com.chartiq.demo.ui.common.colorpicker.*
 
 class ChooseColorFragment : FullscreenDialogFragment() {
 
@@ -40,8 +37,10 @@ class ChooseColorFragment : FullscreenDialogFragment() {
             colorsRecyclerView.apply {
                 val colorsAdapter = ColorsAdapter()
                 val colorList = getColors()
-                val color = requireArguments().getString(ARG_SELECTED_COLOR)
-                val selectedIndex = findColorIndex(colorList, color)
+                val selectedIndex = requireArguments().getString(ARG_SELECTED_COLOR)?.let {
+                    val color = convertStringColorToInt(it)
+                    findColorIndex(colorList, color)
+                }
 
                 colorsAdapter.items =
                     colorList.mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }
