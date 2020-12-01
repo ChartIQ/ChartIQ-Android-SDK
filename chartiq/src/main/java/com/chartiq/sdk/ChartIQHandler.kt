@@ -224,11 +224,17 @@ class ChartIQHandler(
 
     override fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>) {
         val script = scriptManager.getAggregationTypeScript()
-        executeJavascript(script) {
-            if (it.isNullOrEmpty()) {
+        executeJavascript(script) { value ->
+            if (value.isNullOrEmpty()) {
                 callback.onReturn(null)
             } else {
-                callback.onReturn(AggregationChartType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+                val parsedValue = value.substring(1, value.length - 1).toUpperCase(Locale.ENGLISH)
+                val type = if (AggregationChartType.values().any { it.value == parsedValue }) {
+                    AggregationChartType.valueOf(parsedValue)
+                } else {
+                    null
+                }
+                callback.onReturn(type)
             }
         }
     }
@@ -320,7 +326,7 @@ class ChartIQHandler(
     }
 
     override fun setIsInvertYAxis(inverted: Boolean) {
-        val script = scriptManager.getSetInvertYAxisScript()
+        val script = scriptManager.getSetInvertYAxisScript(inverted)
         executeJavascript(script)
     }
 
