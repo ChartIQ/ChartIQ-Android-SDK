@@ -9,7 +9,7 @@ abstract class FullscreenDialogFragment: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.DialogFullscreenStyle)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
     }
 
     override fun onStart() {

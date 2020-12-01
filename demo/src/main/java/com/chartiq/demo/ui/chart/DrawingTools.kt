@@ -3,8 +3,8 @@ package com.chartiq.demo.ui.chart
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.chartiq.demo.R
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolCategory
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolSection
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
+import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolSection
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 enum class DrawingTools(

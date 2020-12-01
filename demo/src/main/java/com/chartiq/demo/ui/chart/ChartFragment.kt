@@ -20,13 +20,11 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
-import com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsFragmentArgs
 import com.chartiq.demo.ui.common.colorpicker.ColorItem
 import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
 import com.chartiq.demo.ui.common.colorpicker.findColorIndex
@@ -38,6 +36,7 @@ import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
+import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -65,7 +64,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         ChartViewModel.ChartViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQHandler,
+            chartIQ,
             ChartIQDrawingManager()
         )
     })
@@ -240,10 +239,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun navigateToInstrumentSettings() {
-        findNavController().navigate(
-            R.id.action_mainFragment_to_drawingToolSettingsFragment,
-            DrawingToolSettingsFragmentArgs(chartViewModel.drawingTool.value!!).toBundle()
-        )
+        val direction = MainFragmentDirections
+            .actionMainFragmentToDrawingToolSettingsFragment(chartViewModel.drawingTool.value!!)
+        findNavController().navigate(direction)
     }
 
     private fun deleteDrawing() {

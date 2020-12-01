@@ -15,8 +15,6 @@ import com.chartiq.demo.databinding.FragmentDrawingToolBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.*
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
-import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolSection
-import com.chartiq.sdk.model.DrawingTool
 import com.google.android.material.tabs.TabLayout
 
 class DrawingToolFragment : Fragment() {

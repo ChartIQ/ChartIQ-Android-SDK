@@ -18,6 +18,7 @@ import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
 import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
@@ -28,11 +29,11 @@ class DrawingToolSettingsFragment : Fragment(),
     ChooseValueFragment.DialogFragmentListener {
 
     private lateinit var binding: FragmentDrawingToolSettingsBinding
-    private val chartIQHandler: ChartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
-        DrawingToolSettingsViewModel.ViewModelFactory(chartIQHandler, ChartIQDrawingManager())
+        DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
     })
     private val settingsAdapter = DrawingToolSettingsAdapter()
     private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
@@ -94,7 +95,7 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.setDrawingTool(drawingTool)
         if (args.argDeviation != null) {
             val item = args.argDeviation
-            binding.settingsToolbar.title = getString(item.title)
+            binding.settingsToolbar.title = getString(item!!.title)
             settingsAdapter.items = item.settings
         } else {
             val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
@@ -137,10 +138,9 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     private fun navigateToDeviationSettings(item: DrawingToolSettingsItem.Deviation) {
-        val direction = DrawingToolSettingsFragmentDirections.actionDrawingToolSettingsFragmentSelf(
-            settingsViewModel.drawingTool.value!!,
-            item
-        )
+        val direction = DrawingToolSettingsFragmentDirections
+            .actionDrawingToolSettingsFragmentSelf(settingsViewModel.drawingTool.value!!)
+            .setArgDeviation(item)
         findNavController().navigate(direction)
     }
 
