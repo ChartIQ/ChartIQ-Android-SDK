@@ -106,8 +106,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             with(binding) {
                 parameterNumberInputLayout.hint = studyParameter.heading
                 parameterNumberEditText.apply {
-                    if (studyParameter.name.toLowerCase(Locale.ENGLISH).contains("period")) {
-                        inputType =InputType.TYPE_CLASS_NUMBER
+                    if (studyParameter.name.toLowerCase(Locale.ENGLISH).contains(NUMBER_TYPE_SIGN)) {
+                        inputType = InputType.TYPE_CLASS_NUMBER
                         setText(studyParameter.value.toInt().toString())
                         setSelection(studyParameter.value.toInt().toString().length)
 
@@ -212,6 +212,10 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
                 root.setOnClickListener { listener?.onSelectParamChange(studyParameter) }
             }
         }
+    }
+
+    companion object {
+        private const val NUMBER_TYPE_SIGN = "period"
     }
 
     interface StudyParameterListener {
