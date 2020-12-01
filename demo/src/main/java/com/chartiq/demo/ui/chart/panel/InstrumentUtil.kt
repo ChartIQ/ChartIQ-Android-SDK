@@ -1,8 +1,8 @@
 package com.chartiq.demo.ui.chart.panel
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import androidx.annotation.IdRes
 import androidx.core.graphics.drawable.DrawableCompat
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.common.colorpicker.COLOR_AUTO
@@ -33,8 +33,8 @@ fun LineType.getLineTypeResource(lineWidth: Int): Int {
     }
 }
 
-fun LayerDrawable.updatePickerColor(colorParameter: String?) {
-    val pickerDrawable = findDrawableByLayerId(R.id.colorPicker)
+fun LayerDrawable.updatePickerColor(colorParameter: String?, @IdRes colorPickerId: Int) {
+    val pickerDrawable = findDrawableByLayerId(colorPickerId)
     val color = if (colorParameter == null || colorParameter == COLOR_AUTO) {
         DEFAULT_COLOR_PICKER_COLOR
     } else {

@@ -24,17 +24,15 @@ class DrawingToolSettingsViewModel(
 
     val parameters = MutableLiveData<Map<String, Any>>()
     val drawingTool = MutableLiveData<DrawingTool>()
+    val settingsList = MutableLiveData<List<DrawingToolSettingsItem>>(emptyList())
 
-    fun setupList(
-        params: Map<String, Any>,
-        isNestedSettings: Boolean
-    ): List<DrawingToolSettingsItem> {
+    fun setupList(params: Map<String, Any>, isNestedSettings: Boolean) {
         val list = mutableListOf<DrawingToolSettingsItem>()
         val tool = drawingTool.value!!
 
         with(drawingManager) {
             if (isSupportingFillColor(tool)) {
-                addFillColorModel(params, list)
+                list.addFillColorModel(params)
             }
             if (isSupportingLineColor(tool)) {
                 list.addLineColorModel(params)
@@ -62,11 +60,12 @@ class DrawingToolSettingsViewModel(
         if (isNestedSettings) {
             list.find { it is DrawingToolSettingsItem.Deviation }?.let { deviation ->
                 deviation as DrawingToolSettingsItem.Deviation
-                return deviation.settings
+                settingsList.value = deviation.settings
+                return
             }
         }
 
-        return list
+        settingsList.value = list
     }
 
     fun refreshDrawingParameters() {
@@ -108,13 +107,10 @@ class DrawingToolSettingsViewModel(
         this.drawingTool.value = drawingTool
     }
 
-    private fun addFillColorModel(
-        params: Map<String, Any>,
-        list: MutableList<DrawingToolSettingsItem>
-    ) {
+    private fun MutableList<DrawingToolSettingsItem>.addFillColorModel(params: Map<String, Any>) {
         val colorParam = DrawingParameter.FILL_COLOR.value
         val color = params[colorParam].toString()
-        list.add(
+        add(
             DrawingToolSettingsItem.Color(
                 R.string.drawing_tool_settings_title_fill_color,
                 color,
@@ -297,7 +293,7 @@ class DrawingToolSettingsViewModel(
                 "",
                 fibsParam,
                 values.map {
-                    val value = ((it.level * 100).round(3)).toString()
+                    val value = it.level.toString()
                     OptionItem(value, it.display)
                 },
                 true

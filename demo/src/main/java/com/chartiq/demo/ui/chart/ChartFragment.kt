@@ -48,11 +48,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
     private lateinit var binding: FragmentChartBinding
-    private lateinit var panelAdapter: InstrumentPanelAdapter
     private lateinit var panelList: List<InstrumentItem>
     private var drawingToolParameters: PanelDrawingToolParameters? = null
     private val colorsAdapter by lazy { ColorsAdapter() }
     private val linesAdapter by lazy { LineAdapter() }
+    private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
@@ -174,7 +174,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     binding.undoImageView.setOnClickListener {
                         chartViewModel.undoDrawing()
                     }
-                    panelAdapter = InstrumentPanelAdapter()
+                    binding.panelRecyclerView.adapter = panelAdapter
                 }
 
                 with(binding) {
@@ -193,8 +193,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 panelAdapter.listener = OnSelectItemListener {
                     onSelectItem(it)
                 }
-
-                binding.panelRecyclerView.adapter = panelAdapter
             }
             crosshairsHUD.observe(viewLifecycleOwner) { hud ->
                 with(binding.crosshairLayout) {

@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import com.chartiq.demo.databinding.FragmentChooseValueBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
-import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.demo.ui.common.optionpicker.OptionsAdapter
@@ -17,6 +16,14 @@ class ChooseValueFragment : FullscreenDialogFragment() {
 
     private lateinit var binding: FragmentChooseValueBinding
     private lateinit var optionList: List<OptionItem>
+    private val isMultipleSelect by lazy {
+        requireArguments().getBoolean(ARG_IS_MULTIPLE_SELECTION)
+    }
+    private val parameter by lazy {
+        requireArguments().getString(ARG_PARAM)
+            ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
+    }
+    private val valuesAdapter = OptionsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +38,6 @@ class ChooseValueFragment : FullscreenDialogFragment() {
 
     private fun setupViews() {
         with(binding) {
-            val isMultipleSelect = requireArguments().getBoolean(ARG_IS_MULTIPLE_SELECTION)
-            val parameter = requireArguments().getString(ARG_PARAM)
-                ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
             optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
                 ?: throw IllegalStateException("No value options were passed to the fragment")
 
@@ -45,33 +49,33 @@ class ChooseValueFragment : FullscreenDialogFragment() {
                 dismiss()
             }
             valuesRecyclerView.apply {
-                val valuesAdapter = OptionsAdapter()
                 valuesAdapter.items = optionList
                 valuesAdapter.listener = OnSelectItemListener { selectedOption ->
-                    val param = requireArguments().getString(ARG_PARAM) ?: ""
-
-                    if (isMultipleSelect) {
-                        optionList = optionList.map {
-                            if (it == selectedOption) {
-                                it.copy(isSelected = !it.isSelected)
-                            } else {
-                                it.copy(isSelected = it.isSelected)
-                            }
-                        }
-                        valuesAdapter.items = optionList
-                    } else {
-                        optionList = optionList.map { it.copy(isSelected = it == selectedOption) }
-                        valuesAdapter.items = optionList
-
-                        (targetFragment as DialogFragmentListener)
-                            .onChooseValue(param, optionList, false)
-                        dismiss()
-                    }
+                    onValueSelected(selectedOption)
                 }
 
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
                 adapter = valuesAdapter
             }
+        }
+    }
+
+    private fun onValueSelected(selectedOption: OptionItem) {
+        val param = requireArguments().getString(ARG_PARAM) ?: ""
+
+        if (isMultipleSelect) {
+            optionList = optionList.map {
+                if (it == selectedOption) {
+                    it.copy(isSelected = !it.isSelected)
+                } else {
+                    it.copy(isSelected = it.isSelected)
+                }
+            }
+            valuesAdapter.items = optionList
+        } else {
+            val list = optionList.map { it.copy(isSelected = it == selectedOption) }
+            (targetFragment as DialogFragmentListener).onChooseValue(param, list, false)
+            dismiss()
         }
     }
 

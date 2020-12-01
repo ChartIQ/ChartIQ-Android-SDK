@@ -118,7 +118,10 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.parameters.observe(viewLifecycleOwner) { params ->
             val isNestedSettings =
                 DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
-             settingsAdapter.items = settingsViewModel.setupList(params, isNestedSettings)
+            settingsViewModel.setupList(params, isNestedSettings)
+        }
+        settingsViewModel.settingsList.observe(viewLifecycleOwner) { list ->
+            settingsAdapter.items = list
         }
     }
 
