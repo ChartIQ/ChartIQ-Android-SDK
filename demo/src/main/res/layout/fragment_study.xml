@@ -45,7 +45,7 @@
         android:paddingTop="@dimen/padding_medium_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/item_active_study" />
+        tools:listitem="@layout/item_study_active" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -56,4 +56,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

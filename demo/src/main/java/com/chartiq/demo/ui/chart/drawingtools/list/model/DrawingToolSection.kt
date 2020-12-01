@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.chart.drawingtools.list
+package com.chartiq.demo.ui.chart.drawingtools.list.model
 
 import androidx.annotation.StringRes
 import com.chartiq.demo.R

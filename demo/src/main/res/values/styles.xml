@@ -17,7 +17,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="SubtitleTextStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="SubtitleTextOutlinedStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/darkElectricBlue</item>
     </style>
@@ -25,6 +25,11 @@
     <style name="SecondaryTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
         <item name="android:textColor">@color/cadetBlue</item>
+    </style>
+
+    <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/text_size_secondary_text</item>
+        <item name="android:textColor">@color/darkElectricBlue</item>
     </style>
 
     <style name="PlaceHolderHintTextStyle" parent="SecondaryTextStyle">
@@ -100,4 +105,15 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColorHint">@color/cadetBlue</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="AppTheme">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/cadetBlue</item>
+    </style>
 </resources>

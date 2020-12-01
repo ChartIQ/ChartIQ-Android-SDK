@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.LineItemDecoration
-import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolAdapter
 
 class DrawingToolItemDecorator(context: Context) : LineItemDecoration(
     context,

@@ -59,10 +59,13 @@
         android:id="@+id/navigation_study"
         android:name="com.chartiq.demo.ui.study.StudyFragment"
         android:label="@string/title_study"
-        tools:layout="@layout/fragment_study">
+        tools:layout="@layout/fragment_study" >
         <action
             android:id="@+id/action_navigation_study_to_addStudyFragment"
             app:destination="@id/addStudyFragment" />
+        <action
+            android:id="@+id/action_navigation_study_to_activeStudyDetailsFragment"
+            app:destination="@id/activeStudyDetailsFragment" />
     </fragment>
 
     <fragment
@@ -133,4 +136,20 @@
         android:id="@+id/chooseColorFragment"
         android:name="com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment"
         android:label="ChooseColorFragment" />
+    <fragment
+        android:id="@+id/activeStudyDetailsFragment"
+        android:name="com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragment"
+        android:label="ActiveStudyDetailsFragment">
+        <argument
+            android:name="study"
+            app:argType="com.chartiq.sdk.model.Study" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectParameterDialogFragment"
+        android:name="com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment"
+        android:label="SelectParameterDialogFragment" >
+        <argument
+            android:name="parameter"
+            app:argType="com.chartiq.sdk.model.StudyParameter$Select" />
+    </fragment>
 </navigation>

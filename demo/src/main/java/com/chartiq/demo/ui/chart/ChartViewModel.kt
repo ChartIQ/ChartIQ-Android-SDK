@@ -45,8 +45,10 @@ class ChartViewModel(
 
     val drawingTool = MutableLiveData<DrawingTool>()
 
+    @Deprecated("This logic was moved to MainViewModel class")
     val resultLiveData = MutableLiveData<ChartData>()
 
+    @Deprecated("This logic was moved to MainViewModel class")
     val errorLiveData = MutableLiveData<Event<Unit>>()
 
     val resetInstrumentsLiveData = MutableLiveData<Event<Unit>>()
@@ -59,6 +61,12 @@ class ChartViewModel(
 
     val isPickerItemSelected = MutableLiveData(false)
 
+    init {
+        fetchSavedSettings()
+    }
+
+    // TODO: 19.10.20 Review
+    @Deprecated("All state data that should be kept during the whole app live  and should not be attached to a concrete fragment is moved to MainViewModel")
     fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -79,7 +87,7 @@ class ChartViewModel(
         chartIQHandler.setDataMethod(dataMethod, symbol.value)
     }
 
-    fun fetchSavedSettings() {
+    private fun fetchSavedSettings() {
         currentSymbol.value = applicationPrefs.getChartSymbol()
         chartInterval.value = applicationPrefs.getChartInterval()
         drawingTool.value = applicationPrefs.getDrawingTool()

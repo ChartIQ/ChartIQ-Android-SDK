@@ -4,6 +4,7 @@ import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.StudyParameterModel
 import com.google.gson.Gson
 
 // TODO: 03.09.20 Add parameters safety check
@@ -69,11 +70,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getClearChartScript(): String =
         CHART_IQ_JS_OBJECT + "destroy();"
 
-    override fun getSetChartScaleScript(scale: String): String =
-        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+    override fun getSetChartScaleScript(scale: String): String = CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
-    override fun getAddStudyScript(studyName: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
+    override fun getAddStudyScript(studyName: String): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -123,20 +122,85 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
-    override fun getSetStudyInputParameterScript(
-        studyName: String,
-        parameter: String,
-        value: String
-    ): String {
-        TODO("Not yet implemented")
+    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
+        val script =
+                MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
+        return script
     }
 
-    override fun getSetStudyOutputParameterScript(
-        studyName: String,
-        parameter: String,
-        value: String
-    ): String {
-        TODO("Not yet implemented")
+    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {
+        val scriptList = parameters.map {
+            getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
+        }
+        return getStudyDescriptorScript(name) +
+                "var helper = new CIQ.Studies.DialogHelper({\n" +
+                "\tsd: selectedSd,\n" +
+                "\tstx: stxx\n" +
+                "});\n" +
+                "var isFound = false;\n" +
+                "var newInputParameters = {};\n" +
+                "var newOutputParameters = {};\n" +
+                "var newParameters = {};" +
+                scriptList.joinToString(" ") +
+                "helper.updateStudy({\n" +
+                "\tinputs: newInputParameters,\n" +
+                "\toutputs: newOutputParameters,\n" +
+                "\tparameters: newParameters\n" +
+                "});\n" +
+                "console.log(JSON.stringify(newInputParameters));\n" +
+                "console.log(JSON.stringify(newOutputParameters));\n" +
+                "console.log(JSON.stringify(newParameters));"
+    }
+
+    private fun getStudyDescriptorScript(name: String): String {
+        val safeStudyName = name.asSafeScriptParameter
+        return "var s = stxx.layout.studies;\n" +
+                "var selectedSd = {};\n" +
+                "for (var n in s) {\n" +
+                "\tvar sd = s[n];\n" +
+                "\tif (sd.name === \"$safeStudyName\") {\n" +
+                "\t\tselectedSd = sd;\n" +
+                "\t}\n" +
+                "}"
+
+    }
+
+    private fun getUpdateStudyParametersScript(key: String, value: String): String {
+        val safeStudyParameter = key.asSafeScriptParameter
+        val safeStudyValue = value.asSafeScriptParameter
+        val script = "for (x in helper.inputs) {" +
+                "   var input = helper.inputs[x]; " +
+                "   if (input[\"name\"] === \"$safeStudyParameter\") { " +
+                "       isFound = true; " +
+                "       if (input[\"type\"] === \"text\" || input[\"type\"] === \"select\") { " +
+                "           newInputParameters[\"$safeStudyParameter\"] = \"$safeStudyValue\"; " +
+                "       } else if (input[\"type\"] === \"number\") { " +
+                "           newInputParameters[\"$safeStudyParameter\"] = parseFloat(\"$safeStudyValue\"); " +
+                "       } else if (input[\"type\"] === \"checkbox\") { " +
+                "           newInputParameters[\"$safeStudyParameter\"] =" +
+                " (\"$safeStudyValue\" == \"false\" || \"$safeStudyValue\" == \"0\" ? false : true); " +
+                "       } " +
+                "   } " +
+                "} " +
+                "if (isFound == false) { " +
+                "   for (x in helper.outputs) { " +
+                "       var output = helper.outputs[x]; " +
+                "       if (output[\"name\"] === \"$safeStudyParameter\") { " +
+                "           newOutputParameters[\"$safeStudyParameter\"] = \"$safeStudyValue\"; " +
+                "       } " +
+                "   } " +
+                "} " +
+                "if (isFound == false) { " +
+                "   if(\"$safeStudyParameter\".includes(\"Color\")) { " +
+                "       newParameters[\"$safeStudyParameter\"] = \"$safeStudyValue\"; " +
+                "   } else if(\"$safeStudyParameter\".includes(\"Enabled\")) { " +
+                "       newParameters[\"$safeStudyParameter\"] =" +
+                " (\"$safeStudyValue\" == \"false\" || \"$safeStudyValue\" == \"0\" ? false : true); " +
+                "   } else { " +
+                "       newParameters[\"$safeStudyParameter\"] = parseFloat(\"$safeStudyValue\"); " +
+                "   } " +
+                "} " + "isFound = false; "
+        return script
     }
 
     override fun getGetDrawingParametersScript(drawingName: String): String =
@@ -177,6 +241,12 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getLayerManagementScript(layer: ChartLayer): String =
         MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
+
+    private val String.asSafeScriptParameter: String
+        get() {
+            //todo check how it works
+            return this.replace("(?i)(<.?\\s+)on.?(>.*?)", "$1$2")
+        }
 
     companion object {
         private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."

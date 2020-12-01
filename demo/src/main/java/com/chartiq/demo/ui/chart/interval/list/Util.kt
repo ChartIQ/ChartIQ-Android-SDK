@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.chart.interval.list.viewholder
+package com.chartiq.demo.ui.chart.interval.list
 
 import android.content.res.Resources
 import com.chartiq.demo.R

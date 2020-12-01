@@ -1,11 +1,15 @@
 package com.chartiq.sdk
 
+import android.content.Context
+import android.view.View
 import com.chartiq.sdk.model.*
 import java.util.*
 
 interface ChartIQ: ChartIQDrawingTool {
 
-    fun start( onStartCallback: OnStartCallback)
+    val chartView: View
+
+    fun start(onStartCallback: OnStartCallback)
 
     fun setSymbol(symbol: String)
 
@@ -21,7 +25,7 @@ interface ChartIQ: ChartIQDrawingTool {
 
     fun getStudyList(callback: OnReturnCallback<List<Study>>)
 
-    fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
+    override fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
 
     fun setAggregationType(aggregationType: AggregationType)
 
@@ -29,17 +33,27 @@ interface ChartIQ: ChartIQDrawingTool {
 
     fun setChartScale(scale: ChartScale)
 
-    fun removeStudy(study: Study)
+    override fun removeStudy(study: Study)
 
-    fun addStudy(study: Study, forClone: Boolean)
+    override fun addStudy(study: Study, forClone: Boolean)
+
+    override fun setStudyParameter(study: Study, parameter: StudyParameterModel)
+
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
-    fun getStudyParameters(
+    override fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
-        callback: OnReturnCallback<String>
+        callback: OnReturnCallback<List<StudyParameter>>
     )
+
+    companion object {
+        fun getInstance(url: String, context: Context): ChartIQ {
+            return ChartIQHandler(url, context)
+        }
+    }
 }

@@ -3,11 +3,10 @@ package com.chartiq.demo.ui.chart.searchsymbol.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemSearchSymbolBinding
 
 class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
-    RecyclerView.Adapter<SearchResultViewHolder>() {
+    RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
 
     var list = listOf<SearchResultItem>()
         set(value) {
@@ -30,4 +29,16 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     }
 
     override fun getItemCount(): Int = list.size
+
+    class SearchResultViewHolder(private val binding: ItemSearchSymbolBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: SearchResultItem) {
+            with(binding) {
+                symbolTextView.text = item.symbol
+                symbolFullNameTextView.text = item.fullName
+                fundTextView.text = item.fund
+            }
+        }
+    }
 }

@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +19,8 @@ import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
@@ -32,11 +33,8 @@ import com.chartiq.demo.ui.common.colorpicker.findColorIndex
 import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
-import com.chartiq.sdk.ChartIQHandler
-import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
@@ -45,8 +43,8 @@ import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
-    private val chartIQHandler: ChartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private lateinit var binding: FragmentChartBinding
     private lateinit var panelList: List<InstrumentItem>
@@ -54,6 +52,14 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val colorsAdapter by lazy { ColorsAdapter() }
     private val linesAdapter by lazy { LineAdapter() }
     private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
+
+    private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
+        MainViewModel.ViewModelFactory(
+            ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            chartIQ
+        )
+    })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
@@ -63,51 +69,22 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             ChartIQDrawingManager()
         )
     })
-    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentChartBinding.inflate(inflater, container, false)
         setupViews()
-        initChartIQ()
+        setChartIQView()
         return binding.root
     }
 
-    private fun initChartIQ() {
-        chartIQHandler.apply {
-            with(binding.chartIqView) {
-                (chartIQView.parent as? FrameLayout)?.removeAllViews()
-                addView(chartIQView)
-            }
-            start {
-                setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullUpdateData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullPaginationData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
-                chartViewModel.fetchSavedSettings()
-                mainViewModel.fetchActiveStudyData(chartIQHandler)
-            }
+    private fun setChartIQView() {
+        chartIQ.chartView.apply {
+            (parent as? FrameLayout)?.removeAllViews()
+            binding.chartIqView.addView(this)
         }
     }
 
@@ -150,8 +127,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
-                chartViewModel.setSymbol(symbol)
-                chartViewModel.setDataMethod(DataMethod.PULL, symbol)
             }
             chartInterval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
@@ -211,15 +186,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     panelAdapter.items = panelList.map { it.copy(isSelected = false) }
                 }
             }
-
-            errorLiveData.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.warning_something_went_wrong),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.warning_something_went_wrong),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
                 binding.crosshairLayout.root.isVisible = value

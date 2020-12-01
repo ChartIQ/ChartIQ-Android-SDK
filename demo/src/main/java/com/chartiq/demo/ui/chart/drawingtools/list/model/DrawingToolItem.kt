@@ -1,9 +1,10 @@
-package com.chartiq.demo.ui.chart.drawingtools.list
+package com.chartiq.demo.ui.chart.drawingtools.list.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
+// TODO: 07.11.20 Make var variables read-only vals
 data class DrawingToolItem(
     val tool: DrawingTool,
     @DrawableRes

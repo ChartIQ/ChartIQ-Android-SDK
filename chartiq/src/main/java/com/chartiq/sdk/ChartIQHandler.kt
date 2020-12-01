@@ -3,6 +3,7 @@ package com.chartiq.sdk
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
@@ -22,7 +23,10 @@ class ChartIQHandler(
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
-    val chartIQView = ChartIQView(context)
+    private val chartIQView = ChartIQView(context)
+
+    override val chartView: View
+        get() = chartIQView
 
     init {
         chartIQView.apply {
@@ -41,7 +45,7 @@ class ChartIQHandler(
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
-                    executeJavascript(scriptManager.getNativeQuoteFeedScript())
+//                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
                     executeJavascript(scriptManager.getAddDrawingListenerScript())
                     executeJavascript(scriptManager.getAddLayoutListenerScript())
                     executeJavascript(scriptManager.getAddMeasureListener())
@@ -219,7 +223,7 @@ class ChartIQHandler(
     }
 
     /**
-     * Adds a selected type of study to active studies
+     * Adds a selected study to active studies
      * @param study - a study to add/clone
      * @param forClone - if [study] is from  [getStudyList] use `false`,
      * if [study] is from [getActiveStudies] use `true`
@@ -230,9 +234,26 @@ class ChartIQHandler(
         } else {
             study.shortName
         }
-
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
+    }
+    /**
+     * Changes the active [Study] with a single parameter
+     * @param study -  a [Study] to update
+     * @param parameter - a [StudyParameterModel] that contains key-value to be updated
+     */
+    override fun setStudyParameter(study: Study, parameter: StudyParameterModel) {
+        val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
+        executeJavascript(script)
+    }
+
+    /**
+     * Changes the active [Study] with the provided inputs, outputs and parameters
+     * @param study -  a [Study] to update
+     * @param parameters -  a list of [StudyParameterModel] that contains values to be updated
+     */
+    override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>) {
+        executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
     override fun setDrawingParameter(parameter: String, value: String) {
@@ -275,7 +296,7 @@ class ChartIQHandler(
     override fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
-        callback: OnReturnCallback<String>
+        callback: OnReturnCallback<List<StudyParameter>>
     ) {
         val script = when (type) {
             StudyParameterType.Inputs -> scriptManager.getStudyInputParametersScript(study.name)
@@ -283,7 +304,9 @@ class ChartIQHandler(
             StudyParameterType.Parameters -> scriptManager.getStudyParametersScript(study.name)
         }
         executeJavascript(script) { value ->
-            callback.onReturn(value)
+            val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
+            val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
+            callback.onReturn(resultEntity.map { it.toParameter(type) })
         }
     }
 
@@ -314,7 +337,7 @@ class ChartIQHandler(
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
-        private val TAG = ChartIQHandler.javaClass.simpleName
+        private val TAG = ChartIQHandler::class.java.simpleName
     }
 }
 
