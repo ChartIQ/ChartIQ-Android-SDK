@@ -1,6 +1,9 @@
 package com.chartiq.sdk
 
-import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.DrawingParameter
+import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.study.Study

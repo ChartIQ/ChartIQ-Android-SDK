@@ -39,7 +39,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentStudyDetailsBinding.inflate(inflater, container, false)
         setupViews()
         return binding.root

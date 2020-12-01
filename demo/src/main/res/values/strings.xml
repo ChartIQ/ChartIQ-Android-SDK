@@ -137,16 +137,17 @@
     <!-- Settings -->
     <string name="settings_chart_config">Chart Config</string>
     <string name="settings_chart_preferences">Chart Preferences</string>
-
-    <!-- General strings -->
-    <string name="warning_something_went_wrong">Something went wrong</string>
-    <string name="done">Done</string>
-    <string name="search">Search</string>
     <string name="settings_log_scale">Log Scale</string>
     <string name="settings_invert_y_axis">Invert Y-Axis</string>
     <string name="settings_extend_hours">Extend Hours</string>
     <string name="settings_language_preferences">Language Preferences</string>
     <string name="settings_language">Language</string>
     <string name="settings_chart_style">Chart Style</string>
+    <string name="settings_select_style_title">Chart Style</string>
+
+    <!-- General strings -->
+    <string name="warning_something_went_wrong">Something went wrong</string>
+    <string name="done">Done</string>
+    <string name="search">Search</string>
 
 </resources>

@@ -8,8 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentSettingsBinding
+import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
+import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragmentArgs
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentListener {
+
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQHandler
     }
@@ -22,7 +26,7 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         setupViews()
         return binding.root
@@ -31,7 +35,13 @@ class SettingsFragment : Fragment() {
     private fun setupViews() {
         with(binding) {
             chartConfigContainer.setOnClickListener {
-                // todo open chart style options
+                val bundle =
+                    ChartStyleSelectionFragmentArgs.Builder(settingsViewModel.chartStyle.value).build().toBundle()
+                ChartStyleSelectionFragment
+                    .getInstance(bundle).apply {
+                        setTargetFragment(this@SettingsFragment, REQUEST_CODE)
+                    }
+                    .show(parentFragmentManager, ChartStyleSelectionFragment::class.java.simpleName)
             }
             languageContainer.setOnClickListener {
                 // todo open language screen
@@ -46,7 +56,7 @@ class SettingsFragment : Fragment() {
                 settingsViewModel.changeExtendHours(it)
             }
             settingsViewModel.chartStyle.observe(viewLifecycleOwner) {
-                chartConfigContainer.subtitle = it
+                chartConfigContainer.subtitle = it.title
             }
             settingsViewModel.logScale.observe(viewLifecycleOwner) {
                 logScaleLayout.isChecked = it
@@ -59,5 +69,13 @@ class SettingsFragment : Fragment() {
                 extendHoursLayout.isChecked = it
             }
         }
+    }
+
+    override fun onSelect(chartStyle: ChartTypeModel) {
+        settingsViewModel.updateChartStyle(chartStyle)
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 3333
     }
 }

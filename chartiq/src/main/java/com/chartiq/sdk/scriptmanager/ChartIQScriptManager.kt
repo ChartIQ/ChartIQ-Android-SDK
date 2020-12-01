@@ -3,7 +3,6 @@ package com.chartiq.sdk.scriptmanager
 import com.chartiq.sdk.buildArgumentStringFromArgs
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
@@ -56,6 +55,9 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getSetChartTypeScript(chartType: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setChartType(\"$chartType\");"
+
+    override fun getSetAggregationTypeScript(aggregationType: String): String =
+        CHART_IQ_JS_OBJECT + "setAggregationType(\"$aggregationType\");"
 
     override fun getChartTypeScript(): String = "stxx.layout.chartType"
 
@@ -117,9 +119,6 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies();"
 
-    override fun getSetAggregationTypeScript(aggregationType: AggregationChartType): String =
-        CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ");"
-
     override fun getStudyInputParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\", \"inputs\")"
 
@@ -130,9 +129,7 @@ internal class ChartIQScriptManager : ScriptManager {
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
     override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
-        val script =
-            MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
-        return script
+        return MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
     }
 
     override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {

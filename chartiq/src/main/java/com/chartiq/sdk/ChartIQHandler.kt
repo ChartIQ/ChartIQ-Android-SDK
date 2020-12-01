@@ -208,17 +208,18 @@ class ChartIQHandler(
     }
 
     override fun setAggregationType(aggregationType: AggregationChartType) {
-        executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType))
+        val value = aggregationType.name.toLowerCase(Locale.ENGLISH)
+        executeJavascript(scriptManager.getSetAggregationTypeScript(value))
     }
 
     override fun setChartType(chartType: ChartType) {
-        executeJavascript(scriptManager.getSetChartTypeScript(chartType.value))
+        executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
     }
 
     override fun getChartType(callback: OnReturnCallback<ChartType>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
-            callback.onReturn(ChartType.valueOf(it.substring(1, it.length - 1).toUpperCase()))
+            callback.onReturn(ChartType.valueOf(it.substring(1, it.length - 1).toUpperCase(Locale.ENGLISH)))
         }
     }
 
@@ -229,7 +230,7 @@ class ChartIQHandler(
                 callback.onReturn(null)
             } else {
                 val parsedValue = value.substring(1, value.length - 1).toUpperCase(Locale.ENGLISH)
-                val type = if (AggregationChartType.values().any { it.value == parsedValue }) {
+                val type = if (AggregationChartType.values().any { it.name == parsedValue }) {
                     AggregationChartType.valueOf(parsedValue)
                 } else {
                     null

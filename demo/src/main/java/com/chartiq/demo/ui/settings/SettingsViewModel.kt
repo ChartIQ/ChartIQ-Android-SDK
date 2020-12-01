@@ -3,14 +3,18 @@ package com.chartiq.demo.ui.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
+import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartType
 
 class SettingsViewModel(
-    val chartIQ: ChartIQ
+    private val chartIQ: ChartIQ
 ) : ViewModel() {
 
-    val chartStyle = MutableLiveData<String>("Candle")
+    val chartStyle = MutableLiveData<ChartTypeModel>()
     val logScale = MutableLiveData<Boolean>(false)
     val invertYAxis = MutableLiveData<Boolean>(false)
     val extendHours = MutableLiveData<Boolean>(false)
@@ -33,12 +37,13 @@ class SettingsViewModel(
     }
 
     private fun initChartStyle() {
-        chartIQ.getChartType {
-            chartStyle.value = it.value
-        }
-        chartIQ.getAggregationChartType {
-            it?.let {
-                chartStyle.value = it.value
+        chartIQ.getAggregationChartType { aggregationChartType ->
+            if (aggregationChartType != null) {
+                chartStyle.postValue(aggregationChartType.toModel())
+            } else {
+                chartIQ.getChartType { chartType ->
+                    chartStyle.postValue(chartType.toModel())
+                }
             }
         }
     }
@@ -56,6 +61,18 @@ class SettingsViewModel(
     fun changeExtendHours(enabled: Boolean) {
         chartIQ.setExtendedHours(enabled)
         initChartPreferences()
+    }
+
+    fun updateChartStyle(chartStyle: ChartTypeModel) {
+        if (ChartType.values().any { it.name == chartStyle.name }) {
+            val selectedChartType = ChartType.valueOf(chartStyle.name)
+            chartIQ.setChartType(selectedChartType)
+        } else if (AggregationChartType.values().any { it.name == chartStyle.name }) {
+            val selectedAggregationChartType = AggregationChartType.valueOf(chartStyle.name)
+            chartIQ.setAggregationType(selectedAggregationChartType)
+        }
+        initChartStyle()
+
     }
 
     class ViewModelFactory(

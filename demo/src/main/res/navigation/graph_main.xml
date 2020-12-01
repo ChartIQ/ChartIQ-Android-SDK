@@ -110,4 +110,13 @@
             android:name="parameter"
             app:argType="com.chartiq.sdk.model.study.StudyParameter$Select" />
     </fragment>
+    <fragment
+        android:id="@+id/chartStyleSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment"
+        android:label="ChartStyleSelectionFragment" >
+        <argument
+            android:name="selectedStyle"
+            app:argType="com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel"
+            app:nullable="true" />
+    </fragment>
 </navigation>
