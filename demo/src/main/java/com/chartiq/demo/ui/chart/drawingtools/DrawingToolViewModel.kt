@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
 import com.chartiq.demo.ui.chart.drawingtools.list.OnDrawingToolClick
 import com.chartiq.demo.util.Event
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel(),
     OnDrawingToolClick {
@@ -29,20 +30,16 @@ class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel()
         }
     }
 
-    fun onPause(toolsList: List<DrawingToolItem>) {
+    fun saveUserPreferences(toolsList: List<DrawingToolItem>) {
         val favoriteDrawingTools = toolsList
             .filter { it.isStarred }
             .map { it.tool }
             .toHashSet()
-        val selectedDrawingTool = toolsList
-            .find { it.isSelected }?.tool ?: DrawingTool.NO_TOOL
-        with(appPrefs) {
-            saveFavoriteDrawingTools(favoriteDrawingTools)
-            saveDrawingTool(selectedDrawingTool)
-        }
+        appPrefs.saveFavoriteDrawingTools(favoriteDrawingTools)
     }
 
     override fun onDrawingToolClick(item: DrawingToolItem) {
+        appPrefs.saveDrawingTool(item.tool)
         drawingToolSelectEvent.value = Event(item)
     }
 
@@ -50,14 +47,24 @@ class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel()
         drawingToolFavoriteClickEvent.value = Event(item)
     }
 
-    fun setupList(allToolsList: List<DrawingToolItem>): List<DrawingToolItem> {
+    fun setupList(): List<DrawingToolItem> {
+        val list = DrawingTools.values().map {
+            DrawingToolItem(
+                it.tool,
+                it.iconRes,
+                it.nameRes,
+                it.category,
+                it.section
+            )
+        }
+
         val favoriteTools = appPrefs.getFavoriteDrawingTools()
         val selectedDrawingTool = appPrefs.getDrawingTool()
-        return allToolsList.onEach {
+        return list.onEach {
             if (favoriteTools.toString() == it.tool.value) {
                 it.isStarred = true
             }
-            it.isSelected = it.tool == selectedDrawingTool && it.tool != DrawingTool.NO_TOOL
+            it.isSelected = it.tool == selectedDrawingTool && it.tool != DrawingTool.NONE
         }
     }
 

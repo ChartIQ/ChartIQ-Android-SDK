@@ -39,7 +39,6 @@ class AddStudyFragment : Fragment() {
 
     private lateinit var binding: FragmentAddStudyBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

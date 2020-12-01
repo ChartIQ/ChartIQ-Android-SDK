@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/panelInstrumentLayout"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:padding="0.5dp"
+    android:layout_margin="@dimen/margin_small"
+    android:backgroundTint="@color/yankeesBlue"
+    android:background="@drawable/shape_stroked_rectangle_transparent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iconImageButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_instrument_background"
+        tools:src="@drawable/ic_panel_color" />
+</FrameLayout>

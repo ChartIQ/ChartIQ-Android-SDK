@@ -9,7 +9,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -25,6 +24,8 @@ import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
+import com.chartiq.demo.util.hideKeyboard
+
 import androidx.appcompat.R.id as appCompat
 
 
@@ -61,7 +62,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
         ApplicationPrefs
             .Default(requireContext())
             .saveChartSymbol(Symbol(item.symbol))
-        hideKeyboard()
+        requireContext().hideKeyboard(view?.windowToken)
         findNavController().navigateUp()
     }
 
@@ -80,7 +81,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
         ApplicationPrefs
             .Default(requireContext())
             .saveChartSymbol(Symbol(item.symbol))
-        hideKeyboard()
+        requireContext().hideKeyboard(view?.windowToken)
         findNavController().navigateUp()
     }
 
@@ -113,7 +114,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
 
         with(binding.searchToolbar) {
             setNavigationOnClickListener {
-                hideKeyboard()
+                requireContext().hideKeyboard(view?.windowToken)
                 findNavController().navigateUp()
             }
 
@@ -135,10 +136,5 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
                 }
             }
         }
-    }
-
-    private fun hideKeyboard() {
-        (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

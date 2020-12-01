@@ -6,8 +6,8 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
-import com.chartiq.sdk.model.DrawingTool
 import java.util.*
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 interface ApplicationPrefs {
 
@@ -62,7 +62,7 @@ interface ApplicationPrefs {
         }
 
         override fun getDrawingTool(): DrawingTool =
-            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())!!)
+            DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
 
         override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
             val set = drawingToolsSet
@@ -79,7 +79,7 @@ interface ApplicationPrefs {
 
         override fun clearSession() {
             prefs.edit(true) {
-                putString(KEY_DRAWING_TOOL, DrawingTool.NO_TOOL.toString())
+                putString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())
             }
         }
 

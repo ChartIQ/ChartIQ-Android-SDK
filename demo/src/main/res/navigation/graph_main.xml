@@ -40,6 +40,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_drawingToolSettingsFragment"
+            app:destination="@id/drawingToolSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -52,7 +59,7 @@
         android:id="@+id/navigation_study"
         android:name="com.chartiq.demo.ui.study.StudyFragment"
         android:label="@string/title_study"
-        tools:layout="@layout/fragment_study">
+        tools:layout="@layout/fragment_study" >
         <action
             android:id="@+id/action_navigation_study_to_addStudyFragment"
             app:destination="@id/addStudyFragment" />
@@ -94,6 +101,41 @@
         android:id="@+id/addStudyFragment"
         android:name="com.chartiq.demo.ui.study.addstudy.AddStudyFragment"
         android:label="AddStudyFragment" />
+    <fragment
+        android:id="@+id/drawingToolSettingsFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsFragment"
+        android:label="DrawingToolSettingsFragment">
+        <action
+            android:id="@+id/action_drawingToolSettingsFragment_to_addConfigFragment"
+            app:destination="@id/addConfigFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="argDrawingTool"
+            app:argType="com.chartiq.sdk.model.drawingtool.DrawingTool" />
+        <argument
+            android:name="argDeviation"
+            app:argType="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsItem$Deviation"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_drawingToolSettingsFragment_self"
+            app:destination="@id/drawingToolSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addConfigFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.config.AddConfigFragment"
+        android:label="AddConfigFragment" />
+    <fragment
+        android:id="@+id/chooseLineFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment"
+        android:label="ChooseLineFragment" />
+    <fragment
+        android:id="@+id/chooseColorFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment"
+        android:label="ChooseColorFragment" />
     <fragment
         android:id="@+id/activeStudyDetailsFragment"
         android:name="com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragment"

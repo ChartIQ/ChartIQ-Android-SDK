@@ -15,7 +15,6 @@
         <item name="titleTextColor">@color/black</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-
     </style>
 
     <style name="SubtitleTextOutlinedStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
@@ -86,6 +85,19 @@
 
     <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/elevationDark</item>
+    </style>
+
+    <style name="CrosshairLabelTextStyle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="CrosshairValueTextStyle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/yankeesBlue</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
