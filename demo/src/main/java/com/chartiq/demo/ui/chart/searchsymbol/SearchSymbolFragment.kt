@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.SearchAutoComplete
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -46,7 +47,7 @@ class SearchSymbolFragment : Fragment(), OnSearchResultClickListener, VoiceQuery
                 symbolNotFoundPlaceholder.root.isVisible = false
                 typeToSearchPlaceholder.root.isVisible = false
                 searchSymbolProgressBar.isVisible = true
-                queryResultsRecyclerView.visibility = View.INVISIBLE
+                queryResultsRecyclerView.isInvisible = true
             }
         }
 
