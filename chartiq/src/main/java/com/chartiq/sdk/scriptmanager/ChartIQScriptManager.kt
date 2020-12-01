@@ -1,9 +1,9 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.buildArgumentStringFromArgs
-import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
@@ -236,11 +236,12 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getInvertYAxisScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
 
-    override fun getSetInvertYAxisScript(): String = "flipChart"
+    override fun getSetInvertYAxisScript(inverted: Boolean): String = "${CHART_IQ_JS_OBJECT}flipChart($inverted);"
 
     override fun getIsExtendedHoursScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
 
-    override fun getSetExtendedHoursScript(extended: Boolean): String = MOBILE_BRIDGE_NAME_SPACE  + "toggleExtendedHours($extended);"
+    override fun getSetExtendedHoursScript(extended: Boolean): String =
+        MOBILE_BRIDGE_NAME_SPACE + "toggleExtendedHours($extended);"
 
     companion object {
         private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."

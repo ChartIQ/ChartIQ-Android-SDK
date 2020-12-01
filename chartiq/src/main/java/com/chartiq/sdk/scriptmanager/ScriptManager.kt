@@ -1,8 +1,8 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.study.StudyParameterModel
 
 internal interface ScriptManager {
@@ -107,7 +107,7 @@ internal interface ScriptManager {
 
     fun getInvertYAxisScript(): String
 
-    fun getSetInvertYAxisScript(): String
+    fun getSetInvertYAxisScript(inverted: Boolean): String
 
     fun getIsExtendedHoursScript(): String
 
