@@ -13,6 +13,51 @@
         app:menu="@menu/menu_search"
         app:navigationIcon="@drawable/ic_nav_back" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/searchCategoryTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/padding_extra_large"
+        android:paddingEnd="@dimen/padding_extra_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
+        app:tabMode="scrollable"
+        app:tabTextAppearance="@style/AppTabAppearance">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_all" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_stocks" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_fx" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_indexes" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_funds" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_filter_futures" />
+
+    </com.google.android.material.tabs.TabLayout>
+
     <include
         android:id="@+id/typeToSearchPlaceholder"
         layout="@layout/placeholder_type_to_search"
@@ -21,7 +66,7 @@
         android:layout_marginTop="@dimen/margin_huge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/searchCategoryTabLayout" />
 
     <include
         android:id="@+id/symbolNotFoundPlaceholder"
@@ -32,7 +77,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/searchCategoryTabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/queryResultsRecyclerView"
@@ -42,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/searchCategoryTabLayout" />
 
     <ProgressBar
         android:id="@+id/searchSymbolProgressBar"
