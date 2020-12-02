@@ -11,12 +11,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_search"
-        app:navigationIcon="@drawable/ic_nav_back">
-
-    </androidx.appcompat.widget.Toolbar>
+        app:navigationIcon="@drawable/ic_nav_back" />
 
     <include
-        android:id="@+id/typeToSearchPlaceHolder"
+        android:id="@+id/typeToSearchPlaceholder"
         layout="@layout/placeholder_type_to_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,6 +22,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchToolbar" />
+
+    <include
+        android:id="@+id/symbolNotFoundPlaceholder"
+        layout="@layout/placeholder_symbol_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_huge"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/queryResultsRecyclerView"
