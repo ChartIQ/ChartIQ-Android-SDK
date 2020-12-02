@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -110,7 +111,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }
             drawCheckBox.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+                if (chartViewModel.drawingTool.value != DrawingTool.NONE) {
+                    chartViewModel.disableDrawingTool()
+                } else {
+                    findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+                }
             }
             crosshairCheckBox.setOnClickListener {
                 crosshairLayout.root.apply {
@@ -142,7 +147,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             drawingTool.observe(viewLifecycleOwner) { drawingTool ->
                 val isDrawingToolSelected = drawingTool != DrawingTool.NONE
                 if (isDrawingToolSelected) {
-                    chartViewModel.enableDrawing(drawingTool)
                     binding.redoImageView.setOnClickListener {
                         chartViewModel.redoDrawing()
                     }
@@ -157,6 +161,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     panelRecyclerView.isVisible = isDrawingToolSelected
                     redoImageView.isVisible = isDrawingToolSelected
                     undoImageView.isVisible = isDrawingToolSelected
+                }
+                if (drawingTool == DrawingTool.NO_TOOL) {
+                    // setupInstrumentsList is triggered when the tool gets its parameters but no tool
+                    // doesn't get any parameters from the library for some reason so we setup it manually here
+                    panelAdapter.items = setupInstrumentsList()
                 }
             }
             parameters.observe(viewLifecycleOwner) { parameters ->
@@ -225,13 +234,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             Instrument.LAYER_MANAGEMENT -> showLayerManagementDialogue()
             Instrument.SETTINGS -> navigateToInstrumentSettings()
         }
-    }
-
-    private fun loadChartData(
-        quoteFeedParams: QuoteFeedParams,
-        callback: DataSourceCallback
-    ) {
-        chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
 
     private fun navigateToDrawingTools() {

@@ -43,7 +43,7 @@ class ChartViewModel(
 
     val chartInterval = MutableLiveData<Interval>()
 
-    val drawingTool = MutableLiveData<DrawingTool>()
+    val drawingTool = MutableLiveData(DrawingTool.NONE)
 
     @Deprecated("This logic was moved to MainViewModel class")
     val resultLiveData = MutableLiveData<ChartData>()
@@ -79,18 +79,15 @@ class ChartViewModel(
         }
     }
 
-    fun setSymbol(symbol: Symbol) {
-        chartIQHandler.setSymbol(symbol.value)
-    }
-
-    fun setDataMethod(dataMethod: DataMethod, symbol: Symbol) {
-        chartIQHandler.setDataMethod(dataMethod, symbol.value)
-    }
-
     private fun fetchSavedSettings() {
         currentSymbol.value = applicationPrefs.getChartSymbol()
         chartInterval.value = applicationPrefs.getChartInterval()
         drawingTool.value = applicationPrefs.getDrawingTool()
+
+        if (drawingTool.value != DrawingTool.NONE) {
+            chartIQHandler.enableDrawing(drawingTool.value!!)
+            getDrawingToolParameters()
+        }
     }
 
     fun setupInstrumentsList(): List<InstrumentItem> {
@@ -133,9 +130,9 @@ class ChartViewModel(
         return instrumentList
     }
 
-    fun enableDrawing(drawingTool: DrawingTool) {
-        chartIQHandler.enableDrawing(drawingTool)
-        getDrawingToolParameters()
+    fun disableDrawingTool() {
+        drawingTool.value = DrawingTool.NONE
+        chartIQHandler.disableDrawing()
     }
 
     fun updateFillColor(color: Int) {

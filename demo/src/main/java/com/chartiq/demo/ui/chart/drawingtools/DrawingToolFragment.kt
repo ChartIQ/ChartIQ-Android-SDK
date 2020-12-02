@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -21,13 +22,9 @@ class DrawingToolFragment : Fragment() {
 
     private lateinit var binding: FragmentDrawingToolBinding
     private val viewModel: DrawingToolViewModel by viewModels(factoryProducer = {
-        DrawingToolViewModel.DrawingToolViewModelFactory(appPrefs)
+        DrawingToolViewModel.DrawingToolViewModelFactory(ApplicationPrefs.Default(requireContext()))
     })
-    private lateinit var drawingToolAdapter: DrawingToolAdapter
-    private lateinit var toolsList: List<DrawingToolItem>
-    private val appPrefs by lazy {
-        ApplicationPrefs.Default(requireContext())
-    }
+    private val drawingToolAdapter = DrawingToolAdapter()
     private val tabOnSelectListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let { tab ->
@@ -42,22 +39,23 @@ class DrawingToolFragment : Fragment() {
                     TAB_LINES -> DrawingToolCategory.LINES
                     else -> throw IllegalStateException()
                 }
-                drawingToolAdapter.setItems(
-                    value = viewModel.filterItemsByCategory(category, toolsList),
-                    showHeaders = category == DrawingToolCategory.ALL
-                )
-                binding.noFavoriteDrawingToolsPlaceHolder.root.visibility =
-                    if (category == DrawingToolCategory.FAVORITES && toolsList.none { it.isStarred }) {
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
+                viewModel.filterItemsByCategory(category)
             }
         }
 
         override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
 
         override fun onTabReselected(tab: TabLayout.Tab?) = Unit
+    }
+    private val drawingToolListener = object : OnDrawingToolClick {
+        override fun onDrawingToolClick(item: DrawingToolItem) {
+            viewModel.saveDrawingTool(item.tool)
+            findNavController().navigateUp()
+        }
+
+        override fun onFavoriteCheck(item: DrawingToolItem) {
+            viewModel.favoriteItem(item)
+        }
     }
 
     override fun onCreateView(
@@ -72,16 +70,13 @@ class DrawingToolFragment : Fragment() {
     }
 
     override fun onPause() {
-        viewModel.saveUserPreferences(toolsList)
+        viewModel.onPause()
         super.onPause()
     }
 
     private fun setupViews() {
-        setupObservers()
-
-        toolsList = viewModel.setupList()
-        drawingToolAdapter = DrawingToolAdapter(viewModel)
-        drawingToolAdapter.setItems(toolsList, true)
+        drawingToolAdapter.listener = drawingToolListener
+        viewModel.setupList()
 
         with(binding) {
             drawingToolToolbar.apply {
@@ -104,19 +99,18 @@ class DrawingToolFragment : Fragment() {
                 addItemDecoration(DrawingToolItemDecorator(requireContext()))
             }
         }
+
+        setupObservers()
     }
 
     private fun setupObservers() {
         with(viewModel) {
-            drawingToolFavoriteClickEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let { item ->
-                    toolsList.find { it == item }?.isStarred = !item.isStarred
-                }
-            }
-            drawingToolSelectEvent.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let {
-                    findNavController().navigateUp()
-                }
+            drawingToolList.observe(viewLifecycleOwner) { list ->
+                val showHeaders = category.value == DrawingToolCategory.ALL
+                drawingToolAdapter.setItems(list, showHeaders)
+
+                binding.noFavoriteDrawingToolsPlaceHolder.root.isVisible =
+                    category.value == DrawingToolCategory.FAVORITES && list.isEmpty()
             }
         }
     }
