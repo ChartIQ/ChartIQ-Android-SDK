@@ -31,11 +31,11 @@ class SearchSymbolViewModel(
     val isLoading = MutableLiveData(false)
 
     fun fetchSymbol(symbol: String) {
+        searchJob.cancelChildren()
         isLoading.value = true
         query.value = symbol
         if (symbol.isEmpty()) {
             resultLiveData.value = listOf()
-            searchJob.cancelChildren()
             isLoading.value = false
             return
         }
