@@ -229,8 +229,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             Instrument.FILL -> showFillColorCarousel()
             Instrument.COLOR -> showColorCarousel()
             Instrument.LINE_TYPE -> showLineTypeCarousel()
-            Instrument.CLONE -> cloneDrawing()
-            Instrument.DELETE -> deleteDrawing()
+            Instrument.CLONE -> chartViewModel.cloneDrawing()
+            Instrument.DELETE -> chartViewModel.deleteDrawing()
             Instrument.LAYER_MANAGEMENT -> showLayerManagementDialogue()
             Instrument.SETTINGS -> navigateToInstrumentSettings()
         }
@@ -244,14 +244,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         val direction = MainFragmentDirections
             .actionMainFragmentToDrawingToolSettingsFragment(chartViewModel.drawingTool.value!!)
         findNavController().navigate(direction)
-    }
-
-    private fun deleteDrawing() {
-        chartViewModel.deleteDrawing()
-    }
-
-    private fun cloneDrawing() {
-        chartViewModel.cloneDrawing()
     }
 
     private fun showFillColorCarousel() {
