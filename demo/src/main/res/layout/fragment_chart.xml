@@ -32,6 +32,7 @@
                 android:id="@+id/intervalButton"
                 style="@style/ChartButtonStyle"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
                 android:layout_toEndOf="@+id/symbolButton"
                 android:textAllCaps="false"
                 tools:text="1D" />
@@ -40,17 +41,27 @@
                 android:id="@+id/crosshairCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
                 android:layout_toStartOf="@+id/drawCheckBox"
                 android:button="@drawable/selector_crosshair" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/drawCheckBox"
                 style="@style/ChartCheckBoxStyle"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@id/fullviewCheckBox"
+                android:button="@drawable/selector_draw" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/fullviewCheckBox"
+                style="@style/ChartCheckBoxStyle"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:button="@drawable/selector_draw" />
+                android:button="@drawable/ic_fullview"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
