@@ -102,7 +102,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
                             val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
                             SelectParameterDialogFragment.getInstance(bundle).apply {
-                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_)
+                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_OPTIONS_SELECTOR)
                             }.show(parentFragmentManager, SelectParameterDialogFragment::class.java.simpleName)
                         }
                     }
