@@ -61,6 +61,8 @@ class ChartViewModel(
 
     val isPickerItemSelected = MutableLiveData(false)
 
+    val isFullscreen = MutableLiveData(false)
+
     init {
         fetchSavedSettings()
     }
@@ -131,6 +133,10 @@ class ChartViewModel(
             }
         }
         return instrumentList
+    }
+
+    fun toggleFullscreen() {
+        isFullscreen.value = !isFullscreen.value!!
     }
 
     fun enableDrawing(drawingTool: DrawingTool) {
