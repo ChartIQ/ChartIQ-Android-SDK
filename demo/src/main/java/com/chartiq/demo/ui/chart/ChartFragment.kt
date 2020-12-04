@@ -230,18 +230,20 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     disableFullscreen(isDrawingToolSelected)
                 }
             }
-            moveHintsAreShown.observe(viewLifecycleOwner) {
-                with(binding) {
-                    collapseFullviewCheckBox
-                        .setOnTouchListener(collapseFullviewButtonOnSwipeListener)
+            moveHintsAreShown.observe(viewLifecycleOwner) { areShown ->
+                if (areShown) {
+                    with(binding) {
+                        collapseFullviewCheckBox
+                            .setOnTouchListener(collapseFullviewButtonOnSwipeListener)
 
-                    listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
-                        .forEach { view ->
-                            view.isVisible = true
-                            binding.root.postDelayed({
-                                view.isVisible = false
-                            }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
-                        }
+                        listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
+                            .forEach { view ->
+                                view.isVisible = true
+                                binding.root.postDelayed({
+                                    view.isVisible = false
+                                }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
+                            }
+                    }
                 }
             }
         }
