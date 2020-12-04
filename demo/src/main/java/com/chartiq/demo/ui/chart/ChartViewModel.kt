@@ -63,6 +63,8 @@ class ChartViewModel(
 
     val isFullscreen = MutableLiveData(false)
 
+    val moveHintsAreShown = MutableLiveData(false)
+
     init {
         fetchSavedSettings()
     }
@@ -78,6 +80,12 @@ class ChartViewModel(
                 is NetworkResult.Failure -> errorLiveData
                     .postValue(Event(Unit))
             }
+        }
+    }
+
+    fun showMoveHints(show: Boolean) {
+        if(!moveHintsAreShown.value!!) {
+            moveHintsAreShown.value = show
         }
     }
 

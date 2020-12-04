@@ -1,5 +1,6 @@
 package com.chartiq.demo.ui.chart
 
+import android.animation.LayoutTransition
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -24,6 +25,7 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
@@ -56,6 +58,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val colorsAdapter by lazy { ColorsAdapter() }
     private val linesAdapter by lazy { LineAdapter() }
     private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
+    private val collapseFullviewButtonOnSwipeListener by lazy {
+        CollapseButtonOnSwipeTouchListener(binding.root, requireContext())
+    }
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
@@ -115,6 +120,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun setupViews() {
         with(binding) {
+            root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             symbolButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
             }
@@ -222,6 +228,20 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     enableFullscreen(isDrawingToolSelected)
                 } else {
                     disableFullscreen(isDrawingToolSelected)
+                }
+            }
+            moveHintsAreShown.observe(viewLifecycleOwner) {
+                with(binding) {
+                    collapseFullviewCheckBox
+                        .setOnTouchListener(collapseFullviewButtonOnSwipeListener)
+
+                    listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
+                        .forEach { view ->
+                            view.isVisible = true
+                            binding.root.postDelayed({
+                                view.isVisible = false
+                            }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
+                        }
                 }
             }
         }
@@ -375,6 +395,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         } else {
             activity?.window?.insetsController?.hide(WindowInsets.Type.statusBars())
         }
+        if (!isDrawingToolSelected) {
+            binding.root.postDelayed({
+                chartViewModel.showMoveHints(true)
+            }, ANIMATION_MOVE_HINT_DELAY_APPEAR)
+        }
     }
 
     private fun disableFullscreen(isDrawingToolSelected: Boolean) {
@@ -400,6 +425,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         } else {
             activity?.window?.insetsController?.show(WindowInsets.Type.statusBars())
         }
+        chartViewModel.showMoveHints(false)
     }
 
     private fun <VH, T : RecyclerView.Adapter<VH>> setupInstrumentPicker(
@@ -417,6 +443,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     companion object {
+        private const val ANIMATION_MOVE_HINT_DELAY_APPEAR = 1000L
+        private const val ANIMATION_MOVE_HINT_DELAY_DISAPPEAR = 1800L
         private const val REQUEST_CODE_MANAGE_LAYERS = 1012
     }
 }
