@@ -7,6 +7,7 @@ import android.view.View
 import android.webkit.*
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -29,7 +30,7 @@ class ChartIQHandler(
 
     init {
         chartIQView.apply {
-            settings.apply {
+            with(settings) {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
@@ -255,8 +256,37 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
-    override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+    override fun setDrawingParameter(parameter: String, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
+    }
+
+    override fun getDrawingParameters(
+        tool: DrawingTool,
+        callback: OnReturnCallback<Map<String, Any>>
+    ) {
+        executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
+            if (value != "null") {
+                val result = value
+                    .substring(1, value.length - 1)
+                    .replace("\\", "")
+                val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+                // TODO: 25.11.20 Fix NO_TOOL crashing
+                val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
+                callback.onReturn(parameters)
+            }
+        }
+    }
+
+    override fun deleteDrawing() {
+        executeJavascript(scriptManager.getDeleteDrawingScript())
+    }
+
+    override fun cloneDrawing() {
+        executeJavascript(scriptManager.getCloneDrawingScript())
+    }
+
+    override fun manageLayer(layer: ChartLayer) {
+        executeJavascript(scriptManager.getLayerManagementScript(layer))
     }
 
     override fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>) {
@@ -280,7 +310,23 @@ class ChartIQHandler(
         }
     }
 
+    override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
+        executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
+            val hud = Gson().fromJson(value, CrosshairHUD::class.java)
+            callback.onReturn(hud)
+        }
+    }
+
+    override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getUndoDrawingScript())
+    }
+
+    override fun redoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getRedoDrawingScript())
+    }
+
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
+        Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
     }
 
@@ -293,7 +339,5 @@ class ChartIQHandler(
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
-
-
 }
 

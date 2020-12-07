@@ -1,10 +1,8 @@
 package com.chartiq.sdk
 
 import com.chartiq.sdk.model.*
-import java.util.*
 
 interface ChartIQStudy {
-
 
     fun getStudyList(callback: OnReturnCallback<List<Study>>)
 

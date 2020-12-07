@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/headerTextView"
-    style="@style/SecondaryTextStyle"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_gravity="center|start"
-    android:layout_margin="@dimen/margin_medium"
-    android:gravity="center|start"
-    android:textAllCaps="true"
-    tools:text="Main tools" />
+    android:layout_height="56dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/headerTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:layout_margin="@dimen/margin_medium"
+        android:textAllCaps="true"
+        tools:text="Main tools" />
+
+</FrameLayout>
