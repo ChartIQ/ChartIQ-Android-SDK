@@ -121,7 +121,9 @@ class ActiveStudyDetailsViewModel(
                     is StudyParameter.TextColor -> param.copy(color = newValue)
                     else -> param
                 }
-            } else param
+            } else {
+                param
+            }
         }
         studyParams.value = updatedParams
         parametersToSave.value = map

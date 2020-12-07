@@ -161,7 +161,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
 
     }
 
-    override fun onSelect(parameter: StudyParameter.Select, newValue: String) {
+    override fun onSelectOption(parameter: StudyParameter.Select, newValue: String) {
         viewModel.onSelectChange(parameter, newValue)
     }
 

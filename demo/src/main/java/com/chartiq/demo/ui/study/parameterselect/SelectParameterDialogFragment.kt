@@ -50,7 +50,7 @@ class SelectParameterDialogFragment : DialogFragment() {
                 selectedValue = selectParameter.value
                 listener = object : SelectOptionsAdapter.SelectOptionsAdapterListener {
                     override fun onSelect(keyValue: Map.Entry<String, String>) {
-                        (targetFragment as DialogFragmentListener).onSelect(
+                        (targetFragment as DialogFragmentListener).onSelectOption(
                             selectParameter,
                             keyValue.key,
                         )
@@ -74,6 +74,6 @@ class SelectParameterDialogFragment : DialogFragment() {
     }
 
     interface DialogFragmentListener {
-        fun onSelect(parameter: StudyParameter.Select, newValue: String)
+        fun onSelectOption(parameter: StudyParameter.Select, newValue: String)
     }
 }
