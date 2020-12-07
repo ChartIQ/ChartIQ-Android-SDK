@@ -18,15 +18,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFragment : Fragment() {
 
-    private val chartIQHandler: ChartIQ by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQHandler
+            chartIQ
         )
     })
 

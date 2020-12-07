@@ -52,7 +52,7 @@
             android:id="@+id/parameterTextColor"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:background="@drawable/shape_color_background"
+            android:background="@drawable/shape_circled_background"
             tools:backgroundTint="@color/coralRed" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

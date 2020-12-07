@@ -12,7 +12,7 @@ import com.chartiq.sdk.model.study.StudyParameterModel
 import com.chartiq.sdk.model.study.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
-    private val chartIQHandler: ChartIQ,
+    private val chartIQ: ChartIQ,
     private val study: Study
 ) : ViewModel() {
     private val parametersToSave = MutableLiveData<Map<String, StudyParameterModel>>(emptyMap())
@@ -25,23 +25,23 @@ class ActiveStudyDetailsViewModel(
     }
 
     private fun getStudyParameters() {
-        chartIQHandler.getStudyParameters(study, StudyParameterType.Inputs) {
+        chartIQ.getStudyParameters(study, StudyParameterType.Inputs) {
             studyParams.value = (studyParams.value ?: emptyList()) + it
         }
-        chartIQHandler.getStudyParameters(study, StudyParameterType.Outputs) {
+        chartIQ.getStudyParameters(study, StudyParameterType.Outputs) {
             studyParams.value = (studyParams.value ?: emptyList()) + it
         }
-        chartIQHandler.getStudyParameters(study, StudyParameterType.Parameters) {
+        chartIQ.getStudyParameters(study, StudyParameterType.Parameters) {
             studyParams.value = (studyParams.value ?: emptyList()) + it
         }
     }
 
     fun cloneStudy() {
-        chartIQHandler.addStudy(study, true)
+        chartIQ.addStudy(study, true)
     }
 
     fun deleteStudy() {
-        chartIQHandler.removeStudy(study)
+        chartIQ.removeStudy(study)
     }
 
     fun resetStudy() {
@@ -125,7 +125,7 @@ class ActiveStudyDetailsViewModel(
 
     fun updateStudy() {
         parametersToSave.value?.forEach { Log.i("&&&&", it.toString()) }
-        chartIQHandler.setStudyParameters(study, parametersToSave.value!!.values.toList())
+        chartIQ.setStudyParameters(study, parametersToSave.value!!.values.toList())
         successUpdateEvent.postValue(Event(Unit))
     }
 

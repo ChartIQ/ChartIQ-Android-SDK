@@ -11,7 +11,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.*
 import com.chartiq.sdk.model.study.StudyParameter
 
-class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder>() {
+class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder<StudyParameter>>() {
 
     var listener: StudyParameterListener? = null
 
@@ -22,33 +22,36 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ParameterViewHolder {
+            parent: ViewGroup,
+            viewType: Int
+    ): ParameterViewHolder<StudyParameter> {
         val inflater = LayoutInflater.from(parent.context)
+
+        @Suppress("UNCHECKED_CAST")
         return when (viewType) {
             ParamViewType.TEXT.ordinal -> TextViewHolder(
-                ItemStudyDetailTextBinding.inflate(inflater, parent, false)
+                    ItemStudyDetailTextBinding.inflate(inflater, parent, false)
             )
             ParamViewType.NUMBER.ordinal -> NumberViewHolder(
-                ItemStudyDetailNumberBinding.inflate(inflater, parent, false)
+                    ItemStudyDetailNumberBinding.inflate(inflater, parent, false)
             )
             ParamViewType.COLOR.ordinal -> ColorViewHolder(
-                ItemStudyDetailColorBinding.inflate(inflater, parent, false)
+                    ItemStudyDetailColorBinding.inflate(inflater, parent, false)
             )
             ParamViewType.TEXT_COLOR.ordinal -> TextColorViewHolder(
-                ItemStudyDetailColorTextBinding.inflate(inflater, parent, false)
+                    ItemStudyDetailColorTextBinding.inflate(inflater, parent, false)
             )
             ParamViewType.CHECKBOX.ordinal -> CheckboxViewHolder(
-                ItemStudyParamCheckboxBinding.inflate(inflater, parent, false)
+                    ItemStudyParamCheckboxBinding.inflate(inflater, parent, false)
             )
             ParamViewType.SELECT.ordinal -> SelectViewHolder(
-                ItemSelectStudyParamBinding.inflate(inflater, parent, false)
+                    ItemSelectStudyParamBinding.inflate(inflater, parent, false)
             )
             else -> {
                 throw IllegalStateException("Invalid viewType $viewType")
             }
         }
+                as ParameterViewHolder<StudyParameter>
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -62,18 +65,25 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    override fun onBindViewHolder(holder: ParameterViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: ParameterViewHolder<StudyParameter>, position: Int) {
+        when (val item = items[position]) {
+            is StudyParameter.Text -> holder.bind(item)
+            is StudyParameter.Number -> holder.bind(item)
+            is StudyParameter.Checkbox -> holder.bind(item)
+            is StudyParameter.Color -> holder.bind(item)
+            is StudyParameter.TextColor -> holder.bind(item)
+            is StudyParameter.Select -> holder.bind(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
-    abstract class ParameterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun bind(studyParameter: StudyParameter)
+    abstract class ParameterViewHolder<T : StudyParameter>(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun bind(studyParameter: T)
     }
 
-    inner class TextViewHolder(private val binding: ItemStudyDetailTextBinding) : ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
+    inner class TextViewHolder(private val binding: ItemStudyDetailTextBinding) : ParameterViewHolder<StudyParameter.Text>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.Text) {
             with(binding) {
                 parameterInputLayout.hint = (studyParameter as StudyParameter.Text).heading
                 parameterNumberEditText.apply {
@@ -87,26 +97,26 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class NumberViewHolder(private val binding: ItemStudyDetailNumberBinding) : ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
+    inner class NumberViewHolder(private val binding: ItemStudyDetailNumberBinding) : ParameterViewHolder<StudyParameter.Number>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.Number) {
             with(binding) {
-                parameterNumberInputLayout.hint = (studyParameter as StudyParameter.Number).heading
+                parameterNumberInputLayout.hint = studyParameter.heading
                 parameterNumberEditText.apply {
                     setText(studyParameter.value.toString())
                     setSelection(studyParameter.value.toString().length)
                     addTextChangedListener {
                         if (it.isNullOrEmpty()) {
                             parameterNumberInputLayout.error =
-                                context.getString(R.string.study_details_validation_error_empty_value)
+                                    context.getString(R.string.study_details_validation_error_empty_value)
                             listener?.onNumberParamChange(
-                                studyParameter,
-                                null
+                                    studyParameter,
+                                    null
                             )
                         } else {
                             parameterNumberInputLayout.error = null
                             listener?.onNumberParamChange(
-                                studyParameter,
-                                it.toString().toDouble()
+                                    studyParameter,
+                                    it.toString().toDouble()
                             )
                         }
                     }
@@ -116,13 +126,13 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     }
 
     inner class CheckboxViewHolder(private val binding: ItemStudyParamCheckboxBinding) :
-        ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
+            ParameterViewHolder<StudyParameter.Checkbox>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.Checkbox) {
             with(binding) {
                 parameterTextView.text = studyParameter.name
                 parameterSwitch.apply {
                     setOnCheckedChangeListener(null)
-                    isChecked = (studyParameter as StudyParameter.Checkbox).value
+                    isChecked = studyParameter.value
                     setOnCheckedChangeListener { _, isChecked ->
                         listener?.onCheckboxParamChange(studyParameter, isChecked)
                     }
@@ -131,17 +141,17 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class ColorViewHolder(private val binding: ItemStudyDetailColorBinding) : ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
+    inner class ColorViewHolder(private val binding: ItemStudyDetailColorBinding) : ParameterViewHolder<StudyParameter.Color>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.Color) {
             val colorValue = (studyParameter as StudyParameter.Color).value
             with(binding) {
                 parameterTextView.text = studyParameter.name
                 parameterColor.backgroundTintList = ColorStateList.valueOf(
-                    if (colorValue == StudyParameter.AUTO_VALUE) {
-                        Color.BLACK
-                    } else {
-                        Color.parseColor(colorValue)
-                    }
+                        if (colorValue == StudyParameter.AUTO_VALUE) {
+                            Color.BLACK
+                        } else {
+                            Color.parseColor(colorValue)
+                        }
                 )
                 parameterColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
             }
@@ -149,25 +159,26 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     }
 
     inner class TextColorViewHolder(private val binding: ItemStudyDetailColorTextBinding) :
-        ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
-            val colorValue = (studyParameter as StudyParameter.TextColor).color ?: studyParameter.defaultColor
+            ParameterViewHolder<StudyParameter.TextColor>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.TextColor) {
+            val colorValue = (studyParameter as StudyParameter.TextColor).color
+                    ?: studyParameter.defaultColor
             val numValue = studyParameter.value ?: studyParameter.defaultValue
             with(binding) {
                 parameterTextColorTextView.text = studyParameter.name
                 parameterTextColor.backgroundTintList = ColorStateList.valueOf(
-                    if (colorValue == StudyParameter.AUTO_VALUE) {
-                        Color.BLACK
-                    } else {
-                        Color.parseColor(colorValue)
-                    }
+                        if (colorValue == StudyParameter.AUTO_VALUE) {
+                            Color.BLACK
+                        } else {
+                            Color.parseColor(colorValue)
+                        }
                 )
                 parameterTextColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
                 parameterTextColorEditText.setText(numValue.toString())
                 parameterTextColorEditText.addTextChangedListener {
                     if (it.isNullOrEmpty()) {
                         parameterTextColorEditText.error =
-                            root.context.getString(R.string.study_details_validation_error_empty_value)
+                                root.context.getString(R.string.study_details_validation_error_empty_value)
                         listener?.onTextParamChange(studyParameter, it.toString())
                     } else {
                         parameterTextColorEditText.error = null
@@ -178,8 +189,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class SelectViewHolder(private val binding: ItemSelectStudyParamBinding) : ParameterViewHolder(binding.root) {
-        override fun bind(studyParameter: StudyParameter) {
+    inner class SelectViewHolder(private val binding: ItemSelectStudyParamBinding) : ParameterViewHolder<StudyParameter.Select>(binding.root) {
+        override fun bind(studyParameter: StudyParameter.Select) {
             with(binding) {
                 parameterSelectTextView.text = (studyParameter as StudyParameter.Select).heading
                 parameterSelectValueTextView.text = studyParameter.options[studyParameter.value]

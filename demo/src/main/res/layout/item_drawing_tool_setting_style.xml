@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTextView"
+        style="@style/SubtitleTextOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="@dimen/margin_medium"
+        tools:text="Style" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/boldImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/margin_huge"
+        android:foreground="@drawable/shape_background_font_box"
+        android:padding="@dimen/margin_extra_small"
+        android:src="@drawable/ic_font_bold"
+        tools:foregroundTint="@color/colorPrimary" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/italicImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:foreground="@drawable/shape_background_font_box"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_font_italic" />
+
+</FrameLayout>

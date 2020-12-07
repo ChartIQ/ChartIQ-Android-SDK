@@ -7,6 +7,12 @@
     <dimen name="toolbar_default_elevation">8dp</dimen>
     <dimen name="drawing_tool_item_decorator_margin_start">72dp</dimen>
 
+    <dimen name="list_item_line_min_width_fullscreen">74dp</dimen>
+    <dimen name="list_item_line_min_height_fullscreen">58dp</dimen>
+
+    <dimen name="list_item_color_min_width_fullscreen">56dp</dimen>
+    <dimen name="list_item_color_min_height_fullscreen">56dp</dimen>
+
     <dimen name="margin_extra_small">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium_small">12dp</dimen>
@@ -17,12 +23,13 @@
     <dimen name="margin_huge">56dp</dimen>
     <dimen name="margin_giant">108dp</dimen>
 
+    <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
-    <dimen name="padding_medium_small">12dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="padding_medium_extra">20dp</dimen>
     <dimen name="padding_large">24dp</dimen>
     <dimen name="padding_extra_large">32dp</dimen>
+    <dimen name="padding_medium_small">12dp</dimen>
 
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_subtitle">16sp</dimen>

@@ -21,29 +21,28 @@ import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.sdk.model.study.Study
 
 class AddStudyFragment : Fragment() {
-
+    private val chartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
+    }
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQHandler)
+        AddStudyViewModel.ViewModelFactory(chartIQ)
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
-                ChartIQNetworkManager(),
-                ApplicationPrefs.Default(requireContext()),
-                chartIQHandler)
+            ChartIQNetworkManager(),
+            ApplicationPrefs.Default(requireContext()),
+            chartIQ
+        )
     })
-    private val studiesAdapter = AllStudiesAdapter()
 
-    private val chartIQHandler by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
-    }
+    private val studiesAdapter = AllStudiesAdapter()
 
     private lateinit var binding: FragmentAddStudyBinding
 
-
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentAddStudyBinding.inflate(inflater, container, false)
         setupViews()
@@ -87,6 +86,6 @@ class AddStudyFragment : Fragment() {
 
     private fun hideKeyboard() {
         (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(view?.windowToken, 0)
+            .hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

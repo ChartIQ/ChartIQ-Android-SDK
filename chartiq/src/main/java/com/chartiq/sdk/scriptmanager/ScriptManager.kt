@@ -1,7 +1,8 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
 
 internal interface ScriptManager {
@@ -60,7 +61,7 @@ internal interface ScriptManager {
 
     fun getIsCrosshairsEnabledScript(): String
 
-    fun getGetCrosshairsHUDDetailScript(): String
+    fun getGetCrosshairHUDDetailsScript(): String
 
     fun getEnableDrawingScript(type: DrawingTool): String
 
@@ -111,4 +112,14 @@ internal interface ScriptManager {
     fun getIsExtendedHoursScript(): String
 
     fun getSetExtendedHoursScript(extended: Boolean): String
+
+    fun getUndoDrawingScript(): String
+
+    fun getRedoDrawingScript(): String
+
+    fun getDeleteDrawingScript(): String
+
+    fun getCloneDrawingScript(): String
+
+    fun getLayerManagementScript(layer: ChartLayer): String
 }

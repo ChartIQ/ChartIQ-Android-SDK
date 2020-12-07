@@ -14,7 +14,7 @@ import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentListener {
 
     private val chartIQ by lazy {
-        (requireActivity().application as ChartIQApplication).chartIQHandler
+        (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val settingsViewModel: SettingsViewModel by viewModels(factoryProducer = {
         SettingsViewModel.ViewModelFactory(chartIQ)

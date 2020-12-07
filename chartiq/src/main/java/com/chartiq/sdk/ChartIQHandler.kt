@@ -3,6 +3,7 @@ package com.chartiq.sdk
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.webkit.*
 import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
@@ -10,6 +11,7 @@ import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.study.*
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -19,17 +21,21 @@ import java.util.*
 
 @SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
-        private val chartIQUrl: String,
-        context: Context,
+    private val chartIQUrl: String,
+    context: Context,
 ) : ChartIQ, ChartIQStudy, JavaScriptHandler {
+
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
-    val chartIQView = ChartIQView(context)
+    private val chartIQView = ChartIQView(context)
+
+    override val chartView: View
+        get() = chartIQView
 
     init {
         chartIQView.apply {
-            settings.apply {
+            with(settings) {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
@@ -54,9 +60,11 @@ class ChartIQHandler(
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     Log.d(TAG, consoleMessage?.message() ?: "Undefined JS exception")
-                    Toast.makeText(context, consoleMessage?.message()
-                            ?: "Undefined JS exception", Toast.LENGTH_SHORT)
-                            .show()
+                    Toast.makeText(
+                        context, consoleMessage?.message()
+                            ?: "Undefined JS exception", Toast.LENGTH_SHORT
+                    )
+                        .show()
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
@@ -71,16 +79,16 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun pullInitialData(
-            symbol: String?,
-            period: Int?,
-            interval: String?,
-            start: String?,
-            end: String?,
-            meta: Any?,
-            callbackId: String?
+        symbol: String?,
+        period: Int?,
+        interval: String?,
+        start: String?,
+        end: String?,
+        meta: Any?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
-                QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
@@ -90,15 +98,15 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun pullUpdate(
-            symbol: String?,
-            period: Int?,
-            interval: String?,
-            start: String?,
-            meta: Any?,
-            callbackId: String?
+        symbol: String?,
+        period: Int?,
+        interval: String?,
+        start: String?,
+        meta: Any?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
-                QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
+            QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
@@ -108,16 +116,16 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun pullPagination(
-            symbol: String?,
-            period: Int?,
-            interval: String?,
-            start: String?,
-            end: String?,
-            meta: Any?,
-            callbackId: String?
+        symbol: String?,
+        period: Int?,
+        interval: String?,
+        start: String?,
+        end: String?,
+        meta: Any?,
+        callbackId: String?
     ) {
         val quoteFeedParams =
-                QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
         dataSource?.pullPaginationData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
@@ -141,8 +149,8 @@ class ChartIQHandler(
         when (method) {
             DataMethod.PUSH -> executeJavascript(scriptManager.getSetDataMethodScript(symbol))
             DataMethod.PULL -> Log.d(
-                    javaClass.simpleName,
-                    "If you want to add a QuoteFeed please do so in your javascript code."
+                javaClass.simpleName,
+                "If you want to add a QuoteFeed please do so in your javascript code."
             )
         }
     }
@@ -181,10 +189,10 @@ class ChartIQHandler(
             val objectResult = Gson().fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
             val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                    objectResult.toString(), typeToken
+                objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
-                        .toStudy()
+                    .toStudy()
             }
             callback.onReturn(studyList)
         }
@@ -200,8 +208,8 @@ class ChartIQHandler(
             val typeToken = object : TypeToken<List<StudyEntity>>() {}.type
 
             val gson = GsonBuilder()
-                    .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
-                    .create()
+                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                .create()
             val response: List<StudyEntity> = gson.fromJson(result, typeToken)
             val studyList = response.map { it.toStudy() }
             callback.onReturn(studyList)
@@ -221,9 +229,10 @@ class ChartIQHandler(
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
             callback.onReturn(
-                    ChartType.valueOf(it.substring(1, it.length - 1)
-                            .toUpperCase(Locale.ENGLISH)
-                    )
+                ChartType.valueOf(
+                    it.substring(1, it.length - 1)
+                        .toUpperCase(Locale.ENGLISH)
+                )
             )
         }
     }
@@ -235,7 +244,7 @@ class ChartIQHandler(
                 callback.onReturn(null)
             } else {
                 val parsedValue = value.substring(1, value.length - 1)
-                        .toUpperCase(Locale.ENGLISH)
+                    .toUpperCase(Locale.ENGLISH)
                 val type = if (AggregationChartType.values().any { it.name == parsedValue }) {
                     AggregationChartType.valueOf(parsedValue)
                 } else {
@@ -250,8 +259,11 @@ class ChartIQHandler(
         val script = scriptManager.getChartScaleScript()
         executeJavascript(script) {
             try {
-                callback.onReturn(ChartIQScale.valueOf(it.substring(1, it.length - 1)
-                        .toUpperCase())
+                callback.onReturn(
+                    ChartIQScale.valueOf(
+                        it.substring(1, it.length - 1)
+                            .toUpperCase()
+                    )
                 )
             } catch (e: Exception) {
                 callback.onReturn(ChartIQScale.LINEAR)
@@ -302,8 +314,37 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
-    override fun setDrawingParameter(parameter: DrawingParameter, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+    override fun setDrawingParameter(parameter: String, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
+    }
+
+    override fun getDrawingParameters(
+        tool: DrawingTool,
+        callback: OnReturnCallback<Map<String, Any>>
+    ) {
+        executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
+            if (value != "null") {
+                val result = value
+                    .substring(1, value.length - 1)
+                    .replace("\\", "")
+                val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+                // TODO: 25.11.20 Fix NO_TOOL crashing
+                val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
+                callback.onReturn(parameters)
+            }
+        }
+    }
+
+    override fun deleteDrawing() {
+        executeJavascript(scriptManager.getDeleteDrawingScript())
+    }
+
+    override fun cloneDrawing() {
+        executeJavascript(scriptManager.getCloneDrawingScript())
+    }
+
+    override fun manageLayer(layer: ChartLayer) {
+        executeJavascript(scriptManager.getLayerManagementScript(layer))
     }
 
     override fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>) {
@@ -311,9 +352,9 @@ class ChartIQHandler(
     }
 
     override fun getStudyParameters(
-            study: Study,
-            type: StudyParameterType,
-            callback: OnReturnCallback<List<StudyParameter>>
+        study: Study,
+        type: StudyParameterType,
+        callback: OnReturnCallback<List<StudyParameter>>
     ) {
         val script = when (type) {
             StudyParameterType.Inputs -> scriptManager.getStudyInputParametersScript(study.name)
@@ -351,7 +392,23 @@ class ChartIQHandler(
         executeJavascript(script)
     }
 
+    override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
+        executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
+            val hud = Gson().fromJson(value, CrosshairHUD::class.java)
+            callback.onReturn(hud)
+        }
+    }
+
+    override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getUndoDrawingScript())
+    }
+
+    override fun redoDrawing(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getRedoDrawingScript())
+    }
+
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
+        Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
     }
 

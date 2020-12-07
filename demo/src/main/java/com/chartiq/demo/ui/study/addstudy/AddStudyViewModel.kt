@@ -10,7 +10,9 @@ import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.study.Study
 import java.util.*
 
-class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
+class AddStudyViewModel(
+    private val chartIQ: ChartIQ,
+) : ViewModel() {
 
     private val originalStudies = MutableLiveData<List<Study>>(emptyList())
 
@@ -29,8 +31,8 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         }
 
     init {
-        chartIQHandler.getStudyList { list ->
-            originalStudies.postValue(list.sortedBy { it.name })
+        chartIQ.getStudyList {
+            originalStudies.postValue(it.sortedBy { it.name })
         }
     }
 
@@ -42,7 +44,7 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
     fun saveStudies() {
         val finalList = selectedStudies.value ?: emptyList()
         finalList.forEach {
-            chartIQHandler.addStudy(it, false)
+            chartIQ.addStudy(it, false)
         }
     }
 
@@ -54,11 +56,11 @@ class AddStudyViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         query.postValue(value)
     }
 
-    class ViewModelFactory(private val chartIQHandler: ChartIQ) : ViewModelProvider.Factory {
+    class ViewModelFactory(private val chartIQ: ChartIQ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java)
-                .newInstance(chartIQHandler)
+                .newInstance(chartIQ)
         }
     }
 }

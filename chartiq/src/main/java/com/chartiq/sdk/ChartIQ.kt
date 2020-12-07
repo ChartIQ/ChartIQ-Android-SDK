@@ -1,18 +1,19 @@
 package com.chartiq.sdk
 
+
+import android.content.Context
+import android.view.View
 import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
-import com.chartiq.sdk.model.DrawingParameter
-import com.chartiq.sdk.model.DrawingTool
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
-import com.chartiq.sdk.model.study.Study
-import com.chartiq.sdk.model.study.StudyParameter
-import com.chartiq.sdk.model.study.StudyParameterModel
-import com.chartiq.sdk.model.study.StudyParameterType
+import com.chartiq.sdk.model.study.ChartIQStudy
 import java.util.*
 
-interface ChartIQ {
+interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
+
+    val chartView: View
 
     fun start(onStartCallback: OnStartCallback)
 
@@ -28,16 +29,6 @@ interface ChartIQ {
 
     fun setPeriodicity(period: Int, interval: String, timeUnit: String)
 
-    fun enableDrawing(type: DrawingTool)
-
-    fun disableDrawing()
-
-    fun clearDrawing()
-
-    fun getStudyList(callback: OnReturnCallback<List<Study>>)
-
-    fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
-
     fun setAggregationType(aggregationType: AggregationChartType)
 
     fun setChartType(chartType: ChartType)
@@ -50,23 +41,7 @@ interface ChartIQ {
 
     fun setChartScale(scale: ChartIQScale)
 
-    fun removeStudy(study: Study)
-
-    fun addStudy(study: Study, forClone: Boolean)
-
-    fun setStudyParameter(study: Study, parameter: StudyParameterModel)
-
-    fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
-
-    fun setDrawingParameter(parameter: DrawingParameter, value: String)
-
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
-
-    fun getStudyParameters(
-        study: Study,
-        type: StudyParameterType,
-        callback: OnReturnCallback<List<StudyParameter>>
-    )
 
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
@@ -75,4 +50,12 @@ interface ChartIQ {
     fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
 
     fun setExtendedHours(extended: Boolean)
+
+    fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
+
+    companion object {
+        fun getInstance(url: String, context: Context): ChartIQ {
+            return ChartIQHandler(url, context)
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.buildArgumentStringFromArgs
-import com.chartiq.sdk.model.DrawingTool
+import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
@@ -63,6 +63,7 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getAggregationTypeScript(): String = "stxx.layout.aggregationType"
 
+
     override fun getAddSeriesScript(symbol: String, hexColor: String): String =
         CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", " +
                 "color: \"$hexColor\"  isComparison:true});"
@@ -78,9 +79,11 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getChartScaleScript(): String = "stxx.layout.chartScale"
 
-    override fun getSetChartScaleScript(scale: String): String = CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+    override fun getSetChartScaleScript(scale: String): String =
+        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
-    override fun getAddStudyScript(studyName: String): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
+    override fun getAddStudyScript(studyName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -94,19 +97,18 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getIsCrosshairsEnabledScript(): String =
         "if (${CHART_IQ_JS_OBJECT}layout.crosshair == true) { \"true\" } else { \"false\" } "
 
-    override fun getGetCrosshairsHUDDetailScript(): String =
+    override fun getGetCrosshairHUDDetailsScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
     override fun getEnableDrawingScript(type: DrawingTool): String =
-        CHART_IQ_JS_OBJECT + "changeVectorType(" + buildArgumentStringFromArgs(type.value) + ");"
+        "currentDrawing = \"${type.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
 
-    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NO_TOOL)
+    override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
-    // TODO: 03.09.20 Look into alternative "setDrawingParameters()"
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setCurrentVectorParameters($parameter, $value)"
+        MOBILE_BRIDGE_NAME_SPACE + "setDrawingParameters(\"$parameter\", \"$value\");"
 
     override fun getSetStyleScript(obj: String, parameter: String, value: String): String =
         CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$parameter\", \"$value\");"
@@ -128,11 +130,17 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
-    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
-        return MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
-    }
+    override fun getSetStudyParameterScript(
+        studyName: String,
+        parameter: StudyParameterModel
+    ): String =
+        MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
 
-    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {
+
+    override fun getSetStudyParametersScript(
+        name: String,
+        parameters: List<StudyParameterModel>
+    ): String {
         val scriptList = parameters.map {
             getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
         }
@@ -231,23 +239,41 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
 
-    override fun getInvertYAxisScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
+    override fun getInvertYAxisScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
 
-    override fun getSetInvertYAxisScript(inverted: Boolean): String = "${CHART_IQ_JS_OBJECT}flipChart($inverted);"
+    override fun getSetInvertYAxisScript(inverted: Boolean): String =
+        "${CHART_IQ_JS_OBJECT}flipChart($inverted);"
 
-    override fun getIsExtendedHoursScript(): String = MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
+    override fun getIsExtendedHoursScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
 
     override fun getSetExtendedHoursScript(extended: Boolean): String =
         MOBILE_BRIDGE_NAME_SPACE + "toggleExtendedHours($extended);"
 
-    companion object {
-        private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."
-        private const val CHART_IQ_JS_OBJECT = "stxx."
-    }
+    override fun getUndoDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "undo();"
+
+    override fun getRedoDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "redo();"
+
+    override fun getDeleteDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "deleteDrawing();"
+
+    override fun getCloneDrawingScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "cloneDrawing();"
+
+    override fun getLayerManagementScript(layer: ChartLayer): String =
+        MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
 
     private val String.asSafeScriptParameter: String
         get() {
             //todo check how it works
             return this.replace("(?i)(<.?\\s+)on.?(>.*?)", "$1$2")
         }
+
+    companion object {
+        private const val MOBILE_BRIDGE_NAME_SPACE = "CIQ.MobileBridge."
+        private const val CHART_IQ_JS_OBJECT = "stxx."
+    }
 }
