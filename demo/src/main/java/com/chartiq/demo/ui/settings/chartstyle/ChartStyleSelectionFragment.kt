@@ -21,11 +21,12 @@ class ChartStyleSelectionFragment : DialogFragment() {
     private val originalChartStyles: List<ChartTypeModel> by lazy {
         ChartType.values().map { it.toModel() } + AggregationChartType.values().map { it.toModel() }
     }
+    private val optionsAdapter = SelectChartStyleAdapter()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentChartStyleSelectionBinding.inflate(inflater, container, false)
         setupViews()
@@ -48,7 +49,7 @@ class ChartStyleSelectionFragment : DialogFragment() {
             toolbar.setNavigationOnClickListener {
                 dismiss()
             }
-            val optionsAdapter = SelectChartStyleAdapter().apply {
+            optionsAdapter.apply {
                 items = originalChartStyles
                 selectedValue = selectedStyle
                 listener = object : SelectChartStyleAdapter.SelectChartStyleAdapterListener {
@@ -61,10 +62,10 @@ class ChartStyleSelectionFragment : DialogFragment() {
             parametersRecyclerView.apply {
                 adapter = optionsAdapter
                 addItemDecoration(
-                    LineItemDecoration(
-                        context = requireContext(),
-                        marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
-                    )
+                        LineItemDecoration(
+                                context = requireContext(),
+                                marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
+                        )
                 )
                 scrollToPosition(originalChartStyles.indexOf(selectedStyle))
             }
@@ -72,9 +73,9 @@ class ChartStyleSelectionFragment : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): ChartStyleSelectionFragment {
+        fun getInstance(chartTypeModel: ChartTypeModel?): ChartStyleSelectionFragment {
             return ChartStyleSelectionFragment().apply {
-                arguments = bundle
+                arguments = ChartStyleSelectionFragmentArgs.Builder(chartTypeModel).build().toBundle()
             }
         }
     }

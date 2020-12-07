@@ -20,9 +20,9 @@ class SelectParameterDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSelectParameterBinding.inflate(inflater, container, false)
         setupViews()
@@ -51,8 +51,8 @@ class SelectParameterDialogFragment : DialogFragment() {
                 listener = object : SelectOptionsAdapter.SelectOptionsAdapterListener {
                     override fun onSelect(keyValue: Map.Entry<String, String>) {
                         (targetFragment as DialogFragmentListener).onSelect(
-                            selectParameter,
-                            keyValue.key,
+                                selectParameter,
+                                keyValue.key,
                         )
                         dismiss()
                     }
@@ -66,7 +66,8 @@ class SelectParameterDialogFragment : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): SelectParameterDialogFragment {
+        fun getInstance(studyParameter: StudyParameter.Select): SelectParameterDialogFragment {
+            val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
             return SelectParameterDialogFragment().apply {
                 arguments = bundle
             }

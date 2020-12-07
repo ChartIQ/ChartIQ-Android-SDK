@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentSettingsBinding
 import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
-import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragmentArgs
 import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 
 class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentListener {
@@ -35,10 +34,9 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
     private fun setupViews() {
         with(binding) {
             chartConfigContainer.setOnClickListener {
-                val bundle =
-                    ChartStyleSelectionFragmentArgs.Builder(settingsViewModel.chartStyle.value).build().toBundle()
+
                 ChartStyleSelectionFragment
-                    .getInstance(bundle).apply {
+                    .getInstance(settingsViewModel.chartStyle.value).apply {
                         setTargetFragment(this@SettingsFragment, REQUEST_CODE)
                     }
                     .show(parentFragmentManager, ChartStyleSelectionFragment::class.java.simpleName)
