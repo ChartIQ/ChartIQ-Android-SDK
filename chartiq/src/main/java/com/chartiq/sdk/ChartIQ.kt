@@ -53,9 +53,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
+    fun getTranslations(languageCode: String, callback: OnReturnCallback<Map<String, String>>)
+
+    fun setLanguage(languageCode: String)
+
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {
             return ChartIQHandler(url, context)
         }
     }
+
 }

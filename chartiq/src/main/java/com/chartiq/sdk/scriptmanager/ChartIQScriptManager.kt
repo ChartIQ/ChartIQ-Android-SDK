@@ -266,6 +266,14 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getLayerManagementScript(layer: ChartLayer): String =
         MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
 
+    override fun getScriptForTranslations(languageCode: String): String {
+        return MOBILE_BRIDGE_NAME_SPACE + "getTranslations(\"${languageCode.asSafeScriptParameter}\");"
+    }
+
+    override fun getScriptForSetLanguage(languageCode: String): String =
+         MOBILE_BRIDGE_NAME_SPACE + "setLanguage(\"${languageCode.asSafeScriptParameter}\");"
+
+
     private val String.asSafeScriptParameter: String
         get() {
             //todo check how it works

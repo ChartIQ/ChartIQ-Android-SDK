@@ -122,4 +122,8 @@ internal interface ScriptManager {
     fun getCloneDrawingScript(): String
 
     fun getLayerManagementScript(layer: ChartLayer): String
+
+    fun getScriptForTranslations(languageCode: String): String
+
+    fun getScriptForSetLanguage(languageCode: String): String
 }

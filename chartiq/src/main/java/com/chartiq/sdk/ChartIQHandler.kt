@@ -407,6 +407,26 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRedoDrawingScript())
     }
 
+    override fun getTranslations(
+        languageCode: String,
+        callback: OnReturnCallback<Map<String, String>>
+    ) {
+        val script = scriptManager.getScriptForTranslations(languageCode)
+        executeJavascript(script) {
+            val objectResult = Gson().fromJson(it, Object::class.java)
+            val typeToken = object : TypeToken<Map<String, String>>() {}.type
+            val translations = Gson().fromJson<Map<String, String>>(
+                objectResult.toString(), typeToken
+            )
+            callback.onReturn(translations)
+        }
+    }
+
+    override fun setLanguage(languageCode: String) {
+        val script = scriptManager.getScriptForSetLanguage(languageCode)
+        executeJavascript(script)
+    }
+
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
         Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
@@ -415,6 +435,7 @@ class ChartIQHandler(
     private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
         executeJavascript(scriptManager.getParseDataScript(data, callbackId))
     }
+
 
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
