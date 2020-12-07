@@ -9,8 +9,13 @@ import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import java.util.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 interface ApplicationPrefs {
+
+    val languageState: Flow<ChartIQLanguage>
 
     fun getChartInterval(): Interval
 
@@ -32,13 +37,21 @@ interface ApplicationPrefs {
 
     fun getApplicationId(): String
 
-    fun getLanguage(): ChartIQLanguage
 
     fun setLanguage(language: ChartIQLanguage)
 
     class Default(context: Context) : ApplicationPrefs {
+
         private val prefs: SharedPreferences by lazy {
             context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        }
+        private val language = MutableStateFlow(ChartIQLanguage.EN)
+
+        override val languageState = language.asStateFlow()
+
+        init {
+            language.value =
+                ChartIQLanguage.valueOf(prefs.getString(KEY_LANGUAGE, ChartIQLanguage.EN.name)!!)
         }
 
         override fun getChartInterval(): Interval {
@@ -101,15 +114,11 @@ interface ApplicationPrefs {
             }
         }
 
-        override fun getLanguage(): ChartIQLanguage {
-            val value = prefs.getString(KEY_LANGUAGE, ChartIQLanguage.EN.name)
-            return ChartIQLanguage.valueOf(value!!)
-        }
-
-        override fun setLanguage(language: ChartIQLanguage) {
+        override fun setLanguage(lang: ChartIQLanguage) {
             prefs.edit(true) {
-                putString(KEY_LANGUAGE, language.name)
+                putString(KEY_LANGUAGE, lang.name)
             }
+            language.value = lang
         }
     }
 

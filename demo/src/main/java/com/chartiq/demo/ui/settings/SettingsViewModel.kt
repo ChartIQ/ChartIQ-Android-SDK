@@ -1,8 +1,10 @@
 package com.chartiq.demo.ui.settings
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 import com.chartiq.demo.ui.settings.chartstyle.toModel
@@ -11,6 +13,11 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartIQScale
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class SettingsViewModel(
     private val chartIQ: ChartIQ,
@@ -30,8 +37,18 @@ class SettingsViewModel(
     }
 
     private fun initChartLanguage() {
-        val saveLanguage = applicationPrefs.getLanguage()
-        language.value = saveLanguage
+        viewModelScope.launch(Dispatchers.Main) {
+            applicationPrefs.languageState.collect { saveLanguage ->
+                val languageCode = saveLanguage.name.toLowerCase(Locale.ENGLISH)
+                chartIQ.setLanguage(languageCode)
+                language.value = saveLanguage
+                //todo call if there's no translations only
+                chartIQ.getTranslations(languageCode) {
+                    Log.i(SettingsViewModel::class.simpleName, it.toString())
+                }
+
+            }
+        }
     }
 
     private fun initChartPreferences() {
@@ -87,7 +104,6 @@ class SettingsViewModel(
 
     fun updateLanguage(iqLanguage: ChartIQLanguage) {
         applicationPrefs.setLanguage(iqLanguage)
-        language.value = iqLanguage
     }
 
     class ViewModelFactory(
