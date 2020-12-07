@@ -54,7 +54,7 @@ class ChartStyleSelectionFragment : DialogFragment() {
                 selectedValue = selectedStyle
                 listener = object : SelectChartStyleAdapter.SelectChartStyleAdapterListener {
                     override fun onSelect(selectedValue: ChartTypeModel) {
-                        (targetFragment as DialogFragmentListener).onSelect(selectedValue)
+                        (targetFragment as DialogFragmentListener).onChartStyleSelect(selectedValue)
                         dismiss()
                     }
                 }
@@ -81,7 +81,7 @@ class ChartStyleSelectionFragment : DialogFragment() {
     }
 
     interface DialogFragmentListener {
-        fun onSelect(chartStyle: ChartTypeModel)
+        fun onChartStyleSelect(chartStyle: ChartTypeModel)
     }
 
 

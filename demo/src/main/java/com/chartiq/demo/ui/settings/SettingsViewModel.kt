@@ -3,18 +3,22 @@ package com.chartiq.demo.ui.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 import com.chartiq.demo.ui.settings.chartstyle.toModel
+import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartIQScale
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 
 class SettingsViewModel(
-    private val chartIQ: ChartIQ
+    private val chartIQ: ChartIQ,
+    private val applicationPrefs: ApplicationPrefs
 ) : ViewModel() {
 
     val chartStyle = MutableLiveData<ChartTypeModel>()
+    val language = MutableLiveData<ChartIQLanguage>(ChartIQLanguage.EN)
     val logScale = MutableLiveData<Boolean>(false)
     val invertYAxis = MutableLiveData<Boolean>(false)
     val extendHours = MutableLiveData<Boolean>(false)
@@ -22,6 +26,12 @@ class SettingsViewModel(
     init {
         initChartStyle()
         initChartPreferences()
+        initChartLanguage()
+    }
+
+    private fun initChartLanguage() {
+        val saveLanguage = applicationPrefs.getLanguage()
+        language.value = saveLanguage
     }
 
     private fun initChartPreferences() {
@@ -75,14 +85,20 @@ class SettingsViewModel(
 
     }
 
+    fun updateLanguage(iqLanguage: ChartIQLanguage) {
+        applicationPrefs.setLanguage(iqLanguage)
+        language.value = iqLanguage
+    }
+
     class ViewModelFactory(
-        private val argChartIQ: ChartIQ
+        private val argChartIQ: ChartIQ,
+        private val applicationPrefs: ApplicationPrefs
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(ChartIQ::class.java)
-                .newInstance(argChartIQ)
+                .getConstructor(ChartIQ::class.java, ApplicationPrefs::class.java)
+                .newInstance(argChartIQ, applicationPrefs)
         }
     }
 }

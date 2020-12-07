@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import java.util.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
@@ -30,6 +31,10 @@ interface ApplicationPrefs {
     fun clearSession()
 
     fun getApplicationId(): String
+
+    fun getLanguage(): ChartIQLanguage
+
+    fun setLanguage(language: ChartIQLanguage)
 
     class Default(context: Context) : ApplicationPrefs {
         private val prefs: SharedPreferences by lazy {
@@ -95,6 +100,17 @@ interface ApplicationPrefs {
                 storedId
             }
         }
+
+        override fun getLanguage(): ChartIQLanguage {
+            val value = prefs.getString(KEY_LANGUAGE, ChartIQLanguage.EN.name)
+            return ChartIQLanguage.valueOf(value!!)
+        }
+
+        override fun setLanguage(language: ChartIQLanguage) {
+            prefs.edit(true) {
+                putString(KEY_LANGUAGE, language.name)
+            }
+        }
     }
 
     companion object {
@@ -104,6 +120,7 @@ interface ApplicationPrefs {
         private const val KEY_CHART_SYMBOL = "chart.iq.demo.chart.symbol"
         private const val KEY_DRAWING_TOOL_FAVORITE = "chart.iq.demo.chart.drawingtool.favorites"
         private const val KEY_DRAWING_TOOL = "chart.iq.demo.chart.drawingtool.tool"
+        private const val KEY_LANGUAGE = "chart.iq.demo.settings.chartiq_language"
         private const val KEY_APPLICATION_ID = "chart.iq.demo.chart.applicationid"
 
         private const val DEFAULT_CHART_INTERVAL = "1 day"
@@ -111,4 +128,5 @@ interface ApplicationPrefs {
 
         private const val FORMATTING_INTERVAL = "%d %s"
     }
+
 }
