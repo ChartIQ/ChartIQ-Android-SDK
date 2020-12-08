@@ -110,7 +110,7 @@ class DrawingToolAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         }
                     }
                 }
-                binding.root.setOnClickListener {
+                root.setOnClickListener {
                     listener?.onDrawingToolClick(item)
                 }
             }

@@ -20,7 +20,6 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
@@ -60,6 +59,8 @@ class ChartViewModel(
     val isCrosshairsVisible = MutableLiveData(false)
 
     val isPickerItemSelected = MutableLiveData(false)
+
+    val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
     init {
         fetchSavedSettings()
@@ -130,9 +131,13 @@ class ChartViewModel(
         return instrumentList
     }
 
-    fun disableDrawingTool() {
-        drawingTool.value = DrawingTool.NONE
-        chartIQHandler.disableDrawing()
+    fun toggleDrawingTool() {
+        if (drawingTool.value != DrawingTool.NONE) {
+            drawingTool.value = DrawingTool.NONE
+            chartIQHandler.disableDrawing()
+        } else {
+            navigateToDrawingToolsEvent.value = Event(Unit)
+        }
     }
 
     fun updateFillColor(color: Int) {

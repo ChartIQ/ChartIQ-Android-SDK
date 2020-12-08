@@ -111,16 +111,10 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }
             drawCheckBox.setOnClickListener {
-                if (chartViewModel.drawingTool.value != DrawingTool.NONE) {
-                    chartViewModel.disableDrawingTool()
-                } else {
-                    findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
-                }
+                chartViewModel.toggleDrawingTool()
             }
             crosshairCheckBox.setOnClickListener {
-                crosshairLayout.root.apply {
-                    chartViewModel.toggleCrosshairs()
-                }
+                chartViewModel.toggleCrosshairs()
             }
         }
         with(chartViewModel) {
@@ -146,17 +140,17 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
             drawingTool.observe(viewLifecycleOwner) { drawingTool ->
                 val isDrawingToolSelected = drawingTool != DrawingTool.NONE
-                if (isDrawingToolSelected) {
-                    binding.redoImageView.setOnClickListener {
-                        chartViewModel.redoDrawing()
-                    }
-                    binding.undoImageView.setOnClickListener {
-                        chartViewModel.undoDrawing()
-                    }
-                    binding.panelRecyclerView.adapter = panelAdapter
-                }
-
                 with(binding) {
+                    if (isDrawingToolSelected) {
+                        redoImageView.setOnClickListener {
+                            chartViewModel.redoDrawing()
+                        }
+                        undoImageView.setOnClickListener {
+                            chartViewModel.undoDrawing()
+                        }
+                        panelRecyclerView.adapter = panelAdapter
+                    }
+
                     drawCheckBox.isChecked = isDrawingToolSelected
                     panelRecyclerView.isVisible = isDrawingToolSelected
                     redoImageView.isVisible = isDrawingToolSelected
@@ -206,6 +200,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             isPickerItemSelected.observe(viewLifecycleOwner) { value ->
                 binding.instrumentRecyclerView.isVisible = value
+            }
+            navigateToDrawingToolsEvent.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+                }
             }
         }
     }
