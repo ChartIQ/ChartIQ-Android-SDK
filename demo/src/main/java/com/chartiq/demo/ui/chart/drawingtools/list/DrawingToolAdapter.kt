@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemDrawingToolBinding
 import com.chartiq.demo.databinding.ItemDrawingToolHeaderBinding
@@ -97,12 +98,9 @@ class DrawingToolAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             with(binding) {
                 iconImageView.background = ContextCompat.getDrawable(root.context, item.iconRes)
                 toolNameTextView.text = root.resources.getString(item.nameRes)
-                checkImageView.visibility = if (item.isSelected) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+                checkImageView.isVisible = item.isSelected
                 starIndicatorImageView.apply {
+                    isVisible = item.section != DrawingToolSection.OTHER
                     isChecked = item.isStarred
                     setOnCheckedChangeListener { button, _ ->
                         if (button.isPressed) {
