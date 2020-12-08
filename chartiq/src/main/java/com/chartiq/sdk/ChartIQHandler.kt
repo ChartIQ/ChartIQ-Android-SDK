@@ -316,6 +316,10 @@ class ChartIQHandler(
         }
     }
 
+    override fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean) {
+        executeJavascript(scriptManager.getRestoreDefaultDrawingConfigScript(tool, all))
+    }
+
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
         executeJavascript(scriptManager.getUndoDrawingScript())
     }

@@ -11,11 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
 import com.chartiq.demo.ui.chart.drawingtools.list.*
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
+import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.google.android.material.tabs.TabLayout
 
 class DrawingToolFragment : Fragment() {
@@ -25,6 +28,9 @@ class DrawingToolFragment : Fragment() {
         DrawingToolViewModel.DrawingToolViewModelFactory(ApplicationPrefs.Default(requireContext()))
     })
     private val drawingToolAdapter = DrawingToolAdapter()
+    private val chartIQ: ChartIQ by lazy {
+        (requireActivity().application as ChartIQApplication).chartIQ
+    }
     private val tabOnSelectListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let { tab ->
@@ -119,9 +125,9 @@ class DrawingToolFragment : Fragment() {
         AlertDialog.Builder(requireContext(), R.style.NegativeAlertDialogTheme)
             .setTitle(R.string.drawing_tool_clear_drawings_title)
             .setMessage(R.string.drawing_tool_clear_drawings_message)
-            .setNegativeButton(R.string.drawing_tool_clear_drawings_cancel) { dialog, _ -> Unit }
-            .setPositiveButton(R.string.drawing_tool_clear_drawings_confirm) { dialog, _ ->
-                // TODO: implement onRestoreClick()
+            .setNegativeButton(R.string.drawing_tool_clear_drawings_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.drawing_tool_clear_drawings_confirm) { _, _ ->
+                chartIQ.clearDrawing()
             }
             .create()
             .show()
@@ -131,9 +137,9 @@ class DrawingToolFragment : Fragment() {
         AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
             .setTitle(R.string.drawing_tool_restore_default_parameters_title)
             .setMessage(R.string.drawing_tool_restore_default_parameters_message)
-            .setNegativeButton(R.string.drawing_tool_restore_default_parameters_cancel) { dialog, _ -> Unit }
-            .setPositiveButton(R.string.drawing_tool_restore_default_parameters_confirm) { dialog, _ ->
-                // TODO: implement onRestoreClick()
+            .setNegativeButton(R.string.drawing_tool_restore_default_parameters_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.drawing_tool_restore_default_parameters_confirm) { _, _ ->
+                chartIQ.restoreDefaultDrawingConfig(DrawingTool.LINE, true)
             }
             .create()
             .show()
