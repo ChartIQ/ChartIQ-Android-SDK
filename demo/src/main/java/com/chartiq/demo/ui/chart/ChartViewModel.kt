@@ -135,6 +135,7 @@ class ChartViewModel(
         if (drawingTool.value != DrawingTool.NONE) {
             drawingTool.value = DrawingTool.NONE
             chartIQHandler.disableDrawing()
+            applicationPrefs.saveDrawingTool(DrawingTool.NONE)
         } else {
             navigateToDrawingToolsEvent.value = Event(Unit)
         }
