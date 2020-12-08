@@ -49,7 +49,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
 
         override fun afterTextChanged(s: Editable?) {
             val query = s.toString()
-            viewModel.fetchSymbol(query)
+            viewModel.updateQuery(query)
         }
     }
     private val onSearchResultClickListener = OnSearchResultClickListener { item ->
@@ -135,6 +135,9 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
                     symbolNotFoundPlaceholder.root.isVisible = false
                     typeToSearchPlaceholder.root.isVisible = false
                 }
+            }
+            viewModel.query.observe(viewLifecycleOwner) { value ->
+                viewModel.fetchSymbol(value)
             }
         }
 

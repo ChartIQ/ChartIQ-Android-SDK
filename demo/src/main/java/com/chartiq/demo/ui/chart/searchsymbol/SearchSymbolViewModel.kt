@@ -16,9 +16,9 @@ class SearchSymbolViewModel(
     private val argPrefs: ApplicationPrefs
 ) : ViewModel() {
 
-    private val searchJob = SupervisorJob()
+    private var searchJob: Job? = null
 
-    private val searchScope = CoroutineScope(searchJob + Dispatchers.IO)
+    private val filter = MutableLiveData(SearchFilter.ALL)
 
     val resultLiveData = MutableLiveData<List<SearchResultItem>>()
 
@@ -26,33 +26,26 @@ class SearchSymbolViewModel(
 
     val query = MutableLiveData("")
 
-    val filter = MutableLiveData(SearchFilter.ALL)
-
     val isLoading = MutableLiveData(false)
 
     fun fetchSymbol(symbol: String) {
-        searchJob.cancelChildren()
-        isLoading.value = true
-        query.value = symbol
-        if (symbol.isEmpty()) {
+        searchJob?.cancel()
+        val isEmptySymbol = symbol.isEmpty()
+        isLoading.value = !isEmptySymbol
+        if (isEmptySymbol) {
             resultLiveData.value = listOf()
-            isLoading.value = false
-            return
+        } else {
+            fetchSymbolWithDebounce(symbol)
         }
-        searchScope.launch {
-            when (val result = networkManager.fetchSymbol(symbol, filter.value?.value)) {
-                is NetworkResult.Success -> resultLiveData.postValue(result.data.mapToItemList())
-                is NetworkResult.Failure -> errorLiveData.postValue(Event(Unit))
-            }
-            isLoading.postValue(false)
-        }
+    }
+
+    fun updateQuery(symbol: String) {
+        query.value = symbol
     }
 
     fun updateFilter(filter: SearchFilter) {
         this.filter.value = filter
-        query.value?.let {
-            fetchSymbol(it)
-        }
+        query.value = query.value
     }
 
     fun saveSymbol() {
@@ -62,6 +55,25 @@ class SearchSymbolViewModel(
     private fun SymbolResponse.mapToItemList(): List<SearchResultItem> = payload.symbols
         .map { element -> element.split('|') }
         .map { SearchResultItem(it[0], it[1], it[2]) }
+
+    private fun fetchSymbolWithDebounce(symbol: String) {
+        searchJob?.cancel()
+        searchJob = CoroutineScope(Dispatchers.IO).launch {
+            delay(DELAY_SEARCH)
+            if (isActive) {
+                when (val result = networkManager.fetchSymbol(symbol, filter.value?.value)) {
+                    is NetworkResult.Success -> resultLiveData.postValue(result.data.mapToItemList())
+                    is NetworkResult.Failure -> errorLiveData.postValue(Event(Unit))
+                }
+                isLoading.postValue(false)
+
+            }
+        }
+    }
+
+    companion object {
+        private const val DELAY_SEARCH = 300L
+    }
 
     class SearchViewModelFactory(
         private val argNetworkManager: NetworkManager,
