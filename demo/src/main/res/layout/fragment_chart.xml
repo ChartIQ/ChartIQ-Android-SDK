@@ -40,21 +40,21 @@
                 tools:text="1D" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/crosshairCheckBox"
+                android:id="@+id/drawCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium_small"
-                android:layout_toStartOf="@+id/drawCheckBox"
-                android:button="@drawable/selector_crosshair" />
+                android:layout_toStartOf="@+id/crosshairCheckBox"
+                android:button="@drawable/selector_draw" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/drawCheckBox"
+                android:id="@+id/crosshairCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium_small"
                 android:layout_toStartOf="@id/fullviewCheckBox"
-                android:button="@drawable/selector_draw" />
+                android:button="@drawable/selector_crosshair" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/fullviewCheckBox"
@@ -63,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:button="@drawable/ic_fullview"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </RelativeLayout>
 
