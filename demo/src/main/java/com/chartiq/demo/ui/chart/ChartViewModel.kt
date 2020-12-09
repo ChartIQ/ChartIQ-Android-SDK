@@ -60,6 +60,10 @@ class ChartViewModel(
 
     val isPickerItemSelected = MutableLiveData(false)
 
+    val isFullscreen = MutableLiveData(false)
+
+    val moveHintsAreShown = MutableLiveData(false)
+
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
     init {
@@ -78,6 +82,20 @@ class ChartViewModel(
                     .postValue(Event(Unit))
             }
         }
+    }
+
+    fun showMoveHints(show: Boolean) {
+        if(!moveHintsAreShown.value!!) {
+            moveHintsAreShown.value = show
+        }
+    }
+
+    fun setSymbol(symbol: Symbol) {
+        chartIQHandler.setSymbol(symbol.value)
+    }
+
+    fun setDataMethod(dataMethod: DataMethod, symbol: Symbol) {
+        chartIQHandler.setDataMethod(dataMethod, symbol.value)
     }
 
     private fun fetchSavedSettings() {
@@ -129,6 +147,10 @@ class ChartViewModel(
             }
         }
         return instrumentList
+    }
+
+    fun toggleFullscreen() {
+        isFullscreen.value = !isFullscreen.value!!
     }
 
     fun toggleDrawingTool() {
