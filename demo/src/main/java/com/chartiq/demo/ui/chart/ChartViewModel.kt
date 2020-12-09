@@ -90,25 +90,6 @@ class ChartViewModel(
         }
     }
 
-    fun setSymbol(symbol: Symbol) {
-        chartIQHandler.setSymbol(symbol.value)
-    }
-
-    fun setDataMethod(dataMethod: DataMethod, symbol: Symbol) {
-        chartIQHandler.setDataMethod(dataMethod, symbol.value)
-    }
-
-    private fun fetchSavedSettings() {
-        currentSymbol.value = applicationPrefs.getChartSymbol()
-        chartInterval.value = applicationPrefs.getChartInterval()
-        drawingTool.value = applicationPrefs.getDrawingTool()
-
-        if (drawingTool.value != DrawingTool.NONE) {
-            chartIQHandler.enableDrawing(drawingTool.value!!)
-            getDrawingToolParameters()
-        }
-    }
-
     fun setupInstrumentsList(): List<InstrumentItem> {
         val item = DrawingTools.values().find { it.tool == drawingTool.value!! } ?: return listOf()
         val tool = item.tool
@@ -250,6 +231,17 @@ class ChartViewModel(
             val jsonElement = gson.toJsonTree(parameters)
             this.parameters.value =
                 gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
+        }
+    }
+
+    private fun fetchSavedSettings() {
+        currentSymbol.value = applicationPrefs.getChartSymbol()
+        chartInterval.value = applicationPrefs.getChartInterval()
+        drawingTool.value = applicationPrefs.getDrawingTool()
+
+        if (drawingTool.value != DrawingTool.NONE) {
+            chartIQHandler.enableDrawing(drawingTool.value!!)
+            getDrawingToolParameters()
         }
     }
 
