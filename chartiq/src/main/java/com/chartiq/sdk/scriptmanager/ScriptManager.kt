@@ -97,6 +97,7 @@ internal interface ScriptManager {
     fun getSetEnginePropertyScript(property: String, value: Any): String
 
     fun getGetEnginePropertyScript(property: String): String
+
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
     fun getUndoDrawingScript(): String
@@ -108,4 +109,6 @@ internal interface ScriptManager {
     fun getCloneDrawingScript(): String
 
     fun getLayerManagementScript(layer: ChartLayer): String
+
+    fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
 }

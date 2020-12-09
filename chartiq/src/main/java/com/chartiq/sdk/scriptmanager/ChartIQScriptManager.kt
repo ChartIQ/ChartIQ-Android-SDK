@@ -70,9 +70,11 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getClearChartScript(): String =
         CHART_IQ_JS_OBJECT + "destroy();"
 
-    override fun getSetChartScaleScript(scale: String): String = CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+    override fun getSetChartScaleScript(scale: String): String =
+        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
 
-    override fun getAddStudyScript(studyName: String): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
+    override fun getAddStudyScript(studyName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -95,6 +97,14 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
+
+    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String {
+        var toolName = ""
+        if (!all) {
+            toolName = tool.value
+        }
+        return MOBILE_BRIDGE_NAME_SPACE + "restoreDefaultDrawingConfig(\"$toolName\", $all);"
+    }
 
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setDrawingParameters(\"$parameter\", \"$value\");"
@@ -122,13 +132,19 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
-    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
+    override fun getSetStudyParameterScript(
+        studyName: String,
+        parameter: StudyParameterModel
+    ): String {
         val script =
-                MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
+            MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
         return script
     }
 
-    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {
+    override fun getSetStudyParametersScript(
+        name: String,
+        parameters: List<StudyParameterModel>
+    ): String {
         val scriptList = parameters.map {
             getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
         }
