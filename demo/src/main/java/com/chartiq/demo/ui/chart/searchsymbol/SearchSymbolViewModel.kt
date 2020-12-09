@@ -28,28 +28,30 @@ class SearchSymbolViewModel(
 
     val isLoading = MutableLiveData(false)
 
-    fun fetchSymbol(symbol: String) {
-        searchJob?.cancel()
-        val isEmptySymbol = symbol.isEmpty()
-        isLoading.value = !isEmptySymbol
-        if (isEmptySymbol) {
-            resultLiveData.value = listOf()
-        } else {
-            fetchSymbolWithDebounce(symbol)
-        }
-    }
-
     fun updateQuery(symbol: String) {
         query.value = symbol
+        fetchSymbol()
     }
 
     fun updateFilter(filter: SearchFilter) {
         this.filter.value = filter
         query.value = query.value
+        fetchSymbol()
     }
 
     fun saveSymbol() {
         argPrefs.saveChartSymbol(Symbol(query.value!!))
+    }
+
+    private fun fetchSymbol() {
+        searchJob?.cancel()
+        val isEmptySymbol = query.value.isNullOrEmpty()
+        isLoading.value = !isEmptySymbol
+        if (isEmptySymbol) {
+            resultLiveData.value = listOf()
+        } else {
+            fetchSymbolWithDebounce(query.value!!)
+        }
     }
 
     private fun SymbolResponse.mapToItemList(): List<SearchResultItem> = payload.symbols

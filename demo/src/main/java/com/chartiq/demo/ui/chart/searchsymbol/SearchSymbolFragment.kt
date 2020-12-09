@@ -136,9 +136,6 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
                     typeToSearchPlaceholder.root.isVisible = false
                 }
             }
-            viewModel.query.observe(viewLifecycleOwner) { value ->
-                viewModel.fetchSymbol(value)
-            }
         }
 
         with(binding.searchToolbar) {
