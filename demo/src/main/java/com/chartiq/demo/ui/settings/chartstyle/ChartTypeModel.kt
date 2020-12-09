@@ -8,5 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class ChartTypeModel(
     val title: String,
     val name: String,
-    @DrawableRes val iconRes: Int
-):Parcelable
+    @DrawableRes val iconRes: Int,
+    val isSelected: Boolean = false
+) : Parcelable

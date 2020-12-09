@@ -15,11 +15,6 @@ class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.Vie
             notifyDataSetChanged()
         }
 
-    var selectedValue: ChartTypeModel? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
     var listener: SelectChartStyleAdapterListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectChartStyleAdapter.ViewHolder {
@@ -36,14 +31,9 @@ class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.Vie
         fun bind(chartTypeModel: ChartTypeModel) {
             with(binding) {
                 optionTextView.text = chartTypeModel.title
-                checkImageView.isVisible = selectedValue == chartTypeModel
+                checkImageView.isVisible = chartTypeModel.isSelected
                 iconImageView.setImageDrawable(ContextCompat.getDrawable(root.context, chartTypeModel.iconRes))
                 root.setOnClickListener {
-                    selectedValue = if (selectedValue != chartTypeModel) {
-                        chartTypeModel
-                    } else {
-                        null
-                    }
                     listener?.onSelect(chartTypeModel)
                 }
             }

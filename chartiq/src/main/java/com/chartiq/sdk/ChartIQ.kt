@@ -3,7 +3,7 @@ package com.chartiq.sdk
 
 import android.content.Context
 import android.view.View
-import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.ChartScale
 import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.charttype.AggregationChartType
@@ -37,9 +37,9 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
 
-    fun getChartScale(callback: OnReturnCallback<ChartIQScale>)
+    fun getChartScale(callback: OnReturnCallback<ChartScale>)
 
-    fun setChartScale(scale: ChartIQScale)
+    fun setChartScale(scale: ChartScale)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 

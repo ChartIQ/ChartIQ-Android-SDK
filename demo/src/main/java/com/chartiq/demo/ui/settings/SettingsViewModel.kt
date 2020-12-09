@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
 import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.ChartScale
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 
@@ -26,7 +26,7 @@ class SettingsViewModel(
 
     private fun initChartPreferences() {
         chartIQ.getChartScale {
-            logScale.value = it == ChartIQScale.LINEAR
+            logScale.value = it == ChartScale.LINEAR
         }
         chartIQ.getIsInvertYAxis {
             invertYAxis.value = it
@@ -49,7 +49,7 @@ class SettingsViewModel(
     }
 
     fun changeLogScale(enabled: Boolean) {
-        chartIQ.setChartScale(if (enabled) ChartIQScale.LINEAR else ChartIQScale.LOG)
+        chartIQ.setChartScale(if (enabled) ChartScale.LINEAR else ChartScale.LOG)
         initChartPreferences()
     }
 

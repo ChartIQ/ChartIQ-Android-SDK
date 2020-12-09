@@ -1,11 +1,9 @@
 package com.chartiq.demo.ui.settings.chartstyle
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartStyleSelectionBinding
 import com.chartiq.demo.ui.LineItemDecoration
@@ -20,14 +18,17 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
         ChartStyleSelectionFragmentArgs.fromBundle(requireArguments()).selectedStyle
     }
     private val originalChartStyles: List<ChartTypeModel> by lazy {
-        ChartType.values().map { it.toModel() } + AggregationChartType.values().map { it.toModel() }
+        (ChartType.values().map { it.toModel() } + AggregationChartType.values().map { it.toModel() })
+            .map {
+                it.copy(isSelected = selectedStyle?.name == it.name)
+            }
     }
     private val optionsAdapter = SelectChartStyleAdapter()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentChartStyleSelectionBinding.inflate(inflater, container, false)
         setupViews()
@@ -41,7 +42,6 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
             }
             optionsAdapter.apply {
                 items = originalChartStyles
-                selectedValue = selectedStyle
                 listener = object : SelectChartStyleAdapter.SelectChartStyleAdapterListener {
                     override fun onSelect(selectedValue: ChartTypeModel) {
                         (targetFragment as DialogFragmentListener).onSelect(selectedValue)
@@ -52,10 +52,10 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
             parametersRecyclerView.apply {
                 adapter = optionsAdapter
                 addItemDecoration(
-                        LineItemDecoration(
-                                context = requireContext(),
-                                marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
-                        )
+                    LineItemDecoration(
+                        context = requireContext(),
+                        marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
+                    )
                 )
                 scrollToPosition(originalChartStyles.indexOf(selectedStyle))
             }

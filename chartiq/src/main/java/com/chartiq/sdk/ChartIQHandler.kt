@@ -255,23 +255,23 @@ class ChartIQHandler(
         }
     }
 
-    override fun getChartScale(callback: OnReturnCallback<ChartIQScale>) {
+    override fun getChartScale(callback: OnReturnCallback<ChartScale>) {
         val script = scriptManager.getChartScaleScript()
         executeJavascript(script) {
             try {
                 callback.onReturn(
-                    ChartIQScale.valueOf(
+                    ChartScale.valueOf(
                         it.substring(1, it.length - 1)
                             .toUpperCase()
                     )
                 )
             } catch (e: Exception) {
-                callback.onReturn(ChartIQScale.LINEAR)
+                callback.onReturn(ChartScale.LINEAR)
             }
         }
     }
 
-    override fun setChartScale(scale: ChartIQScale) {
+    override fun setChartScale(scale: ChartScale) {
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
