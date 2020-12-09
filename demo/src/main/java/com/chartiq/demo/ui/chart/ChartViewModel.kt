@@ -61,6 +61,10 @@ class ChartViewModel(
 
     val isPickerItemSelected = MutableLiveData(false)
 
+    val isFullscreen = MutableLiveData(false)
+
+    val moveHintsAreShown = MutableLiveData(false)
+
     init {
         fetchSavedSettings()
     }
@@ -76,6 +80,12 @@ class ChartViewModel(
                 is NetworkResult.Failure -> errorLiveData
                     .postValue(Event(Unit))
             }
+        }
+    }
+
+    fun showMoveHints(show: Boolean) {
+        if(!moveHintsAreShown.value!!) {
+            moveHintsAreShown.value = show
         }
     }
 
@@ -131,6 +141,10 @@ class ChartViewModel(
             }
         }
         return instrumentList
+    }
+
+    fun toggleFullscreen() {
+        isFullscreen.value = !isFullscreen.value!!
     }
 
     fun enableDrawing(drawingTool: DrawingTool) {
