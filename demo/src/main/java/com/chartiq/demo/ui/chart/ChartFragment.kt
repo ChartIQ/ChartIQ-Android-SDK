@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -45,7 +46,6 @@ import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
-
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
@@ -128,12 +128,10 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
             }
             drawCheckBox.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+                chartViewModel.toggleDrawingTool()
             }
             crosshairCheckBox.setOnClickListener {
-                crosshairLayout.root.apply {
-                    chartViewModel.toggleCrosshairs()
-                }
+                chartViewModel.toggleCrosshairs()
             }
             fullviewCheckBox.setOnClickListener {
                 toggleFullscreenViews(true)
@@ -165,22 +163,26 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
             drawingTool.observe(viewLifecycleOwner) { drawingTool ->
                 val isDrawingToolSelected = drawingTool != DrawingTool.NONE
-                if (isDrawingToolSelected) {
-                    chartViewModel.enableDrawing(drawingTool)
-                    binding.redoImageView.setOnClickListener {
-                        chartViewModel.redoDrawing()
-                    }
-                    binding.undoImageView.setOnClickListener {
-                        chartViewModel.undoDrawing()
-                    }
-                    binding.panelRecyclerView.adapter = panelAdapter
-                }
-
                 with(binding) {
+                    if (isDrawingToolSelected) {
+                        redoImageView.setOnClickListener {
+                            chartViewModel.redoDrawing()
+                        }
+                        undoImageView.setOnClickListener {
+                            chartViewModel.undoDrawing()
+                        }
+                        panelRecyclerView.adapter = panelAdapter
+                    }
+
                     drawCheckBox.isChecked = isDrawingToolSelected
                     panelRecyclerView.isVisible = isDrawingToolSelected
                     redoImageView.isVisible = isDrawingToolSelected
                     undoImageView.isVisible = isDrawingToolSelected
+                }
+                if (drawingTool == DrawingTool.NO_TOOL) {
+                    // setupInstrumentsList is triggered when the tool gets its parameters but no tool
+                    // doesn't get any parameters from the library for some reason so we setup it manually here
+                    panelAdapter.items = setupInstrumentsList()
                 }
             }
             parameters.observe(viewLifecycleOwner) { parameters ->
@@ -221,6 +223,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             isPickerItemSelected.observe(viewLifecycleOwner) { value ->
                 binding.instrumentRecyclerView.isVisible = value
+            }
+            navigateToDrawingToolsEvent.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
+                }
             }
             isFullscreen.observe(viewLifecycleOwner) { isFullscreen ->
                 val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
@@ -268,18 +275,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             Instrument.FILL -> showFillColorCarousel()
             Instrument.COLOR -> showColorCarousel()
             Instrument.LINE_TYPE -> showLineTypeCarousel()
-            Instrument.CLONE -> cloneDrawing()
-            Instrument.DELETE -> deleteDrawing()
+            Instrument.CLONE -> chartViewModel.cloneDrawing()
+            Instrument.DELETE -> chartViewModel.deleteDrawing()
             Instrument.LAYER_MANAGEMENT -> showLayerManagementDialogue()
             Instrument.SETTINGS -> navigateToInstrumentSettings()
         }
-    }
-
-    private fun loadChartData(
-        quoteFeedParams: QuoteFeedParams,
-        callback: DataSourceCallback
-    ) {
-        chartViewModel.getDataFeed(quoteFeedParams, callback)
     }
 
     private fun navigateToDrawingTools() {
@@ -290,14 +290,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         val direction = MainFragmentDirections
             .actionMainFragmentToDrawingToolSettingsFragment(chartViewModel.drawingTool.value!!)
         findNavController().navigate(direction)
-    }
-
-    private fun deleteDrawing() {
-        chartViewModel.deleteDrawing()
-    }
-
-    private fun cloneDrawing() {
-        chartViewModel.cloneDrawing()
     }
 
     private fun showFillColorCarousel() {

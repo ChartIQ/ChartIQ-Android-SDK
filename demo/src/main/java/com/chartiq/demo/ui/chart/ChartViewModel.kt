@@ -20,7 +20,6 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
@@ -43,7 +42,7 @@ class ChartViewModel(
 
     val chartInterval = MutableLiveData<Interval>()
 
-    val drawingTool = MutableLiveData<DrawingTool>()
+    val drawingTool = MutableLiveData(DrawingTool.NONE)
 
     @Deprecated("This logic was moved to MainViewModel class")
     val resultLiveData = MutableLiveData<ChartData>()
@@ -64,6 +63,8 @@ class ChartViewModel(
     val isFullscreen = MutableLiveData(false)
 
     val moveHintsAreShown = MutableLiveData(false)
+
+    val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
     init {
         fetchSavedSettings()
@@ -87,20 +88,6 @@ class ChartViewModel(
         if(!moveHintsAreShown.value!!) {
             moveHintsAreShown.value = show
         }
-    }
-
-    fun setSymbol(symbol: Symbol) {
-        chartIQHandler.setSymbol(symbol.value)
-    }
-
-    fun setDataMethod(dataMethod: DataMethod, symbol: Symbol) {
-        chartIQHandler.setDataMethod(dataMethod, symbol.value)
-    }
-
-    private fun fetchSavedSettings() {
-        currentSymbol.value = applicationPrefs.getChartSymbol()
-        chartInterval.value = applicationPrefs.getChartInterval()
-        drawingTool.value = applicationPrefs.getDrawingTool()
     }
 
     fun setupInstrumentsList(): List<InstrumentItem> {
@@ -147,9 +134,14 @@ class ChartViewModel(
         isFullscreen.value = !isFullscreen.value!!
     }
 
-    fun enableDrawing(drawingTool: DrawingTool) {
-        chartIQHandler.enableDrawing(drawingTool)
-        getDrawingToolParameters()
+    fun toggleDrawingTool() {
+        if (drawingTool.value != DrawingTool.NONE) {
+            drawingTool.value = DrawingTool.NONE
+            chartIQHandler.disableDrawing()
+            applicationPrefs.saveDrawingTool(DrawingTool.NONE)
+        } else {
+            navigateToDrawingToolsEvent.value = Event(Unit)
+        }
     }
 
     fun updateFillColor(color: Int) {
@@ -239,6 +231,17 @@ class ChartViewModel(
             val jsonElement = gson.toJsonTree(parameters)
             this.parameters.value =
                 gson.fromJson(jsonElement, PanelDrawingToolParameters::class.java)
+        }
+    }
+
+    private fun fetchSavedSettings() {
+        currentSymbol.value = applicationPrefs.getChartSymbol()
+        chartInterval.value = applicationPrefs.getChartInterval()
+        drawingTool.value = applicationPrefs.getDrawingTool()
+
+        if (drawingTool.value != DrawingTool.NONE) {
+            chartIQHandler.enableDrawing(drawingTool.value!!)
+            getDrawingToolParameters()
         }
     }
 
