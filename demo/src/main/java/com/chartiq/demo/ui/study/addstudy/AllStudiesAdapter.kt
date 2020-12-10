@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemStudyBinding
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 
 class AllStudiesAdapter : RecyclerView.Adapter<AllStudiesAdapter.StudyViewHolder>() {
 

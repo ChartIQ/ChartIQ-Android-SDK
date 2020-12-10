@@ -5,8 +5,12 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.webkit.*
+import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
@@ -19,7 +23,8 @@ import java.util.*
 class ChartIQHandler(
     private val chartIQUrl: String,
     context: Context,
-) : ChartIQ, JavaScriptHandler {
+) : ChartIQ, ChartIQStudy, JavaScriptHandler {
+
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
@@ -55,6 +60,11 @@ class ChartIQHandler(
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     Log.d(TAG, consoleMessage?.message() ?: "Undefined JS exception")
+                    Toast.makeText(
+                        context, consoleMessage?.message()
+                            ?: "Undefined JS exception", Toast.LENGTH_SHORT
+                    )
+                        .show()
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
@@ -206,12 +216,59 @@ class ChartIQHandler(
         }
     }
 
-    override fun setAggregationType(aggregationType: AggregationType) {
-        executeJavascript(scriptManager.getSetAggregationTypeScript(aggregationType))
+    override fun setAggregationType(aggregationType: AggregationChartType) {
+        val value = aggregationType.name.toLowerCase(Locale.ENGLISH)
+        executeJavascript(scriptManager.getSetAggregationTypeScript(value))
     }
 
     override fun setChartType(chartType: ChartType) {
-        executeJavascript(scriptManager.getSetChartTypeScript(chartType.value))
+        executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
+    }
+
+    override fun getChartType(callback: OnReturnCallback<ChartType>) {
+        val script = scriptManager.getChartTypeScript()
+        executeJavascript(script) {
+            callback.onReturn(
+                ChartType.valueOf(
+                    it.substring(1, it.length - 1)
+                        .toUpperCase(Locale.ENGLISH)
+                )
+            )
+        }
+    }
+
+    override fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>) {
+        val script = scriptManager.getAggregationTypeScript()
+        executeJavascript(script) { value ->
+            if (value.isNullOrEmpty()) {
+                callback.onReturn(null)
+            } else {
+                val parsedValue = value.substring(1, value.length - 1)
+                    .toUpperCase(Locale.ENGLISH)
+                val type = if (AggregationChartType.values().any { it.name == parsedValue }) {
+                    AggregationChartType.valueOf(parsedValue)
+                } else {
+                    null
+                }
+                callback.onReturn(type)
+            }
+        }
+    }
+
+    override fun getChartScale(callback: OnReturnCallback<ChartScale>) {
+        val script = scriptManager.getChartScaleScript()
+        executeJavascript(script) {
+            try {
+                callback.onReturn(
+                    ChartScale.valueOf(
+                        it.substring(1, it.length - 1)
+                            .toUpperCase()
+                    )
+                )
+            } catch (e: Exception) {
+                callback.onReturn(ChartScale.LINEAR)
+            }
+        }
     }
 
     override fun setChartScale(scale: ChartScale) {
@@ -237,6 +294,7 @@ class ChartIQHandler(
         val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
+
     /**
      * Changes the active [Study] with a single parameter
      * @param study -  a [Study] to update
@@ -270,7 +328,6 @@ class ChartIQHandler(
                     .substring(1, value.length - 1)
                     .replace("\\", "")
                 val typeToken = object : TypeToken<Map<String, Any>>() {}.type
-                // TODO: 25.11.20 Fix NO_TOOL crashing
                 val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
                 callback.onReturn(parameters)
             }
@@ -310,11 +367,39 @@ class ChartIQHandler(
         }
     }
 
+    override fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>) {
+        val script = scriptManager.getInvertYAxisScript()
+        executeJavascript(script) {
+            callback.onReturn(it.toBoolean())
+        }
+    }
+
+    override fun setIsInvertYAxis(inverted: Boolean) {
+        val script = scriptManager.getSetInvertYAxisScript(inverted)
+        executeJavascript(script)
+    }
+
+    override fun getIsExtendedHours(callback: OnReturnCallback<Boolean>) {
+        val script = scriptManager.getIsExtendedHoursScript()
+        executeJavascript(script) {
+            callback.onReturn(it.toBoolean())
+        }
+    }
+
+    override fun setExtendedHours(extended: Boolean) {
+        val script = scriptManager.getSetExtendedHoursScript(extended)
+        executeJavascript(script)
+    }
+
     override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
         executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
             val hud = Gson().fromJson(value, CrosshairHUD::class.java)
             callback.onReturn(hud)
         }
+    }
+
+    override fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean) {
+        executeJavascript(scriptManager.getRestoreDefaultDrawingConfigScript(tool, all))
     }
 
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
@@ -326,7 +411,6 @@ class ChartIQHandler(
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
-        Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
     }
 

@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentSelectParameterBinding
 import com.chartiq.demo.ui.LineItemDecoration
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameter
 
 class SelectParameterDialogFragment : DialogFragment() {
 
@@ -66,7 +66,8 @@ class SelectParameterDialogFragment : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): SelectParameterDialogFragment {
+        fun getInstance(studyParameter: StudyParameter.Select): SelectParameterDialogFragment {
+            val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
             return SelectParameterDialogFragment().apply {
                 arguments = bundle
             }

@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.StudyParameter
-import com.chartiq.sdk.model.StudyParameterModel
-import com.chartiq.sdk.model.StudyParameterType
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
     private val chartIQ: ChartIQ,
