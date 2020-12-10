@@ -31,7 +31,9 @@ class MainActivity : AppCompatActivity() {
                             ?.receiveVoiceQuery(query)
                     }
                 }
-                else -> Unit
+                else -> {
+                    Unit
+                }
             }
         }
     }
