@@ -312,8 +312,10 @@ class ChartIQHandler(
 
     override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
         executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
-            val hud = Gson().fromJson(value, CrosshairHUD::class.java)
-            callback.onReturn(hud)
+            if (value != "null") {
+                val hud = Gson().fromJson(value, CrosshairHUD::class.java)
+                callback.onReturn(hud)
+            }
         }
     }
 
