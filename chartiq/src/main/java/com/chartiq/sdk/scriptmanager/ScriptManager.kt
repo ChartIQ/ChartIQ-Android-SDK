@@ -123,5 +123,9 @@ internal interface ScriptManager {
 
     fun getLayerManagementScript(layer: ChartLayer): String
 
+    fun getScriptForTranslations(languageCode: String): String
+
+    fun getScriptForSetLanguage(languageCode: String): String
+
     fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
 }

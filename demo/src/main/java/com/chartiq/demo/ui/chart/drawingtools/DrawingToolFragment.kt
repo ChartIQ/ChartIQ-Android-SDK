@@ -14,7 +14,9 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentDrawingToolBinding
-import com.chartiq.demo.ui.chart.drawingtools.list.*
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolAdapter
+import com.chartiq.demo.ui.chart.drawingtools.list.DrawingToolItemDecorator
+import com.chartiq.demo.ui.chart.drawingtools.list.OnDrawingToolClick
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
 import com.chartiq.sdk.ChartIQ

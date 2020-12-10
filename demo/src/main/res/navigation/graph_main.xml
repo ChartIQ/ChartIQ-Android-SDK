@@ -161,4 +161,12 @@
             app:argType="com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem"
             app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/languageSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.language.LanguageSelectionFragment"
+        android:label="LanguageSelectionFragment" >
+        <argument
+            android:name="selectedLanguage"
+            app:argType="com.chartiq.demo.ui.settings.language.ChartIQLanguage" />
+    </dialog>
 </navigation>

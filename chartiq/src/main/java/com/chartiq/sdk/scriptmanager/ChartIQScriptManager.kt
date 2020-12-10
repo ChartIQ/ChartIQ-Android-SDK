@@ -59,9 +59,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetAggregationTypeScript(aggregationType: String): String =
         CHART_IQ_JS_OBJECT + "setAggregationType(\"$aggregationType\");"
 
-    override fun getChartTypeScript(): String = "stxx.layout.chartType"
+    override fun getChartTypeScript(): String = CHART_IQ_JS_OBJECT + "layout.chartType"
 
-    override fun getAggregationTypeScript(): String = "stxx.layout.aggregationType"
+    override fun getAggregationTypeScript(): String = CHART_IQ_JS_OBJECT + "layout.aggregationType"
 
 
     override fun getAddSeriesScript(symbol: String, hexColor: String): String =
@@ -77,7 +77,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getClearChartScript(): String =
         CHART_IQ_JS_OBJECT + "destroy();"
 
-    override fun getChartScaleScript(): String = "stxx.layout.chartScale"
+    override fun getChartScaleScript(): String = CHART_IQ_JS_OBJECT + "layout.chartScale"
 
     override fun getSetChartScaleScript(scale: String): String =
         CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
@@ -272,6 +272,13 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getLayerManagementScript(layer: ChartLayer): String =
         MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
+
+    override fun getScriptForTranslations(languageCode: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getTranslations(\"${languageCode.asSafeScriptParameter}\");"
+
+    override fun getScriptForSetLanguage(languageCode: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "setLanguage(\"${languageCode.asSafeScriptParameter}\");"
+
 
     private val String.asSafeScriptParameter: String
         get() {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.settings.SettingsFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,23 +12,16 @@
         style="@style/AppToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:title="@string/title_settings" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chartConfigHeaderTextView"
@@ -40,18 +34,16 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_chart_config"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
+
 
             <com.chartiq.demo.ui.widget.TwoLineSettingsView
                 android:id="@+id/chartConfigContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartConfigHeaderTextView"
-                app:settingsSubtitle="Candle"
-                app:settingsTitle="@string/settings_chart_style" />
+                app:settingsTitle="@string/settings_chart_style"
+                tools:settingsSubtitle="Candle" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chartPreferencesHeaderTextView"
@@ -64,18 +56,12 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_chart_preferences"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartConfigContainer" />
+                android:textStyle="bold" />
 
             <com.chartiq.demo.ui.widget.SwitcherSettingsView
                 android:id="@+id/logScaleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartPreferencesHeaderTextView"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_log_scale" />
 
@@ -83,9 +69,6 @@
                 android:id="@+id/invertYLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/logScaleLayout"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_invert_y_axis" />
 
@@ -93,9 +76,6 @@
                 android:id="@+id/extendHoursLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/invertYLayout"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_extend_hours" />
 
@@ -110,20 +90,14 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_language_preferences"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/extendHoursLayout" />
+                android:textStyle="bold" />
 
             <com.chartiq.demo.ui.widget.TwoLineSettingsView
                 android:id="@+id/languageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/languageHeaderTextView"
-                app:settingsSubtitle="English"
-                app:settingsTitle="@string/settings_language" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:settingsTitle="@string/settings_language"
+                tools:settingsSubtitle="English" />
+        </LinearLayout>
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -43,6 +43,7 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
             optionsAdapter.apply {
                 items = originalChartStyles
                 listener = object : SelectChartStyleAdapter.SelectChartStyleAdapterListener {
+
                     override fun onSelect(selectedValue: ChartTypeItem) {
                         (targetFragment as DialogFragmentListener).onSelect(selectedValue)
                         dismiss()

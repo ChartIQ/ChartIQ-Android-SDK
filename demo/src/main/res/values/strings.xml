@@ -157,6 +157,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_chart_style">Chart Style</string>
     <string name="settings_select_style_title">Chart Style</string>
+    <string name="settings_select_language_title">Select Language</string>
 
     <!-- General strings -->
     <string name="warning_something_went_wrong">Something went wrong</string>
