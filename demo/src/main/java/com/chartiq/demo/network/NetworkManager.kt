@@ -6,7 +6,7 @@ import com.chartiq.sdk.model.QuoteFeedParams
 
 interface NetworkManager {
 
-    suspend fun fetchSymbol(symbol: String): NetworkResult<SymbolResponse>
+    suspend fun fetchSymbol(symbol: String, filter: String? = null): NetworkResult<SymbolResponse>
 
     suspend fun fetchDataFeed(params: QuoteFeedParams, applicationId: String): NetworkResult<List<OHLCParams>>
 }
