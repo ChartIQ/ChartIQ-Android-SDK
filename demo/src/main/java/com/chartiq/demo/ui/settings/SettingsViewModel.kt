@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
-import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
 import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.ChartIQScale
+import com.chartiq.sdk.model.ChartScale
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +23,8 @@ class SettingsViewModel(
     private val applicationPrefs: ApplicationPrefs
 ) : ViewModel() {
 
-    val chartStyle = MutableLiveData<ChartTypeModel>()
     val language = MutableLiveData<ChartIQLanguage>(ChartIQLanguage.EN)
+    val chartStyle = MutableLiveData<ChartTypeItem>()
     val logScale = MutableLiveData<Boolean>(false)
     val invertYAxis = MutableLiveData<Boolean>(false)
     val extendHours = MutableLiveData<Boolean>(false)
@@ -54,7 +54,7 @@ class SettingsViewModel(
 
     private fun initChartScale() {
         chartIQ.getChartScale {
-            logScale.value = it == ChartIQScale.LINEAR
+            logScale.value = it == ChartScale.LINEAR
         }
     }
 
@@ -85,9 +85,9 @@ class SettingsViewModel(
     fun changeLogScale(enabled: Boolean) {
         chartIQ.setChartScale(
             if (enabled) {
-                ChartIQScale.LINEAR
+                ChartScale.LINEAR
             } else {
-                ChartIQScale.LOG
+                ChartScale.LOG
             }
         )
         initChartScale()
@@ -103,7 +103,7 @@ class SettingsViewModel(
         initChartHours()
     }
 
-    fun updateChartStyle(chartStyle: ChartTypeModel) {
+    fun updateChartStyle(chartStyle: ChartTypeItem) {
         if (ChartType.values().any { it.name == chartStyle.name }) {
             val selectedChartType = ChartType.valueOf(chartStyle.name)
             chartIQ.setChartType(selectedChartType)

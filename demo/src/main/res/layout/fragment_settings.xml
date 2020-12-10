@@ -16,8 +16,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,10 +34,8 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_chart_config"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                android:textStyle="bold" />
+
 
             <com.chartiq.demo.ui.widget.TwoLineSettingsView
                 android:id="@+id/chartConfigContainer"
@@ -46,6 +43,7 @@
                 android:layout_height="wrap_content"
                 app:settingsTitle="@string/settings_chart_style"
                 tools:settingsSubtitle="Candle" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chartPreferencesHeaderTextView"
@@ -58,18 +56,12 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_chart_preferences"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartConfigContainer" />
+                android:textStyle="bold" />
 
             <com.chartiq.demo.ui.widget.SwitcherSettingsView
                 android:id="@+id/logScaleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartPreferencesHeaderTextView"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_log_scale" />
 
@@ -77,9 +69,6 @@
                 android:id="@+id/invertYLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/logScaleLayout"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_invert_y_axis" />
 
@@ -87,9 +76,6 @@
                 android:id="@+id/extendHoursLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/invertYLayout"
                 app:settingsSwitcherChecked="false"
                 app:settingsSwitcherTitle="@string/settings_extend_hours" />
 
@@ -104,18 +90,12 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/settings_language_preferences"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/extendHoursLayout" />
+                android:textStyle="bold" />
 
             <com.chartiq.demo.ui.widget.TwoLineSettingsView
                 android:id="@+id/languageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/languageHeaderTextView"
                 app:settingsTitle="@string/settings_language"
                 tools:settingsSubtitle="English" />
         </LinearLayout>

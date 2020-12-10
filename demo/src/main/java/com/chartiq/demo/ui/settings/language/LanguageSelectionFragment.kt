@@ -67,6 +67,6 @@ class LanguageSelectionFragment : FullscreenDialogFragment() {
     }
 
     interface DialogFragmentListener {
-        fun onSelectLanguage(chartStyle: ChartIQLanguage)
+        fun onSelectLanguage(iqLanguage: ChartIQLanguage)
     }
 }

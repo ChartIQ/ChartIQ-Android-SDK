@@ -107,6 +107,14 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
+    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String {
+        var toolName = ""
+        if (!all) {
+            toolName = tool.value
+        }
+        return MOBILE_BRIDGE_NAME_SPACE + "restoreDefaultDrawingConfig(\"$toolName\", $all);"
+    }
+
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setDrawingParameters(\"$parameter\", \"$value\");"
 
@@ -133,9 +141,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStudyParameterScript(
         studyName: String,
         parameter: StudyParameterModel
-    ): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
-
+    ): String {
+        return MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
+    }
 
     override fun getSetStudyParametersScript(
         name: String,
@@ -242,8 +250,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getInvertYAxisScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
 
-    override fun getSetInvertYAxisScript(inverted: Boolean): String =
-        CHART_IQ_JS_OBJECT+ "flipChart($inverted);"
+    override fun getSetInvertYAxisScript(inverted: Boolean): String = CHART_IQ_JS_OBJECT + "flipChart($inverted);"
 
     override fun getIsExtendedHoursScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"

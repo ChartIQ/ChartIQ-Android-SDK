@@ -10,7 +10,7 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentSettingsBinding
 import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
-import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import com.chartiq.demo.ui.settings.language.LanguageSelectionFragment
 
@@ -80,7 +80,8 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
         }
     }
 
-    override fun onChartStyleSelect(chartStyle: ChartTypeModel) {
+
+    override fun onSelect(chartStyle: ChartTypeItem) {
         settingsViewModel.updateChartStyle(chartStyle)
     }
 

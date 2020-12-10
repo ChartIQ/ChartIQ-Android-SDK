@@ -9,17 +9,12 @@ import com.chartiq.demo.databinding.ItemChartStyleBinding
 
 class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.ViewHolder>() {
 
-    var items = listOf<ChartTypeModel>()
+    var items = listOf<ChartTypeItem>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var selectedValue: ChartTypeModel? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
     var listener: SelectChartStyleAdapterListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectChartStyleAdapter.ViewHolder {
@@ -33,25 +28,20 @@ class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.Vie
     override fun getItemCount() = items.size
 
     inner class ViewHolder(private val binding: ItemChartStyleBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chartTypeModel: ChartTypeModel) {
+        fun bind(chartTypeItem: ChartTypeItem) {
             with(binding) {
-                optionTextView.text = chartTypeModel.title
-                checkImageView.isVisible = selectedValue == chartTypeModel
-                iconImageView.setImageDrawable(ContextCompat.getDrawable(root.context, chartTypeModel.iconRes))
+                optionTextView.text = chartTypeItem.title
+                checkImageView.isVisible = chartTypeItem.isSelected
+                iconImageView.setImageDrawable(ContextCompat.getDrawable(root.context, chartTypeItem.iconRes))
                 root.setOnClickListener {
-                    selectedValue = if (selectedValue != chartTypeModel) {
-                        chartTypeModel
-                    } else {
-                        null
-                    }
-                    listener?.onSelect(chartTypeModel)
+                    listener?.onSelect(chartTypeItem)
                 }
             }
         }
     }
 
     interface SelectChartStyleAdapterListener {
-        fun onSelect(selectedValue: ChartTypeModel)
+        fun onSelect(selectedValue: ChartTypeItem)
     }
 }
 

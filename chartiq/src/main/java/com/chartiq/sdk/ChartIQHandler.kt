@@ -255,23 +255,23 @@ class ChartIQHandler(
         }
     }
 
-    override fun getChartScale(callback: OnReturnCallback<ChartIQScale>) {
+    override fun getChartScale(callback: OnReturnCallback<ChartScale>) {
         val script = scriptManager.getChartScaleScript()
         executeJavascript(script) {
             try {
                 callback.onReturn(
-                    ChartIQScale.valueOf(
+                    ChartScale.valueOf(
                         it.substring(1, it.length - 1)
                             .toUpperCase()
                     )
                 )
             } catch (e: Exception) {
-                callback.onReturn(ChartIQScale.LINEAR)
+                callback.onReturn(ChartScale.LINEAR)
             }
         }
     }
 
-    override fun setChartScale(scale: ChartIQScale) {
+    override fun setChartScale(scale: ChartScale) {
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
@@ -328,7 +328,6 @@ class ChartIQHandler(
                     .substring(1, value.length - 1)
                     .replace("\\", "")
                 val typeToken = object : TypeToken<Map<String, Any>>() {}.type
-                // TODO: 25.11.20 Fix NO_TOOL crashing
                 val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
                 callback.onReturn(parameters)
             }
@@ -399,6 +398,10 @@ class ChartIQHandler(
         }
     }
 
+    override fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean) {
+        executeJavascript(scriptManager.getRestoreDefaultDrawingConfigScript(tool, all))
+    }
+
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
         executeJavascript(scriptManager.getUndoDrawingScript())
     }
@@ -428,7 +431,6 @@ class ChartIQHandler(
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {
-        Log.d(TAG, "Script executed: \n $script")
         chartIQView.evaluateJavascript(script, callback)
     }
 

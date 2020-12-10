@@ -14,18 +14,21 @@ import com.chartiq.sdk.model.charttype.ChartType
 class ChartStyleSelectionFragment : FullscreenDialogFragment() {
     private lateinit var binding: FragmentChartStyleSelectionBinding
 
-    private val selectedStyle: ChartTypeModel? by lazy {
+    private val selectedStyle: ChartTypeItem? by lazy {
         ChartStyleSelectionFragmentArgs.fromBundle(requireArguments()).selectedStyle
     }
-    private val originalChartStyles: List<ChartTypeModel> by lazy {
-        ChartType.values().map { it.toModel() } + AggregationChartType.values().map { it.toModel() }
+    private val originalChartStyles: List<ChartTypeItem> by lazy {
+        (ChartType.values().map { it.toModel() } + AggregationChartType.values().map { it.toModel() })
+            .map {
+                it.copy(isSelected = selectedStyle?.name == it.name)
+            }
     }
     private val optionsAdapter = SelectChartStyleAdapter()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentChartStyleSelectionBinding.inflate(inflater, container, false)
         setupViews()
@@ -39,10 +42,10 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
             }
             optionsAdapter.apply {
                 items = originalChartStyles
-                selectedValue = selectedStyle
                 listener = object : SelectChartStyleAdapter.SelectChartStyleAdapterListener {
-                    override fun onSelect(selectedValue: ChartTypeModel) {
-                        (targetFragment as DialogFragmentListener).onChartStyleSelect(selectedValue)
+
+                    override fun onSelect(selectedValue: ChartTypeItem) {
+                        (targetFragment as DialogFragmentListener).onSelect(selectedValue)
                         dismiss()
                     }
                 }
@@ -50,10 +53,10 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
             parametersRecyclerView.apply {
                 adapter = optionsAdapter
                 addItemDecoration(
-                        LineItemDecoration(
-                                context = requireContext(),
-                                marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
-                        )
+                    LineItemDecoration(
+                        context = requireContext(),
+                        marginStart = context.resources.getDimensionPixelSize(R.dimen.drawing_tool_item_decorator_margin_start)
+                    )
                 )
                 scrollToPosition(originalChartStyles.indexOf(selectedStyle))
             }
@@ -61,15 +64,15 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
     }
 
     companion object {
-        fun getInstance(chartTypeModel: ChartTypeModel?): ChartStyleSelectionFragment {
+        fun getInstance(chartTypeItem: ChartTypeItem?): ChartStyleSelectionFragment {
             return ChartStyleSelectionFragment().apply {
-                arguments = ChartStyleSelectionFragmentArgs.Builder(chartTypeModel).build().toBundle()
+                arguments = ChartStyleSelectionFragmentArgs.Builder(chartTypeItem).build().toBundle()
             }
         }
     }
 
     interface DialogFragmentListener {
-        fun onChartStyleSelect(chartStyle: ChartTypeModel)
+        fun onSelect(chartStyle: ChartTypeItem)
     }
 
 

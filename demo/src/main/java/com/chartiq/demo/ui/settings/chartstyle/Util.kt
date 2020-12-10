@@ -4,8 +4,8 @@ import com.chartiq.demo.R
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 
-fun AggregationChartType.toModel(): ChartTypeModel {
-    return ChartTypeModel(
+fun AggregationChartType.toModel(): ChartTypeItem {
+    return ChartTypeItem(
         title = value,
         name = name,
         iconRes = when (this) {
@@ -19,8 +19,8 @@ fun AggregationChartType.toModel(): ChartTypeModel {
     )
 }
 
-fun ChartType.toModel(): ChartTypeModel {
-    return ChartTypeModel(
+fun ChartType.toModel(): ChartTypeItem {
+    return ChartTypeItem(
         title = value,
         name = name,
         iconRes = when (this) {

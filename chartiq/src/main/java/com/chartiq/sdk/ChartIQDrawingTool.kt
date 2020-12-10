@@ -24,4 +24,6 @@ interface ChartIQDrawingTool {
     fun undoDrawing(callback: OnReturnCallback<Boolean>)
 
     fun redoDrawing(callback: OnReturnCallback<Boolean>)
+
+    fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean)
 }

@@ -1,7 +1,7 @@
 package com.chartiq.demo.ui.common
 
+import android.app.Dialog
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.chartiq.demo.R
 
@@ -12,13 +12,9 @@ abstract class FullscreenDialogFragment: DialogFragment() {
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.run {
-            setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-            )
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply {
+            window?.attributes?.windowAnimations = R.style.FullScreenDialog
         }
     }
 }

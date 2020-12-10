@@ -82,12 +82,13 @@ interface ApplicationPrefs {
         override fun getDrawingTool(): DrawingTool =
             DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
 
-        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
-            val set = drawingToolsSet
-                .map { it.toString() }
-                .toHashSet()
-            putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
-        }
+        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) =
+            prefs.edit(true) {
+                val set = drawingToolsSet
+                    .map { it.toString() }
+                    .toHashSet()
+                putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
+            }
 
         override fun getFavoriteDrawingTools(): Set<DrawingTool> {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
