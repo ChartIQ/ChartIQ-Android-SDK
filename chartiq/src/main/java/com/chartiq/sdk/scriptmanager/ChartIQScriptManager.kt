@@ -41,7 +41,7 @@ internal class ChartIQScriptManager : ScriptManager {
         "if (" + MOBILE_BRIDGE_NAME_SPACE + "isChartAvailable() == true) { \"true\" } else { \"false\" } "
 
     override fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\");"
+        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, \"$interval\", \"$timeUnit\");"
 
     override fun getPushDataScript(symbol: String, data: List<OHLCParams>): String {
         // TODO: 03.09.20 Parse the array for the call
