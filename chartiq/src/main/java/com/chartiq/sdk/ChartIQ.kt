@@ -3,6 +3,7 @@ package com.chartiq.sdk
 import android.content.Context
 import android.view.View
 import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import java.util.*
 
 interface ChartIQ: ChartIQDrawingTool, ChartIQStudy {
@@ -32,6 +33,8 @@ interface ChartIQ: ChartIQDrawingTool, ChartIQStudy {
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
+
+    fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean)
 
     fun addMeasureListener(measureListener: MeasureListener)
 
