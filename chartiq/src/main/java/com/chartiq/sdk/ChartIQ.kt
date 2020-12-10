@@ -8,7 +8,9 @@ import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.ChartIQStudy
+
 import java.util.*
 
 interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
@@ -52,6 +54,8 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun setExtendedHours(extended: Boolean)
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
+
+    fun restoreDefaultDrawingConfig(tool: DrawingTool, all: Boolean)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {

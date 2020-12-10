@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentSettingsBinding
 import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
-import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
 
 class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentListener {
 
@@ -69,7 +69,7 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
         }
     }
 
-    override fun onSelect(chartStyle: ChartTypeModel) {
+    override fun onSelect(chartStyle: ChartTypeItem) {
         settingsViewModel.updateChartStyle(chartStyle)
     }
 

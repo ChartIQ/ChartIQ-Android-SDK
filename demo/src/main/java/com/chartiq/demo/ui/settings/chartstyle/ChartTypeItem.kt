@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ChartTypeModel(
+data class ChartTypeItem(
     val title: String,
     val name: String,
     @DrawableRes val iconRes: Int,

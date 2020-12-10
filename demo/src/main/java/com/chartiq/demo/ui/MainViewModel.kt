@@ -28,33 +28,45 @@ class MainViewModel(
 
     val errorLiveData = MutableLiveData<Unit>()
 
+    val isNavBarVisible = MutableLiveData(true)
+
     init {
         chartIQ.apply {
-                start {
+            start {
                 setDataSource(object : DataSource {
                     override fun pullInitialData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullUpdateData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                     ) {
                         loadChartData(params, callback)
                     }
 
                     override fun pullPaginationData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                     ) {
                         loadChartData(params, callback)
                     }
                 })
                 setupSymbolSettings()
             }
+        }
+    }
+
+    fun showNavBar(show: Boolean) {
+        isNavBarVisible.value = show
+    }
+
+    fun fetchActiveStudyData() {
+        chartIQ.getActiveStudies { result ->
+            activeStudies.value = result
         }
     }
 
@@ -77,22 +89,20 @@ class MainViewModel(
         chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
     }
 
-    fun fetchActiveStudyData() {
-        chartIQ.getActiveStudies { result ->
-            activeStudies.value = result
-        }
-    }
-
     class ViewModelFactory(
-            private val argNetworkManager: NetworkManager,
-            private val argApplicationPrefs: ApplicationPrefs,
-            private val argChartIQHandler: ChartIQ
+        private val argNetworkManager: NetworkManager,
+        private val argApplicationPrefs: ApplicationPrefs,
+        private val argChartIQHandler: ChartIQ
     ) :
-            ViewModelProvider.Factory {
+        ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                    .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java, ChartIQ::class.java)
-                    .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
+                .getConstructor(
+                    NetworkManager::class.java,
+                    ApplicationPrefs::class.java,
+                    ChartIQ::class.java
+                )
+                .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
         }
     }
 }

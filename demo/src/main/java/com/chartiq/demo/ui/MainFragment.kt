@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -72,6 +73,9 @@ class MainFragment : Fragment() {
                 selectedItemId = R.id.navigation_chart
                 setOnNavigationItemSelectedListener(onNavItemSelectedListener)
             }
+        }
+        mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
+            binding.navView.isVisible = isVisible
         }
     }
 

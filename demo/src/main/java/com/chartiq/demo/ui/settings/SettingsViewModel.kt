@@ -3,7 +3,7 @@ package com.chartiq.demo.ui.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chartiq.demo.ui.settings.chartstyle.ChartTypeModel
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
 import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartScale
@@ -14,7 +14,7 @@ class SettingsViewModel(
     private val chartIQ: ChartIQ
 ) : ViewModel() {
 
-    val chartStyle = MutableLiveData<ChartTypeModel>()
+    val chartStyle = MutableLiveData<ChartTypeItem>()
     val logScale = MutableLiveData<Boolean>(false)
     val invertYAxis = MutableLiveData<Boolean>(false)
     val extendHours = MutableLiveData<Boolean>(false)
@@ -63,7 +63,7 @@ class SettingsViewModel(
         initChartPreferences()
     }
 
-    fun updateChartStyle(chartStyle: ChartTypeModel) {
+    fun updateChartStyle(chartStyle: ChartTypeItem) {
         if (ChartType.values().any { it.name == chartStyle.name }) {
             val selectedChartType = ChartType.valueOf(chartStyle.name)
             chartIQ.setChartType(selectedChartType)

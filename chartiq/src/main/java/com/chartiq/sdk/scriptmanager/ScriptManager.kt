@@ -122,4 +122,6 @@ internal interface ScriptManager {
     fun getCloneDrawingScript(): String
 
     fun getLayerManagementScript(layer: ChartLayer): String
+
+    fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
 }
