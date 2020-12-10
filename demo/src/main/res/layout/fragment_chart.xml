@@ -146,6 +146,24 @@
         app:layout_constraintStart_toEndOf="@+id/centerGuideline"
         app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/measureToolInfoTextView"
+        style="@style/SubtitleTextOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/shape_background_measure"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_medium"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/chartIqView"
+        app:layout_constraintStart_toStartOf="@id/chartIqView"
+        app:layout_constraintTop_toBottomOf="@id/redoImageView"
+        tools:text="1.70(-1.7) 40 Bars" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/instrumentRecyclerView"
         android:layout_width="match_parent"

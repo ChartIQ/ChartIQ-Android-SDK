@@ -66,6 +66,8 @@ class ChartViewModel(
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
+    val measureToolInfo = MutableLiveData("")
+
     init {
         fetchSavedSettings()
     }
@@ -85,7 +87,7 @@ class ChartViewModel(
     }
 
     fun showMoveHints(show: Boolean) {
-        if(!moveHintsAreShown.value!!) {
+        if (!moveHintsAreShown.value!!) {
             moveHintsAreShown.value = show
         }
     }
@@ -242,6 +244,11 @@ class ChartViewModel(
         if (drawingTool.value != DrawingTool.NONE) {
             chartIQHandler.enableDrawing(drawingTool.value!!)
             getDrawingToolParameters()
+            if (drawingTool.value == DrawingTool.MEASURE) {
+                chartIQHandler.addMeasureListener { value ->
+                    measureToolInfo.postValue(value.substring(1, value.length - 1))
+                }
+            }
         }
     }
 
