@@ -80,7 +80,7 @@ class MainViewModel(
         chartIQ.setPeriodicity(
             interval.getPeriod(),
             interval.getInterval(),
-            interval.timeUnit.toString().toLowerCase(Locale.ENGLISH)
+            interval.getTimeUnit()
         )
     }
 
