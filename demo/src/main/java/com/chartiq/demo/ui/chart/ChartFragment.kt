@@ -102,6 +102,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             (parent as? FrameLayout)?.removeAllViews()
             binding.chartIqView.addView(this)
         }
+        mainViewModel.setupChart()
     }
 
     override fun onResume() {
