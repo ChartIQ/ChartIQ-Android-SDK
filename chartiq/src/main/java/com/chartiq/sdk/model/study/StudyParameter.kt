@@ -1,4 +1,4 @@
-package com.chartiq.sdk.model
+package com.chartiq.sdk.model.study
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

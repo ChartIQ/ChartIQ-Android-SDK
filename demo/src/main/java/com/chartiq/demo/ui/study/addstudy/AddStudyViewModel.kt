@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.ChartIQHandler
+import com.chartiq.sdk.model.study.Study
 import java.util.*
 
 class AddStudyViewModel(

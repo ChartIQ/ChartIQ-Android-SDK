@@ -1,12 +1,19 @@
 package com.chartiq.sdk
 
+
 import android.content.Context
 import android.view.View
-import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.ChartScale
+import com.chartiq.sdk.model.CrosshairHUD
+import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.study.ChartIQStudy
+
 import java.util.*
 
-interface ChartIQ: ChartIQDrawingTool, ChartIQStudy {
+interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     val chartView: View
 
@@ -24,13 +31,27 @@ interface ChartIQ: ChartIQDrawingTool, ChartIQStudy {
 
     fun setPeriodicity(period: Int, interval: String, timeUnit: String)
 
-    fun setAggregationType(aggregationType: AggregationType)
+    fun setAggregationType(aggregationType: AggregationChartType)
 
     fun setChartType(chartType: ChartType)
+
+    fun getChartType(callback: OnReturnCallback<ChartType>)
+
+    fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
+
+    fun getChartScale(callback: OnReturnCallback<ChartScale>)
 
     fun setChartScale(scale: ChartScale)
 
     fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
+
+    fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
+
+    fun setIsInvertYAxis(inverted: Boolean)
+
+    fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
+
+    fun setExtendedHours(extended: Boolean)
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 

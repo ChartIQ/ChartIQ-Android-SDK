@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.chartiq.demo.databinding.StudyBottomSheetBinding
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
