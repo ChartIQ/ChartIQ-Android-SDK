@@ -33,6 +33,8 @@ interface ChartIQ: ChartIQDrawingTool, ChartIQStudy {
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
+    fun addMeasureListener(measureListener: MeasureListener)
+
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {
             return ChartIQHandler(url, context)
