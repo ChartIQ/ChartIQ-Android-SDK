@@ -1,16 +1,17 @@
 package com.chartiq.demo.ui.settings.language
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartLanguageSelectionBinding
 import com.chartiq.demo.ui.LineItemDecoration
+import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
+import com.chartiq.demo.ui.common.FullscreenDialogFragment
+import com.chartiq.demo.ui.common.optionpicker.OptionItem
+import com.chartiq.demo.ui.common.optionpicker.OptionsAdapter
 
-class LanguageSelectionFragment : DialogFragment() {
+class LanguageSelectionFragment : FullscreenDialogFragment() {
     private lateinit var binding: FragmentChartLanguageSelectionBinding
 
     private val selectedLanguage: ChartIQLanguage? by lazy {
@@ -19,7 +20,7 @@ class LanguageSelectionFragment : DialogFragment() {
     private val languages: List<ChartIQLanguage> by lazy {
         ChartIQLanguage.values().toList()
     }
-    private val optionsAdapter = SelectLanguageAdapter()
+    private val optionsAdapter = OptionsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,30 +32,17 @@ class LanguageSelectionFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState).apply {
-            window?.attributes?.windowAnimations = R.style.FullScreenDialog
-        }
-    }
-
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener {
                 dismiss()
             }
             optionsAdapter.apply {
-                items = languages
-                selectedValue = selectedLanguage
-                listener = object : SelectLanguageAdapter.SelectLanguageListener {
-                    override fun onSelectLanguage(selectedValue: ChartIQLanguage) {
-                        (targetFragment as DialogFragmentListener).onSelectLanguage(selectedValue)
-                        dismiss()
-                    }
+                items = languages.map { OptionItem(it.title, selectedLanguage == it) }
+                listener = OnSelectItemListener { option ->
+                    val selectedLanguage = languages.first { it.title == option.value }
+                    (targetFragment as DialogFragmentListener).onSelectLanguage(selectedLanguage)
+                    dismiss()
                 }
             }
             parametersRecyclerView.apply {

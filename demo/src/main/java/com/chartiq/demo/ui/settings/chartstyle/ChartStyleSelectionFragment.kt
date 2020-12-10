@@ -1,18 +1,17 @@
 package com.chartiq.demo.ui.settings.chartstyle
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartStyleSelectionBinding
 import com.chartiq.demo.ui.LineItemDecoration
+import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 
-class ChartStyleSelectionFragment : DialogFragment() {
+class ChartStyleSelectionFragment : FullscreenDialogFragment() {
     private lateinit var binding: FragmentChartStyleSelectionBinding
 
     private val selectedStyle: ChartTypeModel? by lazy {
@@ -31,17 +30,6 @@ class ChartStyleSelectionFragment : DialogFragment() {
         binding = FragmentChartStyleSelectionBinding.inflate(inflater, container, false)
         setupViews()
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState).apply {
-            window?.attributes?.windowAnimations = R.style.FullScreenDialog
-        }
     }
 
     private fun setupViews() {

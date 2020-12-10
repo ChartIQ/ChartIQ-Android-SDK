@@ -41,14 +41,14 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
 
                 ChartStyleSelectionFragment
                     .getInstance(settingsViewModel.chartStyle.value).apply {
-                        setTargetFragment(this@SettingsFragment, CHART_STYLE_REQUEST_CODE)
+                        setTargetFragment(this@SettingsFragment, REQUEST_CODE_CHART_STYLE)
                     }
                     .show(parentFragmentManager, ChartStyleSelectionFragment::class.java.simpleName)
             }
             languageContainer.setOnClickListener {
                 LanguageSelectionFragment.getInstance(settingsViewModel.language.value!!)
                     .apply {
-                        setTargetFragment(this@SettingsFragment, LANGUAGE_REQUEST_CODE)
+                        setTargetFragment(this@SettingsFragment, REQUEST_CODE_LANGUAGE)
                     }
                     .show(parentFragmentManager, LanguageSelectionFragment::class.java.simpleName)
             }
@@ -89,8 +89,8 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
     }
 
     companion object {
-        private const val CHART_STYLE_REQUEST_CODE = 3333
-        private const val LANGUAGE_REQUEST_CODE = 6666
+        private const val REQUEST_CODE_CHART_STYLE = 3333
+        private const val REQUEST_CODE_LANGUAGE = 6666
     }
 
 }

@@ -16,7 +16,6 @@ import com.chartiq.sdk.model.charttype.ChartType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class SettingsViewModel(
@@ -32,7 +31,9 @@ class SettingsViewModel(
 
     init {
         initChartStyle()
-        initChartPreferences()
+        initChartScale()
+        initChartYAxis()
+        initChartHours()
         initChartLanguage()
     }
 
@@ -51,13 +52,19 @@ class SettingsViewModel(
         }
     }
 
-    private fun initChartPreferences() {
+    private fun initChartScale() {
         chartIQ.getChartScale {
             logScale.value = it == ChartIQScale.LINEAR
         }
+    }
+
+    private fun initChartYAxis() {
         chartIQ.getIsInvertYAxis {
             invertYAxis.value = it
         }
+    }
+
+    private fun initChartHours() {
         chartIQ.getIsExtendedHours {
             extendHours.value = it
         }
@@ -76,18 +83,24 @@ class SettingsViewModel(
     }
 
     fun changeLogScale(enabled: Boolean) {
-        chartIQ.setChartScale(if (enabled) ChartIQScale.LINEAR else ChartIQScale.LOG)
-        initChartPreferences()
+        chartIQ.setChartScale(
+            if (enabled) {
+                ChartIQScale.LINEAR
+            } else {
+                ChartIQScale.LOG
+            }
+        )
+        initChartScale()
     }
 
     fun changeInvertY(enabled: Boolean) {
         chartIQ.setIsInvertYAxis(enabled)
-        initChartPreferences()
+        initChartYAxis()
     }
 
     fun changeExtendHours(enabled: Boolean) {
         chartIQ.setExtendedHours(enabled)
-        initChartPreferences()
+        initChartHours()
     }
 
     fun updateChartStyle(chartStyle: ChartTypeModel) {
