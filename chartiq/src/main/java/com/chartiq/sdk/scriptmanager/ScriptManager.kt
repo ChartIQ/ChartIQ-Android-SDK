@@ -1,10 +1,9 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.StudyParameterModel
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.study.StudyParameterModel
 
 internal interface ScriptManager {
 
@@ -36,6 +35,10 @@ internal interface ScriptManager {
 
     fun getSetChartTypeScript(chartType: String): String
 
+    fun getChartTypeScript(): String
+
+    fun getAggregationTypeScript(): String
+
     fun getAddSeriesScript(symbol: String, hexColor: String): String
 
     fun getRemoveSeriesScript(symbol: String): String
@@ -43,6 +46,8 @@ internal interface ScriptManager {
     fun getResizeChartScript(): String
 
     fun getClearChartScript(): String
+
+    fun getChartScaleScript(): String
 
     fun getSetChartScaleScript(scale: String): String
 
@@ -74,7 +79,7 @@ internal interface ScriptManager {
 
     fun getGetActiveStudiesScript(): String
 
-    fun getSetAggregationTypeScript(aggregationType: AggregationType): String
+    fun getSetAggregationTypeScript(aggregationType: String): String
 
     fun getStudyInputParametersScript(studyName: String): String
 
@@ -100,6 +105,14 @@ internal interface ScriptManager {
 
     fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
+    fun getInvertYAxisScript(): String
+
+    fun getSetInvertYAxisScript(inverted: Boolean): String
+
+    fun getIsExtendedHoursScript(): String
+
+    fun getSetExtendedHoursScript(extended: Boolean): String
+
     fun getUndoDrawingScript(): String
 
     fun getRedoDrawingScript(): String
@@ -109,6 +122,10 @@ internal interface ScriptManager {
     fun getCloneDrawingScript(): String
 
     fun getLayerManagementScript(layer: ChartLayer): String
+
+    fun getScriptForTranslations(languageCode: String): String
+
+    fun getScriptForSetLanguage(languageCode: String): String
 
     fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
 }

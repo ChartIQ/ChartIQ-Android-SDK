@@ -14,13 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
+import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
-import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragmentArgs
-import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
 import kotlinx.android.synthetic.main.fragment_study_details.*
 
-class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.DialogFragmentListener {
+class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.DialogFragmentListener,
+    ChooseColorFragment.DialogFragmentListener {
 
     private val study: Study by lazy {
         ActiveStudyDetailsFragmentArgs.fromBundle(requireArguments()).study
@@ -87,14 +88,19 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                         }
 
                         override fun onColorParamChange(studyParameter: StudyParameter) {
-                            //todo open color picker
-                            Log.i(TAG, "onColorParamChange")
+                            if (studyParameter is StudyParameter.Color) {
+                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.value).apply {
+                                    setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_COLOR_PICKER)
+                                }.show(parentFragmentManager, ChooseColorFragment::class.simpleName)
+
+                            } else if (studyParameter is StudyParameter.TextColor) {
+                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.color ?: "")
+                            }
                         }
 
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
-                            val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
-                            SelectParameterDialogFragment.getInstance(bundle).apply {
-                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE)
+                            SelectParameterDialogFragment.getInstance(studyParameter).apply {
+                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_OPTIONS_SELECTOR)
                             }.show(parentFragmentManager, SelectParameterDialogFragment::class.java.simpleName)
                         }
                     }
@@ -147,11 +153,17 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
 
     companion object {
         private val TAG = ActiveStudyDetailsFragment::class.java.simpleName
-        private const val REQUEST_CODE = 102
+        private const val REQUEST_CODE_SHOW_OPTIONS_SELECTOR = 102
+        private const val REQUEST_CODE_SHOW_COLOR_PICKER = 1001
+
 
     }
 
-    override fun onSelect(parameter: StudyParameter.Select, newValue: String) {
+    override fun onSelectOption(parameter: StudyParameter.Select, newValue: String) {
         viewModel.onSelectChange(parameter, newValue)
+    }
+
+    override fun onChooseColor(parameter: String, color: Int) {
+        viewModel.onSelectColor(parameter, color)
     }
 }

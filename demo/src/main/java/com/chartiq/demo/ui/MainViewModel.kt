@@ -13,10 +13,11 @@ import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class MainViewModel(
     private val networkManager: NetworkManager,
@@ -55,7 +56,7 @@ class MainViewModel(
                         loadChartData(params, callback)
                     }
                 })
-                setupSymbolSettings()
+                setupChart()
             }
         }
     }
@@ -70,6 +71,19 @@ class MainViewModel(
         }
     }
 
+    fun setupChart() {
+        val symbol = applicationPrefs.getChartSymbol()
+        chartIQ.setSymbol(symbol.value)
+        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
+
+        val interval = applicationPrefs.getChartInterval()
+        chartIQ.setPeriodicity(
+            interval.getPeriod(),
+            interval.getInterval(),
+            interval.getTimeUnit()
+        )
+    }
+
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -81,12 +95,6 @@ class MainViewModel(
 
             }
         }
-    }
-
-    private fun setupSymbolSettings() {
-        val symbol = applicationPrefs.getChartSymbol()
-        chartIQ.setSymbol(symbol.value)
-        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
     }
 
     class ViewModelFactory(

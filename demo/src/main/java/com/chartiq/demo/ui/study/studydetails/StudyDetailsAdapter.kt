@@ -1,7 +1,6 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.*
 import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameter
 import java.util.*
 
 class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder<StudyParameter>>() {
