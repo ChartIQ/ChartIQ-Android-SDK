@@ -13,7 +13,7 @@ import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

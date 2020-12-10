@@ -15,9 +15,8 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
-import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragmentArgs
-import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
 import kotlinx.android.synthetic.main.fragment_study_details.*
 
 class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.DialogFragmentListener {
@@ -39,7 +38,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentStudyDetailsBinding.inflate(inflater, container, false)
         setupViews()
         return binding.root
@@ -92,8 +91,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                         }
 
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
-                            val bundle = SelectParameterDialogFragmentArgs.Builder(studyParameter).build().toBundle()
-                            SelectParameterDialogFragment.getInstance(bundle).apply {
+                            SelectParameterDialogFragment.getInstance(studyParameter).apply {
                                 setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE)
                             }.show(parentFragmentManager, SelectParameterDialogFragment::class.java.simpleName)
                         }
