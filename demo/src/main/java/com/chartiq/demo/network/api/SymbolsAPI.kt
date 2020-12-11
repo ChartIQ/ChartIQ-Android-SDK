@@ -10,7 +10,8 @@ interface SymbolsAPI {
     @GET("chiq.symbolserver.SymbolLookup.service")
     suspend fun fetchSymbolAsync(
         @Query("t") symbol: String,
-        @Query("x") maxResult: String,
-        @Query("x") fund: String
+        @Query("m") maxResult: String,
+        @Query("x") fund: String,
+        @Query("e") filter: String?
     ): Response<SymbolResponse>
 }

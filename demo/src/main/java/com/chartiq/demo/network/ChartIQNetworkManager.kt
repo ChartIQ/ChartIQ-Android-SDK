@@ -36,12 +36,13 @@ class ChartIQNetworkManager : NetworkManager {
             .safeExtractNetworkResult()
     }
 
-    override suspend fun fetchSymbol(symbol: String): NetworkResult<SymbolResponse> {
+    override suspend fun fetchSymbol(symbol: String, filter: String?): NetworkResult<SymbolResponse> {
         return symbolsRetrofit
             .fetchSymbolAsync(
                 symbol,
                 DEFAULT_VALUE_MAX_RESULT,
-                DEFAULT_VALUE_FUNDS
+                DEFAULT_VALUE_FUNDS,
+                filter
             )
             .safeExtractNetworkResult()
     }
