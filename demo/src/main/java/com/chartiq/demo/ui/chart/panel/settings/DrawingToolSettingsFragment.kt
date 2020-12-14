@@ -19,7 +19,6 @@ import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -154,7 +153,8 @@ class DrawingToolSettingsFragment : Fragment(),
         val dialog = ChooseValueFragment.getInstance(
             item.param,
             item.valueList,
-            item.isMultipleSelection
+            item.isMultipleSelection,
+            item.hasCustomValueSupport
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)

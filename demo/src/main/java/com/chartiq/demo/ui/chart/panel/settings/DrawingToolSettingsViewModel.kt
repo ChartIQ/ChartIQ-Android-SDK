@@ -293,10 +293,11 @@ class DrawingToolSettingsViewModel(
                 "",
                 fibsParam,
                 values.map {
-                    val value = it.level.toString()
+                    val value = it.level.toString() + "%"
                     OptionItem(value, it.display)
                 },
-                true
+                isMultipleSelection = true,
+                hasCustomValueSupport = true
             )
         )
     }

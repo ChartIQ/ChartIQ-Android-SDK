@@ -59,7 +59,7 @@
         android:id="@+id/navigation_study"
         android:name="com.chartiq.demo.ui.study.StudyFragment"
         android:label="@string/title_study"
-        tools:layout="@layout/fragment_study" >
+        tools:layout="@layout/fragment_study">
         <action
             android:id="@+id/action_navigation_study_to_addStudyFragment"
             app:destination="@id/addStudyFragment" />
@@ -105,24 +105,21 @@
         android:id="@+id/drawingToolSettingsFragment"
         android:name="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsFragment"
         android:label="DrawingToolSettingsFragment">
-        <action
-            android:id="@+id/action_drawingToolSettingsFragment_to_addConfigFragment"
-            app:destination="@id/addConfigFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="argDrawingTool"
             app:argType="com.chartiq.sdk.model.drawingtool.DrawingTool" />
         <argument
             android:name="argDeviation"
+            android:defaultValue="@null"
             app:argType="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsItem$Deviation"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_drawingToolSettingsFragment_self"
-            app:destination="@id/drawingToolSettingsFragment" />
+            app:destination="@id/drawingToolSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/addConfigFragment"
@@ -147,7 +144,7 @@
     <fragment
         android:id="@+id/selectParameterDialogFragment"
         android:name="com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment"
-        android:label="SelectParameterDialogFragment" >
+        android:label="SelectParameterDialogFragment">
         <argument
             android:name="parameter"
             app:argType="com.chartiq.sdk.model.StudyParameter$Select" />
