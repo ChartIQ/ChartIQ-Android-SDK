@@ -139,7 +139,7 @@
         android:label="ActiveStudyDetailsFragment">
         <argument
             android:name="study"
-            app:argType="com.chartiq.sdk.model.Study" />
+            app:argType="com.chartiq.sdk.model.study.Study" />
     </fragment>
     <fragment
         android:id="@+id/selectParameterDialogFragment"
@@ -147,6 +147,23 @@
         android:label="SelectParameterDialogFragment">
         <argument
             android:name="parameter"
-            app:argType="com.chartiq.sdk.model.StudyParameter$Select" />
+            app:argType="com.chartiq.sdk.model.study.StudyParameter$Select" />
     </fragment>
+    <fragment
+        android:id="@+id/chartStyleSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment"
+        android:label="ChartStyleSelectionFragment" >
+        <argument
+            android:name="selectedStyle"
+            app:argType="com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem"
+            app:nullable="true" />
+    </fragment>
+    <dialog
+        android:id="@+id/languageSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.language.LanguageSelectionFragment"
+        android:label="LanguageSelectionFragment" >
+        <argument
+            android:name="selectedLanguage"
+            app:argType="com.chartiq.demo.ui.settings.language.ChartIQLanguage" />
+    </dialog>
 </navigation>

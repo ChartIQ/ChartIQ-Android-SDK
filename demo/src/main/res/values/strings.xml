@@ -4,8 +4,19 @@
     <string name="title_chart">Chart</string>
     <string name="title_study">Study</string>
     <string name="title_settings">Settings</string>
+
+    <!--Search-->
     <string name="search_hint">Search</string>
     <string name="search_action_hint">Type to start searching</string>
+    <string name="search_symbols_not_found_hint">Symbols not found</string>
+    <string name="search_symbols_not_found_secondary_hint">Try another symbol to type or apply current request</string>
+    <string name="search_apply">Apply</string>
+    <string name="search_filter_all">All</string>
+    <string name="search_filter_stocks">Stocks</string>
+    <string name="search_filter_fx">Fx</string>
+    <string name="search_filter_indexes">Indexes</string>
+    <string name="search_filter_funds">Funds</string>
+    <string name="search_filter_futures">Futures</string>
 
     <!--Interval-->
     <string name="title_intervals">Intervals</string>
@@ -146,6 +157,18 @@
     <string name="study_details_reset">Reset</string>
     <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
     <string name="study_details_select_parameter_title">Select Option</string>
+
+    <!-- Settings -->
+    <string name="settings_chart_config">Chart Config</string>
+    <string name="settings_chart_preferences">Chart Preferences</string>
+    <string name="settings_log_scale">Log Scale</string>
+    <string name="settings_invert_y_axis">Invert Y-Axis</string>
+    <string name="settings_extend_hours">Extend Hours</string>
+    <string name="settings_language_preferences">Language Preferences</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_chart_style">Chart Style</string>
+    <string name="settings_select_style_title">Chart Style</string>
+    <string name="settings_select_language_title">Select Language</string>
 
     <!-- General strings -->
     <string name="warning_something_went_wrong">Something went wrong</string>

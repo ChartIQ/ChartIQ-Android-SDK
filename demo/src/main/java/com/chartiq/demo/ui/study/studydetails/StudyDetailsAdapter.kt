@@ -1,7 +1,7 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import android.content.res.ColorStateList
-import android.graphics.Color
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.*
-import com.chartiq.sdk.model.StudyParameter
+import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
+import com.chartiq.sdk.model.study.StudyParameter
+import java.util.*
 
 class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterViewHolder<StudyParameter>>() {
 
@@ -82,7 +84,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         abstract fun bind(studyParameter: T)
     }
 
-    inner class TextViewHolder(private val binding: ItemStudyDetailTextBinding) : ParameterViewHolder<StudyParameter.Text>(binding.root) {
+    inner class TextViewHolder(private val binding: ItemStudyDetailTextBinding) :
+            ParameterViewHolder<StudyParameter.Text>(binding.root) {
         override fun bind(studyParameter: StudyParameter.Text) {
             with(binding) {
                 parameterInputLayout.hint = (studyParameter as StudyParameter.Text).heading
@@ -97,13 +100,23 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class NumberViewHolder(private val binding: ItemStudyDetailNumberBinding) : ParameterViewHolder<StudyParameter.Number>(binding.root) {
+    inner class NumberViewHolder(private val binding: ItemStudyDetailNumberBinding) :
+            ParameterViewHolder<StudyParameter.Number>(binding.root) {
         override fun bind(studyParameter: StudyParameter.Number) {
             with(binding) {
                 parameterNumberInputLayout.hint = studyParameter.heading
                 parameterNumberEditText.apply {
-                    setText(studyParameter.value.toString())
-                    setSelection(studyParameter.value.toString().length)
+                    if (studyParameter.name.toLowerCase(Locale.ENGLISH).contains(NUMBER_TYPE_SIGN)) {
+                        inputType = InputType.TYPE_CLASS_NUMBER
+                        setText(studyParameter.value.toInt().toString())
+                        setSelection(studyParameter.value.toInt().toString().length)
+
+                    } else {
+                        inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                        setText(studyParameter.value.toString())
+                        setSelection(studyParameter.value.toString().length)
+                    }
+
                     addTextChangedListener {
                         if (it.isNullOrEmpty()) {
                             parameterNumberInputLayout.error =
@@ -141,18 +154,13 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class ColorViewHolder(private val binding: ItemStudyDetailColorBinding) : ParameterViewHolder<StudyParameter.Color>(binding.root) {
+    inner class ColorViewHolder(private val binding: ItemStudyDetailColorBinding) :
+            ParameterViewHolder<StudyParameter.Color>(binding.root) {
         override fun bind(studyParameter: StudyParameter.Color) {
-            val colorValue = (studyParameter as StudyParameter.Color).value
+            val colorValue = studyParameter.value
             with(binding) {
                 parameterTextView.text = studyParameter.name
-                parameterColor.backgroundTintList = ColorStateList.valueOf(
-                        if (colorValue == StudyParameter.AUTO_VALUE) {
-                            Color.BLACK
-                        } else {
-                            Color.parseColor(colorValue)
-                        }
-                )
+                parameterColor.backgroundTintList = ColorStateList.valueOf(convertStringColorToInt(colorValue))
                 parameterColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
             }
         }
@@ -161,18 +169,12 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
     inner class TextColorViewHolder(private val binding: ItemStudyDetailColorTextBinding) :
             ParameterViewHolder<StudyParameter.TextColor>(binding.root) {
         override fun bind(studyParameter: StudyParameter.TextColor) {
-            val colorValue = (studyParameter as StudyParameter.TextColor).color
+            val colorValue = studyParameter.color
                     ?: studyParameter.defaultColor
             val numValue = studyParameter.value ?: studyParameter.defaultValue
             with(binding) {
                 parameterTextColorTextView.text = studyParameter.name
-                parameterTextColor.backgroundTintList = ColorStateList.valueOf(
-                        if (colorValue == StudyParameter.AUTO_VALUE) {
-                            Color.BLACK
-                        } else {
-                            Color.parseColor(colorValue)
-                        }
-                )
+                parameterTextColor.backgroundTintList = ColorStateList.valueOf(convertStringColorToInt(colorValue))
                 parameterTextColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
                 parameterTextColorEditText.setText(numValue.toString())
                 parameterTextColorEditText.addTextChangedListener {
@@ -189,7 +191,8 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
         }
     }
 
-    inner class SelectViewHolder(private val binding: ItemSelectStudyParamBinding) : ParameterViewHolder<StudyParameter.Select>(binding.root) {
+    inner class SelectViewHolder(private val binding: ItemSelectStudyParamBinding) :
+            ParameterViewHolder<StudyParameter.Select>(binding.root) {
         override fun bind(studyParameter: StudyParameter.Select) {
             with(binding) {
                 parameterSelectTextView.text = (studyParameter as StudyParameter.Select).heading
@@ -197,6 +200,10 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
                 root.setOnClickListener { listener?.onSelectParamChange(studyParameter) }
             }
         }
+    }
+
+    companion object {
+        private const val NUMBER_TYPE_SIGN = "period"
     }
 
     interface StudyParameterListener {
