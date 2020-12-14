@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
@@ -31,7 +31,7 @@ class DrawingToolSettingsFragment : Fragment(),
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-    private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
+    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(factoryProducer = {
         DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
     })
     private val settingsAdapter = DrawingToolSettingsAdapter()
@@ -95,7 +95,6 @@ class DrawingToolSettingsFragment : Fragment(),
         if (args.argDeviation != null) {
             val item = args.argDeviation
             binding.settingsToolbar.title = getString(item!!.title)
-            settingsAdapter.items = item.settings
         } else {
             val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
             binding.settingsToolbar.title = getString(item.nameRes)

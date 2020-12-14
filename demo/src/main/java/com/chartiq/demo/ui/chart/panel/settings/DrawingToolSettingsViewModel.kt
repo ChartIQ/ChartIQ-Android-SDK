@@ -284,22 +284,25 @@ class DrawingToolSettingsViewModel(
         )
     }
 
+    // TODO: Review fibs aren't null verification
     private fun MutableList<DrawingToolSettingsItem>.addFibonacciModels(params: Map<String, Any>) {
         val fibsParam = DrawingParameter.FIBS.value
-        val values = Gson().fromJson(params[fibsParam].toString(), Array<Fib>::class.java).toList()
-        add(
-            DrawingToolSettingsItem.ChooseValue(
-                R.string.drawing_tool_settings_title_config,
-                "",
-                fibsParam,
-                values.map {
-                    val value = it.level.toString() + "%"
-                    OptionItem(value, it.display)
-                },
-                isMultipleSelection = true,
-                hasCustomValueSupport = true
+        if (params[fibsParam].toString() != "null") {
+            val values = Gson().fromJson(params[fibsParam].toString(), Array<Fib>::class.java).toList()
+            add(
+                DrawingToolSettingsItem.ChooseValue(
+                    R.string.drawing_tool_settings_title_config,
+                    "",
+                    fibsParam,
+                    values.map {
+                        val value = it.level.toString() + "%"
+                        OptionItem(value, it.display)
+                    },
+                    isMultipleSelection = true,
+                    hasCustomValueSupport = true
+                )
             )
-        )
+        }
     }
 
     private fun MutableList<DrawingToolSettingsItem>.addElliotWaveModels(params: Map<String, Any>) {
