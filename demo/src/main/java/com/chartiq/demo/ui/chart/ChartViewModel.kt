@@ -62,7 +62,7 @@ class ChartViewModel(
 
     val isFullscreen = MutableLiveData(false)
 
-    val moveHintsAreShown = MutableLiveData(false)
+    val moveHintsAreShown = MutableLiveData(Event(false))
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
@@ -85,8 +85,8 @@ class ChartViewModel(
     }
 
     fun showMoveHints(show: Boolean) {
-        if(!moveHintsAreShown.value!!) {
-            moveHintsAreShown.value = show
+        if (!moveHintsAreShown.value!!.peekContent()) {
+            moveHintsAreShown.value = Event(show)
         }
     }
 
