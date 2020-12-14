@@ -2,12 +2,12 @@ package com.chartiq.demo.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
+import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
@@ -15,9 +15,11 @@ import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+
 
 class MainViewModel(
     private val networkManager: NetworkManager,
@@ -30,6 +32,8 @@ class MainViewModel(
     val errorLiveData = MutableLiveData<Unit>()
 
     val isNavBarVisible = MutableLiveData(true)
+
+    val newLocaleEvent = MutableLiveData<Event<Translations>>()
 
     init {
         chartIQ.apply {
@@ -57,6 +61,7 @@ class MainViewModel(
                     }
                 })
                 setupChart()
+                observeLocalization()
             }
         }
     }
@@ -97,6 +102,20 @@ class MainViewModel(
         }
     }
 
+    private fun observeLocalization() {
+        viewModelScope.launch(Dispatchers.IO) {
+            applicationPrefs.languageState.collect {
+                withContext(Dispatchers.Main) {
+                    val locale = Locale(it.name.toLowerCase(Locale.ENGLISH))
+                    chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
+                    chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
+                        newLocaleEvent.postValue(Event(Translations(locale, translationsMap)))
+                    }
+                }
+            }
+        }
+    }
+
     class ViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
@@ -113,4 +132,6 @@ class MainViewModel(
                 .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
         }
     }
+
 }
+

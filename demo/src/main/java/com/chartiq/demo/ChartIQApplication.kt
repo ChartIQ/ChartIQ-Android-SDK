@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.webkit.WebView
 import com.chartiq.sdk.ChartIQ
+import dev.b3nedikt.restring.Restring
+import dev.b3nedikt.reword.RewordInterceptor
+import dev.b3nedikt.viewpump.ViewPump
 
 class ChartIQApplication : Application() {
 
@@ -16,5 +19,7 @@ class ChartIQApplication : Application() {
         if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
+        Restring.init(this)
+        ViewPump.init(RewordInterceptor)
     }
 }
