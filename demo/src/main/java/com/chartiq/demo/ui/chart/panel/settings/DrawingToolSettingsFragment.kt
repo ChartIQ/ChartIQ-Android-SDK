@@ -19,7 +19,6 @@ import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 

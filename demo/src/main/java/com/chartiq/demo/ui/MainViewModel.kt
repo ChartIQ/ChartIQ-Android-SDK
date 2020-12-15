@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
+import com.chartiq.demo.ui.localization.RemoteTranslations
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
@@ -33,7 +34,7 @@ class MainViewModel(
 
     val isNavBarVisible = MutableLiveData(true)
 
-    val newLocaleEvent = MutableLiveData<Event<Translations>>()
+    val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
     init {
         chartIQ.apply {

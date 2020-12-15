@@ -204,5 +204,24 @@
 
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+    <string name="chart_type_heikinashi">Heikin Ashi</string>
+    <string name="chart_type_kagi">Kagi</string>
+    <string name="chart_type_linebreak">Line Break</string>
+    <string name="chart_type_renko">Renko</string>
+    <string name="chart_type_rangebars">Range Bars</string>
+    <string name="chart_type_pandf"><![CDATA[Point & Figure]]></string>
+    <string name="chart_type_candle">Candle</string>
+    <string name="chart_type_bar">Bar</string>
+    <string name="chart_type_colored_bar">Colored Bar</string>
+    <string name="chart_type_line">Line</string>
+    <string name="chart_type_vertex_line">Vertex Line</string>
+    <string name="chart_type_step">Step</string>
+    <string name="chart_type_mountain">Mountain</string>
+    <string name="chart_type_baseline">Baseline</string>
+    <string name="chart_type_hollow_candle">Hollow Candle</string>
+    <string name="chart_type_volume_candle">Volume Candle</string>
+    <string name="chart_type_colored_hlc">Colored HLC Bar</string>
+    <string name="chart_type_scatterplot">Scatterplot</string>
+    <string name="chart_type_histogram">Histogram</string>
 
 </resources>

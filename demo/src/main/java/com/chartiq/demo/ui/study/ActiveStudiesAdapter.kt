@@ -61,12 +61,12 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
             val indexOfDelimiter = nameWithoutLeading.indexOfFirst { it == ZERO_WIDTH_NON_JOINER }
             Pair(
                 nameWithoutLeading
-                        .substring(0, indexOfDelimiter)
-                        .trim(),
+                    .substring(0, indexOfDelimiter)
+                    .trim(),
                 nameWithoutLeading
-                        .substring(indexOfDelimiter)
-                        .replace(ZERO_WIDTH_NON_JOINER.toString(), "")
-                        .trim()
+                    .substring(indexOfDelimiter)
+                    .replace(ZERO_WIDTH_NON_JOINER.toString(), "")
+                    .trim()
             )
         }
     }

@@ -10,10 +10,9 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
-import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 
 class CustomIntervalFragment : Fragment() {
@@ -22,7 +21,7 @@ class CustomIntervalFragment : Fragment() {
 
     private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
         ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
-            ApplicationPrefs.Default(requireContext())
+            (requireActivity().application as ServiceLocator).applicationPreferences
         )
     })
     private val intervalTextWatcher = object : TextWatcher {

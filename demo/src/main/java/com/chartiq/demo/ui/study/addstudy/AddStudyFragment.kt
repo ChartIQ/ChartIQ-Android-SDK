@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
@@ -30,8 +30,7 @@ class AddStudyFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences, chartIQ
         )
     })
 

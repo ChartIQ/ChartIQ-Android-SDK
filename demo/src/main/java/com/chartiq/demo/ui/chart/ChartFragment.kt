@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -18,9 +17,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
@@ -41,9 +40,7 @@ import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -65,7 +62,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ
         )
     })
@@ -73,7 +70,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             ChartIQDrawingManager()
         )

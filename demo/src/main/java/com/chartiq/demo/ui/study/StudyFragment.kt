@@ -12,9 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
@@ -34,8 +34,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences, chartIQ
         )
     })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
@@ -48,7 +47,6 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
-
         setupViews()
         return binding.root
     }
@@ -68,7 +66,10 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                             .getInstance(study).apply {
                                 setTargetFragment(this@StudyFragment, REQUEST_CODE)
                             }
-                            .show(parentFragmentManager, ActiveStudyBottomSheetDialogFragment::class.java.simpleName)
+                            .show(
+                                parentFragmentManager,
+                                ActiveStudyBottomSheetDialogFragment::class.java.simpleName
+                            )
                     }
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(

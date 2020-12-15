@@ -1,7 +1,10 @@
 package com.chartiq.demo
 
 import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.activity.viewModels
@@ -9,29 +12,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
 import com.chartiq.demo.network.ChartIQNetworkManager
+import com.chartiq.demo.ui.MainFragment
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
+import com.chartiq.demo.ui.localization.ResourceTranslationItem
 import com.chartiq.sdk.ChartIQ
 import dev.b3nedikt.restring.Restring
 import dev.b3nedikt.reword.Reword
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
 
     private val chartIQ: ChartIQ by lazy {
-        (this.application as ChartIQApplication).chartIQ
+        (this.application as ServiceLocator).chartIQ
+    }
+
+    private val appPrefs by lazy {
+        (this.application as ServiceLocator).applicationPreferences
     }
 
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(this),
+            appPrefs,
             chartIQ
         )
     })
 
-    private val appPrefs by lazy {
-        ApplicationPrefs.Default(this)
-    }
 
     private val appCompatDelegate: AppCompatDelegate by lazy {
         ViewPumpAppCompatDelegate(
@@ -49,31 +57,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel.newLocaleEvent.observe({ lifecycle }, { event ->
+        mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
-                val currentStrings: Map<String, ResourceTranslation> = getDefaultStrings()
-                val newTranslations: List<ResourceTranslation> = currentStrings.map {
-                    ResourceTranslation(
+                val currentStrings: Map<String, ResourceTranslationItem> = getDefaultStrings()
+                val newTranslationItems: List<ResourceTranslationItem> = currentStrings.map {
+                    ResourceTranslationItem(
                         it.value.resourceKey,
                         translations.values[it.key] ?: it.value.resourceValue
                     )
                 }
                 Restring.putStrings(
                     translations.locale,
-                    newTranslations.map { it.resourceKey to it.resourceValue }.toMap()
+                    newTranslationItems.map { it.resourceKey to it.resourceValue }.toMap()
                 )
                 Restring.locale = translations.locale
-                val rootView = window.decorView.findViewById<FrameLayout>(R.id.content)
-                Reword.reword(rootView)
+                Reword.reword(this.findViewById<FrameLayout>(R.id.content))
             }
         })
     }
 
-    private fun getDefaultStrings(): Map<String, ResourceTranslation> {
+    private fun getDefaultLocalizedResources(): Resources {
+        var conf: Configuration = resources.configuration
+        conf = Configuration(conf)
+        conf.setLocale(Locale.ENGLISH)
+        val localizedContext: Context = createConfigurationContext(conf)
+        return localizedContext.resources
+    }
+
+    private fun getDefaultStrings(): Map<String, ResourceTranslationItem> {
         return R.string::class.java.fields
             .map {
-                val resValue = resources.getString(it.getInt(null))
-                ResourceTranslation(resourceKey = it.name, resourceValue = resValue)
+                val resValue = getDefaultLocalizedResources().getString(it.getInt(null))
+                ResourceTranslationItem(resourceKey = it.name, resourceValue = resValue)
             }.associateBy { it.resourceValue }
     }
 
@@ -105,5 +120,9 @@ class MainActivity : AppCompatActivity() {
         //  clearSession() won't work in this situation which should be fixed
         //  side note: running a StickyService most likely won't work on api level 26+
         appPrefs.clearSession()
+    }
+
+    override fun onPageChanged() {
+        Reword.reword(this.findViewById<FrameLayout>(R.id.content))
     }
 }

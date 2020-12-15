@@ -8,10 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.MainViewPagerAdapter
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.sdk.ChartIQ
@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ
         )
     })
@@ -65,6 +65,7 @@ class MainFragment : Fragment() {
                     override fun onPageSelected(position: Int) {
                         if (position == MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.ordinal) {
                             reloadData()
+                            (requireActivity() as MainFragmentPagerObserver).onPageChanged()
                         }
                     }
                 })
@@ -86,5 +87,9 @@ class MainFragment : Fragment() {
 
     private fun reloadData() {
         mainViewModel.fetchActiveStudyData()
+    }
+
+    interface MainFragmentPagerObserver {
+        fun onPageChanged()
     }
 }

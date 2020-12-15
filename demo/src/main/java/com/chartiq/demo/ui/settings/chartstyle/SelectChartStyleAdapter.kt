@@ -17,7 +17,10 @@ class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.Vie
 
     var listener: SelectChartStyleAdapterListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectChartStyleAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SelectChartStyleAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(ItemChartStyleBinding.inflate(inflater, parent, false))
     }
@@ -27,12 +30,18 @@ class SelectChartStyleAdapter : RecyclerView.Adapter<SelectChartStyleAdapter.Vie
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(private val binding: ItemChartStyleBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemChartStyleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(chartTypeItem: ChartTypeItem) {
             with(binding) {
-                optionTextView.text = chartTypeItem.title
+                optionTextView.text = itemView.context.resources.getString(chartTypeItem.titleRes)
                 checkImageView.isVisible = chartTypeItem.isSelected
-                iconImageView.setImageDrawable(ContextCompat.getDrawable(root.context, chartTypeItem.iconRes))
+                iconImageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        root.context,
+                        chartTypeItem.iconRes
+                    )
+                )
                 root.setOnClickListener {
                     listener?.onSelect(chartTypeItem)
                 }
