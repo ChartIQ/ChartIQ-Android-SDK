@@ -39,6 +39,8 @@ class SettingsViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             applicationPrefs.languageState.collect { saveLanguage ->
                 language.value = saveLanguage
+                //to perform new translations for selected chart value
+                initChartStyle()
             }
         }
     }

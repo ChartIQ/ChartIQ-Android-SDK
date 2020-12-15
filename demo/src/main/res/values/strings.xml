@@ -201,9 +201,9 @@
     <string name="drawing_tool_settings_title_line_1_type">Line 1 Type"</string>
     <string name="drawing_tool_settings_title_line_2_type">Line 2 Type"</string>
     <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
-
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+    
     <string name="chart_type_heikinashi">Heikin Ashi</string>
     <string name="chart_type_kagi">Kagi</string>
     <string name="chart_type_linebreak">Line Break</string>

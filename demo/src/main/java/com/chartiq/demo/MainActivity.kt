@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -59,11 +61,11 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
-                val currentStrings: Map<String, ResourceTranslationItem> = getDefaultStrings()
+                val currentStrings: List<ResourceTranslationItem> = getDefaultStrings()
                 val newTranslationItems: List<ResourceTranslationItem> = currentStrings.map {
                     ResourceTranslationItem(
-                        it.value.resourceKey,
-                        translations.values[it.key] ?: it.value.resourceValue
+                        it.resourceKey,
+                        translations.values[it.resourceValue] ?: it.resourceValue
                     )
                 }
                 Restring.putStrings(
@@ -77,19 +79,18 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
     }
 
     private fun getDefaultLocalizedResources(): Resources {
-        var conf: Configuration = resources.configuration
-        conf = Configuration(conf)
+        val conf = Configuration(resources.configuration)
         conf.setLocale(Locale.ENGLISH)
         val localizedContext: Context = createConfigurationContext(conf)
         return localizedContext.resources
     }
 
-    private fun getDefaultStrings(): Map<String, ResourceTranslationItem> {
+    private fun getDefaultStrings(): List<ResourceTranslationItem> {
         return R.string::class.java.fields
-            .map {
-                val resValue = getDefaultLocalizedResources().getString(it.getInt(null))
-                ResourceTranslationItem(resourceKey = it.name, resourceValue = resValue)
-            }.associateBy { it.resourceValue }
+            .map { field ->
+                val resValue = getDefaultLocalizedResources().getString(field.getInt(null))
+                ResourceTranslationItem(resourceKey = field.name, resourceValue = resValue)
+            }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -123,6 +124,9 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
     }
 
     override fun onPageChanged() {
-        Reword.reword(this.findViewById<FrameLayout>(R.id.content))
+        Handler(Looper.getMainLooper()).postDelayed(
+            { Reword.reword(this.findViewById<FrameLayout>(R.id.content)) },
+            400
+        )
     }
 }

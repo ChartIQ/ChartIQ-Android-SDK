@@ -110,7 +110,7 @@ class MainViewModel(
                     val locale = Locale(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
-                        newLocaleEvent.postValue(Event(Translations(locale, translationsMap)))
+                        currentLocaleEvent.postValue(Event(RemoteTranslations(locale, translationsMap)))
                     }
                 }
             }
