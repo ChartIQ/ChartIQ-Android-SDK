@@ -39,10 +39,12 @@ import com.chartiq.demo.ui.common.colorpicker.findColorIndex
 import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
+import com.chartiq.demo.ui.localization.LocalizationManager
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
+import java.util.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
@@ -149,12 +151,16 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             chartInterval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
+                    val shortTimeUnitName = LocalizationManager.getTranslationFromValue(
+                        timeUnit.toString().first().toString(),
+                        requireContext()
+                    )
                     binding.intervalButton.text = when (timeUnit) {
                         TimeUnit.SECOND,
                         TimeUnit.MINUTE -> {
-                            "$duration${timeUnit.toString().first().toLowerCase()}"
+                            "$duration${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
                         }
-                        else -> "$duration${timeUnit.toString().first()}"
+                        else -> "$duration${shortTimeUnitName }"
                     }
                 }
             }

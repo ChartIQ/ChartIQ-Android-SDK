@@ -50,7 +50,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private fun setupViews() {
         with(binding) {
             toolbar.apply {
-                title = LocalizationManager.getTranslationFromValue(study.type?:"", requireContext())
+                title = LocalizationManager.getTranslationFromValue(study.type ?: "", requireContext())
                 menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
                     viewModel.cloneStudy()
                     findNavController().navigateUp()
