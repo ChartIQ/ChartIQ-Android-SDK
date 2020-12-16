@@ -25,7 +25,7 @@ class AddStudyFragment : Fragment() {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQ)
+        AddStudyViewModel.ViewModelFactory(chartIQ, requireContext())
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(

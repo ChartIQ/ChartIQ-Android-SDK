@@ -68,9 +68,18 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
                         translations.values[it.resourceValue] ?: it.resourceValue
                     )
                 }
+                val extraStrings =
+                    translations.values.filter { translation -> translation.key !in currentStrings.map { it.resourceValue } }
+
+                val newExtraTranslations = extraStrings.map { (key, value) ->
+                    ResourceTranslationItem(
+                        key.toLowerCase(Locale.ENGLISH).replace(" ", "_"),
+                        value
+                    )
+                }
                 Restring.putStrings(
                     translations.locale,
-                    newTranslationItems.map { it.resourceKey to it.resourceValue }.toMap()
+                    (newTranslationItems + newExtraTranslations).map { it.resourceKey to it.resourceValue }.toMap()
                 )
                 Restring.locale = translations.locale
                 Reword.reword(this.findViewById<FrameLayout>(R.id.content))

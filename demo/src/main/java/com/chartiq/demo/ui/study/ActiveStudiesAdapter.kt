@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemStudyActiveBinding
+import com.chartiq.demo.ui.localization.LocalizationManager
 import com.chartiq.sdk.model.study.Study
 
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
@@ -47,8 +48,8 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                     listener?.onOptionsClick(item)
                 }
                 val finalName = item.splitName()
-                studyNameTextView.text = finalName.first
-                studyValueTextView.text = finalName.second
+                studyNameTextView.text = LocalizationManager.getTranslationFromValue(finalName.first, root.context)
+                studyValueTextView.text = LocalizationManager.getTranslationFromValue(finalName.second, root.context)
             }
         }
     }

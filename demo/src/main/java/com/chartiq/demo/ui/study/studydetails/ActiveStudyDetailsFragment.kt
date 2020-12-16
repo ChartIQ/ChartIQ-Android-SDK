@@ -15,6 +15,7 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
+import com.chartiq.demo.ui.localization.LocalizationManager
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
 import com.chartiq.sdk.model.study.Study
 import com.chartiq.sdk.model.study.StudyParameter
@@ -49,7 +50,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private fun setupViews() {
         with(binding) {
             toolbar.apply {
-                title = study.type
+                title = LocalizationManager.getTranslationFromValue(study.type?:"", requireContext())
                 menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
                     viewModel.cloneStudy()
                     findNavController().navigateUp()
