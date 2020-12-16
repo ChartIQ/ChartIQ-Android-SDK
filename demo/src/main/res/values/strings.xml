@@ -129,12 +129,13 @@
     <string name="instrument_panel_layers_send_to_bottom">Send to Bottom</string>
 
     <!--Crosshair-->
-    <string name="crosshair_label_price">price:</string>
-    <string name="crosshair_label_vol">vol:</string>
-    <string name="crosshair_label_open">open:</string>
-    <string name="crosshair_label_high">high:</string>
-    <string name="crosshair_label_close">close:</string>
-    <string name="crosshair_label_low">low:</string>
+    <string name="crosshair_label_price">Price</string>
+    <string name="crosshair_label_vol">Vol</string>
+    <string name="crosshair_label_open">Open</string>
+    <string name="crosshair_label_high">High</string>
+    <string name="crosshair_label_close">Close</string>
+    <string name="crosshair_label_low">Low</string>
+    <string name="crosshair_full_label">%s:</string>
     <!-- Studies -->
     <string name="study_add_studies">Add studies</string>
     <string name="study_empty_active_study">No Active Studies to display yet</string>
@@ -203,7 +204,7 @@
     <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
-    
+
     <string name="chart_type_heikinashi">Heikin Ashi</string>
     <string name="chart_type_kagi">Kagi</string>
     <string name="chart_type_linebreak">Line Break</string>

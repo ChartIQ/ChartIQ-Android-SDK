@@ -140,6 +140,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 toggleFullscreenViews(false)
             }
         }
+        setupCrosshairsLayout()
+
         with(chartViewModel) {
             resultLiveData.observe(viewLifecycleOwner) { chartData ->
                 binding.chartIqView.post {
@@ -160,7 +162,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                         TimeUnit.MINUTE -> {
                             "$duration${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
                         }
-                        else -> "$duration${shortTimeUnitName }"
+                        else -> "$duration${shortTimeUnitName}"
                     }
                 }
             }
@@ -222,8 +224,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
                 binding.crosshairLayout.root.isVisible = value
+                //update the translations
+                setupCrosshairsLayout()
             }
             isPickerItemSelected.observe(viewLifecycleOwner) { value ->
                 binding.instrumentRecyclerView.isVisible = value
@@ -257,6 +262,25 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     }
                 }
             }
+        }
+    }
+
+    private fun setupCrosshairsLayout() {
+        with(binding.crosshairLayout) {
+            priceLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_price))
+            volLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_vol))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
+            highLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_high))
+            closeLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_close))
+            lowLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_low))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
         }
     }
 
