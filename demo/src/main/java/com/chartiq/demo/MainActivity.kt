@@ -1,10 +1,7 @@
 package com.chartiq.demo
 
 import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,11 +14,8 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainFragment
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
-import com.chartiq.demo.ui.localization.ResourceTranslationItem
+import com.chartiq.demo.ui.localization.LocalizationManager
 import com.chartiq.sdk.ChartIQ
-import dev.b3nedikt.restring.Restring
-import dev.b3nedikt.reword.Reword
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
@@ -47,7 +41,7 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
         ViewPumpAppCompatDelegate(
             baseDelegate = super.getDelegate(),
             baseContext = this,
-            wrapContext = { baseContext -> Restring.wrapContext(baseContext) }
+            wrapContext = { baseContext -> LocalizationManager.wrapContext(baseContext) }
         )
     }
 
@@ -61,45 +55,13 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
-                val currentStrings: List<ResourceTranslationItem> = getDefaultStrings()
-                val newTranslationItems: List<ResourceTranslationItem> = currentStrings.map {
-                    ResourceTranslationItem(
-                        it.resourceKey,
-                        translations.values[it.resourceValue] ?: it.resourceValue
-                    )
-                }
-                val extraStrings =
-                    translations.values.filter { translation -> translation.key !in currentStrings.map { it.resourceValue } }
-
-                val newExtraTranslations = extraStrings.map { (key, value) ->
-                    ResourceTranslationItem(
-                        key.toLowerCase(Locale.ENGLISH).replace(" ", "_"),
-                        value
-                    )
-                }
-                Restring.putStrings(
-                    translations.locale,
-                    (newTranslationItems + newExtraTranslations).map { it.resourceKey to it.resourceValue }.toMap()
+                LocalizationManager.updateTranslationsForLocale(
+                    translations,
+                    this,
+                    findViewById<FrameLayout>(R.id.content)
                 )
-                Restring.locale = translations.locale
-                Reword.reword(this.findViewById<FrameLayout>(R.id.content))
             }
         })
-    }
-
-    private fun getDefaultLocalizedResources(): Resources {
-        val conf = Configuration(resources.configuration)
-        conf.setLocale(Locale.ENGLISH)
-        val localizedContext: Context = createConfigurationContext(conf)
-        return localizedContext.resources
-    }
-
-    private fun getDefaultStrings(): List<ResourceTranslationItem> {
-        return R.string::class.java.fields
-            .map { field ->
-                val resValue = getDefaultLocalizedResources().getString(field.getInt(null))
-                ResourceTranslationItem(resourceKey = field.name, resourceValue = resValue)
-            }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -134,7 +96,7 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
     override fun onPageChanged() {
         Handler(Looper.getMainLooper()).postDelayed(
-            { Reword.reword(this.findViewById<FrameLayout>(R.id.content)) },
+            { LocalizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
             400
         )
     }
