@@ -11,12 +11,12 @@
     <string name="search_symbols_not_found_hint">Symbols not found</string>
     <string name="search_symbols_not_found_secondary_hint">Try another symbol to type or apply current request</string>
     <string name="search_apply">Apply</string>
-    <string name="search_filter_all">All</string>
-    <string name="search_filter_stocks">Stocks</string>
-    <string name="search_filter_fx">Fx</string>
-    <string name="search_filter_indexes">Indexes</string>
-    <string name="search_filter_funds">Funds</string>
-    <string name="search_filter_futures">Futures</string>
+    <string name="search_filter_all">ALL</string>
+    <string name="search_filter_stocks">STOCKS</string>
+    <string name="search_filter_fx">FX</string>
+    <string name="search_filter_indexes">INDEXES</string>
+    <string name="search_filter_funds">FUNDS</string>
+    <string name="search_filter_futures">FUTURES</string>
 
     <!--Interval-->
     <string name="title_intervals">Intervals</string>
@@ -113,14 +113,14 @@
     <string name="drawing_tool_vertical_line">Vertical Line</string>
     <string name="drawing_tool_restore_default_parameters">Restore Default Parameters</string>
     <string name="drawing_tool_clear_existing_drawings">Clear Existing Drawings</string>
-    <string name="drawing_tool_category_all">All</string>
-    <string name="drawing_tool_category_favorites">Favorites</string>
-    <string name="drawing_tool_category_text">Text</string>
-    <string name="drawing_tool_category_statistics">Statistics</string>
-    <string name="drawing_tool_category_technicals">Technicals</string>
-    <string name="drawing_tool_category_fibonacci">Fibonacci</string>
-    <string name="drawing_tool_category_markings">Markings</string>
-    <string name="drawing_tool_category_lines">Lines</string>
+    <string name="drawing_tool_category_all">ALL</string>
+    <string name="drawing_tool_category_favorites">FAVORITES</string>
+    <string name="drawing_tool_category_text">TEXT</string>
+    <string name="drawing_tool_category_statistics">STATISTICS</string>
+    <string name="drawing_tool_category_technicals">TECHNICALS</string>
+    <string name="drawing_tool_category_fibonacci">FIBONACCI</string>
+    <string name="drawing_tool_category_markings">MARKINGS</string>
+    <string name="drawing_tool_category_lines">LINES</string>
 
     <!--Instrument panel-->
     <string name="instrument_panel_layers_bring_to_top">Bring to Top</string>
