@@ -14,17 +14,13 @@
         app:navigationIcon="@drawable/ic_nav_back" />
 
     <com.google.android.material.tabs.TabLayout
+        style="@style/TabLayoutStyle"
         android:id="@+id/searchCategoryTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/padding_extra_large"
-        android:paddingEnd="@dimen/padding_extra_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
-        app:tabMode="scrollable"
-        app:tabTextAppearance="@style/AppTabAppearance">
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
