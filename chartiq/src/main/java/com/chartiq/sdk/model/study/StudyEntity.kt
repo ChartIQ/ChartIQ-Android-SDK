@@ -1,4 +1,4 @@
-package com.chartiq.sdk.model
+package com.chartiq.sdk.model.study
 
 import java.io.Serializable
 

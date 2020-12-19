@@ -13,10 +13,11 @@ import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class MainViewModel(
     private val networkManager: NetworkManager,
@@ -28,34 +29,59 @@ class MainViewModel(
 
     val errorLiveData = MutableLiveData<Unit>()
 
+    val isNavBarVisible = MutableLiveData(true)
+
     init {
         chartIQ.apply {
-                start {
-                setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
+            setDataSource(object : DataSource {
+                override fun pullInitialData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullUpdateData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
+                override fun pullUpdateData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
 
-                    override fun pullPaginationData(
-                            params: QuoteFeedParams,
-                            callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
-                setupSymbolSettings()
+                override fun pullPaginationData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
+            })
+            start {
+                setupChart()
             }
         }
+    }
+
+    fun showNavBar(show: Boolean) {
+        isNavBarVisible.value = show
+    }
+
+    fun fetchActiveStudyData() {
+        chartIQ.getActiveStudies { result ->
+            activeStudies.value = result
+        }
+    }
+
+    fun setupChart() {
+        val symbol = applicationPrefs.getChartSymbol()
+        chartIQ.setSymbol(symbol.value)
+        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
+
+        val interval = applicationPrefs.getChartInterval()
+        chartIQ.setPeriodicity(
+            interval.getPeriod(),
+            interval.getInterval(),
+            interval.getTimeUnit()
+        )
     }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
@@ -71,28 +97,20 @@ class MainViewModel(
         }
     }
 
-    private fun setupSymbolSettings() {
-        val symbol = applicationPrefs.getChartSymbol()
-        chartIQ.setSymbol(symbol.value)
-        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
-    }
-
-    fun fetchActiveStudyData() {
-        chartIQ.getActiveStudies { result ->
-            activeStudies.value = result
-        }
-    }
-
     class ViewModelFactory(
-            private val argNetworkManager: NetworkManager,
-            private val argApplicationPrefs: ApplicationPrefs,
-            private val argChartIQHandler: ChartIQ
+        private val argNetworkManager: NetworkManager,
+        private val argApplicationPrefs: ApplicationPrefs,
+        private val argChartIQHandler: ChartIQ
     ) :
-            ViewModelProvider.Factory {
+        ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                    .getConstructor(NetworkManager::class.java, ApplicationPrefs::class.java, ChartIQ::class.java)
-                    .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
+                .getConstructor(
+                    NetworkManager::class.java,
+                    ApplicationPrefs::class.java,
+                    ChartIQ::class.java
+                )
+                .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
         }
     }
 }

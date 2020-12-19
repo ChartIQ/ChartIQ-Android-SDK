@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemSearchSymbolBinding
 
-class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
-    RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
+class SearchResultAdapter : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
 
-    var list = listOf<SearchResultItem>()
+    var items = listOf<SearchResultItem>()
         set(value) {
-            notifyDataSetChanged()
             field = value
+            notifyDataSetChanged()
         }
+    var listener: OnSearchResultClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,15 +22,12 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
     }
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
-        holder.bind(list[position])
-        holder.itemView.setOnClickListener {
-            listener.onSearchItemClick(list[position])
-        }
+        holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = items.size
 
-    class SearchResultViewHolder(private val binding: ItemSearchSymbolBinding) :
+    inner class SearchResultViewHolder(private val binding: ItemSearchSymbolBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SearchResultItem) {
@@ -38,6 +35,9 @@ class SearchResultAdapter(private val listener: OnSearchResultClickListener) :
                 symbolTextView.text = item.symbol
                 symbolFullNameTextView.text = item.fullName
                 fundTextView.text = item.fund
+                root.setOnClickListener {
+                    listener?.onSearchItemClick(item)
+                }
             }
         }
     }

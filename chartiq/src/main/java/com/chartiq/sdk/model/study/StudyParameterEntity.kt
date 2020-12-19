@@ -1,5 +1,6 @@
-package com.chartiq.sdk.model
+package com.chartiq.sdk.model.study
 
+import com.chartiq.sdk.model.ParameterEntityValueType
 import com.google.gson.annotations.SerializedName
 
 data class StudyParameterEntity(

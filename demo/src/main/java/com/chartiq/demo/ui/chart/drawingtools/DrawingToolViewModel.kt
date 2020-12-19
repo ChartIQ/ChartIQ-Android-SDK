@@ -7,65 +7,64 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolCategory
 import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolItem
-import com.chartiq.demo.ui.chart.drawingtools.list.OnDrawingToolClick
-import com.chartiq.demo.util.Event
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
-class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel(),
-    OnDrawingToolClick {
+class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel() {
 
-    val drawingToolSelectEvent = MutableLiveData<Event<DrawingToolItem>>()
-    val drawingToolFavoriteClickEvent = MutableLiveData<Event<DrawingToolItem>>()
+    private val originalDrawingToolList = DrawingTools.values().map {
+        DrawingToolItem(
+            it.tool,
+            it.iconRes,
+            it.nameRes,
+            it.category,
+            it.section
+        )
+    }
 
-    fun filterItemsByCategory(
-        category: DrawingToolCategory,
-        list: List<DrawingToolItem>
-    ): List<DrawingToolItem> {
-        return when (category) {
-            DrawingToolCategory.ALL -> list
-            DrawingToolCategory.FAVORITES -> list
+    val drawingToolList = MutableLiveData<List<DrawingToolItem>>(listOf())
+
+    val category = MutableLiveData(DrawingToolCategory.ALL)
+
+    fun favoriteItem(item: DrawingToolItem) {
+        originalDrawingToolList.find { it == item }?.isStarred = !item.isStarred
+    }
+
+    fun saveDrawingTool(tool: DrawingTool) {
+        appPrefs.saveDrawingTool(tool)
+    }
+
+    fun filterItemsByCategory(category: DrawingToolCategory) {
+        this.category.value = category
+        drawingToolList.value = when (category) {
+            DrawingToolCategory.ALL -> originalDrawingToolList
+            DrawingToolCategory.FAVORITES -> originalDrawingToolList
                 .filter { item -> item.isStarred }
-            else -> list
+            else -> originalDrawingToolList
                 .filter { item -> item.category == category }
         }
     }
 
-    fun saveUserPreferences(toolsList: List<DrawingToolItem>) {
-        val favoriteDrawingTools = toolsList
-            .filter { it.isStarred }
-            .map { it.tool }
-            .toHashSet()
-        appPrefs.saveFavoriteDrawingTools(favoriteDrawingTools)
+    fun onPause() {
+        saveFavoriteDrawingTools()
     }
 
-    override fun onDrawingToolClick(item: DrawingToolItem) {
-        appPrefs.saveDrawingTool(item.tool)
-        drawingToolSelectEvent.value = Event(item)
-    }
-
-    override fun onFavoriteCheck(item: DrawingToolItem) {
-        drawingToolFavoriteClickEvent.value = Event(item)
-    }
-
-    fun setupList(): List<DrawingToolItem> {
-        val list = DrawingTools.values().map {
-            DrawingToolItem(
-                it.tool,
-                it.iconRes,
-                it.nameRes,
-                it.category,
-                it.section
-            )
-        }
-
+    fun setupList() {
         val favoriteTools = appPrefs.getFavoriteDrawingTools()
         val selectedDrawingTool = appPrefs.getDrawingTool()
-        return list.onEach {
-            if (favoriteTools.toString() == it.tool.value) {
+        drawingToolList.value = originalDrawingToolList.onEach {
+            if (favoriteTools.contains(it.tool)) {
                 it.isStarred = true
             }
             it.isSelected = it.tool == selectedDrawingTool && it.tool != DrawingTool.NONE
         }
+    }
+
+    private fun saveFavoriteDrawingTools() {
+        val favoriteDrawingTools = originalDrawingToolList
+            .filter { it.isStarred }
+            .map { it.tool }
+            .toHashSet()
+        appPrefs.saveFavoriteDrawingTools(favoriteDrawingTools)
     }
 
     class DrawingToolViewModelFactory(private val prefs: ApplicationPrefs) :
