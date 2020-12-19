@@ -1,10 +1,6 @@
 package com.chartiq.sdk.model.drawingtool
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
-enum class DrawingParameterType(val value: String) : Parcelable {
+enum class DrawingParameterType(val value: String) {
     FILL_COLOR("fillColor"),
     LINE_COLOR("color"),
     LINE_TYPE("pattern"),
