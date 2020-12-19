@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
-import com.chartiq.demo.network.model.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
@@ -19,7 +19,6 @@ import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -81,7 +80,7 @@ class DrawingToolSettingsFragment : Fragment(),
         isMultipleSelect: Boolean
     ) {
         val value = when (parameter) {
-            DrawingParameter.FIBS.value ->
+            DrawingParameterType.FIBS.value ->
                 Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
             else ->
                 valuesList.find { it.isSelected }!!.value
