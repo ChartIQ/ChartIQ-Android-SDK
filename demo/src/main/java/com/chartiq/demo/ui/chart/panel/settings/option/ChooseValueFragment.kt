@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import com.chartiq.demo.databinding.FragmentChooseValueBinding
 import com.chartiq.demo.ui.LineItemDecoration
@@ -41,12 +42,16 @@ class ChooseValueFragment : FullscreenDialogFragment() {
             optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
                 ?: throw IllegalStateException("No value options were passed to the fragment")
 
-            valuesToolbar.setNavigationOnClickListener {
-                if (isMultipleSelect) {
-                    (targetFragment as DialogFragmentListener)
-                        .onChooseValue(parameter, optionList, true)
+            valuesToolbar.apply {
+                val title = getString(requireArguments().getInt(ARG_TITLE))
+                setTitle(title)
+                setNavigationOnClickListener {
+                    if (isMultipleSelect) {
+                        (targetFragment as DialogFragmentListener)
+                            .onChooseValue(parameter, optionList, true)
+                    }
+                    dismiss()
                 }
-                dismiss()
             }
             valuesRecyclerView.apply {
                 valuesAdapter.items = optionList
@@ -81,12 +86,14 @@ class ChooseValueFragment : FullscreenDialogFragment() {
 
     companion object {
         fun getInstance(
+            @StringRes title: Int,
             param: String,
             valueList: List<OptionItem>,
             isMultipleSelect: Boolean = false
         ): ChooseValueFragment {
             val dialog = ChooseValueFragment()
             dialog.arguments = bundleOf(
+                ARG_TITLE to title,
                 ARG_PARAM to param,
                 ARG_OPTIONS to valueList,
                 ARG_IS_MULTIPLE_SELECTION to isMultipleSelect
@@ -94,6 +101,7 @@ class ChooseValueFragment : FullscreenDialogFragment() {
             return dialog
         }
 
+        private const val ARG_TITLE = "choose.values.title"
         private const val ARG_PARAM = "choose.values.argument.parameter"
         private const val ARG_OPTIONS = "choose.values.argument.options.list"
         private const val ARG_IS_MULTIPLE_SELECTION = "choose.values.argument.is.multiple.selection"

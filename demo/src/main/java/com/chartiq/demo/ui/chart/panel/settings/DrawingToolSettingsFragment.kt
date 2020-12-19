@@ -152,6 +152,7 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToChooseValueFromList(item: DrawingToolSettingsItem.ChooseValue) {
         val dialog = ChooseValueFragment.getInstance(
+            item.title,
             item.param,
             item.valueList,
             item.isMultipleSelection
