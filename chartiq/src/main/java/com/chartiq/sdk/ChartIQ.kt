@@ -1,6 +1,5 @@
 package com.chartiq.sdk
 
-
 import android.content.Context
 import android.view.View
 import com.chartiq.sdk.model.ChartScale
@@ -64,5 +63,4 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
             return ChartIQHandler(url, context)
         }
     }
-
 }
