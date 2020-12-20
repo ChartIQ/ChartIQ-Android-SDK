@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_done"
-        android:title="@string/done"
+        android:title="@string/study_done"
         app:showAsAction="always" />
 
 </menu>

@@ -1,6 +1,8 @@
 package com.chartiq.demo.ui.study.addstudy
 
 import android.app.Activity
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +33,8 @@ class AddStudyFragment : Fragment() {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 

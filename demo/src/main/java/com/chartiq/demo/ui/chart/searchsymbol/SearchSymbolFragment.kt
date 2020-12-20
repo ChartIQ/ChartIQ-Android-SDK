@@ -112,7 +112,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
 
             viewModel.errorLiveData.observe(viewLifecycleOwner, {
                 Toast.makeText(
-                    requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT
+                    requireContext(), R.string.general_warning_something_went_wrong, Toast.LENGTH_SHORT
                 ).show()
             })
             viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->

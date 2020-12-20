@@ -2,14 +2,11 @@ package com.chartiq.demo.ui
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,7 +30,8 @@ class MainFragment : Fragment() {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
@@ -57,18 +55,10 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        mainViewModel.hasInternetConnection()
+
         setupViews()
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isNetworkAvailable()) {
-            reloadData()
-        } else {
-            Toast.makeText(requireContext(), "The Internet is not available", Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
     private fun setupViews() {
@@ -93,31 +83,32 @@ class MainFragment : Fragment() {
         mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.navView.isVisible = isVisible
         }
+        mainViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isAvailable ->
+            if (isAvailable) {
+                reloadData()
+            } else {
+                showDeviceIsOfflineDialog()
+            }
+        }
+    }
+
+    private fun showDeviceIsOfflineDialog() {
+        AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
+            .setTitle(R.string.general_warning_something_went_wrong)
+            .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
+            .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.general_reconnect) { _, _ ->
+                mainViewModel.hasInternetConnection()
+            }
+            .create()
+            .apply {
+                setCanceledOnTouchOutside(false)
+            }
+            .show()
     }
 
     private fun reloadData() {
+        mainViewModel.setupChart()
         mainViewModel.fetchActiveStudyData()
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        return (requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).let { connectivityManager ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-                return connectivityManager.activeNetworkInfo != null
-            } else {
-                val allNetworks: Array<Network> = connectivityManager.allNetworks
-                for (network in allNetworks) {
-                    val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-                    if (networkCapabilities != null) {
-                        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-                        ) {
-                            return true
-                        }
-                    }
-                }
-            }
-            return false
-        }
     }
 }

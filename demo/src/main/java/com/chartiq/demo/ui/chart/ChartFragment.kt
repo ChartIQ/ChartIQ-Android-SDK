@@ -1,15 +1,16 @@
 package com.chartiq.demo.ui.chart
 
 import android.animation.LayoutTransition
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -41,9 +42,7 @@ import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -66,13 +65,13 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
             chartIQ,
             ChartIQDrawingManager()
@@ -142,11 +141,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
         }
         with(chartViewModel) {
-            resultLiveData.observe(viewLifecycleOwner) { chartData ->
-                binding.chartIqView.post {
-                    chartData.callback.execute(chartData.data)
-                }
-            }
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
@@ -215,7 +209,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.warning_something_went_wrong),
+                    getString(R.string.general_warning_something_went_wrong),
                     Toast.LENGTH_SHORT
                 ).show()
             }

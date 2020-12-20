@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
-import com.chartiq.demo.network.NetworkManager
-import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.network.model.DrawingParameter
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.chart.interval.model.Interval
@@ -17,10 +15,8 @@ import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
-import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
@@ -28,7 +24,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class ChartViewModel(
-    private val networkManager: NetworkManager,
     private val applicationPrefs: ApplicationPrefs,
     private val chartIQHandler: ChartIQ,
     private val drawingManager: DrawingManager
@@ -43,12 +38,6 @@ class ChartViewModel(
     val chartInterval = MutableLiveData<Interval>()
 
     val drawingTool = MutableLiveData(DrawingTool.NONE)
-
-    @Deprecated("This logic was moved to MainViewModel class")
-    val resultLiveData = MutableLiveData<ChartData>()
-
-    @Deprecated("This logic was moved to MainViewModel class")
-    val errorLiveData = MutableLiveData<Event<Unit>>()
 
     val resetInstrumentsLiveData = MutableLiveData<Event<Unit>>()
 
@@ -70,22 +59,8 @@ class ChartViewModel(
         fetchSavedSettings()
     }
 
-    // TODO: 19.10.20 Review
-    @Deprecated("All state data that should be kept during the whole app live  and should not be attached to a concrete fragment is moved to MainViewModel")
-    fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val applicationId = applicationPrefs.getApplicationId()
-            when (val result = networkManager.fetchDataFeed(params, applicationId)) {
-                is NetworkResult.Success -> resultLiveData
-                    .postValue(ChartData(result.data, callback))
-                is NetworkResult.Failure -> errorLiveData
-                    .postValue(Event(Unit))
-            }
-        }
-    }
-
     fun showMoveHints(show: Boolean) {
-        if(!moveHintsAreShown.value!!) {
+        if (!moveHintsAreShown.value!!) {
             moveHintsAreShown.value = show
         }
     }
@@ -207,7 +182,6 @@ class ChartViewModel(
     }
 
     fun onResume() {
-        fetchSavedSettings()
         if (isCrosshairsVisible.value!!) {
             launchCrosshairsUpdate()
         }
@@ -273,7 +247,6 @@ class ChartViewModel(
     }
 
     class ChartViewModelFactory(
-        private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
         private val argChartIQHandler: ChartIQ,
         private val argDrawingManager: DrawingManager
@@ -282,13 +255,11 @@ class ChartViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
-                    NetworkManager::class.java,
                     ApplicationPrefs::class.java,
                     ChartIQ::class.java,
                     DrawingManager::class.java
                 )
                 .newInstance(
-                    argNetworkManager,
                     argApplicationPrefs,
                     argChartIQHandler,
                     argDrawingManager

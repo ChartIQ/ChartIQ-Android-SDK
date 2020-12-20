@@ -1,8 +1,11 @@
 package com.chartiq.demo.ui
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
@@ -17,12 +20,12 @@ import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class MainViewModel(
     private val networkManager: NetworkManager,
     private val applicationPrefs: ApplicationPrefs,
     private val chartIQ: ChartIQ,
+    private val connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
@@ -30,6 +33,8 @@ class MainViewModel(
     val errorLiveData = MutableLiveData<Unit>()
 
     val isNavBarVisible = MutableLiveData(true)
+
+    val isNetworkAvailable = MutableLiveData(false)
 
     init {
         chartIQ.apply {
@@ -55,9 +60,7 @@ class MainViewModel(
                     loadChartData(params, callback)
                 }
             })
-            start {
-                setupChart()
-            }
+            start {}
         }
     }
 
@@ -84,6 +87,27 @@ class MainViewModel(
         )
     }
 
+    fun hasInternetConnection() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            isNetworkAvailable.value = connectivityManager.activeNetworkInfo != null
+        } else {
+            val allNetworks: Array<Network> = connectivityManager.allNetworks
+            for (network in allNetworks) {
+                val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+                if (networkCapabilities != null) {
+                    if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    ) {
+                        isNetworkAvailable.value = true
+                        return
+                    }
+                }
+            }
+            isNetworkAvailable.value = false
+        }
+    }
+
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -100,7 +124,8 @@ class MainViewModel(
     class ViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
-        private val argChartIQHandler: ChartIQ
+        private val argChartIQHandler: ChartIQ,
+        private val argConnectivityManager: ConnectivityManager
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -108,9 +133,15 @@ class MainViewModel(
                 .getConstructor(
                     NetworkManager::class.java,
                     ApplicationPrefs::class.java,
-                    ChartIQ::class.java
+                    ChartIQ::class.java,
+                    ConnectivityManager::class.java
                 )
-                .newInstance(argNetworkManager, argApplicationPrefs, argChartIQHandler)
+                .newInstance(
+                    argNetworkManager,
+                    argApplicationPrefs,
+                    argChartIQHandler,
+                    argConnectivityManager
+                )
         }
     }
 }
