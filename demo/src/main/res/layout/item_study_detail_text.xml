@@ -16,7 +16,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/parameterNumberEditText"
-            style="@style/SubtitleTextOutlinedStyle"
+            style="@style/SubtitleTextStyle"
             android:layout_width="match_parent"
             android:imeOptions="actionDone"
             android:layout_height="wrap_content"

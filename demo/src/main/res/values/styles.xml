@@ -17,7 +17,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="SubtitleTextOutlinedStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="SubtitleTextStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/darkElectricBlue</item>
     </style>
