@@ -246,7 +246,7 @@ class ChartViewModel(
             getDrawingToolParameters()
             if (drawingTool.value == DrawingTool.MEASURE) {
                 chartIQHandler.addMeasureListener { value ->
-                    measureToolInfo.postValue(value.substring(1, value.length - 1))
+                    measureToolInfo.postValue(value)
                 }
             }
         }

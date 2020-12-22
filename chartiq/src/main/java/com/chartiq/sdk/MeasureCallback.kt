@@ -1,6 +1,6 @@
 package com.chartiq.sdk
 
-fun interface MeasureListener {
+fun interface MeasureCallback {
 
     fun onMeasureUpdate(update: String)
 }

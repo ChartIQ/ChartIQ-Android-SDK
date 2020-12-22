@@ -29,7 +29,7 @@ class ChartIQHandler(
     private val scriptManager = ChartIQScriptManager()
     private var parameters = HashMap<String, Boolean>()
     private val chartIQView = ChartIQView(context)
-    private var measureListener: MeasureListener? = null
+    private var measureCallback: MeasureCallback? = null
 
     override val chartView: View
         get() = chartIQView
@@ -80,7 +80,7 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun measureChange(json: String) {
-        measureListener?.onMeasureUpdate(json)
+        measureCallback?.onMeasureUpdate(json.substring(1, json.length - 1))
     }
 
     @JavascriptInterface
@@ -408,8 +408,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRestoreDefaultDrawingConfigScript(tool, all))
     }
 
-    override fun addMeasureListener(measureListener: MeasureListener) {
-        this.measureListener = measureListener
+    override fun addMeasureListener(measureCallback: MeasureCallback) {
+        this.measureCallback = measureCallback
     }
 
 
