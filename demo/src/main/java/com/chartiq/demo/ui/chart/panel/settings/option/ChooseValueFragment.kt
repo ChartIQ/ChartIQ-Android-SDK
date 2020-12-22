@@ -6,19 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
+import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseValueBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
+import com.chartiq.demo.ui.chart.panel.settings.config.AddConfigFragment
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.demo.ui.common.optionpicker.OptionsAdapter
 
-class ChooseValueFragment : FullscreenDialogFragment() {
+class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.DialogFragmentListener {
 
     private lateinit var binding: FragmentChooseValueBinding
     private lateinit var optionList: List<OptionItem>
     private val isMultipleSelect by lazy {
         requireArguments().getBoolean(ARG_IS_MULTIPLE_SELECTION)
+    }
+    private val hasCustomInput by lazy {
+        requireArguments().getBoolean(ARG_HAS_CUSTOM_VALUE_SUPPORT)
     }
     private val parameter by lazy {
         requireArguments().getString(ARG_PARAM)
@@ -37,6 +42,13 @@ class ChooseValueFragment : FullscreenDialogFragment() {
         return binding.root
     }
 
+    override fun onCustomValueAdded(value: String) {
+        optionList = optionList.toMutableList().apply {
+            add(OptionItem(value, true))
+        }
+        valuesAdapter.items = optionList
+    }
+
     private fun setupViews() {
         with(binding) {
             optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
@@ -52,6 +64,15 @@ class ChooseValueFragment : FullscreenDialogFragment() {
                     }
                     dismiss()
                 }
+                if (hasCustomInput) {
+                    menu.findItem(R.id.add_custom_value).apply {
+                        isVisible = true
+                        setOnMenuItemClickListener {
+                            navigateToCustomValue()
+                            true
+                        }
+                    }
+                }
             }
             valuesRecyclerView.apply {
                 valuesAdapter.items = optionList
@@ -63,6 +84,12 @@ class ChooseValueFragment : FullscreenDialogFragment() {
                 adapter = valuesAdapter
             }
         }
+    }
+
+    private fun navigateToCustomValue() {
+        val dialog = AddConfigFragment.getInstance()
+        dialog.setTargetFragment(this, REQUEST_CODE_SHOW_CUSTOM_VALUE)
+        dialog.show(parentFragmentManager, null)
     }
 
     private fun onValueSelected(selectedOption: OptionItem) {
@@ -89,22 +116,26 @@ class ChooseValueFragment : FullscreenDialogFragment() {
             @StringRes title: Int,
             param: String,
             valueList: List<OptionItem>,
-            isMultipleSelect: Boolean = false
+            isMultipleSelect: Boolean = false,
+            hasCustomValueSupport: Boolean
         ): ChooseValueFragment {
             val dialog = ChooseValueFragment()
             dialog.arguments = bundleOf(
                 ARG_TITLE to title,
                 ARG_PARAM to param,
                 ARG_OPTIONS to valueList,
-                ARG_IS_MULTIPLE_SELECTION to isMultipleSelect
+                ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
+                ARG_HAS_CUSTOM_VALUE_SUPPORT to hasCustomValueSupport
             )
             return dialog
         }
 
         private const val ARG_TITLE = "choose.values.title"
+        private const val REQUEST_CODE_SHOW_CUSTOM_VALUE = 10210
         private const val ARG_PARAM = "choose.values.argument.parameter"
         private const val ARG_OPTIONS = "choose.values.argument.options.list"
         private const val ARG_IS_MULTIPLE_SELECTION = "choose.values.argument.is.multiple.selection"
+        private const val ARG_HAS_CUSTOM_VALUE_SUPPORT = "choose.values.argument.supports.custom.input"
     }
 
     interface DialogFragmentListener {
