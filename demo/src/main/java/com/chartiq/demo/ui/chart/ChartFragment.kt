@@ -59,7 +59,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val linesAdapter by lazy { LineAdapter() }
     private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
     private val collapseFullviewButtonOnSwipeListener by lazy {
-        CollapseButtonOnSwipeTouchListener(binding.root, requireContext())
+        CollapseButtonOnSwipeTouchListener(binding.root, requireContext()) {
+            listOf(binding.moveLeftCollapseButtonView, binding.moveDownCollapseButtonView).forEach {
+                it.isVisible = false
+            }
+        }
     }
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
@@ -140,6 +144,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             collapseFullviewCheckBox.setOnClickListener {
                 toggleFullscreenViews(false)
             }
+            collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
         }
         with(chartViewModel) {
             resultLiveData.observe(viewLifecycleOwner) { chartData ->
@@ -238,19 +243,19 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     disableFullscreen(isDrawingToolSelected)
                 }
             }
-            moveHintsAreShown.observe(viewLifecycleOwner) { areShown ->
-                if (areShown) {
-                    with(binding) {
-                        collapseFullviewCheckBox
-                            .setOnTouchListener(collapseFullviewButtonOnSwipeListener)
 
-                        listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
-                            .forEach { view ->
-                                view.isVisible = true
-                                binding.root.postDelayed({
-                                    view.isVisible = false
-                                }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
-                            }
+            moveHintsAreShown.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let { areShown ->
+                    if (areShown) {
+                        with(binding) {
+                            listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
+                                .forEach { view ->
+                                    view.isVisible = true
+                                    root.postDelayed({
+                                        view.isVisible = false
+                                    }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
+                                }
+                        }
                     }
                 }
             }
