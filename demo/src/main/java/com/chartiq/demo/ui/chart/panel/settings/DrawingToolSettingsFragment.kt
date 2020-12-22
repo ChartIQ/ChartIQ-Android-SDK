@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
@@ -19,9 +19,9 @@ import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
+import com.google.gson.Gson
 
 class DrawingToolSettingsFragment : Fragment(),
     ChooseColorFragment.DialogFragmentListener,
@@ -32,7 +32,7 @@ class DrawingToolSettingsFragment : Fragment(),
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-    private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
+    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(factoryProducer = {
         DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
     })
     private val settingsAdapter = DrawingToolSettingsAdapter()
@@ -75,14 +75,25 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.refreshDrawingParameters()
     }
 
+    // TODO: Discuss encoding. Should be simplified for the end user
     override fun onChooseValue(
         parameter: String,
         valuesList: List<OptionItem>,
         isMultipleSelect: Boolean
     ) {
         val value = when (parameter) {
-            DrawingParameter.FIBS.value ->
-                Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
+            DrawingParameter.FIBS.value -> {
+                val list = mutableListOf<Map<String, String>>()
+                valuesList.map {
+                    val map = hashMapOf(
+                        Pair(DrawingParameter.DISPLAY.value, it.isSelected.toString()),
+                        Pair(DrawingParameter.LEVEL.value, it.value)
+                    )
+                    list.add(map)
+                }
+                val jsonList = Gson().toJson(list)
+                Base64.encodeToString(jsonList.toString().toByteArray(), Base64.DEFAULT)
+            }
             else ->
                 valuesList.find { it.isSelected }!!.value
         }
@@ -96,7 +107,6 @@ class DrawingToolSettingsFragment : Fragment(),
         if (args.argDeviation != null) {
             val item = args.argDeviation
             binding.settingsToolbar.title = getString(item!!.title)
-            settingsAdapter.items = item.settings
         } else {
             val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
             binding.settingsToolbar.title = getString(item.nameRes)
@@ -152,9 +162,11 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToChooseValueFromList(item: DrawingToolSettingsItem.ChooseValue) {
         val dialog = ChooseValueFragment.getInstance(
+            item.title,
             item.param,
             item.valueList,
-            item.isMultipleSelection
+            item.isMultipleSelection,
+            item.hasCustomValueSupport
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)

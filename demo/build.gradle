@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
@@ -20,11 +22,22 @@ android {
         buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/Android/ChartIQJS_09_12_20_measure/sample-template-native-sdk.html\"")
 //        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")
     }
-
+    signingConfigs {
+        release {
+            storeFile file("keystore/release.jks")
+            storePassword 'CduNh9W7d2rzjrHV'
+            keyAlias 'chartKey'
+            keyPassword '8RcZah58RhRmYtpu'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -67,4 +80,12 @@ dependencies {
     testImplementation "junit:junit:4.12"
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
+
+    // Crashlytics
+    releaseImplementation platform('com.google.firebase:firebase-bom:26.1.1')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
+    releaseImplementation 'com.google.firebase:firebase-analytics-ktx'
 }

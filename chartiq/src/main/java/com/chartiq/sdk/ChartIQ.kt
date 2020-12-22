@@ -16,11 +16,15 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     val chartView: View
 
+    /**
+     * Sets a DataSource for ChartIQ. Note that it should be set before calling [ChartIQ.start]
+     */
+    fun setDataSource(dataSource: DataSource)
+
     fun start(onStartCallback: OnStartCallback)
 
     fun setSymbol(symbol: String)
 
-    fun setDataSource(dataSource: DataSource)
 
     fun setDataMethod(method: DataMethod, symbol: String)
 

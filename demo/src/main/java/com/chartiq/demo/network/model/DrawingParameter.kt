@@ -3,6 +3,7 @@ package com.chartiq.demo.network.model
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+// TODO: Refactor
 @Parcelize
 enum class DrawingParameter(val value: String) : Parcelable {
     FILL_COLOR("fillColor"),
