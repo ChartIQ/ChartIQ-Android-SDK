@@ -93,8 +93,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-        // Orientation changes are triggered here only so far so no check needed
         chartViewModel.toggleFullscreen()
     }
 
@@ -123,6 +121,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun setupViews() {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            chartViewModel.toggleFullscreen()
+        }
         with(binding) {
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             symbolButton.setOnClickListener {
