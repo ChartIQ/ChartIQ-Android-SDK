@@ -15,7 +15,7 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
-import com.chartiq.demo.ui.localization.LocalizationManager
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
 import com.chartiq.sdk.model.study.Study
 import com.chartiq.sdk.model.study.StudyParameter

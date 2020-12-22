@@ -39,7 +39,7 @@ import com.chartiq.demo.ui.common.colorpicker.findColorIndex
 import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
-import com.chartiq.demo.ui.localization.LocalizationManager
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chartiq.demo.ui.localization.LocalizationManager
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.study.Study

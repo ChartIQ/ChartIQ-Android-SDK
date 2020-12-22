@@ -1,6 +1,5 @@
-package com.chartiq.demo.ui.localization
+package com.chartiq.demo.localization
 
-import android.util.Log
 import com.chartiq.demo.ui.widget.SwitcherSettingsView
 import dev.b3nedikt.reword.transformer.AbstractViewTransformer
 

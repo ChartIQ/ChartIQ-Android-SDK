@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.localization
+package com.chartiq.demo.localization
 
 import com.chartiq.demo.ui.widget.TwoLineSettingsView
 import dev.b3nedikt.reword.transformer.AbstractViewTransformer

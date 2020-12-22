@@ -10,11 +10,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainFragment
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
-import com.chartiq.demo.ui.localization.LocalizationManager
 import com.chartiq.sdk.ChartIQ
 
 

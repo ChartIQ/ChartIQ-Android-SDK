@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.localization
+package com.chartiq.demo.localization
 
 data class ResourceTranslationItem(
     val resourceKey: String,

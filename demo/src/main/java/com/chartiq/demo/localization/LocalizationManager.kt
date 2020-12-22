@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.localization
+package com.chartiq.demo.localization
 
 import android.content.Context
 import android.content.res.Configuration
@@ -12,7 +12,9 @@ import java.util.*
 object LocalizationManager {
 
     fun getTranslationFromValue(value: String, context: Context): String {
-        val identifier = value.toLowerCase(Locale.ENGLISH).replace(ORIGINAL_STRING_DELIMITER, NEW_STRING_DELIMITER)
+        val identifier = value
+            .toLowerCase(Locale.ENGLISH)
+            .replace(ORIGINAL_STRING_DELIMITER, NEW_STRING_DELIMITER)
         return if (context.resources.getIdentifier(identifier, "string", context.packageName) != 0) {
             context.resources.getString(context.resources.getIdentifier(identifier, "string", null))
         } else {
