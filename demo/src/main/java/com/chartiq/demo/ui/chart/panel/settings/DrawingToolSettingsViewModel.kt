@@ -1,5 +1,6 @@
 package com.chartiq.demo.ui.chart.panel.settings
 
+import android.util.Base64
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -97,6 +98,31 @@ class DrawingToolSettingsViewModel(
     }
 
     fun updateParameter(parameter: String, value: String) {
+        chartIQHandler.setDrawingParameter(parameter, value)
+        refreshDrawingParameters()
+    }
+
+    // TODO: Discuss encoding. Should be simplified for the end user
+    fun updateChooseValueParameter(
+        parameter: String,
+        valuesList: List<OptionItem>
+    ) {
+        val value = when (parameter) {
+            DrawingParameterType.FIBS.value -> {
+                val list = mutableListOf<Map<String, String>>()
+                valuesList.map {
+                    val map = hashMapOf(
+                        Pair(KEY_DISPLAY, it.isSelected.toString()),
+                        Pair(KEY_LEVEL, it.value)
+                    )
+                    list.add(map)
+                }
+                val jsonList = Gson().toJson(list)
+                Base64.encodeToString(jsonList.toString().toByteArray(), Base64.DEFAULT)
+            }
+            else ->
+                valuesList.find { it.isSelected }!!.value
+        }
         chartIQHandler.setDrawingParameter(parameter, value)
         refreshDrawingParameters()
     }

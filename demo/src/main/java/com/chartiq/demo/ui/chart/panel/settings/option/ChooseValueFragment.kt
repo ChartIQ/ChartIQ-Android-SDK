@@ -60,7 +60,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                 setNavigationOnClickListener {
                     if (isMultipleSelect) {
                         (targetFragment as DialogFragmentListener)
-                            .onChooseValue(parameter, optionList, true)
+                            .onChooseValue(parameter, optionList)
                     }
                     dismiss()
                 }
@@ -106,7 +106,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
             valuesAdapter.items = optionList
         } else {
             val list = optionList.map { it.copy(isSelected = it == selectedOption) }
-            (targetFragment as DialogFragmentListener).onChooseValue(param, list, false)
+            (targetFragment as DialogFragmentListener).onChooseValue(param, list)
             dismiss()
         }
     }
@@ -140,10 +140,6 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
 
     interface DialogFragmentListener {
 
-        fun onChooseValue(
-            parameter: String,
-            valuesList: List<OptionItem>,
-            isMultipleSelect: Boolean
-        )
+        fun onChooseValue(parameter: String, valuesList: List<OptionItem>)
     }
 }
