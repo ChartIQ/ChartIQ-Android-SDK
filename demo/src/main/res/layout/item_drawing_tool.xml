@@ -51,6 +51,7 @@
         android:minWidth="32dp"
         android:minHeight="24dp"
         android:padding="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/margin_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

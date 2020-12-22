@@ -20,7 +20,7 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
-import com.chartiq.sdk.model.Study
+import com.chartiq.sdk.model.study.Study
 
 
 class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFragmentListener {
@@ -46,7 +46,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
 
         setupViews()

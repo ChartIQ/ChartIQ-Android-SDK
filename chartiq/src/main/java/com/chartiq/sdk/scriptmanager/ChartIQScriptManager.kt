@@ -1,10 +1,9 @@
 package com.chartiq.sdk.scriptmanager
 
-import com.chartiq.sdk.model.AggregationType
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.OHLCParams
-import com.chartiq.sdk.model.StudyParameterModel
+import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
 // TODO: 03.09.20 Add parameters safety check
@@ -41,7 +40,7 @@ internal class ChartIQScriptManager : ScriptManager {
         "if (" + MOBILE_BRIDGE_NAME_SPACE + "isChartAvailable() == true) { \"true\" } else { \"false\" } "
 
     override fun getSetPeriodicityScript(period: Int, interval: String, timeUnit: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\");"
+        MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, \"$interval\", \"$timeUnit\");"
 
     override fun getPushDataScript(symbol: String, data: List<OHLCParams>): String {
         // TODO: 03.09.20 Parse the array for the call
@@ -57,6 +56,14 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartTypeScript(chartType: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setChartType(\"$chartType\");"
 
+    override fun getSetAggregationTypeScript(aggregationType: String): String =
+        CHART_IQ_JS_OBJECT + "setAggregationType(\"$aggregationType\");"
+
+    override fun getChartTypeScript(): String = CHART_IQ_JS_OBJECT + "layout.chartType"
+
+    override fun getAggregationTypeScript(): String = CHART_IQ_JS_OBJECT + "layout.aggregationType"
+
+
     override fun getAddSeriesScript(symbol: String, hexColor: String): String =
         CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", " +
                 "color: \"$hexColor\"  isComparison:true});"
@@ -70,9 +77,13 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getClearChartScript(): String =
         CHART_IQ_JS_OBJECT + "destroy();"
 
-    override fun getSetChartScaleScript(scale: String): String = CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+    override fun getChartScaleScript(): String = CHART_IQ_JS_OBJECT + "layout.chartScale"
 
-    override fun getAddStudyScript(studyName: String): String = MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
+    override fun getSetChartScaleScript(scale: String): String =
+        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+
+    override fun getAddStudyScript(studyName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
@@ -96,6 +107,14 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
+    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String {
+        var toolName = ""
+        if (!all) {
+            toolName = tool.value
+        }
+        return MOBILE_BRIDGE_NAME_SPACE + "restoreDefaultDrawingConfig(\"$toolName\", $all);"
+    }
+
     override fun getSetDrawingParameterScript(parameter: String, value: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setDrawingParameters(\"$parameter\", \"$value\");"
 
@@ -110,9 +129,6 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getActiveStudies();"
 
-    override fun getSetAggregationTypeScript(aggregationType: AggregationType): String =
-        CHART_IQ_JS_OBJECT + "setAggregationType" + "(" + aggregationType.value + ");"
-
     override fun getStudyInputParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\", \"inputs\")"
 
@@ -122,13 +138,17 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getStudyParametersScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getStudyParameters(\"$studyName\" , \"parameters\")"
 
-    override fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String {
-        val script =
-                MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
-        return script
+    override fun getSetStudyParameterScript(
+        studyName: String,
+        parameter: StudyParameterModel
+    ): String {
+        return MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
     }
 
-    override fun getSetStudyParametersScript(name: String, parameters: List<StudyParameterModel>): String {
+    override fun getSetStudyParametersScript(
+        name: String,
+        parameters: List<StudyParameterModel>
+    ): String {
         val scriptList = parameters.map {
             getUpdateStudyParametersScript(it.fieldName, it.fieldSelectedValue)
         }
@@ -227,6 +247,17 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
 
+    override fun getInvertYAxisScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"
+
+    override fun getSetInvertYAxisScript(inverted: Boolean): String = CHART_IQ_JS_OBJECT + "flipChart($inverted);"
+
+    override fun getIsExtendedHoursScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
+
+    override fun getSetExtendedHoursScript(extended: Boolean): String =
+        MOBILE_BRIDGE_NAME_SPACE + "toggleExtendedHours($extended);"
+
     override fun getUndoDrawingScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "undo();"
 
@@ -241,6 +272,13 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getLayerManagementScript(layer: ChartLayer): String =
         MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
+
+    override fun getScriptForTranslations(languageCode: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getTranslations(\"${languageCode.asSafeScriptParameter}\");"
+
+    override fun getScriptForSetLanguage(languageCode: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "setLanguage(\"${languageCode.asSafeScriptParameter}\");"
+
 
     private val String.asSafeScriptParameter: String
         get() {

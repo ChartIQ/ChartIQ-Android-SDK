@@ -1,15 +1,17 @@
 package com.chartiq.demo.ui.study.studydetails
 
 import android.util.Log
+import androidx.annotation.ColorRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.Study
-import com.chartiq.sdk.model.StudyParameter
-import com.chartiq.sdk.model.StudyParameterModel
-import com.chartiq.sdk.model.StudyParameterType
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterType
 
 class ActiveStudyDetailsViewModel(
     private val chartIQ: ChartIQ,
@@ -108,10 +110,22 @@ class ActiveStudyDetailsViewModel(
         parametersToSave.value = map
     }
 
-    fun onColorParamChange(parameter: StudyParameter, newValue: String) {
+    private fun onColorParamChange(parameter: StudyParameter, newValue: String) {
         val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Color)
         val map = parametersToSave.value!!.toMutableMap()
         map[name] = StudyParameterModel(name, newValue)
+        val updatedParams: List<StudyParameter> = (studyParams.value ?: emptyList()).map { param ->
+            if (param.name == parameter.name) {
+                when (param) {
+                    is StudyParameter.Color -> param.copy(value = newValue)
+                    is StudyParameter.TextColor -> param.copy(color = newValue)
+                    else -> param
+                }
+            } else {
+                param
+            }
+        }
+        studyParams.value = updatedParams
         parametersToSave.value = map
     }
 
@@ -149,6 +163,12 @@ class ActiveStudyDetailsViewModel(
         } else {
             parameter.name
         }
+    }
+
+    fun onSelectColor(parameterName: String, @ColorRes color: Int) {
+        val parameter = (studyParams.value ?: emptyList()).first { it.name == parameterName }
+        onColorParamChange(parameter, color.toHexStringWithHash())
+
     }
 
     class ViewModelFactory(

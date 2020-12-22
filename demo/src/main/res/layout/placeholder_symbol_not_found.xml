@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/searchImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_extra_large"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toTopOf="@id/hintTextView"
+        app:layout_constraintEnd_toEndOf="@+id/hintTextView"
+        app:layout_constraintHeight_max="80dp"
+        app:layout_constraintStart_toStartOf="@+id/hintTextView"
+        app:layout_constraintWidth_max="80dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hintTextView"
+        style="@style/PlaceHolderHintTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium_small"
+        android:gravity="center"
+        android:text="@string/search_symbols_not_found_hint"
+        app:layout_constraintBottom_toTopOf="@id/secondaryHintTextView"
+        app:layout_constraintEnd_toEndOf="@+id/secondaryHintTextView"
+        app:layout_constraintStart_toStartOf="@+id/secondaryHintTextView" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/secondaryHintTextView"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:gravity="center"
+        android:text="@string/search_symbols_not_found_secondary_hint"
+        android:textSize="@dimen/text_size_subtitle"
+        app:layout_constraintBottom_toTopOf="@id/applyButton"
+        app:layout_constraintEnd_toEndOf="@+id/applyButton"
+        app:layout_constraintStart_toStartOf="@+id/applyButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyButton"
+        style="@style/ActionButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:minWidth="328dp"
+        android:text="@string/search_apply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_default="wrap" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,16 @@ import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.interval.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import java.util.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 interface ApplicationPrefs {
+
+    val languageState: Flow<ChartIQLanguage>
 
     fun getChartInterval(): Interval
 
@@ -31,9 +37,21 @@ interface ApplicationPrefs {
 
     fun getApplicationId(): String
 
+
+    fun setLanguage(language: ChartIQLanguage)
+
     class Default(context: Context) : ApplicationPrefs {
+
         private val prefs: SharedPreferences by lazy {
             context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+        }
+        private val language = MutableStateFlow(ChartIQLanguage.EN)
+
+        override val languageState = language.asStateFlow()
+
+        init {
+            language.value =
+                ChartIQLanguage.valueOf(prefs.getString(KEY_LANGUAGE, ChartIQLanguage.EN.name)!!)
         }
 
         override fun getChartInterval(): Interval {
@@ -64,12 +82,13 @@ interface ApplicationPrefs {
         override fun getDrawingTool(): DrawingTool =
             DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
 
-        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) = prefs.edit {
-            val set = drawingToolsSet
-                .map { it.toString() }
-                .toHashSet()
-            putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
-        }
+        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) =
+            prefs.edit(true) {
+                val set = drawingToolsSet
+                    .map { it.toString() }
+                    .toHashSet()
+                putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
+            }
 
         override fun getFavoriteDrawingTools(): Set<DrawingTool> {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
@@ -95,6 +114,13 @@ interface ApplicationPrefs {
                 storedId
             }
         }
+
+        override fun setLanguage(lang: ChartIQLanguage) {
+            prefs.edit(true) {
+                putString(KEY_LANGUAGE, lang.name)
+            }
+            language.value = lang
+        }
     }
 
     companion object {
@@ -104,6 +130,7 @@ interface ApplicationPrefs {
         private const val KEY_CHART_SYMBOL = "chart.iq.demo.chart.symbol"
         private const val KEY_DRAWING_TOOL_FAVORITE = "chart.iq.demo.chart.drawingtool.favorites"
         private const val KEY_DRAWING_TOOL = "chart.iq.demo.chart.drawingtool.tool"
+        private const val KEY_LANGUAGE = "chart.iq.demo.settings.chartiq_language"
         private const val KEY_APPLICATION_ID = "chart.iq.demo.chart.applicationid"
 
         private const val DEFAULT_CHART_INTERVAL = "1 day"
@@ -111,4 +138,5 @@ interface ApplicationPrefs {
 
         private const val FORMATTING_INTERVAL = "%d %s"
     }
+
 }

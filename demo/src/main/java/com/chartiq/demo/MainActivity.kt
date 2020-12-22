@@ -31,13 +31,20 @@ class MainActivity : AppCompatActivity() {
                             ?.receiveVoiceQuery(query)
                     }
                 }
-                else -> Unit
+                else -> {
+                    Unit
+                }
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        // TODO: 03.12.20 There are situations where the system will simply kill
+        //  the activity's hosting process without calling onDestroy
+        //  Such a situation is swiping the app out of the recent tasks list
+        //  clearSession() won't work in this situation which should be fixed
+        //  side note: running a StickyService most likely won't work on api level 26+
         appPrefs.clearSession()
     }
 }
