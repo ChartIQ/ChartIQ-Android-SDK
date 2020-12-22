@@ -21,6 +21,7 @@ import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
+import com.google.gson.Gson
 
 class DrawingToolSettingsFragment : Fragment(),
     ChooseColorFragment.DialogFragmentListener,
@@ -74,14 +75,25 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.refreshDrawingParameters()
     }
 
+    // TODO: Discuss encoding. Should be simplified for the end user
     override fun onChooseValue(
         parameter: String,
         valuesList: List<OptionItem>,
         isMultipleSelect: Boolean
     ) {
         val value = when (parameter) {
-            DrawingParameter.FIBS.value ->
-                Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
+            DrawingParameter.FIBS.value -> {
+                val list = mutableListOf<Map<String, String>>()
+                valuesList.map {
+                    val map = hashMapOf(
+                        Pair(DrawingParameter.DISPLAY.value, it.isSelected.toString()),
+                        Pair(DrawingParameter.LEVEL.value, it.value)
+                    )
+                    list.add(map)
+                }
+                val jsonList = Gson().toJson(list)
+                Base64.encodeToString(jsonList.toString().toByteArray(), Base64.DEFAULT)
+            }
             else ->
                 valuesList.find { it.isSelected }!!.value
         }
