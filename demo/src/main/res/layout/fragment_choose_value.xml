@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/valuesToolbar"
         style="@style/AppToolbar"
-        app:navigationIcon="@drawable/ic_close"
-        app:title="Select values" />
+        app:menu="@menu/menu_choose_value"
+        app:navigationIcon="@drawable/ic_close" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/valuesRecyclerView"
@@ -17,8 +18,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:clipToPadding="true"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="1" />
 </FrameLayout>

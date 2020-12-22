@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
@@ -19,7 +19,6 @@ import com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment
 import com.chartiq.demo.ui.chart.panel.settings.option.ChooseValueFragment
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.ChartIQHandler
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -32,7 +31,7 @@ class DrawingToolSettingsFragment : Fragment(),
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-    private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
+    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(factoryProducer = {
         DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
     })
     private val settingsAdapter = DrawingToolSettingsAdapter()
@@ -96,7 +95,6 @@ class DrawingToolSettingsFragment : Fragment(),
         if (args.argDeviation != null) {
             val item = args.argDeviation
             binding.settingsToolbar.title = getString(item!!.title)
-            settingsAdapter.items = item.settings
         } else {
             val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
             binding.settingsToolbar.title = getString(item.nameRes)
@@ -154,7 +152,8 @@ class DrawingToolSettingsFragment : Fragment(),
         val dialog = ChooseValueFragment.getInstance(
             item.param,
             item.valueList,
-            item.isMultipleSelection
+            item.isMultipleSelection,
+            item.hasCustomValueSupport
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)
