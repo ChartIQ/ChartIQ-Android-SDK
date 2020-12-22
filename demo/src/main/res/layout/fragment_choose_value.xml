@@ -9,6 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/valuesToolbar"
         style="@style/AppToolbar"
+        app:menu="@menu/menu_choose_value"
         app:navigationIcon="@drawable/ic_close" />
 
     <androidx.recyclerview.widget.RecyclerView
