@@ -69,6 +69,7 @@ class AddStudyFragment : Fragment() {
             }
 
             toolbar.setNavigationOnClickListener {
+                hideKeyboard()
                 findNavController().navigateUp()
             }
 
