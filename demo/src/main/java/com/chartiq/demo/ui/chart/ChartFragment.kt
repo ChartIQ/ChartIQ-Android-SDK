@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -41,9 +40,7 @@ import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
@@ -106,7 +103,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             (parent as? FrameLayout)?.removeAllViews()
             binding.chartIqView.addView(this)
         }
-        mainViewModel.setupChart()
+        if (chartIQ.chartView.parent == null) {
+            mainViewModel.setupChart()
+        }
     }
 
     override fun onResume() {
