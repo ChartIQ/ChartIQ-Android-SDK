@@ -396,6 +396,8 @@ class ChartIQHandler(
             if (value != "null") {
                 val hud = Gson().fromJson(value, CrosshairHUD::class.java)
                 callback.onReturn(hud)
+            } else {
+                callback.onReturn(CrosshairHUD("", "", "", "", "", ""))
             }
         }
     }
