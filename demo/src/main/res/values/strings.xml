@@ -181,6 +181,7 @@
     <!-- Drawing Tool Settings -->
     <string name="drawing_tool_settings_title_weight">Weight</string>
     <string name="drawing_tool_settings_title_config">Config</string>
+    <string name="drawing_tool_settings_title_add_config">Add config</string>
     <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>
     <string name="drawing_tool_settings_title_line_color">Line Color"</string>
     <string name="drawing_tool_settings_title_line_type">Line Type"</string>
@@ -207,5 +208,7 @@
 
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+    <string name="drawing_tool_settings_add">Add</string>
+    <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
 
 </resources>

@@ -51,7 +51,7 @@ class ChartViewModel(
 
     val isFullscreen = MutableLiveData(false)
 
-    val moveHintsAreShown = MutableLiveData(false)
+    val moveHintsAreShown = MutableLiveData(Event(false))
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
@@ -60,8 +60,8 @@ class ChartViewModel(
     }
 
     fun showMoveHints(show: Boolean) {
-        if (!moveHintsAreShown.value!!) {
-            moveHintsAreShown.value = show
+        if (!moveHintsAreShown.value!!.peekContent()) {
+            moveHintsAreShown.value = Event(show)
         }
     }
 
@@ -209,13 +209,27 @@ class ChartViewModel(
     }
 
     private fun fetchSavedSettings() {
-        currentSymbol.value = applicationPrefs.getChartSymbol()
-        chartInterval.value = applicationPrefs.getChartInterval()
-        drawingTool.value = applicationPrefs.getDrawingTool()
-
-        if (drawingTool.value != DrawingTool.NONE) {
-            chartIQHandler.enableDrawing(drawingTool.value!!)
-            getDrawingToolParameters()
+        val symbol = applicationPrefs.getChartSymbol()
+        if (currentSymbol.value != symbol) {
+            currentSymbol.value = symbol
+            chartIQHandler.setSymbol(symbol.value)
+        }
+        val interval = applicationPrefs.getChartInterval()
+        if (chartInterval.value != interval) {
+            chartInterval.value = interval
+            chartIQHandler.setPeriodicity(
+                interval.getPeriod(),
+                interval.getInterval(),
+                interval.getTimeUnit()
+            )
+        }
+        val tool = applicationPrefs.getDrawingTool()
+        if(drawingTool.value != tool) {
+            drawingTool.value = tool
+            if (drawingTool.value != DrawingTool.NONE) {
+                chartIQHandler.enableDrawing(drawingTool.value!!)
+                getDrawingToolParameters()
+            }
         }
     }
 

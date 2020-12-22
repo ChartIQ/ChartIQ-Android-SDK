@@ -149,6 +149,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
                 setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
                 setIconifiedByDefault(false)
                 isIconified = false
+                maxWidth = Integer.MAX_VALUE
 
                 findViewById<ImageView>(appCompat.search_voice_btn).setImageResource(R.drawable.ic_microphone)
                 findViewById<SearchAutoComplete>(appCompat.search_src_text)
