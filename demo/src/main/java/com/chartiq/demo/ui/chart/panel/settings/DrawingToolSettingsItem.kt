@@ -16,7 +16,8 @@ sealed class DrawingToolSettingsItem : Parcelable {
         val secondaryText: String = "",
         val param: String,
         val valueList: List<OptionItem>,
-        val isMultipleSelection: Boolean = false
+        val isMultipleSelection: Boolean = false,
+        val hasCustomValueSupport: Boolean = false
     ) : DrawingToolSettingsItem()
 
     @Parcelize

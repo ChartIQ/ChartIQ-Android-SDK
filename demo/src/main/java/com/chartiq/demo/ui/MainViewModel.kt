@@ -33,29 +33,29 @@ class MainViewModel(
 
     init {
         chartIQ.apply {
+            setDataSource(object : DataSource {
+                override fun pullInitialData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
+
+                override fun pullUpdateData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
+
+                override fun pullPaginationData(
+                    params: QuoteFeedParams,
+                    callback: DataSourceCallback,
+                ) {
+                    loadChartData(params, callback)
+                }
+            })
             start {
-                setDataSource(object : DataSource {
-                    override fun pullInitialData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullUpdateData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-
-                    override fun pullPaginationData(
-                        params: QuoteFeedParams,
-                        callback: DataSourceCallback,
-                    ) {
-                        loadChartData(params, callback)
-                    }
-                })
                 setupChart()
             }
         }
