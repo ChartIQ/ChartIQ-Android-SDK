@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseValueBinding
@@ -54,6 +55,8 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                 ?: throw IllegalStateException("No value options were passed to the fragment")
 
             valuesToolbar.apply {
+                val title = getString(requireArguments().getInt(ARG_TITLE))
+                setTitle(title)
                 setNavigationOnClickListener {
                     if (isMultipleSelect) {
                         (targetFragment as DialogFragmentListener)
@@ -110,6 +113,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
 
     companion object {
         fun getInstance(
+            @StringRes title: Int,
             param: String,
             valueList: List<OptionItem>,
             isMultipleSelect: Boolean = false,
@@ -117,6 +121,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
         ): ChooseValueFragment {
             val dialog = ChooseValueFragment()
             dialog.arguments = bundleOf(
+                ARG_TITLE to title,
                 ARG_PARAM to param,
                 ARG_OPTIONS to valueList,
                 ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
@@ -125,6 +130,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
             return dialog
         }
 
+        private const val ARG_TITLE = "choose.values.title"
         private const val REQUEST_CODE_SHOW_CUSTOM_VALUE = 10210
         private const val ARG_PARAM = "choose.values.argument.parameter"
         private const val ARG_OPTIONS = "choose.values.argument.options.list"
