@@ -1,35 +1,20 @@
-package com.chartiq.demo.network.model
+package com.chartiq.sdk.model.drawingtool
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-// TODO: Refactor
-@Parcelize
-enum class DrawingParameter(val value: String) : Parcelable {
+enum class DrawingParameterType(val value: String) {
     FILL_COLOR("fillColor"),
     LINE_COLOR("color"),
     LINE_TYPE("pattern"),
     LINE_WIDTH("lineWidth"),
-    FONT("font"),
     FAMILY("family"),
     SIZE("size"),
     STYLE("style"),
     WEIGHT("weight"),
-    NORMAL("normal"),
-    ITALIC("italic"),
-    BOLD("bold"),
-    BOLD_OFF("300"),
-    AXIS_LABEL("axisLabel"),
-    PARAMETERS("parameters"),
     FIBS("fibs"),
     SHOW_LINES("showLines"),
-    WAVE_PARAMETERS("waveParameters"),
     WAVE_TEMPLATE("waveTemplate"),
     IMPULSE("impulse"),
     CORRECTIVE("corrective"),
     DECORATION("decoration"),
-    LEVEL("level"),
-    DISPLAY("display"),
     ACTIVE_1("active1"),
     ACTIVE_2("active2"),
     ACTIVE_3("active3"),

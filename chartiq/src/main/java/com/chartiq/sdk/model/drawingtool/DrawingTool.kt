@@ -1,10 +1,6 @@
 package com.chartiq.sdk.model.drawingtool
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
-enum class DrawingTool(val value: String) : Parcelable {
+enum class DrawingTool(val value: String) {
     ANNOTATION("annotation"),
     ARROW("arrow"),
     AVERAGE_LINE("average"),

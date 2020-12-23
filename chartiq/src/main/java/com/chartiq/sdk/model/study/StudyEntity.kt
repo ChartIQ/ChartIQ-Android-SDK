@@ -17,7 +17,7 @@ data class StudyEntity(
     val shortName: String?,
     val type: String?,
     val underlay: Boolean,
-    val yAxis: Map<String, Object>?,
+    val yAxis: Map<String, Object>?
 ) : Serializable
 
 fun StudyEntity.toStudy(): Study {
