@@ -176,7 +176,8 @@
     <string name="search">Search</string>
 
     <!-- Drawing Tool Settings -->
-    <string name="drawing_tool_settings_title_weight">Weight</string>
+    <string name="drawing_tool_settings_title_select_color">Select Color</string>
+    <string name="drawing_tool_settings_title_select_line_type">Select Line type</string>
     <string name="drawing_tool_settings_title_config">Config</string>
     <string name="drawing_tool_settings_title_add_config">Add config</string>
     <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>

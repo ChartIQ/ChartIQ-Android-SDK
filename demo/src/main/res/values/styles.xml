@@ -121,6 +121,6 @@
     <style name="FullScreenDialog" parent="AppTheme">
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@color/cadetBlue</item>
+        <item name="android:windowBackground">@color/ghostWhite</item>
     </style>
 </resources>

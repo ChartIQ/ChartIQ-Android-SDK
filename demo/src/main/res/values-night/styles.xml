@@ -89,11 +89,4 @@
         <item name="android:textColorHint">@color/cadetBlue</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
     </style>
-
-    <!-- TODO -->
-    <style name="FullScreenDialog" parent="AppTheme">
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@color/cadetBlue</item>
-    </style>
 </resources>

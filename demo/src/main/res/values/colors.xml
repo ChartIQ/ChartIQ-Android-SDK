@@ -12,22 +12,27 @@
     <color name="darkElectricBlue">#53627c</color>
     <color name="gainsboro">#dadfe3</color>
 
-    <color name="checkboxButtonColor">@color/brightGrey</color>
-    <color name="checkboxIcColor">@color/brightGrey</color>
 
-    <color name="crosshairsLabelColor">@color/darkElectricBlue</color>
-    <color name="crosshairsTextColor">@color/yankeesBlue</color>
-    <color name="crosshairsBackgroundColor">@color/ghostWhite</color>
-
-    <color name="drawActionBackgroundColor">@color/white</color>
+    <color name="logoTitleColor">@color/darkGunmetal</color>
     <color name="icPrimaryColor">@color/darkElectricBlue</color>
+
     <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
     <color name="placeholderSecondaryColor">@color/brightGrey</color>
     <color name="placeholderTertiaryColor">@color/white</color>
-    <color name="logoTitleColor">@color/darkGunmetal</color>
+
+    <color name="checkboxButtonColor">@color/brightGrey</color>
+    <color name="checkboxIcColor">@color/brightGrey</color>
+    <color name="crosshairsLabelColor">@color/darkElectricBlue</color>
+    <color name="crosshairsTextColor">@color/yankeesBlue</color>
+    <color name="crosshairsBackgroundColor">@color/ghostWhite</color>
+    <color name="drawActionBackgroundColor">@color/white</color>
+
     <color name="panelBackgroundColor">@color/brightGrey</color>
     <color name="panelInstrumentBackgroundColor">@color/white</color>
     <color name="panelItemBackgroundColor">@color/white</color>
+
+    <color name="fontStyleColor">@color/chineseBlack</color>
+    <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
 
     <color name="darkGunmetal">#18252e</color>
     <color name="chineseBlack">#091924</color>
