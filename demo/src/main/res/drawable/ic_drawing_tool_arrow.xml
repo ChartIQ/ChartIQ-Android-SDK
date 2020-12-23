@@ -12,7 +12,7 @@
         android:strokeAlpha="0"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="nonZero"
         android:pathData="M15.5385,8.7692l-1.3077,-2.7692l7.7692,0.3846l-4.2308,6.8462l-1.3077,-2.7692l-13.6154,7.2308l-0.8462,-1.7692z"
         android:strokeWidth="1"

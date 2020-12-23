@@ -11,67 +11,67 @@
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M8,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M24,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M40,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M16,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M32,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M48,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M12,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M28,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M44,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M20,22h2v1h-2z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M36,22h2v1h-2z"
         android:strokeWidth="1"

@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:width="0dp"
         android:button="@drawable/selector_star"
-        android:buttonTint="@color/darkElectricBlue"
+        android:buttonTint="@color/favoriteCheckboxTintColor"
         android:minWidth="32dp"
         android:minHeight="24dp"
         android:padding="@dimen/padding_medium"

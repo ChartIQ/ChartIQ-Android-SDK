@@ -8,6 +8,6 @@
         android:fillType="evenOdd"
         android:pathData="M8,22L50,22"
         android:strokeWidth="3"
-        android:strokeColor="#53627C"
+        android:strokeColor="@color/icPrimaryColor"
         android:strokeLineCap="square" />
 </vector>

@@ -11,37 +11,37 @@
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M8,21h3v2h-3z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M39,21h4v2h-4z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M23,21h4v2h-4z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M15,21h4v2h-4z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M47,21h3v2h-3z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627C"
+        android:fillColor="@color/icPrimaryColor"
         android:fillType="evenOdd"
         android:pathData="M31,21h4v2h-4z"
         android:strokeWidth="1"
