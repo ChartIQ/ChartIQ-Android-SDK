@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/padding_medium"
-        android:background="@color/brightGrey"
+        android:background="@color/separatorColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
