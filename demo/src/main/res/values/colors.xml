@@ -15,6 +15,7 @@
 
     <color name="logoTitleColor">@color/darkGunmetal</color>
     <color name="icPrimaryColor">@color/darkElectricBlue</color>
+    <color name="toolbarBackgroundColor">@color/ghostWhite</color>
 
     <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
     <color name="placeholderSecondaryColor">@color/brightGrey</color>
@@ -33,6 +34,8 @@
 
     <color name="fontStyleColor">@color/chineseBlack</color>
     <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
+
+    <color name="searchStudyInputBackgroundColor">@color/white</color>
 
     <color name="darkGunmetal">#18252e</color>
     <color name="chineseBlack">#091924</color>

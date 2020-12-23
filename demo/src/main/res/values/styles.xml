@@ -12,7 +12,7 @@
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/elevation_small</item>
-        <item name="android:background">@color/ghostWhite</item>
+        <item name="android:background">@color/toolbarBackgroundColor</item>
         <item name="titleTextColor">@color/black</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -63,7 +63,7 @@
     </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
-        <item name="android:background">@color/ghostWhite</item>
+        <item name="android:background">@color/toolbarBackgroundColor</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:elevation">@dimen/elevation_small</item>
         <item name="android:paddingStart">@dimen/padding_extra_large</item>

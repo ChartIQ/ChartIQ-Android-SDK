@@ -2,6 +2,7 @@
 <resources>
     <color name="logoTitleColor">@color/white</color>
     <color name="icPrimaryColor">@color/white</color>
+    <color name="toolbarBackgroundColor">@color/chineseBlack</color>
 
     <color name="favoriteCheckboxTintColor">@color/white</color>
     <color name="placeholderSecondaryColor">@color/chineseBlack</color>
@@ -20,4 +21,6 @@
 
     <color name="fontStyleColor">@color/white</color>
     <color name="chooseScreenBackgroundColor">@color/darkGunmetal</color>
+
+    <color name="searchStudyInputBackgroundColor">@color/darkGunmetal</color>
 </resources>

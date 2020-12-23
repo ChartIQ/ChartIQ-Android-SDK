@@ -4,7 +4,7 @@
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/elevation_small</item>
-        <item name="android:background">@color/chineseBlack</item>
+        <item name="android:background">@color/toolbarBackgroundColor</item>
         <item name="titleTextColor">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -34,22 +34,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
-    </style>
-
-    <!-- TODO -->
-    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
-        <item name="android:background">@color/chineseBlack</item>
-        <item name="android:clipToPadding">false</item>
-        <item name="android:elevation">@dimen/elevation_small</item>
-        <item name="android:paddingStart">@dimen/padding_extra_large</item>
-        <item name="android:paddingEnd">@dimen/padding_extra_large</item>
-        <item name="tabMode">scrollable</item>
-        <item name="tabTextAppearance">@style/AppTabAppearance</item>
-        <item name="tabSelectedTextColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppTabAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="PositiveAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
