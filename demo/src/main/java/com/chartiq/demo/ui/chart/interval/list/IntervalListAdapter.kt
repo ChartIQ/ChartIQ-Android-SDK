@@ -4,10 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemIntervalBinding
 import com.chartiq.demo.databinding.ItemIntervalChooseCustomBinding
+import com.chartiq.demo.localization.LocalizationManager
 
 class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalViewHolder>() {
+
+    var localizationManager: LocalizationManager? = null
 
     var items = listOf<IntervalItem>()
         set(value) {
@@ -43,10 +47,10 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
         when (getItemViewType(position)) {
             TYPE_CUSTOM ->
                 (holder as IntervalViewHolder.CustomIntervalViewHolder)
-                    .bind(item, onSelectIntervalListener)
+                    .bind(item, onSelectIntervalListener, localizationManager)
             TYPE_REGULAR ->
                 (holder as IntervalViewHolder.RegularIntervalViewHolder)
-                    .bind(item, onSelectIntervalListener)
+                    .bind(item, onSelectIntervalListener, localizationManager)
         }
     }
 
@@ -57,10 +61,19 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
         class RegularIntervalViewHolder(private val binding: ItemIntervalBinding) :
             IntervalViewHolder(binding.root) {
 
-            fun bind(item: IntervalItem, onSelectInterval: OnIntervalSelectListener?) {
+            fun bind(
+                item: IntervalItem,
+                onSelectInterval: OnIntervalSelectListener?,
+                localizationManager: LocalizationManager?
+            ) {
                 with(binding) {
-                    intervalTextView.text =
-                        getTimeUnitText(root.resources, item.duration, item.timeUnit)
+                    val timeUnitText = getTimeUnitText(root.resources, item.duration, item.timeUnit)
+                    intervalTextView.text = root.context.getString(
+                        R.string.interval_full_label,
+                        item.duration,
+                        localizationManager?.getTranslationFromValue(timeUnitText, root.context) ?: timeUnitText
+                    )
+
                     checkImageView.visibility = if (item.isSelected) {
                         View.VISIBLE
                     } else {
@@ -76,11 +89,20 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
         class CustomIntervalViewHolder(private val binding: ItemIntervalChooseCustomBinding) :
             IntervalViewHolder(binding.root) {
 
-            fun bind(item: IntervalItem, onSelectInterval: OnIntervalSelectListener?) {
+            fun bind(
+                item: IntervalItem,
+                onSelectInterval: OnIntervalSelectListener?,
+                localizationManager: LocalizationManager?
+            ) {
                 with(binding) {
                     if (item.isSelected) {
-                        selectCustomTextView.text =
-                            getTimeUnitText(root.resources, item.duration, item.timeUnit)
+                        val timeUnitText = getTimeUnitText(root.resources, item.duration, item.timeUnit)
+
+                        selectCustomTextView.text = root.context.getString(
+                            R.string.interval_full_label,
+                            item.duration,
+                            localizationManager?.getTranslationFromValue(timeUnitText, root.context) ?: timeUnitText
+                        )
                         checkImageView.visibility = View.VISIBLE
                         forwardImageView.visibility = View.GONE
                     } else {

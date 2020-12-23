@@ -21,36 +21,13 @@
     <!--Interval-->
     <string name="title_intervals">Intervals</string>
     <string name="title_custom_intervals">Custom Intervals</string>
-
-    <plurals name="intervalSecond">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
-    </plurals>
-
-    <plurals name="intervalMinute">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-
-    <plurals name="intervalHour">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-
-    <plurals name="intervalDay">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
-
-    <plurals name="intervalWeek">
-        <item quantity="one">%d week</item>
-        <item quantity="other">%d weeks</item>
-    </plurals>
-
-    <plurals name="intervalMonth">
-        <item quantity="one">%d month</item>
-        <item quantity="other">%d months</item>
-    </plurals>
+    <string name="interval_full_label">%d %s</string>
+    <string name="interval_second">second</string>
+    <string name="interval_minute">minute</string>
+    <string name="interval_hour">hour</string>
+    <string name="interval_day">day</string>
+    <string name="interval_week">week</string>
+    <string name="interval_month">month</string>
 
     <string name="interval_custom_interval">Custom Interval</string>
     <string name="interval_select_custom">Select Custom</string>
