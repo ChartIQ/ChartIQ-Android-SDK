@@ -28,6 +28,9 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
         StudyViewModel.ViewModelFactory(chartIQ)
     })
@@ -60,6 +63,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
             activeStudiesRecyclerView.apply {
                 adapter = activeStudiesAdapter
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
+                activeStudiesAdapter.localizationManager = this@StudyFragment.localizationManager
                 activeStudiesAdapter.listener = object : ActiveStudiesAdapter.StudyListener {
                     override fun onOptionsClick(study: Study) {
                         ActiveStudyBottomSheetDialogFragment

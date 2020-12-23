@@ -7,7 +7,11 @@ import com.chartiq.demo.databinding.ItemStudyBinding
 import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.sdk.model.study.Study
 
-class AllStudiesAdapter : RecyclerView.Adapter<AllStudiesAdapter.StudyViewHolder>() {
+class AllStudiesAdapter(
+
+) : RecyclerView.Adapter<AllStudiesAdapter.StudyViewHolder>() {
+
+    var localizationManager: LocalizationManager? = null
 
     var items = listOf<Study>()
         set(value) {
@@ -61,11 +65,10 @@ class AllStudiesAdapter : RecyclerView.Adapter<AllStudiesAdapter.StudyViewHolder
                         listener?.onStudiesSelected(selectedItems.toList())
                     }
                 }
-                nameTextView.text = LocalizationManager.getTranslationFromValue(item.name, root.context)
+                nameTextView.text = localizationManager?.getTranslationFromValue(item.name, root.context)?: item.name
             }
         }
     }
-
 
     interface StudyListener {
         fun onStudiesSelected(studies: List<Study>)

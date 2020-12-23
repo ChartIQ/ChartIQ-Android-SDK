@@ -10,15 +10,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
-import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainFragment
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 import com.chartiq.sdk.ChartIQ
+import dev.b3nedikt.restring.Restring
 
 
-class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
+class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
 
     private val chartIQ: ChartIQ by lazy {
         (this.application as ServiceLocator).chartIQ
@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
     private val appPrefs by lazy {
         (this.application as ServiceLocator).applicationPreferences
+    }
+    private val localizationManager by lazy {
+        (this.application as ServiceLocator).localizationManager
     }
 
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
@@ -41,7 +44,9 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
         ViewPumpAppCompatDelegate(
             baseDelegate = super.getDelegate(),
             baseContext = this,
-            wrapContext = { baseContext -> LocalizationManager.wrapContext(baseContext) }
+            wrapContext = { baseContext ->
+                Restring.wrapContext(baseContext)
+            }
         )
     }
 
@@ -55,9 +60,8 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
-                LocalizationManager.updateTranslationsForLocale(
+                localizationManager.updateTranslationsForLocale(
                     translations,
-                    this,
                     findViewById<FrameLayout>(R.id.content)
                 )
             }
@@ -96,7 +100,7 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
     override fun onPageChanged() {
         Handler(Looper.getMainLooper()).postDelayed(
-            { LocalizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
+            { localizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
             400
         )
     }

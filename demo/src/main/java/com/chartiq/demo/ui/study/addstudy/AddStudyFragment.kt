@@ -24,8 +24,11 @@ class AddStudyFragment : Fragment() {
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQ, requireContext())
+        AddStudyViewModel.ViewModelFactory(chartIQ, localizationManager, requireContext())
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
@@ -53,6 +56,7 @@ class AddStudyFragment : Fragment() {
             progressBar.isVisible = true
             studiesRecyclerView.apply {
                 adapter = studiesAdapter
+                studiesAdapter.localizationManager = this@AddStudyFragment.localizationManager
                 studiesAdapter.listener = object : AllStudiesAdapter.StudyListener {
                     override fun onStudiesSelected(studies: List<Study>) {
                         addStudiesViewModel.onStudiesSelect(studies)

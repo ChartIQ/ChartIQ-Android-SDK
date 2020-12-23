@@ -9,6 +9,8 @@ import com.chartiq.sdk.model.study.Study
 
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
 
+    var localizationManager: LocalizationManager? = null
+
     var items = listOf<Study>()
         set(value) {
             field = value
@@ -48,8 +50,10 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                     listener?.onOptionsClick(item)
                 }
                 val finalName = item.splitName()
-                studyNameTextView.text = LocalizationManager.getTranslationFromValue(finalName.first, root.context)
-                studyValueTextView.text = LocalizationManager.getTranslationFromValue(finalName.second, root.context)
+                studyNameTextView.text =
+                    localizationManager?.getTranslationFromValue(finalName.first, root.context) ?: finalName.first
+                studyValueTextView.text =
+                    localizationManager?.getTranslationFromValue(finalName.second, root.context) ?: finalName.second
             }
         }
     }

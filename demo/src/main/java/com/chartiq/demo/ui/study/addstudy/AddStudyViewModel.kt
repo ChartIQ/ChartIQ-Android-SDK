@@ -13,6 +13,7 @@ import java.util.*
 
 class AddStudyViewModel(
     private val chartIQ: ChartIQ,
+    private val localizationManager: LocalizationManager,
     private val context: Context
 ) : ViewModel() {
 
@@ -26,7 +27,7 @@ class AddStudyViewModel(
         Transformations.map(originalStudies.combineLatest(query)) { (list, query) ->
             val filtered = list
                 .filter {
-                    LocalizationManager.getTranslationFromValue(it.name, context)
+                    localizationManager.getTranslationFromValue(it.name, context)
                         .toLowerCase(Locale.getDefault())
                         .contains(query.toLowerCase(Locale.getDefault()))
                 }
@@ -56,12 +57,13 @@ class AddStudyViewModel(
 
     class ViewModelFactory(
         private val chartIQ: ChartIQ,
+        private val localizationManager: LocalizationManager,
         private val context: Context
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(ChartIQ::class.java, Context::class.java)
-                .newInstance(chartIQ, context)
+                .getConstructor(ChartIQ::class.java, LocalizationManager::class.java, Context::class.java)
+                .newInstance(chartIQ, localizationManager, context)
         }
     }
 }

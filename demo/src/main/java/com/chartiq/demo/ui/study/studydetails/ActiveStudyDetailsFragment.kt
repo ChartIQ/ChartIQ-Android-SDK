@@ -15,7 +15,6 @@ import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
-import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
 import com.chartiq.sdk.model.study.Study
 import com.chartiq.sdk.model.study.StudyParameter
@@ -29,6 +28,9 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     }
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
+    }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
     }
     private val viewModel: ActiveStudyDetailsViewModel by viewModels(factoryProducer = {
         ActiveStudyDetailsViewModel.ViewModelFactory(chartIQ, study)
@@ -50,7 +52,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private fun setupViews() {
         with(binding) {
             toolbar.apply {
-                title = LocalizationManager.getTranslationFromValue(study.type ?: "", requireContext())
+                title = localizationManager.getTranslationFromValue(study.type ?: "", requireContext())
                 menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
                     viewModel.cloneStudy()
                     findNavController().navigateUp()
