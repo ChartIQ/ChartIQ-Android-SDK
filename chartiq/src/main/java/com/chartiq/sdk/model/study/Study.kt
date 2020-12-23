@@ -20,6 +20,5 @@ data class Study(
     val shortName: String,
     val type: String?,
     val underlay: Boolean,
-    val yAxis: @RawValue Map<String, Any>?,
+    val yAxis: @RawValue Map<String, Any>?
 ) : Parcelable
-

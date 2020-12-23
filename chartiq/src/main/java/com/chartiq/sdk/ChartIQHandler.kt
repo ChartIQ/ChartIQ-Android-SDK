@@ -10,6 +10,7 @@ import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
@@ -17,7 +18,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
-
 
 @SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
@@ -318,6 +318,10 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
     }
 
+    override fun setDrawingParameter(parameter: DrawingParameterType, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter.value, value))
+    }
+
     override fun getDrawingParameters(
         tool: DrawingTool,
         callback: OnReturnCallback<Map<String, Any>>
@@ -393,8 +397,12 @@ class ChartIQHandler(
 
     override fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>) {
         executeJavascript(scriptManager.getGetCrosshairHUDDetailsScript()) { value ->
-            val hud = Gson().fromJson(value, CrosshairHUD::class.java)
-            callback.onReturn(hud)
+            if (value != "null") {
+                val hud = Gson().fromJson(value, CrosshairHUD::class.java)
+                callback.onReturn(hud)
+            } else {
+                callback.onReturn(CrosshairHUD("", "", "", "", "", ""))
+            }
         }
     }
 
@@ -438,11 +446,9 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getParseDataScript(data, callbackId))
     }
 
-
     companion object {
         private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
         private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
 }
-

@@ -1,7 +1,5 @@
 package com.chartiq.demo.network.model
 
-import com.chartiq.sdk.model.drawingtool.Fib
-import com.chartiq.sdk.model.drawingtool.Font
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.google.gson.annotations.SerializedName
 

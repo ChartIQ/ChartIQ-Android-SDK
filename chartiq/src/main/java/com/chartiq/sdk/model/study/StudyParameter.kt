@@ -75,7 +75,3 @@ sealed class StudyParameter : Parcelable {
         Color
     }
 }
-
-
-
-
