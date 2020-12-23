@@ -1,6 +1,7 @@
 package com.chartiq.sdk
 
 import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 interface ChartIQDrawingTool {
@@ -12,6 +13,8 @@ interface ChartIQDrawingTool {
     fun disableDrawing()
 
     fun setDrawingParameter(parameter: String, value: String)
+
+    fun setDrawingParameter(parameter: DrawingParameterType, value: String)
 
     fun getDrawingParameters(tool: DrawingTool, callback: OnReturnCallback<Map<String, Any>>)
 

@@ -1,6 +1,6 @@
 package com.chartiq.sdk.model
 
-enum class Theme {
+enum class ChartTheme {
     DAY,
     NIGHT,
     NONE
