@@ -87,7 +87,7 @@ class MainViewModel(
         )
     }
 
-    fun hasInternetConnection() {
+    fun checkInternetAvailability() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             isNetworkAvailable.value = connectivityManager.activeNetworkInfo != null
         } else {

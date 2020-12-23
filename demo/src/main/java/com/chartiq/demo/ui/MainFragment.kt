@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        mainViewModel.hasInternetConnection()
+        mainViewModel.checkInternetAvailability()
 
         setupViews()
         return binding.root
@@ -98,7 +98,7 @@ class MainFragment : Fragment() {
             .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
             .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
             .setPositiveButton(R.string.general_reconnect) { _, _ ->
-                mainViewModel.hasInternetConnection()
+                mainViewModel.checkInternetAvailability()
             }
             .create()
             .apply {
