@@ -422,7 +422,7 @@ class ChartIQHandler(
         languageCode: String,
         callback: OnReturnCallback<Map<String, String>>
     ) {
-        val script = scriptManager.getScriptForTranslations(languageCode)
+        val script = scriptManager.getGetTranslationsScript(languageCode)
         executeJavascript(script) {
             val objectResult = Gson().fromJson(it, Object::class.java)
             val typeToken = object : TypeToken<Map<String, String>>() {}.type
@@ -434,8 +434,11 @@ class ChartIQHandler(
     }
 
     override fun setLanguage(languageCode: String) {
-        val script = scriptManager.getScriptForSetLanguage(languageCode)
-        executeJavascript(script)
+        executeJavascript(scriptManager.getSetLanguageScript(languageCode))
+    }
+
+    override fun setTheme(theme: ChartTheme) {
+        executeJavascript(scriptManager.getSetThemeScript(theme))
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {

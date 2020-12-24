@@ -1,6 +1,7 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.OHLCParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
@@ -121,8 +122,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetStyleScript(obj: String, parameter: String, value: String): String =
         CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$parameter\", \"$value\");"
 
-    override fun getSetThemeScript(theme: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "setTheme(\"$theme\");"
+    override fun getSetThemeScript(theme: ChartTheme): String =
+        MOBILE_BRIDGE_NAME_SPACE + "setTheme(\"${theme.value}\");"
 
     override fun getGetStudyListScript(): String = "JSON.stringify(CIQ.Studies.studyLibrary);"
 
@@ -273,10 +274,10 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getLayerManagementScript(layer: ChartLayer): String =
         MOBILE_BRIDGE_NAME_SPACE + "layerDrawing(\"${layer.value}\");"
 
-    override fun getScriptForTranslations(languageCode: String): String =
+    override fun getGetTranslationsScript(languageCode: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "getTranslations(\"${languageCode.asSafeScriptParameter}\");"
 
-    override fun getScriptForSetLanguage(languageCode: String): String =
+    override fun getSetLanguageScript(languageCode: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setLanguage(\"${languageCode.asSafeScriptParameter}\");"
 
     private val String.asSafeScriptParameter: String
