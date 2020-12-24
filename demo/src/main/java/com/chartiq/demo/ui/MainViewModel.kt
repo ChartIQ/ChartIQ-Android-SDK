@@ -11,6 +11,7 @@ import com.chartiq.demo.network.NetworkResult
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
+import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.study.Study
@@ -83,6 +84,8 @@ class MainViewModel(
             interval.getTimeUnit()
         )
     }
+
+    fun updateTheme(theme: ChartTheme) = chartIQ.setTheme(theme)
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {

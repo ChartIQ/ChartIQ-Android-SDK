@@ -1,5 +1,7 @@
 package com.chartiq.demo.ui
 
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.ChartTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFragment : Fragment() {
@@ -82,9 +85,19 @@ class MainFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         reloadData()
+        if(isDarkThemeOn()) {
+            mainViewModel.updateTheme(ChartTheme.NIGHT)
+        } else {
+            mainViewModel.updateTheme(ChartTheme.DAY)
+        }
     }
 
     private fun reloadData() {
         mainViewModel.fetchActiveStudyData()
+    }
+
+    private fun isDarkThemeOn(): Boolean {
+        return resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
     }
 }

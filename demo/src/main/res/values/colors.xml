@@ -12,13 +12,13 @@
     <color name="darkElectricBlue">#53627c</color>
     <color name="gainsboro">#dadfe3</color>
 
-
     <color name="logoTitleColor">@color/darkGunmetal</color>
     <color name="icPrimaryColor">@color/darkElectricBlue</color>
     <color name="toolbarBackgroundColor">@color/ghostWhite</color>
     <color name="placeholderSecondaryColor">@color/brightGrey</color>
-    <color name="placeholderTertiaryColor">@color/white</color>
+    <color name="placeholderTertiaryColor">@color/ghostWhite</color>
     <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
+    <color name="navBarBackgroundColor">@color/ghostWhite</color>
 
     <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
     <color name="checkboxButtonColor">@color/brightGrey</color>
