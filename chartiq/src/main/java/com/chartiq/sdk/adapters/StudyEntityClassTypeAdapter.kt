@@ -5,7 +5,7 @@ import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
+internal class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type?,

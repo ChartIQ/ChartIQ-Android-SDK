@@ -4,6 +4,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
+/**
+ * Encapsulates parameters with additional information for Study.
+ */
 @Parcelize
 data class Study(
     val attributes: @RawValue Map<String, Any>?,

@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.charttype
 
+/**
+ * A list of possible aggregation chart types
+ */
 enum class AggregationChartType(val value: String) {
     HEIKINASHI("Heikin Ashi"),
     KAGI("Kagi"),

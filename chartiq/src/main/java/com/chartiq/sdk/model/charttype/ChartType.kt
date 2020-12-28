@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.charttype
 
+/**
+ * A list of possible Chart types
+ */
 enum class ChartType(val value: String) {
     CANDLE("Candle"),
     BAR("Bar"),

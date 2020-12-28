@@ -2,7 +2,7 @@ package com.chartiq.sdk.model.study
 
 import java.io.Serializable
 
-data class StudyEntity(
+internal data class StudyEntity(
     val attributes: Map<String, Object>?,
     val centerLine: Double,
     val customRemoval: Boolean,
@@ -20,7 +20,7 @@ data class StudyEntity(
     val yAxis: Map<String, Object>?
 ) : Serializable
 
-fun StudyEntity.toStudy(): Study {
+internal fun StudyEntity.toStudy(): Study {
     return Study(
         attributes = attributes ?: emptyMap(),
         centerLine = centerLine,
