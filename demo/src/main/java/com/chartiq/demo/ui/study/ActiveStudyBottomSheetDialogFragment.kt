@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.FrameLayout
 import androidx.core.os.bundleOf
 import com.chartiq.demo.databinding.StudyBottomSheetBinding
 import com.chartiq.sdk.model.study.Study
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -41,6 +46,22 @@ class ActiveStudyBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                val bottomSheet =
+                    (dialog as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                BottomSheetBehavior.from(bottomSheet as FrameLayout).apply {
+                    state = BottomSheetBehavior.STATE_EXPANDED
+                    peekHeight = 0
+                }
+            }
+        })
     }
 
     companion object {
