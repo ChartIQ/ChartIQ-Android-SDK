@@ -19,6 +19,7 @@
     <color name="placeholderTertiaryColor">@color/ghostWhite</color>
     <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
     <color name="navBarBackgroundColor">@color/ghostWhite</color>
+    <color name="layoutBackgroundColor">@color/white</color>
 
     <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
     <color name="checkboxButtonColor">@color/brightGrey</color>

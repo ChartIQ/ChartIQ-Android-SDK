@@ -7,6 +7,7 @@
     <color name="placeholderTertiaryColor">@color/darkGunmetal</color>
     <color name="chooseScreenBackgroundColor">@color/darkGunmetal</color>
     <color name="navBarBackgroundColor">@color/chineseBlack</color>
+    <color name="layoutBackgroundColor">@color/darkGunmetal</color>
 
     <color name="favoriteCheckboxTintColor">@color/white</color>
     <color name="checkboxButtonColor">@color/yankeesBlue</color>

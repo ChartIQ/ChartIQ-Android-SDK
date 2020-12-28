@@ -2,25 +2,27 @@
     android:width="24dp"
     android:height="25dp"
     android:viewportWidth="24"
+    android:tint="@color/icPrimaryColor"
     android:viewportHeight="25">
+
   <path
       android:pathData="M7.429,15.961L4.381,15.961L4.381,11.517L7.429,11.517z"
-      android:fillColor="@color/icPrimaryColor"
+      android:fillColor="#53627C"
       android:fillType="evenOdd"/>
   <path
       android:pathData="M19.619,15.963L16.571,15.963L16.571,7.815L19.619,7.815z"
-      android:fillColor="@color/icPrimaryColor"
+      android:fillColor="#53627C"
       android:fillType="evenOdd"/>
   <path
       android:pathData="M10.475,19.667L7.427,19.667L7.427,15.963L10.475,15.963z"
-      android:fillColor="@color/icPrimaryColor"
+      android:fillColor="#53627C"
       android:fillType="evenOdd"/>
   <path
       android:pathData="M13.524,15.964L10.476,15.964L10.476,3.371L13.524,3.371z"
-      android:fillColor="@color/icPrimaryColor"
+      android:fillColor="#53627C"
       android:fillType="evenOdd"/>
   <path
       android:pathData="M16.572,22.629L13.524,22.629L13.524,15.962L16.572,15.962z"
-      android:fillColor="@color/icPrimaryColor"
+      android:fillColor="#53627C"
       android:fillType="evenOdd"/>
 </vector>
