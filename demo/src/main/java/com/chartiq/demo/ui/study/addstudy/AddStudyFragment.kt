@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentAddStudyBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainViewModel
@@ -26,13 +26,16 @@ class AddStudyFragment : Fragment() {
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val addStudiesViewModel by viewModels<AddStudyViewModel>(factoryProducer = {
-        AddStudyViewModel.ViewModelFactory(chartIQ)
+        AddStudyViewModel.ViewModelFactory(chartIQ, localizationManager, requireContext())
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
@@ -57,6 +60,7 @@ class AddStudyFragment : Fragment() {
             progressBar.isVisible = true
             studiesRecyclerView.apply {
                 adapter = studiesAdapter
+                studiesAdapter.localizationManager = this@AddStudyFragment.localizationManager
                 studiesAdapter.listener = object : AllStudiesAdapter.StudyListener {
                     override fun onStudiesSelected(studies: List<Study>) {
                         addStudiesViewModel.onStudiesSelect(studies)

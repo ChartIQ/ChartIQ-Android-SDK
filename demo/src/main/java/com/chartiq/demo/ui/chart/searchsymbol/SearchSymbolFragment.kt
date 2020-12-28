@@ -16,8 +16,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentSearchSymbolBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
@@ -25,7 +25,6 @@ import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
 import com.chartiq.demo.util.hideKeyboard
 import com.google.android.material.tabs.TabLayout
-
 import androidx.appcompat.R.id as appCompat
 
 
@@ -35,7 +34,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
         SearchSymbolViewModel.SearchViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext())
+            (requireActivity().application as ServiceLocator).applicationPreferences
         )
     })
     private val searchAdapter = SearchResultAdapter()

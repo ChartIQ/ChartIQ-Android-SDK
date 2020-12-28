@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseColorBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener

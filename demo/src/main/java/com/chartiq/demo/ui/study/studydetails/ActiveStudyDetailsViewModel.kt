@@ -52,7 +52,10 @@ class ActiveStudyDetailsViewModel(
                 is StudyParameter.Text -> it.copy(value = it.defaultValue)
                 is StudyParameter.Number -> it.copy(value = it.defaultValue)
                 is StudyParameter.Color -> it.copy(value = it.defaultValue)
-                is StudyParameter.TextColor -> it.copy(value = it.defaultValue, color = it.defaultColor)
+                is StudyParameter.TextColor -> it.copy(
+                    value = it.defaultValue,
+                    color = it.defaultColor
+                )
                 is StudyParameter.Checkbox -> it.copy(value = it.defaultValue)
                 is StudyParameter.Select -> it.copy(value = it.defaultValue)
             }
@@ -157,7 +160,10 @@ class ActiveStudyDetailsViewModel(
         }
     }
 
-    private fun getParameterName(parameter: StudyParameter, postfix: StudyParameter.StudyParameterNamePostfix): String {
+    private fun getParameterName(
+        parameter: StudyParameter,
+        postfix: StudyParameter.StudyParameterNamePostfix
+    ): String {
         return if (parameter.parameterType == StudyParameterType.Parameters) {
             "${parameter.name}${postfix.name}"
         } else {

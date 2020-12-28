@@ -19,9 +19,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
@@ -45,11 +45,15 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
+import java.util.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
+    }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
     }
     private lateinit var binding: FragmentChartBinding
     private lateinit var panelList: List<InstrumentItem>
@@ -68,7 +72,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
@@ -76,7 +80,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             ChartIQDrawingManager()
         )
@@ -148,18 +152,24 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
         }
+        setupCrosshairsLayout()
+
         with(chartViewModel) {
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
             chartInterval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
+                    val shortTimeUnitName = localizationManager.getTranslationFromValue(
+                        timeUnit.toString().first().toString(),
+                        requireContext()
+                    )
                     binding.intervalButton.text = when (timeUnit) {
                         TimeUnit.SECOND,
                         TimeUnit.MINUTE -> {
-                            "$duration${timeUnit.toString().first().toLowerCase()}"
+                            "$duration${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
                         }
-                        else -> "$duration${timeUnit.toString().first()}"
+                        else -> "$duration${shortTimeUnitName}"
                     }
                 }
             }
@@ -221,8 +231,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
                 binding.crosshairLayout.root.isVisible = value
+                //update the translations
+                setupCrosshairsLayout()
             }
             isPickerItemSelected.observe(viewLifecycleOwner) { value ->
                 binding.instrumentRecyclerView.isVisible = value
@@ -262,6 +275,25 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     text = value
                 }
             }
+        }
+    }
+
+    private fun setupCrosshairsLayout() {
+        with(binding.crosshairLayout) {
+            priceLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_price))
+            volLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_vol))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
+            highLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_high))
+            closeLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_close))
+            lowLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_low))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
         }
     }
 

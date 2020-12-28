@@ -435,12 +435,17 @@ class ChartIQHandler(
     ) {
         val script = scriptManager.getScriptForTranslations(languageCode)
         executeJavascript(script) {
-            val objectResult = Gson().fromJson(it, Object::class.java)
-            val typeToken = object : TypeToken<Map<String, String>>() {}.type
-            val translations = Gson().fromJson<Map<String, String>>(
-                objectResult.toString(), typeToken
-            )
-            callback.onReturn(translations)
+            if (it != "null") {
+                val objectResult = Gson().fromJson(it, Object::class.java)
+                val typeToken = object : TypeToken<Map<String, String>>() {}.type
+                val translations = Gson().fromJson<Map<String, String>>(
+                    objectResult.toString(), typeToken
+                )
+                callback.onReturn(translations)
+            } else {
+                callback.onReturn(emptyMap())
+            }
+
         }
     }
 
