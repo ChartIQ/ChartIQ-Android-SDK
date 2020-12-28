@@ -19,8 +19,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-//        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")
-        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/Android/ChartIQJS_04_12_20/sample-template-native-sdk.html\"")
+//        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/Android/ChartIQJS_09_12_20_measure/sample-template-native-sdk.html\"")
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")
     }
     signingConfigs {
         release {
@@ -85,6 +85,11 @@ dependencies {
     testImplementation "junit:junit:4.12"
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
+
+    // Localization
+    implementation 'dev.b3nedikt.restring:restring:5.1.0'
+    implementation 'dev.b3nedikt.viewpump:viewpump:4.0.3'
+    implementation 'dev.b3nedikt.reword:reword:3.1.0'
 
     // Crashlytics
     releaseImplementation platform('com.google.firebase:firebase-bom:26.1.1')

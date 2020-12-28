@@ -21,16 +21,21 @@ class SelectOptionsAdapter : RecyclerView.Adapter<SelectOptionsAdapter.ViewHolde
         }
     var listener: SelectOptionsAdapterListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectOptionsAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SelectOptionsAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(ItemStudyDetailSelectBinding.inflate(inflater, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items.entries.toList()[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(items.entries.toList()[position])
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(private val binding: ItemStudyDetailSelectBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemStudyDetailSelectBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(keyValue: Map.Entry<String, String>) {
             with(binding) {
                 optionTextView.text = keyValue.value

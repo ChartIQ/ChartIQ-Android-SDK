@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.widget
+package com.chartiq.demo.ui.common.widget
 
 import android.content.Context
 import android.util.AttributeSet

@@ -8,9 +8,9 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemPanelInstrumentBinding
+import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
-import com.chartiq.demo.network.model.PanelDrawingToolParameters
 
 class InstrumentPanelAdapter : RecyclerView.Adapter<InstrumentPanelAdapter.InstrumentViewHolder>() {
 

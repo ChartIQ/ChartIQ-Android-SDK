@@ -8,7 +8,6 @@ import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.ChartIQStudy
 
 import java.util.*
@@ -25,7 +24,6 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun start(onStartCallback: OnStartCallback)
 
     fun setSymbol(symbol: String)
-
 
     fun setDataMethod(method: DataMethod, symbol: String)
 
@@ -59,9 +57,20 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
+    /**
+     * Returns a map of translations for a given language
+     * @param languageCode A selected language code in the  ISO 639-1 format
+     * @param callback A callback to subscribe on to receive translations
+     */
     fun getTranslations(languageCode: String, callback: OnReturnCallback<Map<String, String>>)
 
+    /**
+     * Sets a language that should be used within the app
+     * @param languageCode A selected language code in the  ISO 639-1 format
+     */
     fun setLanguage(languageCode: String)
+
+    fun addMeasureListener(measureCallback: MeasureCallback)
 
     fun setTheme(theme: ChartTheme)
 

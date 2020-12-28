@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:paddingTop="@dimen/padding_medium_small"
             android:paddingBottom="@dimen/padding_medium_small"
-            android:text="@string/settings_log_scale"
+            tools:text="@string/settings_log_scale"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/parameterSwitch"
             app:layout_constraintStart_toStartOf="parent"

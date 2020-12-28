@@ -1,6 +1,8 @@
 package com.chartiq.demo.ui.study
 
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentStudyBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
@@ -28,14 +30,18 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val studyViewModel: StudyViewModel by viewModels(factoryProducer = {
         StudyViewModel.ViewModelFactory(chartIQ)
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
@@ -48,7 +54,6 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
-
         setupViews()
         return binding.root
     }
@@ -62,13 +67,17 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
             activeStudiesRecyclerView.apply {
                 adapter = activeStudiesAdapter
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
+                activeStudiesAdapter.localizationManager = this@StudyFragment.localizationManager
                 activeStudiesAdapter.listener = object : ActiveStudiesAdapter.StudyListener {
                     override fun onOptionsClick(study: Study) {
                         ActiveStudyBottomSheetDialogFragment
                             .getInstance(study).apply {
                                 setTargetFragment(this@StudyFragment, REQUEST_CODE)
                             }
-                            .show(parentFragmentManager, ActiveStudyBottomSheetDialogFragment::class.java.simpleName)
+                            .show(
+                                parentFragmentManager,
+                                ActiveStudyBottomSheetDialogFragment::class.java.simpleName
+                            )
                     }
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(

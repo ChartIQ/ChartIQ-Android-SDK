@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.databinding.ItemStudyActiveBinding
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.sdk.model.study.Study
 
 class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyViewHolder>() {
+
+    var localizationManager: LocalizationManager? = null
 
     var items = listOf<Study>()
         set(value) {
@@ -47,8 +50,10 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
                     listener?.onOptionsClick(item)
                 }
                 val finalName = item.splitName()
-                studyNameTextView.text = finalName.first
-                studyValueTextView.text = finalName.second
+                studyNameTextView.text =
+                    localizationManager?.getTranslationFromValue(finalName.first, root.context) ?: finalName.first
+                studyValueTextView.text =
+                    localizationManager?.getTranslationFromValue(finalName.second, root.context) ?: finalName.second
             }
         }
     }
@@ -61,12 +66,12 @@ class ActiveStudiesAdapter : RecyclerView.Adapter<ActiveStudiesAdapter.StudyView
             val indexOfDelimiter = nameWithoutLeading.indexOfFirst { it == ZERO_WIDTH_NON_JOINER }
             Pair(
                 nameWithoutLeading
-                        .substring(0, indexOfDelimiter)
-                        .trim(),
+                    .substring(0, indexOfDelimiter)
+                    .trim(),
                 nameWithoutLeading
-                        .substring(indexOfDelimiter)
-                        .replace(ZERO_WIDTH_NON_JOINER.toString(), "")
-                        .trim()
+                    .substring(indexOfDelimiter)
+                    .replace(ZERO_WIDTH_NON_JOINER.toString(), "")
+                    .trim()
             )
         }
     }

@@ -2,18 +2,21 @@ package com.chartiq.demo.ui
 
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.MainViewPagerAdapter
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.sdk.ChartIQ
@@ -29,8 +32,9 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
@@ -54,8 +58,19 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        mainViewModel.checkInternetAvailability()
+
         setupViews()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isDarkThemeOn()) {
+            mainViewModel.updateTheme(ChartTheme.NIGHT)
+        } else {
+            mainViewModel.updateTheme(ChartTheme.DAY)
+        }
     }
 
     private fun setupViews() {
@@ -68,6 +83,7 @@ class MainFragment : Fragment() {
                     override fun onPageSelected(position: Int) {
                         if (position == MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.ordinal) {
                             reloadData()
+                            (requireActivity() as MainFragmentPagerObserver).onPageChanged()
                         }
                     }
                 })
@@ -80,24 +96,41 @@ class MainFragment : Fragment() {
         mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.navView.isVisible = isVisible
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        reloadData()
-        if(isDarkThemeOn()) {
-            mainViewModel.updateTheme(ChartTheme.NIGHT)
-        } else {
-            mainViewModel.updateTheme(ChartTheme.DAY)
+        mainViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isAvailable ->
+            if (isAvailable) {
+                reloadData()
+            } else {
+                showDeviceIsOfflineDialog()
+            }
         }
     }
 
+    private fun showDeviceIsOfflineDialog() {
+        AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
+            .setTitle(R.string.general_warning_something_went_wrong)
+            .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
+            .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.general_reconnect) { _, _ ->
+                mainViewModel.checkInternetAvailability()
+            }
+            .create()
+            .apply {
+                setCanceledOnTouchOutside(false)
+            }
+            .show()
+    }
+
     private fun reloadData() {
+        mainViewModel.setupChart()
         mainViewModel.fetchActiveStudyData()
     }
 
     private fun isDarkThemeOn(): Boolean {
         return resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+    }
+
+    interface MainFragmentPagerObserver {
+        fun onPageChanged()
     }
 }

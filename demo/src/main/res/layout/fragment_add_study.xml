@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_search_input_background"
-                    android:hint="@string/search"
+                    android:hint="@string/study_search"
                     android:inputType="text"
                     android:lines="1"
                     android:maxLines="1"
