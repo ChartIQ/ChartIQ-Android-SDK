@@ -1,4 +1,4 @@
-package com.chartiq.sdk.model.drawingtool
+package com.chartiq.demo.network.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

@@ -7,25 +7,26 @@ import com.chartiq.demo.R
 
 open class CollapseButtonOnSwipeTouchListener(
     private val constraintLayout: ConstraintLayout,
-    context: Context
+    context: Context,
+    private val onSwipe: () -> Unit
 ) : ViewOnSwipeTouchListener(context) {
 
-    private val set = ConstraintSet()
+    private val set by lazy {
+        val set = ConstraintSet()
+        set.clone(constraintLayout)
+        set
+    }
     private val margin = context.resources.getDimensionPixelSize(R.dimen.margin_extra_large)
 
-    init {
-        set.clone(constraintLayout)
-    }
-
     override fun onSwipeRight() {
+        onSwipe()
         with(set) {
             clear(R.id.collapseFullviewCheckBox, ConstraintSet.START)
             connect(
                 R.id.collapseFullviewCheckBox,
                 ConstraintSet.END,
                 R.id.chartIqView,
-                ConstraintSet.END,
-                margin
+                ConstraintSet.END
             )
             addMargin()
             applyTo(constraintLayout)
@@ -33,6 +34,7 @@ open class CollapseButtonOnSwipeTouchListener(
     }
 
     override fun onSwipeLeft() {
+        onSwipe()
         with(set) {
             clear(R.id.collapseFullviewCheckBox, ConstraintSet.END)
             connect(
@@ -47,6 +49,7 @@ open class CollapseButtonOnSwipeTouchListener(
     }
 
     override fun onSwipeTop() {
+        onSwipe()
         with(set) {
             clear(R.id.collapseFullviewCheckBox, ConstraintSet.BOTTOM)
             connect(
@@ -61,6 +64,7 @@ open class CollapseButtonOnSwipeTouchListener(
     }
 
     override fun onSwipeBottom() {
+        onSwipe()
         with(set) {
             clear(R.id.collapseFullviewCheckBox, ConstraintSet.TOP)
             connect(

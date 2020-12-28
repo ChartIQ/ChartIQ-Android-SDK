@@ -1,7 +1,9 @@
 package com.chartiq.demo
 
 import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,7 +37,8 @@ class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver 
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             appPrefs,
-            chartIQ
+            chartIQ,
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 

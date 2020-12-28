@@ -1,6 +1,8 @@
 package com.chartiq.demo.ui.study.addstudy
 
 import android.app.Activity
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +35,9 @@ class AddStudyFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            (requireActivity().application as ServiceLocator).applicationPreferences, chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
@@ -72,6 +76,7 @@ class AddStudyFragment : Fragment() {
             }
 
             toolbar.setNavigationOnClickListener {
+                hideKeyboard()
                 findNavController().navigateUp()
             }
 

@@ -1,16 +1,14 @@
 package com.chartiq.demo.ui.chart.panel.settings
 
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
-import com.chartiq.demo.network.model.DrawingParameter
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
@@ -31,9 +29,10 @@ class DrawingToolSettingsFragment : Fragment(),
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-    private val settingsViewModel: DrawingToolSettingsViewModel by viewModels(factoryProducer = {
-        DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
-    })
+    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(
+        factoryProducer = {
+            DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
+        })
     private val settingsAdapter = DrawingToolSettingsAdapter()
     private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
         when (item) {
@@ -74,18 +73,8 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.refreshDrawingParameters()
     }
 
-    override fun onChooseValue(
-        parameter: String,
-        valuesList: List<OptionItem>,
-        isMultipleSelect: Boolean
-    ) {
-        val value = when (parameter) {
-            DrawingParameter.FIBS.value ->
-                Base64.encodeToString(valuesList.toString().toByteArray(), Base64.DEFAULT)
-            else ->
-                valuesList.find { it.isSelected }!!.value
-        }
-        settingsViewModel.updateParameter(parameter, value)
+    override fun onChooseValue(parameter: String, valuesList: List<OptionItem>) {
+        settingsViewModel.updateChooseValueParameter(parameter, valuesList)
     }
 
     private fun extractArguments() {
@@ -95,7 +84,6 @@ class DrawingToolSettingsFragment : Fragment(),
         if (args.argDeviation != null) {
             val item = args.argDeviation
             binding.settingsToolbar.title = getString(item!!.title)
-            settingsAdapter.items = item.settings
         } else {
             val item = DrawingTools.values().find { it.tool == drawingTool } ?: return
             binding.settingsToolbar.title = getString(item.nameRes)
@@ -151,9 +139,11 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToChooseValueFromList(item: DrawingToolSettingsItem.ChooseValue) {
         val dialog = ChooseValueFragment.getInstance(
+            item.title,
             item.param,
             item.valueList,
-            item.isMultipleSelection
+            item.isMultipleSelection,
+            item.hasCustomValueSupport
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)

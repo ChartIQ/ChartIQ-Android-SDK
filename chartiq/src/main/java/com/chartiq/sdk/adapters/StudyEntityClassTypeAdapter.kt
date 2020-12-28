@@ -9,7 +9,7 @@ class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type?,
-        ctx: JsonDeserializationContext,
+        ctx: JsonDeserializationContext
     ): StudyEntity {
         val decodeObj: JsonObject = json.asJsonObject
         val gson = Gson()

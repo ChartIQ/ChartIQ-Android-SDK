@@ -1,8 +1,10 @@
 package com.chartiq.demo.ui.chart
 
 import android.animation.LayoutTransition
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -60,20 +62,24 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val linesAdapter by lazy { LineAdapter() }
     private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
     private val collapseFullviewButtonOnSwipeListener by lazy {
-        CollapseButtonOnSwipeTouchListener(binding.root, requireContext())
+        CollapseButtonOnSwipeTouchListener(binding.root, requireContext()) {
+            listOf(binding.moveLeftCollapseButtonView, binding.moveDownCollapseButtonView).forEach {
+                it.isVisible = false
+            }
+        }
     }
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             (requireActivity().application as ServiceLocator).applicationPreferences,
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ChartIQNetworkManager(),
             (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             ChartIQDrawingManager()
@@ -93,8 +99,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-        // Orientation changes are triggered here only so far so no check needed
         chartViewModel.toggleFullscreen()
     }
 
@@ -103,7 +107,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             (parent as? FrameLayout)?.removeAllViews()
             binding.chartIqView.addView(this)
         }
-        mainViewModel.setupChart()
+        if (chartIQ.chartView.parent == null) {
+            mainViewModel.setupChart()
+        }
     }
 
     override fun onResume() {
@@ -121,6 +127,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun setupViews() {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            chartViewModel.toggleFullscreen()
+        }
         with(binding) {
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             symbolButton.setOnClickListener {
@@ -141,15 +150,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             collapseFullviewCheckBox.setOnClickListener {
                 toggleFullscreenViews(false)
             }
+            collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
         }
         setupCrosshairsLayout()
 
         with(chartViewModel) {
-            resultLiveData.observe(viewLifecycleOwner) { chartData ->
-                binding.chartIqView.post {
-                    chartData.callback.execute(chartData.data)
-                }
-            }
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
@@ -222,7 +227,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.warning_something_went_wrong),
+                    getString(R.string.general_warning_something_went_wrong),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -248,20 +253,26 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     disableFullscreen(isDrawingToolSelected)
                 }
             }
-            moveHintsAreShown.observe(viewLifecycleOwner) { areShown ->
-                if (areShown) {
-                    with(binding) {
-                        collapseFullviewCheckBox
-                            .setOnTouchListener(collapseFullviewButtonOnSwipeListener)
 
-                        listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
-                            .forEach { view ->
-                                view.isVisible = true
-                                binding.root.postDelayed({
-                                    view.isVisible = false
-                                }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
-                            }
+            moveHintsAreShown.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let { areShown ->
+                    if (areShown) {
+                        with(binding) {
+                            listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
+                                .forEach { view ->
+                                    view.isVisible = true
+                                    root.postDelayed({
+                                        view.isVisible = false
+                                    }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
+                                }
+                        }
                     }
+                }
+            }
+            measureToolInfo.observe(viewLifecycleOwner) { value ->
+                binding.measureToolInfoTextView.apply {
+                    isVisible = value.isNotEmpty()
+                    text = value
                 }
             }
         }

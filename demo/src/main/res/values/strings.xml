@@ -120,6 +120,8 @@
     <string name="study_title_add_study">Add Studies</string>
     <string name="study_settings">Settings</string>
     <string name="study_clone">Clone</string>
+    <string name="study_done">Done</string>
+    <string name="study_search">Search</string>
 
     <!-- Study details -->
     <string name="study_details_clone_study">Clone Study</string>
@@ -149,13 +151,15 @@
     <string name="settings_select_language_title">Select Language</string>
 
     <!-- General strings -->
-    <string name="warning_something_went_wrong">Something went wrong</string>
-    <string name="done">Done</string>
-    <string name="search">Search</string>
+    <string name="general_the_internet_connection_appears_to_be_offline">The Internet connection appears to be offline.</string>
+    <string name="general_warning_something_went_wrong">Something went wrong</string>
+    <string name="general_reconnect">Reconnect</string>
+    <string name="general_cancel">Cancel</string>
 
     <!-- Drawing Tool Settings -->
     <string name="drawing_tool_settings_title_weight">Weight</string>
     <string name="drawing_tool_settings_title_config">Config</string>
+    <string name="drawing_tool_settings_title_add_config">Add config</string>
     <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>
     <string name="drawing_tool_settings_title_line_color">Line Color"</string>
     <string name="drawing_tool_settings_title_line_type">Line Type"</string>
@@ -181,6 +185,8 @@
     <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+    <string name="drawing_tool_settings_add">Add</string>
+    <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
 
     <string name="chart_type_heikinashi">Heikin Ashi</string>
     <string name="chart_type_kagi">Kagi</string>

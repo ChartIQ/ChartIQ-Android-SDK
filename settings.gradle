@@ -1,4 +1,3 @@
 include ':demo'
-include ':oldapp'
 include ':chartiq'
 rootProject.name = "ChartIQ"

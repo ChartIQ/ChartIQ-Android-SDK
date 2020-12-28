@@ -9,6 +9,7 @@ import com.chartiq.sdk.model.QuoteFeedParams
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.UnknownHostException
 
 class ChartIQNetworkManager : NetworkManager {
 
@@ -22,21 +23,29 @@ class ChartIQNetworkManager : NetworkManager {
     @SuppressLint("HardwareIds")
     override suspend fun fetchDataFeed(
         params: QuoteFeedParams,
-        appliactionId: String
+        applicationId: String
     ): NetworkResult<List<OHLCParams>> {
-        return chartRetrofit
-            .fetchDataFeedAsync(
-                params.symbol,
-                params.start,
-                params.interval,
-                params.period?.toString(),
-                DEFAULT_VALUE_EXTENDED,
-                appliactionId
-            )
-            .safeExtractNetworkResult()
+        return try {
+            chartRetrofit
+                .fetchDataFeedAsync(
+                    params.symbol,
+                    params.start,
+                    params.interval,
+                    params.period?.toString(),
+                    DEFAULT_VALUE_EXTENDED,
+                    applicationId
+                )
+                .safeExtractNetworkResult()
+        } catch (e: UnknownHostException) {
+            // The exception occurs when the device has no internet connection, but it's not clear why so far
+            NetworkResult.Failure(NetworkException(null, 3000))
+        }
     }
 
-    override suspend fun fetchSymbol(symbol: String, filter: String?): NetworkResult<SymbolResponse> {
+    override suspend fun fetchSymbol(
+        symbol: String,
+        filter: String?
+    ): NetworkResult<SymbolResponse> {
         return symbolsRetrofit
             .fetchSymbolAsync(
                 symbol,

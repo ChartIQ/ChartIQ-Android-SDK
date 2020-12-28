@@ -2,7 +2,6 @@ package com.chartiq.sdk.model.study
 
 import com.chartiq.sdk.OnReturnCallback
 
-
 interface ChartIQStudy {
 
     fun getStudyList(callback: OnReturnCallback<List<Study>>)

@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
-import com.chartiq.demo.network.NetworkManager
-import com.chartiq.demo.network.NetworkResult
-import com.chartiq.demo.network.model.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.model.Instrument
@@ -17,10 +15,8 @@ import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.CrosshairHUD
-import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
@@ -28,7 +24,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class ChartViewModel(
-    private val networkManager: NetworkManager,
     private val applicationPrefs: ApplicationPrefs,
     private val chartIQHandler: ChartIQ,
     private val drawingManager: DrawingManager
@@ -44,12 +39,6 @@ class ChartViewModel(
 
     val drawingTool = MutableLiveData(DrawingTool.NONE)
 
-    @Deprecated("This logic was moved to MainViewModel class")
-    val resultLiveData = MutableLiveData<ChartData>()
-
-    @Deprecated("This logic was moved to MainViewModel class")
-    val errorLiveData = MutableLiveData<Event<Unit>>()
-
     val resetInstrumentsLiveData = MutableLiveData<Event<Unit>>()
 
     val parameters = MutableLiveData<PanelDrawingToolParameters>()
@@ -62,31 +51,15 @@ class ChartViewModel(
 
     val isFullscreen = MutableLiveData(false)
 
-    val moveHintsAreShown = MutableLiveData(false)
+    val moveHintsAreShown = MutableLiveData(Event(false))
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
-    init {
-        fetchSavedSettings()
-    }
-
-    // TODO: 19.10.20 Review
-    @Deprecated("All state data that should be kept during the whole app live  and should not be attached to a concrete fragment is moved to MainViewModel")
-    fun getDataFeed(params: QuoteFeedParams, callback: DataSourceCallback) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val applicationId = applicationPrefs.getApplicationId()
-            when (val result = networkManager.fetchDataFeed(params, applicationId)) {
-                is NetworkResult.Success -> resultLiveData
-                    .postValue(ChartData(result.data, callback))
-                is NetworkResult.Failure -> errorLiveData
-                    .postValue(Event(Unit))
-            }
-        }
-    }
+    val measureToolInfo = MutableLiveData("")
 
     fun showMoveHints(show: Boolean) {
-        if(!moveHintsAreShown.value!!) {
-            moveHintsAreShown.value = show
+        if (!moveHintsAreShown.value!!.peekContent()) {
+            moveHintsAreShown.value = Event(show)
         }
     }
 
@@ -146,7 +119,7 @@ class ChartViewModel(
 
     fun updateFillColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.FILL_COLOR.value,
+            DrawingParameterType.FILL_COLOR.value,
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
@@ -155,7 +128,7 @@ class ChartViewModel(
 
     fun updateColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.LINE_COLOR.value,
+            DrawingParameterType.LINE_COLOR.value,
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
@@ -163,8 +136,8 @@ class ChartViewModel(
     }
 
     fun updateLine(lineType: LineType, lineWidth: Int) {
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE.value, lineType.value)
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH.value, lineWidth.toString())
+        chartIQHandler.setDrawingParameter(DrawingParameterType.LINE_TYPE.value, lineType.value)
+        chartIQHandler.setDrawingParameter(DrawingParameterType.LINE_WIDTH.value, lineWidth.toString())
         getDrawingToolParameters()
         isPickerItemSelected.value = false
     }
@@ -235,13 +208,36 @@ class ChartViewModel(
     }
 
     private fun fetchSavedSettings() {
-        currentSymbol.value = applicationPrefs.getChartSymbol()
-        chartInterval.value = applicationPrefs.getChartInterval()
-        drawingTool.value = applicationPrefs.getDrawingTool()
+        val symbol = applicationPrefs.getChartSymbol()
+        if (currentSymbol.value != symbol) {
+            currentSymbol.value = symbol
+            chartIQHandler.setSymbol(symbol.value)
+        }
+        val interval = applicationPrefs.getChartInterval()
+        if (chartInterval.value != interval) {
+            chartInterval.value = interval
+            chartIQHandler.setPeriodicity(
+                interval.getPeriod(),
+                interval.getInterval(),
+                interval.getTimeUnit()
+            )
+        }
+        fetchDrawingTool()
+    }
 
-        if (drawingTool.value != DrawingTool.NONE) {
-            chartIQHandler.enableDrawing(drawingTool.value!!)
-            getDrawingToolParameters()
+    private fun fetchDrawingTool() {
+        val tool = applicationPrefs.getDrawingTool()
+        if(drawingTool.value != tool) {
+            drawingTool.value = tool
+            if (drawingTool.value != DrawingTool.NONE) {
+                chartIQHandler.enableDrawing(drawingTool.value!!)
+                getDrawingToolParameters()
+                if (drawingTool.value == DrawingTool.MEASURE) {
+                    chartIQHandler.addMeasureListener {
+                        measureToolInfo.postValue(it)
+                    }
+                }
+            }
         }
     }
 
@@ -273,7 +269,6 @@ class ChartViewModel(
     }
 
     class ChartViewModelFactory(
-        private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
         private val argChartIQHandler: ChartIQ,
         private val argDrawingManager: DrawingManager
@@ -282,13 +277,11 @@ class ChartViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
-                    NetworkManager::class.java,
                     ApplicationPrefs::class.java,
                     ChartIQ::class.java,
                     DrawingManager::class.java
                 )
                 .newInstance(
-                    argNetworkManager,
                     argApplicationPrefs,
                     argChartIQHandler,
                     argDrawingManager

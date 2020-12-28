@@ -124,14 +124,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/undoImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_extra_small"
+        android:layout_marginEnd="@dimen/margin_small"
         android:src="@drawable/ic_undo"
         app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
         app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
@@ -140,11 +140,29 @@
         android:id="@+id/redoImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_extra_small"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_medium"
         android:src="@drawable/ic_redo"
         app:layout_constraintStart_toEndOf="@+id/centerGuideline"
         app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/measureToolInfoTextView"
+        style="@style/SubtitleTextOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/shape_background_measure"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_medium"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/chartIqView"
+        app:layout_constraintStart_toStartOf="@id/chartIqView"
+        app:layout_constraintTop_toBottomOf="@id/redoImageView"
+        tools:text="1.70(-1.7) 40 Bars" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/instrumentRecyclerView"

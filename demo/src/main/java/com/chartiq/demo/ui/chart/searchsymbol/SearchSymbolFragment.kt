@@ -111,7 +111,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
 
             viewModel.errorLiveData.observe(viewLifecycleOwner, {
                 Toast.makeText(
-                    requireContext(), R.string.warning_something_went_wrong, Toast.LENGTH_SHORT
+                    requireContext(), R.string.general_warning_something_went_wrong, Toast.LENGTH_SHORT
                 ).show()
             })
             viewModel.resultLiveData.observe(viewLifecycleOwner, { list ->
@@ -148,6 +148,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
                 setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
                 setIconifiedByDefault(false)
                 isIconified = false
+                maxWidth = Integer.MAX_VALUE
 
                 findViewById<ImageView>(appCompat.search_voice_btn).setImageResource(R.drawable.ic_microphone)
                 findViewById<SearchAutoComplete>(appCompat.search_src_text)

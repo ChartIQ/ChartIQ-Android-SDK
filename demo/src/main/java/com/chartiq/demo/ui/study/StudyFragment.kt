@@ -1,6 +1,8 @@
 package com.chartiq.demo.ui.study
 
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +39,9 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            (requireActivity().application as ServiceLocator).applicationPreferences, chartIQ
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
     private val activeStudiesAdapter = ActiveStudiesAdapter()

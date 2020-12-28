@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_done"
-        android:title="@string/study_done"
+        android:visible="false"
+        android:id="@+id/add_custom_value"
+        android:icon="@drawable/ic_add_circle_outline"
+        android:title="@string/title_chart"
         app:showAsAction="always" />
 
 </menu>
