@@ -15,12 +15,14 @@
     <color name="logoTitleColor">@color/darkGunmetal</color>
     <color name="icPrimaryColor">@color/darkElectricBlue</color>
     <color name="toolbarBackgroundColor">@color/ghostWhite</color>
+    <color name="toolbarTitleTextColor">@color/black</color>
     <color name="placeholderSecondaryColor">@color/brightGrey</color>
     <color name="placeholderTertiaryColor">@color/ghostWhite</color>
     <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
     <color name="navBarBackgroundColor">@color/ghostWhite</color>
     <color name="layoutBackgroundColor">@color/white</color>
 
+    <color name="chartButtonBackgroundTintColor">@color/brightGrey</color>
     <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
     <color name="checkboxButtonColor">@color/brightGrey</color>
     <color name="checkboxIcColor">@color/brightGrey</color>
@@ -33,6 +35,11 @@
     <color name="panelItemBackgroundColor">@color/white</color>
     <color name="fontStyleColor">@color/chineseBlack</color>
 
+    <color name="secondaryTextTextColor">@color/cadetBlue</color>
+    <color name="subtitleTextColor">@color/darkElectricBlue</color>
+
+    <color name="dialogNeutralButtonTextColor">@color/elevationDark</color>
+    <color name="dialogBackgroundColor">@color/white</color>
     <color name="searchStudyInputBackgroundColor">@color/white</color>
     <color name="separatorColor">@color/brightGrey</color>
 

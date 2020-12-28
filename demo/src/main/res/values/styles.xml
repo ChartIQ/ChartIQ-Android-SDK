@@ -16,19 +16,19 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/elevation_small</item>
         <item name="android:background">@color/toolbarBackgroundColor</item>
-        <item name="titleTextColor">@color/black</item>
+        <item name="titleTextColor">@color/toolbarTitleTextColor</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="SubtitleTextStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
-        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
     </style>
 
     <style name="SecondaryTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
-        <item name="android:textColor">@color/cadetBlue</item>
+        <item name="android:textColor">@color/secondaryTextTextColor</item>
     </style>
 
     <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
@@ -45,8 +45,8 @@
     <style name="ChartButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:backgroundTint">@color/brightGrey</item>
-        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="android:backgroundTint">@color/chartButtonBackgroundTintColor</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
         <item name="android:minWidth">0dp</item>
     </style>
 
@@ -81,11 +81,13 @@
     </style>
 
     <style name="PositiveAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/dialogBackgroundColor</item>
         <item name="buttonBarNegativeButtonStyle">@style/NeutralButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
 
     <style name="NegativeAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/dialogBackgroundColor</item>
         <item name="buttonBarNegativeButtonStyle">@style/NeutralButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/NegativeButtonStyle</item>
     </style>
@@ -99,7 +101,7 @@
     </style>
 
     <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/elevationDark</item>
+        <item name="android:textColor">@color/dialogNeutralButtonTextColor</item>
     </style>
 
     <style name="CrosshairLabelTextStyle" parent="TextAppearance.MaterialComponents.Body2">
