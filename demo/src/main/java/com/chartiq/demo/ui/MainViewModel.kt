@@ -44,6 +44,8 @@ class MainViewModel(
 
     val isNetworkAvailable = MutableLiveData(false)
 
+    val chartTheme = MutableLiveData<Event<ChartTheme>>()
+
     init {
         chartIQ.apply {
             setDataSource(object : DataSource {
@@ -71,6 +73,9 @@ class MainViewModel(
 
             start {
                 observeLocalization()
+
+                val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
+                chartIQ.setTheme(theme)
             }
         }
     }
@@ -119,7 +124,9 @@ class MainViewModel(
         }
     }
 
-    fun updateTheme(theme: ChartTheme) = chartIQ.setTheme(theme)
+    fun updateTheme(theme: ChartTheme) {
+        chartTheme.value = Event(theme)
+    }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
