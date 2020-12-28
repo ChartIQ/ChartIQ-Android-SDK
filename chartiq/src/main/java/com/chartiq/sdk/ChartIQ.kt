@@ -7,7 +7,6 @@ import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.ChartIQStudy
 
 import java.util.*
@@ -61,6 +60,8 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun getTranslations(languageCode: String, callback: OnReturnCallback<Map<String, String>>)
 
     fun setLanguage(languageCode: String)
+
+    fun addMeasureListener(measureCallback: MeasureCallback)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {

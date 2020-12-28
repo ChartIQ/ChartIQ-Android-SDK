@@ -55,9 +55,7 @@ class ChartViewModel(
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
-    init {
-        fetchSavedSettings()
-    }
+    val measureToolInfo = MutableLiveData("")
 
     fun showMoveHints(show: Boolean) {
         if (!moveHintsAreShown.value!!.peekContent()) {
@@ -182,6 +180,7 @@ class ChartViewModel(
     }
 
     fun onResume() {
+        fetchSavedSettings()
         if (isCrosshairsVisible.value!!) {
             launchCrosshairsUpdate()
         }
@@ -223,12 +222,21 @@ class ChartViewModel(
                 interval.getTimeUnit()
             )
         }
+        fetchDrawingTool()
+    }
+
+    private fun fetchDrawingTool() {
         val tool = applicationPrefs.getDrawingTool()
         if(drawingTool.value != tool) {
             drawingTool.value = tool
             if (drawingTool.value != DrawingTool.NONE) {
                 chartIQHandler.enableDrawing(drawingTool.value!!)
                 getDrawingToolParameters()
+                if (drawingTool.value == DrawingTool.MEASURE) {
+                    chartIQHandler.addMeasureListener {
+                        measureToolInfo.postValue(it)
+                    }
+                }
             }
         }
     }

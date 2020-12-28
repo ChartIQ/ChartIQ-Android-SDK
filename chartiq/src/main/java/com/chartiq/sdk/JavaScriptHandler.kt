@@ -11,6 +11,9 @@ interface JavaScriptHandler {
     fun drawingChange(json: String)
 
     @JavascriptInterface
+    fun measureChange(json: String)
+
+    @JavascriptInterface
     fun pullInitialData(
         symbol: String?,
         period: Int?,

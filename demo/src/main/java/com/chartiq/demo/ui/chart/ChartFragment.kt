@@ -256,6 +256,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     }
                 }
             }
+            measureToolInfo.observe(viewLifecycleOwner) { value ->
+                binding.measureToolInfoTextView.apply {
+                    isVisible = value.isNotEmpty()
+                    text = value
+                }
+            }
         }
     }
 
