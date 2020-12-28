@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.R
-import com.chartiq.demo.network.model.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.model.Instrument
@@ -121,7 +121,7 @@ class ChartViewModel(
 
     fun updateFillColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.FILL_COLOR.value,
+            DrawingParameterType.FILL_COLOR.value,
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
@@ -130,7 +130,7 @@ class ChartViewModel(
 
     fun updateColor(color: Int) {
         chartIQHandler.setDrawingParameter(
-            DrawingParameter.LINE_COLOR.value,
+            DrawingParameterType.LINE_COLOR.value,
             color.toHexStringWithHash()
         )
         getDrawingToolParameters()
@@ -138,8 +138,8 @@ class ChartViewModel(
     }
 
     fun updateLine(lineType: LineType, lineWidth: Int) {
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_TYPE.value, lineType.value)
-        chartIQHandler.setDrawingParameter(DrawingParameter.LINE_WIDTH.value, lineWidth.toString())
+        chartIQHandler.setDrawingParameter(DrawingParameterType.LINE_TYPE.value, lineType.value)
+        chartIQHandler.setDrawingParameter(DrawingParameterType.LINE_WIDTH.value, lineWidth.toString())
         getDrawingToolParameters()
         isPickerItemSelected.value = false
     }

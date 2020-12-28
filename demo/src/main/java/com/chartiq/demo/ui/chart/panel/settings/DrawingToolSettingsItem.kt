@@ -2,7 +2,7 @@ package com.chartiq.demo.ui.chart.panel.settings
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
-import com.chartiq.demo.network.model.DrawingParameter
+import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.model.drawingtool.LineType
 import kotlinx.android.parcel.Parcelize
@@ -34,8 +34,8 @@ sealed class DrawingToolSettingsItem : Parcelable {
         val title: Int,
         val isBold: Boolean,
         val isItalic: Boolean,
-        val weightParam: String = DrawingParameter.WEIGHT.value,
-        val styleParam: String = DrawingParameter.STYLE.value
+        val weightParam: String = DrawingParameterType.WEIGHT.value,
+        val styleParam: String = DrawingParameterType.STYLE.value
     ) : DrawingToolSettingsItem()
 
     @Parcelize
@@ -44,8 +44,8 @@ sealed class DrawingToolSettingsItem : Parcelable {
         val title: Int,
         val lineType: LineType,
         val lineWidth: Int,
-        val lineTypeParam: String = DrawingParameter.LINE_TYPE.value,
-        val lineWidthParam: String = DrawingParameter.LINE_WIDTH.value
+        val lineTypeParam: String = DrawingParameterType.LINE_TYPE.value,
+        val lineWidthParam: String = DrawingParameterType.LINE_WIDTH.value
     ) : DrawingToolSettingsItem()
 
     @Parcelize

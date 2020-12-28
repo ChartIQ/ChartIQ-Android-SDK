@@ -1,7 +1,6 @@
 package com.chartiq.demo.ui.chart.panel.settings
 
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.databinding.FragmentDrawingToolSettingsBinding
-import com.chartiq.demo.network.model.DrawingParameter
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.DrawingTools
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
@@ -21,7 +19,6 @@ import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
-import com.google.gson.Gson
 
 class DrawingToolSettingsFragment : Fragment(),
     ChooseColorFragment.DialogFragmentListener,
@@ -32,9 +29,10 @@ class DrawingToolSettingsFragment : Fragment(),
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
-    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(factoryProducer = {
-        DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
-    })
+    private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(
+        factoryProducer = {
+            DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
+        })
     private val settingsAdapter = DrawingToolSettingsAdapter()
     private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
         when (item) {
@@ -75,29 +73,8 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.refreshDrawingParameters()
     }
 
-    // TODO: Discuss encoding. Should be simplified for the end user
-    override fun onChooseValue(
-        parameter: String,
-        valuesList: List<OptionItem>,
-        isMultipleSelect: Boolean
-    ) {
-        val value = when (parameter) {
-            DrawingParameter.FIBS.value -> {
-                val list = mutableListOf<Map<String, String>>()
-                valuesList.map {
-                    val map = hashMapOf(
-                        Pair(DrawingParameter.DISPLAY.value, it.isSelected.toString()),
-                        Pair(DrawingParameter.LEVEL.value, it.value)
-                    )
-                    list.add(map)
-                }
-                val jsonList = Gson().toJson(list)
-                Base64.encodeToString(jsonList.toString().toByteArray(), Base64.DEFAULT)
-            }
-            else ->
-                valuesList.find { it.isSelected }!!.value
-        }
-        settingsViewModel.updateParameter(parameter, value)
+    override fun onChooseValue(parameter: String, valuesList: List<OptionItem>) {
+        settingsViewModel.updateChooseValueParameter(parameter, valuesList)
     }
 
     private fun extractArguments() {

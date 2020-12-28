@@ -1,5 +1,7 @@
-package com.chartiq.sdk.model.drawingtool
+package com.chartiq.demo.network.model
 
+import com.chartiq.sdk.model.drawingtool.FontFamily
+import com.chartiq.sdk.model.drawingtool.FontStyle
 import com.google.gson.annotations.SerializedName
 
 data class Font(
