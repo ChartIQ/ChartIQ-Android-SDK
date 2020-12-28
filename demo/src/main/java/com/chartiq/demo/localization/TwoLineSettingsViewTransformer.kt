@@ -1,6 +1,6 @@
 package com.chartiq.demo.localization
 
-import com.chartiq.demo.ui.widget.TwoLineSettingsView
+import com.chartiq.demo.ui.common.widget.TwoLineSettingsView
 import dev.b3nedikt.reword.transformer.AbstractViewTransformer
 
 class TwoLineSettingsViewTransformer : AbstractViewTransformer<TwoLineSettingsView>() {

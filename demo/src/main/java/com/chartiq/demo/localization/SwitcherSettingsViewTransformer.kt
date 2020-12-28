@@ -1,6 +1,6 @@
 package com.chartiq.demo.localization
 
-import com.chartiq.demo.ui.widget.SwitcherSettingsView
+import com.chartiq.demo.ui.common.widget.SwitcherSettingsView
 import dev.b3nedikt.reword.transformer.AbstractViewTransformer
 
 class SwitcherSettingsViewTransformer : AbstractViewTransformer<SwitcherSettingsView>() {
