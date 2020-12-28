@@ -24,7 +24,6 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun setSymbol(symbol: String)
 
-
     fun setDataMethod(method: DataMethod, symbol: String)
 
     fun enableCrosshairs()
@@ -57,8 +56,17 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
+    /**
+     * Returns a map of translations for a given language
+     * @param languageCode A selected language code in the  ISO 639-1 format
+     * @param callback A callback to subscribe on to receive translations
+     */
     fun getTranslations(languageCode: String, callback: OnReturnCallback<Map<String, String>>)
 
+    /**
+     * Sets a language that should be used within the app
+     * @param languageCode A selected language code in the  ISO 639-1 format
+     */
     fun setLanguage(languageCode: String)
 
     fun addMeasureListener(measureCallback: MeasureCallback)
