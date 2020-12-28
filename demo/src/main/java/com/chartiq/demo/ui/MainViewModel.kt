@@ -16,6 +16,7 @@ import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
+import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.study.Study
@@ -42,6 +43,8 @@ class MainViewModel(
     val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
     val isNetworkAvailable = MutableLiveData(false)
+
+    val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
     init {
         chartIQ.apply {
@@ -70,6 +73,9 @@ class MainViewModel(
 
             start {
                 observeLocalization()
+
+                val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
+                chartIQ.setTheme(theme)
             }
         }
     }
@@ -116,6 +122,10 @@ class MainViewModel(
             }
             isNetworkAvailable.value = false
         }
+    }
+
+    fun updateTheme(theme: ChartTheme) {
+        chartTheme.value = Event(theme)
     }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {

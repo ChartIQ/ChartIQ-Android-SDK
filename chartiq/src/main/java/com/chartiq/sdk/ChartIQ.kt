@@ -3,6 +3,7 @@ package com.chartiq.sdk
 import android.content.Context
 import android.view.View
 import com.chartiq.sdk.model.ChartScale
+import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.CrosshairHUD
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.charttype.AggregationChartType
@@ -70,6 +71,8 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun setLanguage(languageCode: String)
 
     fun addMeasureListener(measureCallback: MeasureCallback)
+
+    fun setTheme(theme: ChartTheme)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {

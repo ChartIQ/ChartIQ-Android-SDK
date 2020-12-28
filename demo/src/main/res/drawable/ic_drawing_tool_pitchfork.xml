@@ -2,7 +2,9 @@
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
+    android:tint="@color/icPrimaryColor"
     android:viewportHeight="24">
+
     <path
         android:fillAlpha="0"
         android:fillColor="#EBEFF3"
@@ -12,7 +14,7 @@
         android:strokeAlpha="0"
         android:strokeColor="#00000000" />
     <path
-        android:fillColor="#53627c"
+        android:fillColor="#53627C"
         android:fillType="nonZero"
         android:pathData="M13.1077,12.2667l3.2538,3.1333l3.3231,-3.2l1.1769,1.1333l-4.3615,4.3333l-1.1769,-1.1333l0,0l-3.2538,-3.1333l-7.7538,7.4667l-1.1769,-1.1333l7.8231,-7.5333l-2.7692,-2.6667l0,0l-1.1769,-1.1333l5.0538,-4.8667l1.1769,1.1333l-3.8769,3.7333l2.7692,2.6667l7.6846,-7.4l1.1769,1.1333z"
         android:strokeWidth="1"

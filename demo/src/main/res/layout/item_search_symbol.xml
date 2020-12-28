@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/symbolTextView"
-        style="@style/SubtitleTextOutlinedStyle"
+        style="@style/SubtitleTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/symbolFullNameTextView"
-        style="@style/SecondaryTextStyle"
+        style="@style/SecondaryTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

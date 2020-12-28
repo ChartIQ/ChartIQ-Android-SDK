@@ -11,7 +11,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/studyNameTextView"
-        style="@style/SubtitleTextOutlinedStyle"
+        style="@style/SubtitleTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/optionsImageView"
@@ -21,7 +21,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/studyValueTextView"
-        style="@style/SecondaryTextStyle"
+        style="@style/SecondaryTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/optionsImageView"

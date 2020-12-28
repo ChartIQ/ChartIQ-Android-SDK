@@ -1,6 +1,7 @@
 package com.chartiq.sdk.scriptmanager
 
 import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.OHLCParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
@@ -73,7 +74,7 @@ internal interface ScriptManager {
 
     fun getSetStyleScript(obj: String, parameter: String, value: String): String
 
-    fun getSetThemeScript(theme: String): String
+    fun getSetThemeScript(theme: ChartTheme): String
 
     fun getGetStudyListScript(): String
 
@@ -123,9 +124,9 @@ internal interface ScriptManager {
 
     fun getLayerManagementScript(layer: ChartLayer): String
 
-    fun getScriptForTranslations(languageCode: String): String
+    fun getGetTranslationsScript(languageCode: String): String
 
-    fun getScriptForSetLanguage(languageCode: String): String
+    fun getSetLanguageScript(languageCode: String): String
 
     fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
 }

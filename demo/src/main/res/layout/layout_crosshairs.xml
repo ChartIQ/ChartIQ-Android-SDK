@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ghostWhite"
+    android:background="@color/crosshairsBackgroundColor"
     android:padding="@dimen/padding_small">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/priceLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/priceValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +30,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/volLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,6 +40,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/volValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,6 +50,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/openLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,6 +60,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/openValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,6 +70,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/highLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,6 +80,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/highValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,6 +90,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/closeLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,6 +101,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/closeValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,6 +111,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lowLabelTextView"
+        android:textColor="@color/crosshairsLabelColor"
         style="@style/CrosshairLabelTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,6 +121,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lowValueTextView"
+        android:textColor="@color/crosshairsTextColor"
         style="@style/CrosshairValueTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
