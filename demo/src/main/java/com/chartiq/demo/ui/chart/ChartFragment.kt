@@ -1,8 +1,10 @@
 package com.chartiq.demo.ui.chart
 
 import android.animation.LayoutTransition
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,13 +69,13 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
             chartIQ,
             ChartIQDrawingManager()
@@ -147,11 +149,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
         }
         with(chartViewModel) {
-            resultLiveData.observe(viewLifecycleOwner) { chartData ->
-                binding.chartIqView.post {
-                    chartData.callback.execute(chartData.data)
-                }
-            }
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
@@ -220,7 +217,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.warning_something_went_wrong),
+                    getString(R.string.general_warning_something_went_wrong),
                     Toast.LENGTH_SHORT
                 ).show()
             }

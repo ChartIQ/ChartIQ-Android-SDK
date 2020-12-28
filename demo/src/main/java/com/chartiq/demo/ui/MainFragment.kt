@@ -1,9 +1,12 @@
 package com.chartiq.demo.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,7 +30,8 @@ class MainFragment : Fragment() {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
             ApplicationPrefs.Default(requireContext()),
-            chartIQ
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
@@ -51,6 +55,8 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        mainViewModel.checkInternetAvailability()
+
         setupViews()
         return binding.root
     }
@@ -77,14 +83,32 @@ class MainFragment : Fragment() {
         mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.navView.isVisible = isVisible
         }
+        mainViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isAvailable ->
+            if (isAvailable) {
+                reloadData()
+            } else {
+                showDeviceIsOfflineDialog()
+            }
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        reloadData()
+    private fun showDeviceIsOfflineDialog() {
+        AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
+            .setTitle(R.string.general_warning_something_went_wrong)
+            .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
+            .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.general_reconnect) { _, _ ->
+                mainViewModel.checkInternetAvailability()
+            }
+            .create()
+            .apply {
+                setCanceledOnTouchOutside(false)
+            }
+            .show()
     }
 
     private fun reloadData() {
+        mainViewModel.setupChart()
         mainViewModel.fetchActiveStudyData()
     }
 }
