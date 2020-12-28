@@ -25,7 +25,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chartConfigHeaderTextView"
-                style="@style/SecondaryTextStyle"
+                style="@style/SecondaryTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -47,7 +47,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chartPreferencesHeaderTextView"
-                style="@style/SecondaryTextStyle"
+                style="@style/SecondaryTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -81,7 +81,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/languageHeaderTextView"
-                style="@style/SecondaryTextStyle"
+                style="@style/SecondaryTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"

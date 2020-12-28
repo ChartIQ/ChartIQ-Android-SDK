@@ -23,7 +23,7 @@
     <color name="panelItemBackgroundColor">@color/chineseBlack</color>
     <color name="fontStyleColor">@color/white</color>
 
-    <color name="secondaryTextTextColor">@color/white</color>
+    <color name="secondaryTextColor">@color/white</color>
     <color name="subtitleTextColor">@color/white</color>
 
     <color name="dialogNeutralButtonTextColor">@color/white</color>

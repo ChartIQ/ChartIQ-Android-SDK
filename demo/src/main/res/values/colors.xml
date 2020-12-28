@@ -35,7 +35,7 @@
     <color name="panelItemBackgroundColor">@color/white</color>
     <color name="fontStyleColor">@color/chineseBlack</color>
 
-    <color name="secondaryTextTextColor">@color/cadetBlue</color>
+    <color name="secondaryTextColor">@color/cadetBlue</color>
     <color name="subtitleTextColor">@color/darkElectricBlue</color>
 
     <color name="dialogNeutralButtonTextColor">@color/elevationDark</color>

@@ -14,7 +14,7 @@
         tools:checked="true" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/SubtitleTextStyle"
+        style="@style/SubtitleTextAppearance"
         android:id="@+id/nameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

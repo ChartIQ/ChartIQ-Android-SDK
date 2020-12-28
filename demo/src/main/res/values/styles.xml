@@ -21,14 +21,14 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="SubtitleTextStyle" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="SubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/subtitleTextColor</item>
     </style>
 
-    <style name="SecondaryTextStyle" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="SecondaryTextAppearance" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
-        <item name="android:textColor">@color/secondaryTextTextColor</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
@@ -36,7 +36,7 @@
         <item name="android:textColor">@color/darkElectricBlue</item>
     </style>
 
-    <style name="PlaceHolderHintTextStyle" parent="SecondaryTextStyle">
+    <style name="PlaceHolderHintTextStyle" parent="SecondaryTextAppearance">
         <item name="android:textColor">@color/cadetBlue</item>
         <item name="android:textSize">@dimen/text_size_title</item>
         <item name="android:textStyle">bold</item>
