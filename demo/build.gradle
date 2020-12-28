@@ -19,9 +19,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/Android/ChartIQJS_24_12_20_christmas_edition/sample-template-native-sdk.html\"")
 //        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/Android/ChartIQJS_09_12_20_measure/sample-template-native-sdk.html\"")
-        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")
-    }
+//        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/iOS/ChartIQJS/sample-template-native-sdk.html\"")    }
     signingConfigs {
         release {
             storeFile file("keystore/release.jks")
