@@ -192,10 +192,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     redoImageView.isVisible = isDrawingToolSelected
                     undoImageView.isVisible = isDrawingToolSelected
                 }
-                if (drawingTool == DrawingTool.NO_TOOL) {
-                    // setupInstrumentsList is triggered when the tool gets its parameters but no tool
-                    // doesn't get any parameters from the library for some reason so we setup it manually here
-                    panelAdapter.items = setupInstrumentsList()
+                if (!isDrawingToolSelected) {
+                    binding.instrumentRecyclerView.isVisible = false
+                    panelAdapter.items = listOf()
                 }
             }
             parameters.observe(viewLifecycleOwner) { parameters ->
