@@ -28,7 +28,7 @@ import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet

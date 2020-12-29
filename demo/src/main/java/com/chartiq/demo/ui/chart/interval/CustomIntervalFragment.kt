@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 
 class CustomIntervalFragment : Fragment() {
 
