@@ -26,6 +26,11 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setSymbol(symbol: String)
 
+    /**
+     * Sets data method and symbol to the chart
+     * @param method A data method to be set
+     * @param symbol A symbol to be set
+     */
     fun setDataMethod(method: DataMethod, symbol: String)
 
     /**

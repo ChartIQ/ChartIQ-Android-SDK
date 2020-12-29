@@ -4,7 +4,7 @@ import com.chartiq.sdk.model.TimeUnit
 
 data class Interval(
     val duration: Int,
-    private val timeUnit: TimeUnit
+    val timeUnit: TimeUnit
 ) {
     fun getPeriod(): Int {
         return if (timeUnit == TimeUnit.HOUR) {
@@ -23,7 +23,7 @@ data class Interval(
         return "$interval"
     }
 
-    fun getTimeUnit(): TimeUnit {
+    fun getSafeTimeUnit(): TimeUnit {
         return if (timeUnit == TimeUnit.HOUR) {
             TimeUnit.MINUTE
         } else {

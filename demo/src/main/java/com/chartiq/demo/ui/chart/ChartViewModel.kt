@@ -219,7 +219,7 @@ class ChartViewModel(
             chartIQHandler.setPeriodicity(
                 interval.getPeriod(),
                 interval.getInterval(),
-                interval.getTimeUnit()
+                interval.getSafeTimeUnit()
             )
         }
         fetchDrawingTool()

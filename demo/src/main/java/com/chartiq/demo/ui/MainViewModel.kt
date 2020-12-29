@@ -99,7 +99,7 @@ class MainViewModel(
         chartIQ.setPeriodicity(
             interval.getPeriod(),
             interval.getInterval(),
-            interval.getTimeUnit()
+            interval.getSafeTimeUnit()
         )
     }
 
