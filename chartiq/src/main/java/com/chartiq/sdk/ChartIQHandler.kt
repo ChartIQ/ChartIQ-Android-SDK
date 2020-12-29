@@ -11,8 +11,8 @@ import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
-import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -231,15 +231,19 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
     }
 
-    override fun getChartType(callback: OnReturnCallback<ChartType>) {
+    override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
-            callback.onReturn(
-                ChartType.valueOf(
-                    it.substring(1, it.length - 1)
-                        .toUpperCase(Locale.ENGLISH)
+            if (it == "null") {
+                callback.onReturn(null)
+            } else {
+                callback.onReturn(
+                    ChartType.valueOf(
+                        it.substring(1, it.length - 1)
+                            .toUpperCase(Locale.ENGLISH)
+                    )
                 )
-            )
+            }
         }
     }
 
