@@ -7,11 +7,6 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
  */
 class ChartIQDrawingManager : DrawingManager {
 
-    /**
-     * Checks if a drawing tool supports `fill color` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingFillColor(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ARROW,
@@ -41,11 +36,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `line color` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingLineColor(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.NO_TOOL -> false
@@ -53,11 +43,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `line type` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingLineType(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ANNOTATION,
@@ -66,11 +51,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `settings` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingSettings(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.NO_TOOL,
@@ -79,11 +59,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `font` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingFont(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ANNOTATION,
@@ -94,11 +69,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `axis label` setting
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingAxisLabel(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.AVERAGE_LINE,
@@ -109,11 +79,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `deviations` parameters
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingDeviations(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.AVERAGE_LINE,
@@ -122,11 +87,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `Fibonacci` parameters
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingFibonacci(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.FIB_ARC,
@@ -137,11 +97,6 @@ class ChartIQDrawingManager : DrawingManager {
         }
     }
 
-    /**
-     * Checks if a drawing tool supports `Elliot wave` parameters
-     * @param drawingTool A [DrawingTool] to be checked for the support
-     * @return true if the drawing tool supports the setting, false if not
-     */
     override fun isSupportingElliottWave(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ELLIOTT_WAVE -> true
