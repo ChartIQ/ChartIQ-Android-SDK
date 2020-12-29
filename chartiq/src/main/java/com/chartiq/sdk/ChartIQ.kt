@@ -24,7 +24,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     /**
      * Starts a ChartIQ WebClient initialization
-     * @param onStartCallback A callback to subscribe to a successful WebClient initialization
+     * @param onStartCallback A callback to which subscribe for a successful WebClient initialization
      */
     fun start(onStartCallback: OnStartCallback)
 
@@ -52,19 +52,19 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     /**
      * Gets a selected chart type
-     * @param callback A callback to subscribe on to get a chart type
+     * @param callback A callback to which subscribe to get a chart type
      */
     fun getChartType(callback: OnReturnCallback<ChartType>)
 
     /**
      * Gets a selected aggregation chart type
-     * @param callback A callback to subscribe on to get an aggregation chart type
+     * @param callback A callback to which subscribe to get an aggregation chart type
      */
     fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
 
     /**
      * Gets a selected chart scale
-     * @param callbackA callback to subscribe on to get a selected chart scale
+     * @param callbackA callback to which subscribe to get a selected chart scale
      */
     fun getChartScale(callback: OnReturnCallback<ChartScale>)
 
@@ -78,7 +78,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     /**
      * Gets a selected chart Y axis invertion
-     * @param callback callback to subscribe on to get a selected Y-axis invertion.
+     * @param callback callback to which subscribe to get a selected Y-axis invertion.
      */
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
@@ -90,7 +90,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     /**
      * Gets a selected extended hours flag value
-     * @param callback callback to subscribe on to get a  extended hours flag value
+     * @param callback callback to which subscribe to get a  extended hours flag value
      * If true, a chart uses extended hours
      */
     fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
