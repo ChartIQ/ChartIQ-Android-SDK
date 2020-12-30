@@ -2,6 +2,7 @@ package com.chartiq.sdk.model.charttype
 
 /**
  * A list of possible Chart types
+ * @property value A String value of the type
  */
 enum class ChartType(val value: String) {
     /**
@@ -25,6 +26,7 @@ enum class ChartType(val value: String) {
      * A colored bar chart draws a bar chart with the bars colored to indicate price action
      */
     COLORED_BAR("Colored Bar"),
+
     /**
      * A line chart consists of segments that connect at the "Close" price for each time period. The line is a single
      * color. Any value in your data that has a null value for "Close" will result in a gap within the line.

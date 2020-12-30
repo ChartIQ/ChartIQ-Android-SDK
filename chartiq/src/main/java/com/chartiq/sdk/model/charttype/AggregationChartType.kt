@@ -2,6 +2,7 @@ package com.chartiq.sdk.model.charttype
 
 /**
  * A list of possible aggregation chart types
+ * @property value A String value of the type
  */
 enum class AggregationChartType(val value: String) {
     /**
