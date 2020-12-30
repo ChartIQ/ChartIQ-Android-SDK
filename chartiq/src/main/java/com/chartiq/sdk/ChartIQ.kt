@@ -83,20 +83,21 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
     /**
-     * Sets a chart Y axis invertion
+     * Setting to true causes the y-axis and all linked drawings, series and studies to display inverted (flipped) from
+     * its previous state
      * @param inverted  A selected invertion value. if true, Y axis is inverted
      */
     fun setIsInvertYAxis(inverted: Boolean)
 
     /**
-     * Gets a selected extended hours flag value
+     * Gets a selected extended-hours visualization
      * @param callback callback to which subscribe to get a  extended hours flag value
      * If true, a chart uses extended hours
      */
     fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
 
     /**
-     * Sets a chart extended hours flag value
+     * Sets to turn on/off the extended-hours visualization.
      * @param extended  A selected boolean extended hours value. if true, extended hours are applied
      */
     fun setExtendedHours(extended: Boolean)
