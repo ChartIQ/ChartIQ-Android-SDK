@@ -12,6 +12,8 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.localization.RemoteTranslations
+import com.chartiq.demo.ui.chart.interval.model.Interval
+import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
@@ -45,6 +47,10 @@ class MainViewModel(
     val isNetworkAvailable = MutableLiveData(false)
 
     val chartTheme = MutableLiveData<Event<ChartTheme>>()
+
+    val symbol = MutableLiveData<Symbol>()
+
+    val interval = MutableLiveData<Interval>()
 
     init {
         chartIQ.apply {
@@ -91,16 +97,21 @@ class MainViewModel(
     }
 
     fun setupChart() {
-        val symbol = applicationPrefs.getChartSymbol()
-        chartIQ.setSymbol(symbol.value)
-        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
-
-        val interval = applicationPrefs.getChartInterval()
-        chartIQ.setPeriodicity(
-            interval.getPeriod(),
-            interval.getInterval(),
-            interval.getTimeUnit()
-        )
+        val currentSymbol = applicationPrefs.getChartSymbol()
+        if(symbol.value != currentSymbol) {
+            symbol.value = currentSymbol
+            chartIQ.setSymbol(currentSymbol.value)
+            chartIQ.setDataMethod(DataMethod.PULL, currentSymbol.value)
+        }
+        val currentInterval = applicationPrefs.getChartInterval()
+        if(interval.value != currentInterval) {
+            interval.value = currentInterval
+            chartIQ.setPeriodicity(
+                currentInterval.getPeriod(),
+                currentInterval.getInterval(),
+                currentInterval.getTimeUnit()
+            )
+        }
     }
 
     fun checkInternetAvailability() {
