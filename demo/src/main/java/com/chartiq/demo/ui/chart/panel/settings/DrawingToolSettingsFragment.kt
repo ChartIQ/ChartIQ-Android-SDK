@@ -103,10 +103,12 @@ class DrawingToolSettingsFragment : Fragment(),
             settingsRecyclerView.adapter = settingsAdapter
         }
 
-        settingsViewModel.parameters.observe(viewLifecycleOwner) { params ->
-            val isNestedSettings =
-                DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
-            settingsViewModel.setupList(params, isNestedSettings)
+        settingsViewModel.parameters.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { params ->
+                val isNestedSettings =
+                    DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
+                settingsViewModel.setupList(params, isNestedSettings)
+            }
         }
         settingsViewModel.settingsList.observe(viewLifecycleOwner) { list ->
             settingsAdapter.items = list
