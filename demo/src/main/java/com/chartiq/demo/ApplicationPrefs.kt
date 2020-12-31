@@ -33,10 +33,7 @@ interface ApplicationPrefs {
 
     fun getFavoriteDrawingTools(): Set<DrawingTool>
 
-    fun clearSession()
-
     fun getApplicationId(): String
-
 
     fun setLanguage(language: ChartIQLanguage)
 
@@ -94,12 +91,6 @@ interface ApplicationPrefs {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
                 .map { DrawingTool.valueOf(it.toUpperCase()) }
                 .toHashSet()
-        }
-
-        override fun clearSession() {
-            prefs.edit(true) {
-                putString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())
-            }
         }
 
         override fun getApplicationId(): String {
