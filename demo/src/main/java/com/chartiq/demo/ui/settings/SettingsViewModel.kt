@@ -69,7 +69,7 @@ class SettingsViewModel(
                 chartStyle.postValue(aggregationChartType.toModel())
             } else {
                 chartIQ.getChartType { chartType ->
-                    chartStyle.postValue(chartType.toModel())
+                    chartType?.let { chartStyle.postValue(it.toModel()) }
                 }
             }
         }

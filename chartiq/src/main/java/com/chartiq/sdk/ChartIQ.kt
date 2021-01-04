@@ -55,7 +55,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun setChartType(chartType: ChartType)
 
-    fun getChartType(callback: OnReturnCallback<ChartType>)
+    fun getChartType(callback: OnReturnCallback<ChartType?>)
 
     fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
 
