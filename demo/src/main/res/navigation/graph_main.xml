@@ -12,13 +12,25 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_navigation_settings"
-            app:destination="@id/navigation_settings" />
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_navigation_study"
-            app:destination="@id/navigation_study" />
+            app:destination="@id/navigation_study"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_navigation_chart"
-            app:destination="@id/navigation_chart" />
+            app:destination="@id/navigation_chart"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_chooseIntervalFragment"
             app:destination="@id/chooseIntervalFragment"
@@ -62,10 +74,18 @@
         tools:layout="@layout/fragment_study">
         <action
             android:id="@+id/action_navigation_study_to_addStudyFragment"
-            app:destination="@id/addStudyFragment" />
+            app:destination="@id/addStudyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_study_to_activeStudyDetailsFragment"
-            app:destination="@id/activeStudyDetailsFragment" />
+            app:destination="@id/activeStudyDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -152,7 +172,7 @@
     <fragment
         android:id="@+id/chartStyleSelectionFragment"
         android:name="com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment"
-        android:label="ChartStyleSelectionFragment" >
+        android:label="ChartStyleSelectionFragment">
         <argument
             android:name="selectedStyle"
             app:argType="com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem"
@@ -161,7 +181,7 @@
     <dialog
         android:id="@+id/languageSelectionFragment"
         android:name="com.chartiq.demo.ui.settings.language.LanguageSelectionFragment"
-        android:label="LanguageSelectionFragment" >
+        android:label="LanguageSelectionFragment">
         <argument
             android:name="selectedLanguage"
             app:argType="com.chartiq.demo.ui.settings.language.ChartIQLanguage" />

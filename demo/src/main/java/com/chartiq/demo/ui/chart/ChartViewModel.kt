@@ -211,16 +211,10 @@ class ChartViewModel(
         val symbol = applicationPrefs.getChartSymbol()
         if (currentSymbol.value != symbol) {
             currentSymbol.value = symbol
-            chartIQHandler.setSymbol(symbol.value)
         }
         val interval = applicationPrefs.getChartInterval()
         if (chartInterval.value != interval) {
             chartInterval.value = interval
-            chartIQHandler.setPeriodicity(
-                interval.getPeriod(),
-                interval.getInterval(),
-                interval.getSafeTimeUnit()
-            )
         }
         fetchDrawingTool()
     }
