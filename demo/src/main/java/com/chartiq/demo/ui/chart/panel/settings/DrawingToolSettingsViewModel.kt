@@ -11,6 +11,7 @@ import com.chartiq.demo.network.model.Font
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
+import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.drawingtool.*
 import com.chartiq.sdk.model.drawingtool.drawingmanager.DrawingManager
@@ -25,7 +26,7 @@ class DrawingToolSettingsViewModel(
     private val drawingManager: DrawingManager
 ) : ViewModel() {
 
-    val parameters = MutableLiveData<Map<String, Any>>()
+    val parameters = MutableLiveData<Event<Map<String, Any>>>()
     val drawingTool = MutableLiveData<DrawingTool>()
     val settingsList = MutableLiveData<List<DrawingToolSettingsItem>>(emptyList())
 
@@ -73,7 +74,7 @@ class DrawingToolSettingsViewModel(
 
     fun refreshDrawingParameters() {
         chartIQHandler.getDrawingParameters(drawingTool.value!!) { params ->
-            parameters.value = params
+            parameters.value = Event(params)
         }
     }
 

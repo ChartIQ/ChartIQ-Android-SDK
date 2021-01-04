@@ -110,8 +110,13 @@ class DrawingToolSettingsFragment : Fragment(),
             settingsRecyclerView.adapter = settingsAdapter
         }
 
-        settingsViewModel.parameters.observe(viewLifecycleOwner) { params ->
-            settingsViewModel.setupList(params, isNestedSettings = isDeviation)
+        settingsViewModel.parameters.observe(viewLifecycleOwner) { event ->
+            if (isDeviation) {
+                settingsViewModel.setupList(event.peekContent(), true)
+            }
+            event.getContentIfNotHandled()?.let { params ->
+                settingsViewModel.setupList(params, false)
+            }
         }
         settingsViewModel.settingsList.observe(viewLifecycleOwner) { list ->
             settingsAdapter.items = list
