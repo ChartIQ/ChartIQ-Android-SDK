@@ -7,10 +7,7 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowInsets
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -19,16 +16,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChartBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
@@ -45,11 +42,15 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
+import java.util.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
 
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
+    }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
     }
     private lateinit var binding: FragmentChartBinding
     private lateinit var panelList: List<InstrumentItem>
@@ -68,7 +69,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
@@ -76,7 +77,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             ChartIQDrawingManager()
         )
@@ -148,18 +149,24 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
         }
+        setupCrosshairsLayout()
+
         with(chartViewModel) {
             currentSymbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
             chartInterval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
+                    val shortTimeUnitName = localizationManager.getTranslationFromValue(
+                        timeUnit.toString().first().toString(),
+                        requireContext()
+                    )
                     binding.intervalButton.text = when (timeUnit) {
                         TimeUnit.SECOND,
                         TimeUnit.MINUTE -> {
-                            "$duration${timeUnit.toString().first().toLowerCase()}"
+                            "$duration${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
                         }
-                        else -> "$duration${timeUnit.toString().first()}"
+                        else -> "$duration${shortTimeUnitName}"
                     }
                 }
             }
@@ -182,10 +189,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     redoImageView.isVisible = isDrawingToolSelected
                     undoImageView.isVisible = isDrawingToolSelected
                 }
-                if (drawingTool == DrawingTool.NO_TOOL) {
-                    // setupInstrumentsList is triggered when the tool gets its parameters but no tool
-                    // doesn't get any parameters from the library for some reason so we setup it manually here
-                    panelAdapter.items = setupInstrumentsList()
+                if (!isDrawingToolSelected) {
+                    binding.instrumentRecyclerView.isVisible = false
+                    panelAdapter.items = listOf()
                 }
             }
             parameters.observe(viewLifecycleOwner) { parameters ->
@@ -221,8 +227,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
                 binding.crosshairLayout.root.isVisible = value
+                //update the translations
+                setupCrosshairsLayout()
             }
             isPickerItemSelected.observe(viewLifecycleOwner) { value ->
                 binding.instrumentRecyclerView.isVisible = value
@@ -262,6 +271,25 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     text = value
                 }
             }
+        }
+    }
+
+    private fun setupCrosshairsLayout() {
+        with(binding.crosshairLayout) {
+            priceLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_price))
+            volLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_vol))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
+            highLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_high))
+            closeLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_close))
+            lowLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_low))
+            openLabelTextView.text =
+                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
         }
     }
 
@@ -370,7 +398,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         with(binding) {
             toolbar.isVisible = !enterFullview
             collapseFullviewCheckBox.isVisible = enterFullview
-            mainViewModel.showNavBar(!enterFullview)
+            mainViewModel.updateFullView(!enterFullview)
 
             if (isDrawingToolSelected) {
                 undoImageView.isVisible = !enterFullview
@@ -387,11 +415,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             collapseFullviewCheckBox.isVisible = !isDrawingToolSelected
             fullviewCheckBox.isVisible = true
             if (!isDrawingToolSelected) {
-                mainViewModel.showNavBar(false)
+                mainViewModel.updateFullView(false)
             }
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             activity?.window?.decorView?.let { decorView ->
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
                     decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
             }
@@ -406,7 +435,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun disableFullscreen(isDrawingToolSelected: Boolean) {
-        mainViewModel.showNavBar(true)
+        mainViewModel.updateFullView(true)
         with(binding) {
             collapseFullviewCheckBox.isVisible = false
             fullviewCheckBox.isVisible = false
@@ -422,6 +451,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             activity?.window?.decorView?.let { decorView ->
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
                     decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
             }

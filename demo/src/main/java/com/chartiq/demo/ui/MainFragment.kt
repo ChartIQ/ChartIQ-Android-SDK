@@ -1,6 +1,8 @@
 package com.chartiq.demo.ui
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,14 +13,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.MainViewPagerAdapter
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.ChartTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
@@ -29,7 +33,7 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            ApplicationPrefs.Default(requireContext()),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
             chartIQ,
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
@@ -45,6 +49,7 @@ class MainFragment : Fragment() {
                 R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
                 else -> throw IllegalStateException()
             }
+            mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
             binding.mainViewPager.setCurrentItem(page, true)
             true
         }
@@ -61,6 +66,15 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isDarkThemeOn()) {
+            mainViewModel.updateTheme(ChartTheme.NIGHT)
+        } else {
+            mainViewModel.updateTheme(ChartTheme.DAY)
+        }
+    }
+
     private fun setupViews() {
         with(binding) {
             mainViewPager.apply {
@@ -71,6 +85,7 @@ class MainFragment : Fragment() {
                     override fun onPageSelected(position: Int) {
                         if (position == MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.ordinal) {
                             reloadData()
+                            (requireActivity() as MainFragmentPagerObserver).onPageChanged()
                         }
                     }
                 })
@@ -110,5 +125,14 @@ class MainFragment : Fragment() {
     private fun reloadData() {
         mainViewModel.setupChart()
         mainViewModel.fetchActiveStudyData()
+    }
+
+    private fun isDarkThemeOn(): Boolean {
+        return resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+    }
+
+    interface MainFragmentPagerObserver {
+        fun onPageChanged()
     }
 }

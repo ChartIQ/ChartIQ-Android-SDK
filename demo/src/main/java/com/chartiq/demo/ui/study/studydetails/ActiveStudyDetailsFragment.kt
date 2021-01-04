@@ -29,6 +29,9 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val viewModel: ActiveStudyDetailsViewModel by viewModels(factoryProducer = {
         ActiveStudyDetailsViewModel.ViewModelFactory(chartIQ, study)
     })
@@ -49,7 +52,7 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private fun setupViews() {
         with(binding) {
             toolbar.apply {
-                title = study.type
+                title = localizationManager.getTranslationFromValue(study.type ?: "", requireContext())
                 menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
                     viewModel.cloneStudy()
                     findNavController().navigateUp()

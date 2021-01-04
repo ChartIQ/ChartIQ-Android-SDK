@@ -2,7 +2,7 @@
     <string name="app_name">Demo</string>
 
     <string name="title_chart">Chart</string>
-    <string name="title_study">Study</string>
+    <string name="title_study">Studies</string>
     <string name="title_settings">Settings</string>
 
     <!--Search-->
@@ -11,46 +11,23 @@
     <string name="search_symbols_not_found_hint">Symbols not found</string>
     <string name="search_symbols_not_found_secondary_hint">Try another symbol to type or apply current request</string>
     <string name="search_apply">Apply</string>
-    <string name="search_filter_all">All</string>
-    <string name="search_filter_stocks">Stocks</string>
-    <string name="search_filter_fx">Fx</string>
-    <string name="search_filter_indexes">Indexes</string>
-    <string name="search_filter_funds">Funds</string>
-    <string name="search_filter_futures">Futures</string>
+    <string name="search_filter_all">ALL</string>
+    <string name="search_filter_stocks">STOCKS</string>
+    <string name="search_filter_fx">FX</string>
+    <string name="search_filter_indexes">INDEXES</string>
+    <string name="search_filter_funds">FUNDS</string>
+    <string name="search_filter_futures">FUTURES</string>
 
     <!--Interval-->
     <string name="title_intervals">Intervals</string>
     <string name="title_custom_intervals">Custom Intervals</string>
-
-    <plurals name="intervalSecond">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
-    </plurals>
-
-    <plurals name="intervalMinute">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-
-    <plurals name="intervalHour">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-
-    <plurals name="intervalDay">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
-
-    <plurals name="intervalWeek">
-        <item quantity="one">%d week</item>
-        <item quantity="other">%d weeks</item>
-    </plurals>
-
-    <plurals name="intervalMonth">
-        <item quantity="one">%d month</item>
-        <item quantity="other">%d months</item>
-    </plurals>
+    <string name="interval_full_label">%d %s</string>
+    <string name="interval_second">second</string>
+    <string name="interval_minute">minute</string>
+    <string name="interval_hour">hour</string>
+    <string name="interval_day">day</string>
+    <string name="interval_week">week</string>
+    <string name="interval_month">month</string>
 
     <string name="interval_custom_interval">Custom Interval</string>
     <string name="interval_select_custom">Select Custom</string>
@@ -113,14 +90,14 @@
     <string name="drawing_tool_vertical_line">Vertical Line</string>
     <string name="drawing_tool_restore_default_parameters">Restore Default Parameters</string>
     <string name="drawing_tool_clear_existing_drawings">Clear Existing Drawings</string>
-    <string name="drawing_tool_category_all">All</string>
-    <string name="drawing_tool_category_favorites">Favorites</string>
-    <string name="drawing_tool_category_text">Text</string>
-    <string name="drawing_tool_category_statistics">Statistics</string>
-    <string name="drawing_tool_category_technicals">Technicals</string>
-    <string name="drawing_tool_category_fibonacci">Fibonacci</string>
-    <string name="drawing_tool_category_markings">Markings</string>
-    <string name="drawing_tool_category_lines">Lines</string>
+    <string name="drawing_tool_category_all">ALL</string>
+    <string name="drawing_tool_category_favorites">FAVORITES</string>
+    <string name="drawing_tool_category_text">TEXT</string>
+    <string name="drawing_tool_category_statistics">STATISTICS</string>
+    <string name="drawing_tool_category_technicals">TECHNICALS</string>
+    <string name="drawing_tool_category_fibonacci">FIBONACCI</string>
+    <string name="drawing_tool_category_markings">MARKINGS</string>
+    <string name="drawing_tool_category_lines">LINES</string>
 
     <!--Instrument panel-->
     <string name="instrument_panel_layers_bring_to_top">Bring to Top</string>
@@ -129,12 +106,13 @@
     <string name="instrument_panel_layers_send_to_bottom">Send to Bottom</string>
 
     <!--Crosshair-->
-    <string name="crosshair_label_price">price:</string>
-    <string name="crosshair_label_vol">vol:</string>
-    <string name="crosshair_label_open">open:</string>
-    <string name="crosshair_label_high">high:</string>
-    <string name="crosshair_label_close">close:</string>
-    <string name="crosshair_label_low">low:</string>
+    <string name="crosshair_label_price">Price</string>
+    <string name="crosshair_label_vol">Vol</string>
+    <string name="crosshair_label_open">Open</string>
+    <string name="crosshair_label_high">High</string>
+    <string name="crosshair_label_close">Close</string>
+    <string name="crosshair_label_low">Low</string>
+    <string name="crosshair_full_label">%s:</string>
     <!-- Studies -->
     <string name="study_add_studies">Add studies</string>
     <string name="study_empty_active_study">No Active Studies to display yet</string>
@@ -179,7 +157,8 @@
     <string name="general_cancel">Cancel</string>
 
     <!-- Drawing Tool Settings -->
-    <string name="drawing_tool_settings_title_weight">Weight</string>
+    <string name="drawing_tool_settings_title_select_color">Select Color</string>
+    <string name="drawing_tool_settings_title_select_line_type">Select Line type</string>
     <string name="drawing_tool_settings_title_config">Config</string>
     <string name="drawing_tool_settings_title_add_config">Add config</string>
     <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>
@@ -205,10 +184,29 @@
     <string name="drawing_tool_settings_title_line_1_type">Line 1 Type"</string>
     <string name="drawing_tool_settings_title_line_2_type">Line 2 Type"</string>
     <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
-
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
     <string name="drawing_tool_settings_add">Add</string>
     <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
+
+    <string name="chart_type_heikinashi">Heikin Ashi</string>
+    <string name="chart_type_kagi">Kagi</string>
+    <string name="chart_type_linebreak">Line Break</string>
+    <string name="chart_type_renko">Renko</string>
+    <string name="chart_type_rangebars">Range Bars</string>
+    <string name="chart_type_pandf"><![CDATA[Point & Figure]]></string>
+    <string name="chart_type_candle">Candle</string>
+    <string name="chart_type_bar">Bar</string>
+    <string name="chart_type_colored_bar">Colored Bar</string>
+    <string name="chart_type_line">Line</string>
+    <string name="chart_type_vertex_line">Vertex Line</string>
+    <string name="chart_type_step">Step</string>
+    <string name="chart_type_mountain">Mountain</string>
+    <string name="chart_type_baseline">Baseline</string>
+    <string name="chart_type_hollow_candle">Hollow Candle</string>
+    <string name="chart_type_volume_candle">Volume Candle</string>
+    <string name="chart_type_colored_hlc">Colored HLC Bar</string>
+    <string name="chart_type_scatterplot">Scatterplot</string>
+    <string name="chart_type_histogram">Histogram</string>
 
 </resources>

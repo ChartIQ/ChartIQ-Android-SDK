@@ -92,6 +92,7 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     private fun setupViews() {
+        val isDeviation = DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
         with(binding) {
             settingsToolbar.apply {
                 setNavigationOnClickListener {
@@ -99,14 +100,23 @@ class DrawingToolSettingsFragment : Fragment(),
                 }
             }
             settingsAdapter.listener = settingsListener
-            settingsRecyclerView.addItemDecoration(LineItemDecoration.Default(requireContext()))
+
+            val decoration = if (isDeviation) {
+                DeviationItemDecoration(requireContext())
+            } else {
+                LineItemDecoration.Default(requireContext())
+            }
+            settingsRecyclerView.addItemDecoration(decoration)
             settingsRecyclerView.adapter = settingsAdapter
         }
 
-        settingsViewModel.parameters.observe(viewLifecycleOwner) { params ->
-            val isNestedSettings =
-                DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
-            settingsViewModel.setupList(params, isNestedSettings)
+        settingsViewModel.parameters.observe(viewLifecycleOwner) { event ->
+            if (isDeviation) {
+                settingsViewModel.setupList(event.peekContent(), true)
+            }
+            event.getContentIfNotHandled()?.let { params ->
+                settingsViewModel.setupList(params, false)
+            }
         }
         settingsViewModel.settingsList.observe(viewLifecycleOwner) { list ->
             settingsAdapter.items = list

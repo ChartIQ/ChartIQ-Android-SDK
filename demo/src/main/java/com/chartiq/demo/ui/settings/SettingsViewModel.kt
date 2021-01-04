@@ -1,6 +1,5 @@
 package com.chartiq.demo.ui.settings
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +15,6 @@ import com.chartiq.sdk.model.charttype.ChartType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
 
 class SettingsViewModel(
     private val chartIQ: ChartIQ,
@@ -40,14 +38,9 @@ class SettingsViewModel(
     private fun initChartLanguage() {
         viewModelScope.launch(Dispatchers.Main) {
             applicationPrefs.languageState.collect { saveLanguage ->
-                val languageCode = saveLanguage.name.toLowerCase(Locale.ENGLISH)
-                chartIQ.setLanguage(languageCode)
                 language.value = saveLanguage
-                //todo call if there's no translations only
-                chartIQ.getTranslations(languageCode) {
-                    Log.i(SettingsViewModel::class.simpleName, it.toString())
-                }
-
+                //to perform new translations for selected chart value
+                initChartStyle()
             }
         }
     }
@@ -76,7 +69,7 @@ class SettingsViewModel(
                 chartStyle.postValue(aggregationChartType.toModel())
             } else {
                 chartIQ.getChartType { chartType ->
-                    chartStyle.postValue(chartType.toModel())
+                    chartType?.let { chartStyle.postValue(it.toModel()) }
                 }
             }
         }

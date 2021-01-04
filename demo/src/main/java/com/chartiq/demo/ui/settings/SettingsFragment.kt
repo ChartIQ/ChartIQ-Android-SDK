@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ChartIQApplication
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentSettingsBinding
 import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
 import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
@@ -21,7 +21,10 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
         (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val settingsViewModel: SettingsViewModel by viewModels(factoryProducer = {
-        SettingsViewModel.ViewModelFactory(chartIQ, ApplicationPrefs.Default(requireContext()))
+        SettingsViewModel.ViewModelFactory(
+            chartIQ,
+            (requireActivity().application as ServiceLocator).applicationPreferences
+        )
     })
     private lateinit var binding: FragmentSettingsBinding
 
@@ -62,7 +65,7 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
                 settingsViewModel.changeExtendHours(it)
             }
             settingsViewModel.chartStyle.observe(viewLifecycleOwner) {
-                chartConfigContainer.subtitle = it.title
+                chartConfigContainer.subtitle = getString(it.titleRes)
             }
             settingsViewModel.language.observe(viewLifecycleOwner) {
                 languageContainer.subtitle = it.title

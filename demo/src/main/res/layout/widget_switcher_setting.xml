@@ -21,13 +21,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/parameterTextView"
-            style="@style/SubtitleTextOutlinedStyle"
+            style="@style/SubtitleTextAppearance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="@dimen/padding_medium_small"
             android:paddingBottom="@dimen/padding_medium_small"
-            android:text="@string/settings_log_scale"
+            tools:text="@string/settings_log_scale"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/parameterSwitch"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/brightGrey"
+        android:background="@color/separatorColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentLayout" />

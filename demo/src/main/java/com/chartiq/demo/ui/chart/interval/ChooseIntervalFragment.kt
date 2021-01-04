@@ -8,23 +8,27 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
 import com.chartiq.demo.ui.LineItemDecoration.*
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
 import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 
 class ChooseIntervalFragment : Fragment() {
 
     private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
         ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
-            ApplicationPrefs.Default(requireContext())
+            (requireActivity().application as ServiceLocator).applicationPreferences
         )
     })
+    private val localizationManager by lazy {
+        (requireActivity().application as ChartIQApplication).localizationManager
+    }
     private val onSelectIntervalListener = object : OnIntervalSelectListener {
         override fun onCustomIntervalSelect() {
             viewModel.onCustomIntervalSelect()
@@ -57,10 +61,11 @@ class ChooseIntervalFragment : Fragment() {
             }
         }
 
-        val intervalAdapter = IntervalListAdapter()
-        intervalAdapter.items = viewModel.setupList(DEFAULT_INTERVAL_LIST)
-        intervalAdapter.onSelectIntervalListener = onSelectIntervalListener
-
+        val intervalAdapter = IntervalListAdapter().apply {
+            localizationManager = this@ChooseIntervalFragment.localizationManager
+            items = viewModel.setupList(DEFAULT_INTERVAL_LIST)
+            onSelectIntervalListener = this@ChooseIntervalFragment.onSelectIntervalListener
+        }
         with(binding) {
             intervalsRecyclerView.apply {
                 adapter = intervalAdapter

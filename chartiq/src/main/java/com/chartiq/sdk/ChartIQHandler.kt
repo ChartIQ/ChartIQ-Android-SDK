@@ -27,7 +27,6 @@ class ChartIQHandler(
 
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
-    private var parameters = HashMap<String, Boolean>()
     private val chartIQView = ChartIQView(context)
     private var measureCallback: MeasureCallback? = null
 
@@ -169,8 +168,9 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getEnableCrosshairScript(false))
     }
 
-    override fun setPeriodicity(period: Int, interval: String, timeUnit: String) {
-        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, timeUnit))
+    override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
+        val unit = timeUnit.toString().toLowerCase(Locale.ENGLISH)
+        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, unit))
     }
 
     override fun enableDrawing(type: DrawingTool) {
@@ -231,15 +231,19 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
     }
 
-    override fun getChartType(callback: OnReturnCallback<ChartType>) {
+    override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
-            callback.onReturn(
-                ChartType.valueOf(
-                    it.substring(1, it.length - 1)
-                        .toUpperCase(Locale.ENGLISH)
+            if (it == "null") {
+                callback.onReturn(null)
+            } else {
+                callback.onReturn(
+                    ChartType.valueOf(
+                        it.substring(1, it.length - 1)
+                            .toUpperCase(Locale.ENGLISH)
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -340,10 +344,6 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getLayerManagementScript(layer))
     }
 
-    override fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>) {
-        parameters = talkbackFields
-    }
-
     override fun getStudyParameters(
         study: Study,
         type: StudyParameterType,
@@ -417,20 +417,28 @@ class ChartIQHandler(
         languageCode: String,
         callback: OnReturnCallback<Map<String, String>>
     ) {
-        val script = scriptManager.getScriptForTranslations(languageCode)
+        val script = scriptManager.getGetTranslationsScript(languageCode)
         executeJavascript(script) {
-            val objectResult = Gson().fromJson(it, Object::class.java)
-            val typeToken = object : TypeToken<Map<String, String>>() {}.type
-            val translations = Gson().fromJson<Map<String, String>>(
-                objectResult.toString(), typeToken
-            )
-            callback.onReturn(translations)
+            if (it != "null") {
+                val objectResult = Gson().fromJson(it, Object::class.java)
+                val typeToken = object : TypeToken<Map<String, String>>() {}.type
+                val translations = Gson().fromJson<Map<String, String>>(
+                    objectResult.toString(), typeToken
+                )
+                callback.onReturn(translations)
+            } else {
+                callback.onReturn(emptyMap())
+            }
+
         }
     }
 
     override fun setLanguage(languageCode: String) {
-        val script = scriptManager.getScriptForSetLanguage(languageCode)
-        executeJavascript(script)
+        executeJavascript(scriptManager.getSetLanguageScript(languageCode))
+    }
+
+    override fun setTheme(theme: ChartTheme) {
+        executeJavascript(scriptManager.getSetThemeScript(theme))
     }
 
     private fun executeJavascript(script: String, callback: ValueCallback<String>? = null) {

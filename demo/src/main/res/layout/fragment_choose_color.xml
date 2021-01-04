@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ghostWhite">
+    android:background="@color/chooseScreenBackgroundColor">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/colorsToolbar"
         style="@style/AppToolbar"
         app:navigationIcon="@drawable/ic_close"
-        app:title="Select Color" />
+        app:title="@string/drawing_tool_settings_title_select_color" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/colorsRecyclerView"

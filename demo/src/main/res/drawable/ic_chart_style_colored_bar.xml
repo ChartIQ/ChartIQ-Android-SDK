@@ -1,18 +1,20 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="25dp"
+    android:tint="@color/icPrimaryColor"
     android:viewportWidth="24"
     android:viewportHeight="25">
-  <path
-      android:pathData="M12.519,16.13l2.73,0.001v1.111h-2.73l0.001,2.922h-1.1L11.42,7.089L8.71,7.089L8.71,5.978l2.708,-0.001 0.001,-2.968h1.1L12.519,16.13z"
-      android:fillColor="#53627C"
-      android:fillType="nonZero"/>
-  <path
-      android:pathData="M8.648,19.208v1.111h-2.73l0.001,1.322h-1.1v-2.222h0.014v-0.21h3.815zM5.919,16.087v2.222h-1.1v-2.222h1.1zM5.919,12.753v2.222h-1.1L4.819,12.752h1.1zM5.919,11.643h-1.1L4.819,10.165L2.109,10.165L2.109,9.055h3.81v2.586zM5.919,6.087L5.919,8.307h-1.1L4.819,6.086h1.1z"
-      android:fillColor="#53627C"
-      android:fillType="nonZero"/>
-  <path
-      android:pathData="M21.849,19.208v1.111h-2.73l0.001,1.322h-1.1v-2.222h0.014v-0.21h3.815zM19.12,16.087v2.222h-1.1v-2.222h1.1zM19.12,12.753v2.222h-1.1L18.02,12.752h1.1zM19.12,11.643h-1.1L18.02,10.165L15.31,10.165L15.31,9.055h3.81v2.586zM19.12,6.087L19.12,8.307h-1.1L18.02,6.086h1.1z"
-      android:fillColor="#53627C"
-      android:fillType="nonZero"/>
+
+    <path
+        android:fillColor="#53627C"
+        android:fillType="nonZero"
+        android:pathData="M12.519,16.13l2.73,0.001v1.111h-2.73l0.001,2.922h-1.1L11.42,7.089L8.71,7.089L8.71,5.978l2.708,-0.001 0.001,-2.968h1.1L12.519,16.13z" />
+    <path
+        android:fillColor="#53627C"
+        android:fillType="nonZero"
+        android:pathData="M8.648,19.208v1.111h-2.73l0.001,1.322h-1.1v-2.222h0.014v-0.21h3.815zM5.919,16.087v2.222h-1.1v-2.222h1.1zM5.919,12.753v2.222h-1.1L4.819,12.752h1.1zM5.919,11.643h-1.1L4.819,10.165L2.109,10.165L2.109,9.055h3.81v2.586zM5.919,6.087L5.919,8.307h-1.1L4.819,6.086h1.1z" />
+    <path
+        android:fillColor="#53627C"
+        android:fillType="nonZero"
+        android:pathData="M21.849,19.208v1.111h-2.73l0.001,1.322h-1.1v-2.222h0.014v-0.21h3.815zM19.12,16.087v2.222h-1.1v-2.222h1.1zM19.12,12.753v2.222h-1.1L18.02,12.752h1.1zM19.12,11.643h-1.1L18.02,10.165L15.31,10.165L15.31,9.055h3.81v2.586zM19.12,6.087L19.12,8.307h-1.1L18.02,6.086h1.1z" />
 </vector>

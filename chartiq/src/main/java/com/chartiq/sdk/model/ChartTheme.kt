@@ -1,7 +1,10 @@
 package com.chartiq.sdk.model
 
-enum class ChartTheme {
-    DAY,
-    NIGHT,
-    NONE
+/**
+ * An enumeration of available chart themes
+ */
+enum class ChartTheme(val value: String) {
+    DAY("day"),
+    NIGHT("night"),
+    NONE("none")
 }

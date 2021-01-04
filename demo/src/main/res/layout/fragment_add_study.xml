@@ -9,7 +9,6 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,12 +23,13 @@
                 style="@style/AppToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:elevation="0dp"
                 app:menu="@menu/menu_add_study"
                 app:navigationIcon="@drawable/ic_close"
                 app:title="@string/study_title_add_study" />
 
             <FrameLayout
+                android:elevation="@dimen/elevation_small"
+                android:background="@color/toolbarBackgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_medium">

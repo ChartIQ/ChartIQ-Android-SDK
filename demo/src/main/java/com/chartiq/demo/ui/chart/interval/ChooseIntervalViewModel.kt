@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
-import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.util.Event
 
 class ChooseIntervalViewModel(private val appPrefs: ApplicationPrefs) : ViewModel() {

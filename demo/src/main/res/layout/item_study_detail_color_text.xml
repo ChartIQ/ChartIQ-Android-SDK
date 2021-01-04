@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/parameterTextColorTextView"
-        style="@style/SubtitleTextOutlinedStyle"
+        style="@style/SubtitleTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_medium_small"
@@ -22,7 +22,7 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/parameterTextColorEditText"
-        style="@style/SecondaryTextStyle"
+        style="@style/SecondaryTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_medium_small"

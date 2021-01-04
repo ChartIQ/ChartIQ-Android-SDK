@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.chartiq.demo.R
 
-abstract class FullscreenDialogFragment: DialogFragment() {
+abstract class FullscreenDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

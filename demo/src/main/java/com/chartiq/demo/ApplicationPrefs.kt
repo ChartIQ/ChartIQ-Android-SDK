@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import java.util.*
@@ -33,10 +33,7 @@ interface ApplicationPrefs {
 
     fun getFavoriteDrawingTools(): Set<DrawingTool>
 
-    fun clearSession()
-
     fun getApplicationId(): String
-
 
     fun setLanguage(language: ChartIQLanguage)
 
@@ -94,12 +91,6 @@ interface ApplicationPrefs {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
                 .map { DrawingTool.valueOf(it.toUpperCase()) }
                 .toHashSet()
-        }
-
-        override fun clearSession() {
-            prefs.edit(true) {
-                putString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())
-            }
         }
 
         override fun getApplicationId(): String {

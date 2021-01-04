@@ -1,6 +1,6 @@
 package com.chartiq.demo.ui.chart.interval.list
 
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 
 data class IntervalItem(
     val duration: Int,
