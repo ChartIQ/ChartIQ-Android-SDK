@@ -231,15 +231,19 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
     }
 
-    override fun getChartType(callback: OnReturnCallback<ChartType>) {
+    override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
-            callback.onReturn(
-                ChartType.valueOf(
-                    it.substring(1, it.length - 1)
-                        .toUpperCase(Locale.ENGLISH)
+            if (it == "null") {
+                callback.onReturn(null)
+            } else {
+                callback.onReturn(
+                    ChartType.valueOf(
+                        it.substring(1, it.length - 1)
+                            .toUpperCase(Locale.ENGLISH)
+                    )
                 )
-            )
+            }
         }
     }
 
