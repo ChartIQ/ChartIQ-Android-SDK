@@ -14,8 +14,6 @@ class DeviationItemDecoration(
     private val groupingSpace: Int = context.resources.getDimensionPixelOffset(R.dimen.margin_large)
 ) : RecyclerView.ItemDecoration() {
 
-    private val bounds = Rect()
-
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         if ((parent.getChildAdapterPosition(view) + 1) % 3 == 0) {
             outRect.bottom = groupingSpace
@@ -23,6 +21,7 @@ class DeviationItemDecoration(
     }
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        val bounds = Rect()
         val styledAttributes = context.obtainStyledAttributes(intArrayOf(android.R.attr.listDivider))
         val lineDrawable = styledAttributes.getDrawable(0)
         val marginStart = context.resources.getDimensionPixelSize(R.dimen.list_item_decorator_margin)
