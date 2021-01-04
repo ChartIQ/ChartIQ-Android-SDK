@@ -81,7 +81,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getChartScaleScript(): String = CHART_IQ_JS_OBJECT + "layout.chartScale"
 
     override fun getSetChartScaleScript(scale: String): String =
-        CHART_IQ_JS_OBJECT + "layout.chartScale = \"$scale\";"
+        CHART_IQ_JS_OBJECT + "setChartScale(\"$scale\");"
 
     override fun getAddStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
@@ -257,7 +257,7 @@ internal class ChartIQScriptManager : ScriptManager {
         MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"extended\");"
 
     override fun getSetExtendedHoursScript(extended: Boolean): String =
-        MOBILE_BRIDGE_NAME_SPACE + "toggleExtendedHours($extended);"
+        CHART_IQ_JS_OBJECT + "extendedHours.set($extended);"
 
     override fun getUndoDrawingScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "undo();"
