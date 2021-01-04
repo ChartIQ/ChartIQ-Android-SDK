@@ -1,6 +1,6 @@
 package com.chartiq.demo.ui.chart.interval.model
 
-import java.util.*
+import com.chartiq.sdk.model.TimeUnit
 
 data class Interval(
     val duration: Int,
@@ -23,11 +23,11 @@ data class Interval(
         return "$interval"
     }
 
-    fun getTimeUnit(): String {
+    fun getSafeTimeUnit(): TimeUnit {
         return if (timeUnit == TimeUnit.HOUR) {
             TimeUnit.MINUTE
         } else {
             timeUnit
-        }.toString().toLowerCase(Locale.ENGLISH)
+        }
     }
 }

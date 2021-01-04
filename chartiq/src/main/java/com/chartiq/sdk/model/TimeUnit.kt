@@ -1,5 +1,8 @@
-package com.chartiq.demo.ui.chart.interval.model
+package com.chartiq.sdk.model
 
+/**
+ * An enumeration for available time units
+ */
 enum class TimeUnit {
     SECOND,
     MINUTE,

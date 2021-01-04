@@ -2,10 +2,7 @@ package com.chartiq.sdk
 
 import android.content.Context
 import android.view.View
-import com.chartiq.sdk.model.ChartScale
-import com.chartiq.sdk.model.ChartTheme
-import com.chartiq.sdk.model.CrosshairHUD
-import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.study.ChartIQStudy
@@ -23,15 +20,36 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun start(onStartCallback: OnStartCallback)
 
+    /**
+     * Sets a symbol to the chart
+     * @param symbol A symbol to be set
+     */
     fun setSymbol(symbol: String)
 
+    /**
+     * Sets data method and symbol to the chart
+     * @param method A data method to be set
+     * @param symbol A symbol to be set
+     */
     fun setDataMethod(method: DataMethod, symbol: String)
 
+    /**
+     * Enables crosshairs
+     */
     fun enableCrosshairs()
 
+    /**
+     * Disables crosshairs
+     */
     fun disableCrosshairs()
 
-    fun setPeriodicity(period: Int, interval: String, timeUnit: String)
+    /**
+     * Sets periodicity to the chart
+     * @param period A number of elements from masterData to roll-up together into one data point on the chart.
+     * @param interval An interval is a numeric portion of the time unit.
+     * @param timeUnit A particular time interval that represents a time unit. If not set, will default to "minute". *`hour` is NOT a valid timeUnit. Use `timeUnit:"minute", interval:60` instead.
+     */
+    fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit)
 
     fun setAggregationType(aggregationType: AggregationChartType)
 
@@ -45,8 +63,6 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun setChartScale(scale: ChartScale)
 
-    fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>)
-
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
     fun setIsInvertYAxis(inverted: Boolean)
@@ -55,6 +71,10 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun setExtendedHours(extended: Boolean)
 
+    /**
+     * Get HUD details
+     * @param callback A callback to subscribe to to receive [CrosshairHUD]
+     */
     fun getHUDDetails(callback: OnReturnCallback<CrosshairHUD>)
 
     /**
@@ -70,8 +90,16 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setLanguage(languageCode: String)
 
+    /**
+     * Adds a measure listener
+     * @param measureCallback A [MeasureCallback] to be added
+     */
     fun addMeasureListener(measureCallback: MeasureCallback)
 
+    /**
+     * Sets a theme to the chart
+     * @param theme A theme [ChartTheme] to be applied to the chart
+     */
     fun setTheme(theme: ChartTheme)
 
     companion object {

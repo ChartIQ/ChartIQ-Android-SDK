@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.drawingtool
 
+/**
+ * An enumeration of available drawing tool parameters types
+ */
 enum class DrawingParameterType(val value: String) {
     FILL_COLOR("fillColor"),
     LINE_COLOR("color"),

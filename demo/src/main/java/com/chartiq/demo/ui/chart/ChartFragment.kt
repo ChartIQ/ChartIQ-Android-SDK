@@ -7,10 +7,7 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowInsets
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -28,7 +25,7 @@ import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
@@ -423,6 +420,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             activity?.window?.decorView?.let { decorView ->
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
                     decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
             }
@@ -453,6 +451,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             activity?.window?.decorView?.let { decorView ->
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
                     decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
             }

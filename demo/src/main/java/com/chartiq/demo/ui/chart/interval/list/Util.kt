@@ -2,7 +2,7 @@ package com.chartiq.demo.ui.chart.interval.list
 
 import android.content.res.Resources
 import com.chartiq.demo.R
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 
 fun getTimeUnitText(resources: Resources, interval: Int, timeUnit: TimeUnit): String {
     with(resources) {
