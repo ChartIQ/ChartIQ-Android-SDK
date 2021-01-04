@@ -1,8 +1,8 @@
 package com.chartiq.demo.ui
 
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +22,7 @@ import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
@@ -48,6 +49,7 @@ class MainFragment : Fragment() {
                 R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
                 else -> throw IllegalStateException()
             }
+            mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
             binding.mainViewPager.setCurrentItem(page, true)
             true
         }
@@ -66,7 +68,7 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(isDarkThemeOn()) {
+        if (isDarkThemeOn()) {
             mainViewModel.updateTheme(ChartTheme.NIGHT)
         } else {
             mainViewModel.updateTheme(ChartTheme.DAY)
