@@ -19,6 +19,7 @@ import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -126,6 +127,11 @@ class MainViewModel(
 
     fun updateTheme(theme: ChartTheme) {
         chartTheme.value = Event(theme)
+    }
+
+    fun prepareSession() {
+        // Reset Drawing Tool
+        applicationPrefs.saveDrawingTool(DrawingTool.NONE)
     }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
