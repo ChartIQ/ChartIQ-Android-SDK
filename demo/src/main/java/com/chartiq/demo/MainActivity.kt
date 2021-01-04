@@ -23,26 +23,19 @@ import dev.b3nedikt.restring.Restring
 class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
 
     private val chartIQ: ChartIQ by lazy {
-        (this.application as ServiceLocator).chartIQ
-    }
-
-    private val appPrefs by lazy {
-        (this.application as ServiceLocator).applicationPreferences
+        (application as ServiceLocator).chartIQ
     }
     private val localizationManager by lazy {
-        (this.application as ServiceLocator).localizationManager
+        (application as ServiceLocator).localizationManager
     }
-
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
             ChartIQNetworkManager(),
-            appPrefs,
+            (application as ServiceLocator).applicationPreferences,
             chartIQ,
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
-
-
     private val appCompatDelegate: AppCompatDelegate by lazy {
         ViewPumpAppCompatDelegate(
             baseDelegate = super.getDelegate(),
@@ -60,6 +53,7 @@ class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mainViewModel.prepareSession()
 
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
@@ -89,16 +83,6 @@ class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver 
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // TODO: 03.12.20 There are situations where the system will simply kill
-        //  the activity's hosting process without calling onDestroy
-        //  Such a situation is swiping the app out of the recent tasks list
-        //  clearSession() won't work in this situation which should be fixed
-        //  side note: running a StickyService most likely won't work on api level 26+
-        appPrefs.clearSession()
     }
 
     override fun onPageChanged() {

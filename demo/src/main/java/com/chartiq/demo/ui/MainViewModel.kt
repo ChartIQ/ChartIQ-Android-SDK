@@ -10,6 +10,8 @@ import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.localization.RemoteTranslations
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
+import com.chartiq.demo.ui.chart.interval.model.Interval
+import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.util.Event
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
@@ -18,6 +20,7 @@ import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
+import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -64,6 +67,10 @@ class MainViewModel(
 
     private val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
+    val symbol = MutableLiveData<Symbol>()
+
+    val interval = MutableLiveData<Interval>()
+
     init {
         chartIQ.apply {
             setDataSource(object : DataSource {
@@ -109,16 +116,21 @@ class MainViewModel(
     }
 
     fun setupChart() {
-        val symbol = applicationPrefs.getChartSymbol()
-        chartIQ.setSymbol(symbol.value)
-        chartIQ.setDataMethod(DataMethod.PULL, symbol.value)
-
-        val interval = applicationPrefs.getChartInterval()
-        chartIQ.setPeriodicity(
-            interval.getPeriod(),
-            interval.getInterval(),
-            interval.getTimeUnit()
-        )
+        val currentSymbol = applicationPrefs.getChartSymbol()
+        if (symbol.value != currentSymbol) {
+            symbol.value = currentSymbol
+            chartIQ.setSymbol(currentSymbol.value)
+            chartIQ.setDataMethod(DataMethod.PULL, currentSymbol.value)
+        }
+        val currentInterval = applicationPrefs.getChartInterval()
+        if (interval.value != currentInterval) {
+            interval.value = currentInterval
+            chartIQ.setPeriodicity(
+                currentInterval.getPeriod(),
+                currentInterval.getInterval(),
+                currentInterval.getSafeTimeUnit()
+            )
+        }
     }
 
     fun checkInternetAvailability() {
@@ -146,6 +158,11 @@ class MainViewModel(
         chartTheme.value = Event(theme)
     }
 
+    fun prepareSession() {
+        // Reset Drawing Tool
+        applicationPrefs.saveDrawingTool(DrawingTool.NONE)
+    }
+
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -166,7 +183,14 @@ class MainViewModel(
                     val locale = Locale(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
-                        currentLocaleEvent.postValue(Event(RemoteTranslations(locale, translationsMap)))
+                        currentLocaleEvent.postValue(
+                            Event(
+                                RemoteTranslations(
+                                    locale,
+                                    translationsMap
+                                )
+                            )
+                        )
                     }
                 }
             }

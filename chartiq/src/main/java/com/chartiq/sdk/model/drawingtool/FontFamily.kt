@@ -2,6 +2,9 @@ package com.chartiq.sdk.model.drawingtool
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * An enumeration of available font families
+ */
 enum class FontFamily(val value: String) {
     @SerializedName("Default")
     DEFAULT("Default"),

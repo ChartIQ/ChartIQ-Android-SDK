@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.drawingtool
 
+/**
+ * An enumeration of available drawing tools
+ */
 enum class DrawingTool(val value: String) {
     ANNOTATION("annotation"),
     ARROW("arrow"),

@@ -8,13 +8,13 @@
         android:id="@+id/searchImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_medium_small"
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toTopOf="@id/hintTextView"
         app:layout_constraintEnd_toEndOf="@+id/hintTextView"
-        app:layout_constraintHeight_max="80dp"
+        app:layout_constraintHeight_max="40dp"
         app:layout_constraintStart_toStartOf="@+id/hintTextView"
-        app:layout_constraintWidth_max="80dp" />
+        app:layout_constraintWidth_max="40dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/hintTextView"

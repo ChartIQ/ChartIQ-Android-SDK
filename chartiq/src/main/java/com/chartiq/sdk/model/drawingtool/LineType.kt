@@ -2,6 +2,9 @@ package com.chartiq.sdk.model.drawingtool
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * An enumeration of available line types
+ */
 enum class LineType(val value: String) {
     @SerializedName("solid")
     SOLID("solid"),
