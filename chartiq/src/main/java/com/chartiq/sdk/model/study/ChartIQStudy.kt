@@ -5,13 +5,13 @@ import com.chartiq.sdk.OnReturnCallback
 interface ChartIQStudy {
     /**
      * Gets a list of available studies [Study]
-     * @param callback A callback to which subscribe to get a list of studies
+     * @param callback A callback to subscribe to to get a list of studies
      */
     fun getStudyList(callback: OnReturnCallback<List<Study>>)
 
     /**
      * Gets a list of active/selected studies [Study]
-     * @param callback A callback to which subscribe to get a list of studies
+     * @param callback A callback to subscribe to to get a list of studies
      */
     fun getActiveStudies(callback: OnReturnCallback<List<Study>>)
 
@@ -57,7 +57,7 @@ interface ChartIQStudy {
      * Gets a list of parameters [StudyParameter] of a selected study [Study]
      * @param study A selected study [Study]
      * @param type A type [StudyParameterType] of parameters to get
-     * @param callback A callback to which subscribe to get a list of parameters [StudyParameter]
+     * @param callback A callback to subscribe to to get a list of parameters [StudyParameter]
      */
     fun getStudyParameters(
         study: Study,
