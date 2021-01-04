@@ -2,7 +2,7 @@ package com.chartiq.sdk
 
 import android.webkit.JavascriptInterface
 
-interface JavaScriptHandler {
+internal interface JavaScriptHandler {
 
     @JavascriptInterface
     fun layoutChange(json: String)

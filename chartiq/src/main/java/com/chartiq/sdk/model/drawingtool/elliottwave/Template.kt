@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.drawingtool.elliottwave
 
+/**
+ * An enumeration of available templates
+ */
 enum class Template(val value: String) {
     GRAND_SUPERCYCLE("Grand Supercycle"),
     SUPERCYCLE("Supercycle"),

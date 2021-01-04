@@ -11,8 +11,8 @@ import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
-import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.study.*
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -27,7 +27,6 @@ class ChartIQHandler(
 
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
-    private var parameters = HashMap<String, Boolean>()
     private val chartIQView = ChartIQView(context)
     private var measureCallback: MeasureCallback? = null
 
@@ -169,8 +168,9 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getEnableCrosshairScript(false))
     }
 
-    override fun setPeriodicity(period: Int, interval: String, timeUnit: String) {
-        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, timeUnit))
+    override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
+        val unit = timeUnit.toString().toLowerCase(Locale.ENGLISH)
+        executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, unit))
     }
 
     override fun enableDrawing(type: DrawingTool) {
@@ -354,10 +354,6 @@ class ChartIQHandler(
 
     override fun manageLayer(layer: ChartLayer) {
         executeJavascript(scriptManager.getLayerManagementScript(layer))
-    }
-
-    override fun setOHLCParameters(talkbackFields: HashMap<String, Boolean>) {
-        parameters = talkbackFields
     }
 
     override fun getStudyParameters(

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.chartiq.demo.ui.chart.interval.model.Interval
-import com.chartiq.demo.ui.chart.interval.model.TimeUnit
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import java.util.*

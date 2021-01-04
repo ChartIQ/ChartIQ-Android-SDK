@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.drawingtool.elliottwave
 
+/**
+ * An enumeration of available impulses
+ */
 enum class Impulse(val value: String) {
     ROMAN_CAPITAL("I II III IV V"),
     ROMAN_NORMAL("i ii iii iv v"),

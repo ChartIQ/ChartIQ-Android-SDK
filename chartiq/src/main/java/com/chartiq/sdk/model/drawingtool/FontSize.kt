@@ -1,5 +1,8 @@
 package com.chartiq.sdk.model.drawingtool
 
+/**
+ * An enumeration of available font sizes
+ */
 enum class FontSize(val pxValue: String) {
     SIZE_8("8px"),
     SIZE_10("10px"),
