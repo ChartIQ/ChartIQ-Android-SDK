@@ -9,7 +9,6 @@ ext.version_name = "4.0.0"
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         minSdkVersion 21
