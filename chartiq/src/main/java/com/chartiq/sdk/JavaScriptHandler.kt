@@ -16,32 +16,32 @@ internal interface JavaScriptHandler {
     @JavascriptInterface
     fun pullInitialData(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
         end: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     )
 
     @JavascriptInterface
     fun pullUpdate(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     )
 
     @JavascriptInterface
     fun pullPagination(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
         end: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     )
 }
