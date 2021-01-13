@@ -40,10 +40,6 @@ internal interface ScriptManager {
 
     fun getAggregationTypeScript(): String
 
-    fun getAddSeriesScript(symbol: String, hexColor: String): String
-
-    fun getRemoveSeriesScript(symbol: String): String
-
     fun getResizeChartScript(): String
 
     fun getClearChartScript(): String
@@ -129,4 +125,12 @@ internal interface ScriptManager {
     fun getSetLanguageScript(languageCode: String): String
 
     fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
+
+    fun getGetActiveSeriesScript(): String
+
+    fun getAddSeriesScript(symbol: String, color: String, isComparison: Boolean): String
+
+    fun getRemoveSeriesScript(symbol: String): String
+
+    fun getSetSeriesParameterScript(symbol: String, field: String, value: String): String
 }

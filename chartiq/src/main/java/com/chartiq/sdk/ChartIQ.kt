@@ -7,8 +7,6 @@ import com.chartiq.sdk.model.charttype.AggregationChartType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.study.ChartIQStudy
 
-import java.util.*
-
 interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     val chartView: View
@@ -101,6 +99,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param theme A theme [ChartTheme] to be applied to the chart
      */
     fun setTheme(theme: ChartTheme)
+
+    fun getActiveSeries(callback: OnReturnCallback<List<Series>>)
+
+    fun addSeries(series: Series, isComparison: Boolean)
+
+    fun removeSeries(symbolName: String)
+
+    fun setSeriesParameter(symbolName: String, field: String, value: String)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {

@@ -64,14 +64,6 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getAggregationTypeScript(): String = CHART_IQ_JS_OBJECT + "layout.aggregationType"
 
-
-    override fun getAddSeriesScript(symbol: String, hexColor: String): String =
-        CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", " +
-                "color: \"$hexColor\"  isComparison:true});"
-
-    override fun getRemoveSeriesScript(symbol: String): String =
-        CHART_IQ_JS_OBJECT + "removeSeries(\"$symbol\");"
-
     override fun getResizeChartScript(): String =
         CHART_IQ_JS_OBJECT + "resizeChart();"
 
@@ -279,6 +271,18 @@ internal class ChartIQScriptManager : ScriptManager {
 
     override fun getSetLanguageScript(languageCode: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "setLanguage(\"${languageCode.asSafeScriptParameter}\");"
+
+    override fun getGetActiveSeriesScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getAllSeries()"
+
+    override fun getAddSeriesScript(symbol: String, color: String, isComparison: Boolean): String =
+        CHART_IQ_JS_OBJECT + "addSeries(\"$symbol\", {display:\"$symbol\", color: \"$color\", isComparison:\"$isComparison\"});"
+
+    override fun getRemoveSeriesScript(symbol: String): String =
+        CHART_IQ_JS_OBJECT + "removeSeries(\"$symbol\");"
+
+    override fun getSetSeriesParameterScript(symbol: String, field: String, value: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "modifySeries(\"$symbol\", \"$field\", \"$value\");"
 
     private val String.asSafeScriptParameter: String
         get() {

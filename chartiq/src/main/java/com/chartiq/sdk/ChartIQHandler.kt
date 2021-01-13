@@ -445,7 +445,6 @@ class ChartIQHandler(
             } else {
                 callback.onReturn(emptyMap())
             }
-
         }
     }
 
@@ -463,6 +462,36 @@ class ChartIQHandler(
 
     private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
         executeJavascript(scriptManager.getParseDataScript(data, callbackId))
+    }
+
+    override fun getActiveSeries(callback: OnReturnCallback<List<Series>>) {
+        executeJavascript(scriptManager.getGetActiveSeriesScript()) { value ->
+            val result = value
+                .substring(1, value.length - 1)
+                .replace("\\", "")
+            val typeToken = object : TypeToken<Map<String, Map<String, String>>>() {}.type
+            val seriesMap: Map<String, Any> = Gson().fromJson(result, typeToken)
+            val seriesList = seriesMap.keys.mapTo(mutableListOf()) { key ->
+                val hashColor = (seriesMap[key] as Map<String, String>)["color"]
+                val color = hashColor?.let { color ->
+                    color
+                } ?: "#000000"
+                Series(key, color)
+            }
+            callback.onReturn(seriesList)
+        }
+     }
+
+    override fun addSeries(series: Series, isComparison: Boolean) {
+        executeJavascript(scriptManager.getAddSeriesScript(series.symbolName, series.color, isComparison))
+    }
+
+    override fun removeSeries(symbolName: String) {
+        executeJavascript(scriptManager.getRemoveSeriesScript(symbolName))
+    }
+
+    override fun setSeriesParameter(symbolName: String, field: String, value: String) {
+        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, field, value))
     }
 
     companion object {
