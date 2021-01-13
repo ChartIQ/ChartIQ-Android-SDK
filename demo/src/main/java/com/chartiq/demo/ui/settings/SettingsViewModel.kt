@@ -47,7 +47,7 @@ class SettingsViewModel(
 
     private fun initChartScale() {
         chartIQ.getChartScale {
-            logScale.value = it == ChartScale.LINEAR
+            logScale.value = it == ChartScale.LOG
         }
     }
 

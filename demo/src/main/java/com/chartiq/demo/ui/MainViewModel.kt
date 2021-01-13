@@ -1,20 +1,19 @@
 package com.chartiq.demo.ui
 
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.chartiq.demo.ApplicationPrefs
+import com.chartiq.demo.localization.RemoteTranslations
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
-import com.chartiq.demo.localization.RemoteTranslations
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.util.Event
+import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
@@ -41,13 +40,32 @@ class MainViewModel(
 
     val errorLiveData = MutableLiveData<Unit>()
 
-    val isNavBarVisible = MutableLiveData(true)
+    private val isNavBarAlwaysVisible = MutableLiveData(false)
+
+    private val currentOrientation = MutableLiveData(Configuration.ORIENTATION_PORTRAIT)
+
+    private val isFullView = MutableLiveData(false)
+
+    val isNavBarVisible: LiveData<Boolean> =
+        Transformations.map(
+            combineLatest(
+                isNavBarAlwaysVisible,
+                currentOrientation,
+                isFullView
+            )
+        ) { (isVisible, orientation, isFull) ->
+            return@map if (isVisible == true) {
+                true
+            } else {
+                orientation == Configuration.ORIENTATION_PORTRAIT && isFull == true
+            }
+        }
 
     val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
     val isNetworkAvailable = MutableLiveData(false)
 
-    val chartTheme = MutableLiveData<Event<ChartTheme>>()
+    private val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
     val symbol = MutableLiveData<Symbol>()
 
@@ -87,8 +105,8 @@ class MainViewModel(
         }
     }
 
-    fun showNavBar(show: Boolean) {
-        isNavBarVisible.value = show
+    fun updateFullView(isFullView: Boolean) {
+        this.isFullView.postValue(isFullView)
     }
 
     fun fetchActiveStudyData() {
@@ -99,13 +117,13 @@ class MainViewModel(
 
     fun setupChart() {
         val currentSymbol = applicationPrefs.getChartSymbol()
-        if(symbol.value != currentSymbol) {
+        if (symbol.value != currentSymbol) {
             symbol.value = currentSymbol
             chartIQ.setSymbol(currentSymbol.value)
             chartIQ.setDataMethod(DataMethod.PULL, currentSymbol.value)
         }
         val currentInterval = applicationPrefs.getChartInterval()
-        if(interval.value != currentInterval) {
+        if (interval.value != currentInterval) {
             interval.value = currentInterval
             chartIQ.setPeriodicity(
                 currentInterval.getPeriod(),
@@ -145,6 +163,15 @@ class MainViewModel(
         applicationPrefs.saveDrawingTool(DrawingTool.NONE)
     }
 
+    fun setAlwaysOnDisplayNavBar(alwaysOnDisplay: Boolean) {
+        isNavBarAlwaysVisible.postValue(alwaysOnDisplay)
+    }
+
+    fun saveSymbol(symbol: Symbol) {
+        applicationPrefs.saveChartSymbol(symbol)
+        setupChart()
+    }
+
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -165,16 +192,18 @@ class MainViewModel(
                     val locale = Locale(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
-                        currentLocaleEvent.postValue(Event(RemoteTranslations(locale, translationsMap)))
+                        currentLocaleEvent.postValue(
+                            Event(
+                                RemoteTranslations(
+                                    locale,
+                                    translationsMap
+                                )
+                            )
+                        )
                     }
                 }
             }
         }
-    }
-
-    fun saveSymbol(symbol: Symbol) {
-        applicationPrefs.saveChartSymbol(symbol)
-        setupChart()
     }
 
     class ViewModelFactory(

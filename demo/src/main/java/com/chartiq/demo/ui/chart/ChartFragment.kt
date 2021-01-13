@@ -415,7 +415,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         with(binding) {
             toolbar.isVisible = !enterFullview
             collapseFullviewCheckBox.isVisible = enterFullview
-            mainViewModel.showNavBar(!enterFullview)
+            mainViewModel.updateFullView(!enterFullview)
 
             if (isDrawingToolSelected) {
                 undoImageView.isVisible = !enterFullview
@@ -432,7 +432,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             collapseFullviewCheckBox.isVisible = !isDrawingToolSelected
             fullviewCheckBox.isVisible = true
             if (!isDrawingToolSelected) {
-                mainViewModel.showNavBar(false)
+                mainViewModel.updateFullView(false)
             }
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -452,7 +452,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun disableFullscreen(isDrawingToolSelected: Boolean) {
-        mainViewModel.showNavBar(true)
+        mainViewModel.updateFullView(true)
         with(binding) {
             collapseFullviewCheckBox.isVisible = false
             fullviewCheckBox.isVisible = false
