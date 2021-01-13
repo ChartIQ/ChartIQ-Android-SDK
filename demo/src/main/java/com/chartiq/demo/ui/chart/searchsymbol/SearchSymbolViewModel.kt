@@ -3,7 +3,6 @@ package com.chartiq.demo.ui.chart.searchsymbol
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.network.model.SymbolResponse
@@ -11,10 +10,7 @@ import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import com.chartiq.demo.util.Event
 import kotlinx.coroutines.*
 
-class SearchSymbolViewModel(
-    private val networkManager: NetworkManager,
-    private val argPrefs: ApplicationPrefs
-) : ViewModel() {
+class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewModel() {
 
     private var searchJob: Job? = null
 
@@ -37,10 +33,6 @@ class SearchSymbolViewModel(
         this.filter.value = filter
         query.value = query.value
         fetchSymbol()
-    }
-
-    fun saveSymbol() {
-        argPrefs.saveChartSymbol(Symbol(query.value!!))
     }
 
     private fun fetchSymbol() {
@@ -77,20 +69,11 @@ class SearchSymbolViewModel(
         private const val DELAY_SEARCH = 300L
     }
 
-    class SearchViewModelFactory(
-        private val argNetworkManager: NetworkManager,
-        private val argPrefs: ApplicationPrefs
-    ) : ViewModelProvider.Factory {
+    class SearchViewModelFactory(private val argNetworkManager: NetworkManager) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(
-                    NetworkManager::class.java,
-                    ApplicationPrefs::class.java
-                )
-                .newInstance(
-                    argNetworkManager,
-                    argPrefs
-                )
+                .getConstructor(NetworkManager::class.java)
+                .newInstance(argNetworkManager)
         }
     }
 }

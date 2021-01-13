@@ -25,12 +25,13 @@ import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
-import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
+import com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment
+import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.common.colorpicker.ColorItem
 import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
 import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
@@ -40,11 +41,13 @@ import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 import java.util.*
 
-class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener {
+class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener,
+    SearchSymbolFragment.DialogFragmentListener {
 
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
@@ -123,6 +126,11 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         chartViewModel.manageLayer(layer)
     }
 
+    override fun onChooseSymbol(symbol: Symbol) {
+        mainViewModel.saveSymbol(symbol)
+        chartViewModel.fetchSymbol()
+    }
+
     private fun setupViews() {
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             chartViewModel.toggleFullscreen()
@@ -130,10 +138,13 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         with(binding) {
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             symbolButton.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_searchSymbolFragment)
+                navigateToSearchSymbol()
             }
             intervalButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
+            }
+            compareCheckBox.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_compareFragment)
             }
             drawCheckBox.setOnClickListener {
                 chartViewModel.toggleDrawingTool()
@@ -272,6 +283,12 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 }
             }
         }
+    }
+
+    private fun navigateToSearchSymbol() {
+        val dialog = SearchSymbolFragment()
+        dialog.setTargetFragment(this, REQUEST_CODE_SEARCH_SYMBOL)
+        dialog.show(parentFragmentManager, null)
     }
 
     private fun setupCrosshairsLayout() {
@@ -479,5 +496,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         private const val ANIMATION_MOVE_HINT_DELAY_APPEAR = 1000L
         private const val ANIMATION_MOVE_HINT_DELAY_DISAPPEAR = 1800L
         private const val REQUEST_CODE_MANAGE_LAYERS = 1012
+        private const val REQUEST_CODE_SEARCH_SYMBOL = 1013
     }
 }

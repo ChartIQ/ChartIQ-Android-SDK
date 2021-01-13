@@ -172,6 +172,11 @@ class MainViewModel(
         }
     }
 
+    fun saveSymbol(symbol: Symbol) {
+        applicationPrefs.saveChartSymbol(symbol)
+        setupChart()
+    }
+
     class ViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
@@ -195,6 +200,4 @@ class MainViewModel(
                 )
         }
     }
-
 }
-

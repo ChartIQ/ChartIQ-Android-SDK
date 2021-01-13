@@ -13,29 +13,23 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.SearchAutoComplete
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.R
-import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentSearchSymbolBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.chart.searchsymbol.list.OnSearchResultClickListener
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultAdapter
+import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.demo.util.hideKeyboard
 import com.google.android.material.tabs.TabLayout
 import androidx.appcompat.R.id as appCompat
 
-
-class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
+class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
-        SearchSymbolViewModel.SearchViewModelFactory(
-            ChartIQNetworkManager(),
-            (requireActivity().application as ServiceLocator).applicationPreferences
-        )
+        SearchSymbolViewModel.SearchViewModelFactory(ChartIQNetworkManager())
     })
     private val searchAdapter = SearchResultAdapter()
 
@@ -51,10 +45,10 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
             viewModel.updateQuery(query)
         }
     }
-    private val onSearchResultClickListener = OnSearchResultClickListener { item ->
-        viewModel.saveSymbol()
-        requireContext().hideKeyboard(view?.windowToken)
-        findNavController().navigateUp()
+    private val onSearchResultClickListener = OnSearchResultClickListener {
+        val symbol = Symbol(viewModel.query.value!!)
+        (targetFragment as DialogFragmentListener).onChooseSymbol(symbol)
+        navigateBack()
     }
     private val tabOnSelectListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -105,7 +99,8 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
                 addItemDecoration(LineItemDecoration.Default(context))
             }
             symbolNotFoundPlaceholder.applyButton.setOnClickListener {
-                viewModel.saveSymbol()
+                val symbol = Symbol(viewModel.query.value!!)
+                (targetFragment as DialogFragmentListener).onChooseSymbol(symbol)
                 navigateBack()
             }
 
@@ -165,7 +160,7 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
 
     private fun navigateBack() {
         requireContext().hideKeyboard(view?.windowToken)
-        findNavController().navigateUp()
+        dismiss()
     }
 
     companion object {
@@ -175,5 +170,10 @@ class SearchSymbolFragment : Fragment(), VoiceQueryReceiver {
         private const val TAB_INDEXES = 3
         private const val TAB_FUNDS = 4
         private const val TAB_FUTURES = 5
+    }
+
+    interface DialogFragmentListener {
+
+        fun onChooseSymbol(symbol: Symbol)
     }
 }
