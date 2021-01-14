@@ -10,6 +10,10 @@ class CompareViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
 
     val series = MutableLiveData<List<Series>>()
 
+    init {
+        getSeries()
+    }
+
     fun getSeries() {
         chartIQHandler.getActiveSeries {
             series.value = it

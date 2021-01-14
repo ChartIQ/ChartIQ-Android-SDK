@@ -84,7 +84,6 @@ class CompareFragment : Fragment(), SearchSymbolFragment.DialogFragmentListener,
             }
         }
 
-        viewModel.getSeries()
         viewModel.series.observe(viewLifecycleOwner) { seriesList ->
             seriesList.isEmpty().also { value ->
                 binding.typeToSearchPlaceholder.root.isVisible = value
