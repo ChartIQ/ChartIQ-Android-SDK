@@ -24,7 +24,7 @@ class ChooseLineFragment : FullscreenDialogFragment() {
         with(requireArguments()) {
             findLineIndex(
                 lineTypesList,
-                getParcelable(ARG_SELECTED_LINE_TYPE),
+                getString(ARG_SELECTED_LINE_TYPE)?.let { LineType.valueOf(it) },
                 getInt(ARG_SELECTED_LINE_WIDTH)
             )
         }
@@ -90,7 +90,7 @@ class ChooseLineFragment : FullscreenDialogFragment() {
             dialog.arguments = bundleOf(
                 ARG_LINE_PARAMETER to lineParam,
                 ARG_WIDTH_PARAMETER to widthParam,
-                ARG_SELECTED_LINE_TYPE to lineType,
+                ARG_SELECTED_LINE_TYPE to lineType.toString(),
                 ARG_SELECTED_LINE_WIDTH to lineWidth,
             )
             return dialog
