@@ -20,7 +20,7 @@ import com.chartiq.sdk.ChartIQ
 import dev.b3nedikt.restring.Restring
 
 
-class MainActivity :AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
+class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
 
     private val chartIQ: ChartIQ by lazy {
         (application as ServiceLocator).chartIQ

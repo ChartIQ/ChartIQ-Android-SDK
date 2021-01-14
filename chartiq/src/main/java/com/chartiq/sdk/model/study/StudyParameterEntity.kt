@@ -3,7 +3,7 @@ package com.chartiq.sdk.model.study
 import com.chartiq.sdk.model.ParameterEntityValueType
 import com.google.gson.annotations.SerializedName
 
-data class StudyParameterEntity(
+internal data class StudyParameterEntity(
     @SerializedName("defaultInput", alternate = ["defaultValue", "defaultOutput"])
     val defaultValue: Any,
     val heading: String,
@@ -15,7 +15,7 @@ data class StudyParameterEntity(
     val defaultColor: String?,
 )
 
-fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyParameter {
+internal fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyParameter {
     return when (type) {
         ParameterEntityValueType.NUMBER.value -> {
             StudyParameter.Number(
@@ -67,7 +67,7 @@ fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyPa
             }
         }
         else ->
-            if(color != null){
+            if (color != null) {
                 StudyParameter.Color(
                     value = color,
                     heading = heading,
@@ -75,8 +75,7 @@ fun StudyParameterEntity.toParameter(parameterType: StudyParameterType): StudyPa
                     defaultValue = defaultValue as String,
                     parameterType = parameterType
                 )
-            }
-            else if (defaultValue == StudyParameter.AUTO_VALUE) {
+            } else if (defaultValue == StudyParameter.AUTO_VALUE) {
                 StudyParameter.Color(
                     value = color ?: defaultValue as String,
                     heading = heading,

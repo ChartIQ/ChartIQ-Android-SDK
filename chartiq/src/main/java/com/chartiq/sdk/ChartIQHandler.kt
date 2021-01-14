@@ -289,12 +289,6 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveStudyScript(study.name))
     }
 
-    /**
-     * Adds a selected study to active studies
-     * @param study - a study to add/clone
-     * @param forClone - if [study] is from  [getStudyList] use `false`,
-     * if [study] is from [getActiveStudies] use `true`
-     */
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
             study.type!!
@@ -305,21 +299,11 @@ class ChartIQHandler(
         executeJavascript(scripts)
     }
 
-    /**
-     * Changes the active [Study] with a single parameter
-     * @param study -  a [Study] to update
-     * @param parameter - a [StudyParameterModel] that contains key-value to be updated
-     */
     override fun setStudyParameter(study: Study, parameter: StudyParameterModel) {
         val script = scriptManager.getSetStudyParameterScript(study.name, parameter)
         executeJavascript(script)
     }
 
-    /**
-     * Changes the active [Study] with the provided inputs, outputs and parameters
-     * @param study -  a [Study] to update
-     * @param parameters -  a list of [StudyParameterModel] that contains values to be updated
-     */
     override fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>) {
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }

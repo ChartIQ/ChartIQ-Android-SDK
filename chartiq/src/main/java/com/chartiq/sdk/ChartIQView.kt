@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.accessibility.AccessibilityManager
 import android.webkit.WebView
 
-class ChartIQView @JvmOverloads constructor(
+internal class ChartIQView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : WebView(context, attrs) {

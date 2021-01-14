@@ -10,7 +10,9 @@ import com.chartiq.sdk.model.study.ChartIQStudy
 import java.util.*
 
 interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
-
+    /**
+     * A ChartIQ [View] that represents a ChartIQ UI
+     */
     val chartView: View
 
     /**
@@ -18,6 +20,10 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setDataSource(dataSource: DataSource)
 
+    /**
+     * Starts a ChartIQ WebClient initialization
+     * @param onStartCallback A callback to subscribe to for a successful WebClient initialization
+     */
     fun start(onStartCallback: OnStartCallback)
 
     /**
@@ -51,24 +57,66 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit)
 
+    /**
+     * Sets an Aggregation type for charts
+     * @param aggregationType A selected aggregation type
+     */
     fun setAggregationType(aggregationType: AggregationChartType)
 
+    /**
+     * Sets an chart type for charts
+     * @param chartType A selected chart type
+     */
     fun setChartType(chartType: ChartType)
 
+    /**
+     * Gets a selected chart type
+     * @param callback A callback to subscribe to to get a chart type
+     */
     fun getChartType(callback: OnReturnCallback<ChartType?>)
 
+    /**
+     * Gets a selected aggregation chart type
+     * @param callback A callback to subscribe to to get an aggregation chart type
+     */
     fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
 
+    /**
+     * Gets a selected chart scale
+     * @param callback A callback to subscribe to to get a selected chart scale
+     */
     fun getChartScale(callback: OnReturnCallback<ChartScale>)
 
+    /**
+     * Sets an chart scale for charts
+     * @param scale A selected chart scale
+     */
     fun setChartScale(scale: ChartScale)
 
+    /**
+     * Gets a selected chart Y axis invertion
+     * @param callback A callback to subscribe to to get a selected Y-axis invertion.
+     */
     fun getIsInvertYAxis(callback: OnReturnCallback<Boolean>)
 
+    /**
+     * Setting to true causes the y-axis and all linked drawings, series and studies to display inverted (flipped) from
+     * its previous state
+     * @param inverted  A selected invertion value. if true, Y axis is inverted
+     */
     fun setIsInvertYAxis(inverted: Boolean)
 
+    /**
+     * Gets a selected extended-hours visualization
+     * @param callback A callback to subscribe to to get a  extended hours flag value
+     * If true, a chart uses extended hours
+     */
     fun getIsExtendedHours(callback: OnReturnCallback<Boolean>)
 
+    /**
+     * Sets to turn on/off the extended-hours visualization.
+     * @param extended  A selected boolean extended hours value. if true, extended hours are applied
+     */
     fun setExtendedHours(extended: Boolean)
 
     /**
