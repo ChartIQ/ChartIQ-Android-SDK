@@ -113,9 +113,10 @@ class DrawingToolSettingsFragment : Fragment(),
         settingsViewModel.parameters.observe(viewLifecycleOwner) { event ->
             if (isDeviation) {
                 settingsViewModel.setupList(event.peekContent(), true)
-            }
-            event.getContentIfNotHandled()?.let { params ->
-                settingsViewModel.setupList(params, false)
+            } else {
+                event.getContentIfNotHandled()?.let { params ->
+                    settingsViewModel.setupList(params, false)
+                }
             }
         }
         settingsViewModel.settingsList.observe(viewLifecycleOwner) { list ->
