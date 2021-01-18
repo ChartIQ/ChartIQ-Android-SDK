@@ -68,11 +68,16 @@ class SimpleItemTouchCallBack(
                     itemView.right + dX.toInt(),
                     itemView.top, itemView.right, itemView.bottom
                 )
-                textX = (itemView.right - bounds.width()).toFloat()
+                textX = if (itemView.right + dX.toInt() < (itemView.right - bounds.width() * 2).toFloat()) {
+                    (itemView.right - bounds.width()).toFloat()
+                } else {
+                    (bounds.left - bounds.right) / 2f
+                }
+
             }
             else -> { // view is unSwiped
                 mBackground.setBounds(0, 0, 0, 0)
-                textX = 0f
+                textX = (bounds.left - bounds.right) / 2f
             }
         }
         mBackground.draw(c)
