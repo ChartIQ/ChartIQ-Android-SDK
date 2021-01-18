@@ -43,6 +43,23 @@
         <item>#000000</item>
     </array>
 
+    <array name="seriesColors">
+        <item>#8ec648</item>
+        <item>#00afed</item>
+        <item>#ee652e</item>
+        <item>#912a8e</item>
+        <item>#fff126</item>
+        <item>#e9088c</item>
+        <item>#ea1d2c</item>
+        <item>#00a553</item>
+        <item>#00a99c</item>
+        <item>#0056a4</item>
+        <item>#f4932f</item>
+        <item>#0073ba</item>
+        <item>#66308f</item>
+        <item>#323390</item>
+    </array>
+
     <array name="lines">
         <item>R.drawable.ic_line_type_dash</item>
         <item>R.drawable.ic_line_type_dash_bold</item>

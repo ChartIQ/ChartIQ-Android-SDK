@@ -39,13 +39,6 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_searchSymbolFragment"
-            app:destination="@id/searchSymbolFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_mainFragment_to_drawingToolFragment"
             app:destination="@id/drawingToolFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -55,6 +48,13 @@
         <action
             android:id="@+id/action_mainFragment_to_drawingToolSettingsFragment"
             app:destination="@id/drawingToolSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_compareFragment"
+            app:destination="@id/compareFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -186,4 +186,8 @@
             android:name="selectedLanguage"
             app:argType="com.chartiq.demo.ui.settings.language.ChartIQLanguage" />
     </dialog>
+    <fragment
+        android:id="@+id/compareFragment"
+        android:name="com.chartiq.demo.ui.chart.comparison.CompareFragment"
+        android:label="CompareFragment" />
 </navigation>

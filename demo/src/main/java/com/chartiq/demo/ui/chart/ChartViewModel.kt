@@ -208,15 +208,23 @@ class ChartViewModel(
     }
 
     private fun fetchSavedSettings() {
+        fetchSymbol()
+        fetchInterval()
+        fetchDrawingTool()
+    }
+
+    fun fetchSymbol() {
         val symbol = applicationPrefs.getChartSymbol()
         if (currentSymbol.value != symbol) {
             currentSymbol.value = symbol
         }
+    }
+
+    private fun fetchInterval() {
         val interval = applicationPrefs.getChartInterval()
         if (chartInterval.value != interval) {
             chartInterval.value = interval
         }
-        fetchDrawingTool()
     }
 
     private fun fetchDrawingTool() {

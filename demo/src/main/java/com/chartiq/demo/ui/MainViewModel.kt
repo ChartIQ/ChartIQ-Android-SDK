@@ -163,6 +163,15 @@ class MainViewModel(
         applicationPrefs.saveDrawingTool(DrawingTool.NONE)
     }
 
+    fun setAlwaysOnDisplayNavBar(alwaysOnDisplay: Boolean) {
+        isNavBarAlwaysVisible.postValue(alwaysOnDisplay)
+    }
+
+    fun saveSymbol(symbol: Symbol) {
+        applicationPrefs.saveChartSymbol(symbol)
+        setupChart()
+    }
+
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
         viewModelScope.launch(Dispatchers.IO) {
             val applicationId = applicationPrefs.getApplicationId()
@@ -197,10 +206,6 @@ class MainViewModel(
         }
     }
 
-    fun setAlwaysOnDisplayNavBar(alwaysOnDisplay: Boolean) {
-        isNavBarAlwaysVisible.postValue(alwaysOnDisplay)
-    }
-
     class ViewModelFactory(
         private val argNetworkManager: NetworkManager,
         private val argApplicationPrefs: ApplicationPrefs,
@@ -224,6 +229,4 @@ class MainViewModel(
                 )
         }
     }
-
 }
-

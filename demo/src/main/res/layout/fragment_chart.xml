@@ -40,6 +40,14 @@
                 tools:text="1D" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/compareCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/drawCheckBox"
+                android:button="@drawable/ic_compare" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/drawCheckBox"
                 style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
@@ -156,8 +164,8 @@
         android:gravity="center"
         android:paddingStart="@dimen/padding_medium"
         android:paddingTop="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_small"
         android:paddingEnd="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_small"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/chartIqView"
         app:layout_constraintStart_toStartOf="@id/chartIqView"

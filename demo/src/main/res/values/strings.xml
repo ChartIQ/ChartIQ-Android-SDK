@@ -5,6 +5,11 @@
     <string name="title_study">Studies</string>
     <string name="title_settings">Settings</string>
 
+    <!--Compare-->
+    <string name="title_compare">Compare Symbols</string>
+    <string name="compare_placeholder_hint">No Symbols to compare yet</string>
+    <string name="compare_add_symbol">Add symbol</string>
+
     <!--Search-->
     <string name="search_hint">Search</string>
     <string name="search_action_hint">Type to start searching</string>
