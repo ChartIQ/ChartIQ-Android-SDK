@@ -85,15 +85,15 @@ class ChartIQHandler(
     @JavascriptInterface
     override fun pullInitialData(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
         end: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+            QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
@@ -104,14 +104,14 @@ class ChartIQHandler(
     @JavascriptInterface
     override fun pullUpdate(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period, interval, start, null, meta, callbackId)
+            QuoteFeedParams(symbol, period?.toInt(), interval, start, null, meta, callbackId)
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
@@ -122,15 +122,15 @@ class ChartIQHandler(
     @JavascriptInterface
     override fun pullPagination(
         symbol: String?,
-        period: Int?,
+        period: String?,
         interval: String?,
         start: String?,
         end: String?,
-        meta: Any?,
+        meta: String?,
         callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period, interval, start, end, meta, callbackId)
+            QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullPaginationData(quoteFeedParams) { data ->
             callbackId?.let {
                 invokePullCallback(callbackId, data)
