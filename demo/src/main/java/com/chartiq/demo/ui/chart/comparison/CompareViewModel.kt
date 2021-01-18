@@ -14,12 +14,6 @@ class CompareViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
         getSeries()
     }
 
-    fun getSeries() {
-        chartIQHandler.getActiveSeries {
-            series.value = it
-        }
-    }
-
     fun addSeries(symbolName: String, color: String) {
         chartIQHandler.addSeries(Series(symbolName, color), true)
         getSeries()
@@ -33,6 +27,12 @@ class CompareViewModel(private val chartIQHandler: ChartIQ) : ViewModel() {
     fun updateSeriesParameter(symbolName: String, parameter: String, value: String) {
         chartIQHandler.setSeriesParameter(symbolName, parameter, value)
         getSeries()
+    }
+
+    private fun getSeries() {
+        chartIQHandler.getActiveSeries {
+            series.value = it
+        }
     }
 
     class ViewModelFactory(
