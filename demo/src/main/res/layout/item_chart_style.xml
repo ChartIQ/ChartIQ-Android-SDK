@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/padding_medium">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/margin_extra_large"
+        android:src="@drawable/ic_chart_style_bar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/optionTextView"
+        style="@style/SubtitleTextAppearance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/margin_medium_small"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_weight="1"
+        tools:text="Candle" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/checkImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_check"
+        android:visibility="gone"
+        app:tint="@color/mountainMeadow"
+        tools:visibility="visible" />
+
+</LinearLayout>

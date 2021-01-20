@@ -1,0 +1,217 @@
+<resources>
+    <string name="app_name">Demo</string>
+
+    <string name="title_chart">Chart</string>
+    <string name="title_study">Studies</string>
+    <string name="title_settings">Settings</string>
+
+    <!--Compare-->
+    <string name="title_compare">Compare Symbols</string>
+    <string name="compare_placeholder_hint">No Symbols to compare yet</string>
+    <string name="compare_add_symbol">Add symbol</string>
+
+    <!--Search-->
+    <string name="search_hint">Search</string>
+    <string name="search_action_hint">Type to start searching</string>
+    <string name="search_symbols_not_found_hint">Symbols not found</string>
+    <string name="search_symbols_not_found_secondary_hint">Try another symbol to type or apply current request</string>
+    <string name="search_apply">Apply</string>
+    <string name="search_filter_all">ALL</string>
+    <string name="search_filter_stocks">STOCKS</string>
+    <string name="search_filter_fx">FX</string>
+    <string name="search_filter_indexes">INDEXES</string>
+    <string name="search_filter_funds">FUNDS</string>
+    <string name="search_filter_futures">FUTURES</string>
+
+    <!--Interval-->
+    <string name="title_intervals">Intervals</string>
+    <string name="title_custom_intervals">Custom Intervals</string>
+    <string name="interval_full_label">%d %s</string>
+    <string name="interval_second">second</string>
+    <string name="interval_minute">minute</string>
+    <string name="interval_hour">hour</string>
+    <string name="interval_day">day</string>
+    <string name="interval_week">week</string>
+    <string name="interval_month">month</string>
+
+    <string name="interval_custom_interval">Custom Interval</string>
+    <string name="interval_select_custom">Select Custom</string>
+    <string name="interval_select_value">Select Value</string>
+    <string name="interval_select_measurement">Select Measurement</string>
+    <string name="interval_done">Done</string>
+    <string name="search_title">Search symbols</string>
+
+    <!--Drawing tools-->
+    <string name="drawing_tool_title">Drawing Tool</string>
+    <string name="drawing_tool_no_favorites_hint">No favorite drawing tools yet</string>
+    <string name="drawing_tool_no_favorites_hint_message">Tap on the star icon to add/remove a drawing tool to favorites</string>
+    <string name="drawing_tool_restore_default_parameters_title">Do you want to restore default parameters?</string>
+    <string name="drawing_tool_restore_default_parameters_message">All your drawing parameters will be restored by defaults.</string>
+    <string name="drawing_tool_restore_default_parameters_cancel">Cancel</string>
+    <string name="drawing_tool_restore_default_parameters_confirm">Restore</string>
+    <string name="drawing_tool_clear_drawings_title">Do you want to clear all existing drawings?</string>
+    <string name="drawing_tool_clear_drawings_message">All your drawings will be cleared on the current chart.</string>
+    <string name="drawing_tool_clear_drawings_cancel">Cancel</string>
+    <string name="drawing_tool_clear_drawings_confirm">Clear</string>
+    <string name="drawing_tool_header_other_tools">Other tools</string>
+    <string name="drawing_tool_no_tool">No Tool</string>
+    <string name="drawing_tool_measure">Measure</string>
+    <string name="drawing_tool_header_main_tools">Main tools</string>
+    <string name="drawing_tool_annotation">Annotation</string>
+    <string name="drawing_tool_arrow">Arrow</string>
+    <string name="drawing_tool_average_line">Average Line</string>
+    <string name="drawing_tool_callout">Callout</string>
+    <string name="drawing_tool_channel">Channel</string>
+    <string name="drawing_tool_check">Check</string>
+    <string name="drawing_tool_continuous_line">Continuous</string>
+    <string name="drawing_tool_cross">Cross</string>
+    <string name="drawing_tool_crossline">Crossline</string>
+    <string name="drawing_tool_doodle">Doodle</string>
+    <string name="drawing_tool_elliott_wave">Elliott wave</string>
+    <string name="drawing_tool_ellipse">Ellipse</string>
+    <string name="drawing_tool_fib_arc">Fib Arc</string>
+    <string name="drawing_tool_fib_fan">Fib Fan</string>
+    <string name="drawing_tool_fib_projection">Fib Projection</string>
+    <string name="drawing_tool_fib_retracement">Fib Retracement</string>
+    <string name="drawing_tool_fib_time_zone">Fib Time zone</string>
+    <string name="drawing_tool_focus">Focus</string>
+    <string name="drawing_tool_gann_fan">Gann Fan</string>
+    <string name="drawing_tool_gartley">Gartley</string>
+    <string name="drawing_tool_heart">Heart</string>
+    <string name="drawing_tool_horizontal_line">Horizontal Line</string>
+    <string name="drawing_tool_line">Line</string>
+    <string name="drawing_tool_pitchfork">Pitchfork</string>
+    <string name="drawing_tool_quadrant_lines">Quadrant Lines</string>
+    <string name="drawing_tool_ray">Ray</string>
+    <string name="drawing_tool_rectangle">Rectangle</string>
+    <string name="drawing_tool_regression_line">Regression Line</string>
+    <string name="drawing_tool_segment">Segment</string>
+    <string name="drawing_tool_star">Star</string>
+    <string name="drawing_tool_speed_resistance_arc">Speed Resistance Arc</string>
+    <string name="drawing_tool_speed_resistance_line">Speed Resistance Line</string>
+    <string name="drawing_tool_time_cycle">Time Cycle</string>
+    <string name="drawing_tool_tirone_levels">Tirone Levels</string>
+    <string name="drawing_tool_trend_line">Trend Line</string>
+    <string name="drawing_tool_vertical_line">Vertical Line</string>
+    <string name="drawing_tool_restore_default_parameters">Restore Default Parameters</string>
+    <string name="drawing_tool_clear_existing_drawings">Clear Existing Drawings</string>
+    <string name="drawing_tool_category_all">ALL</string>
+    <string name="drawing_tool_category_favorites">FAVORITES</string>
+    <string name="drawing_tool_category_text">TEXT</string>
+    <string name="drawing_tool_category_statistics">STATISTICS</string>
+    <string name="drawing_tool_category_technicals">TECHNICALS</string>
+    <string name="drawing_tool_category_fibonacci">FIBONACCI</string>
+    <string name="drawing_tool_category_markings">MARKINGS</string>
+    <string name="drawing_tool_category_lines">LINES</string>
+
+    <!--Instrument panel-->
+    <string name="instrument_panel_layers_bring_to_top">Bring to Top</string>
+    <string name="instrument_panel_layers_bring_forward">Bring Forward</string>
+    <string name="instrument_panel_layers_send_backward">Send Backward</string>
+    <string name="instrument_panel_layers_send_to_bottom">Send to Bottom</string>
+
+    <!--Crosshair-->
+    <string name="crosshair_label_price">Price</string>
+    <string name="crosshair_label_vol">Vol</string>
+    <string name="crosshair_label_open">Open</string>
+    <string name="crosshair_label_high">High</string>
+    <string name="crosshair_label_close">Close</string>
+    <string name="crosshair_label_low">Low</string>
+    <string name="crosshair_full_label">%s:</string>
+    <!-- Studies -->
+    <string name="study_add_studies">Add studies</string>
+    <string name="study_empty_active_study">No Active Studies to display yet</string>
+    <string name="study_delete">Delete</string>
+    <string name="study_title_add_study">Add Studies</string>
+    <string name="study_settings">Settings</string>
+    <string name="study_clone">Clone</string>
+    <string name="study_done">Done</string>
+    <string name="study_search">Search</string>
+
+    <!-- Study details -->
+    <string name="study_details_clone_study">Clone Study</string>
+    <string name="study_details_reset_to_defaults">Reset to Defaults</string>
+    <string name="study_details_delete_study">Delete Study</string>
+    <string name="study_details_save_study">Save</string>
+    <string name="study_details_remove_alert_title">Do You Want To Remove This Study?</string>
+    <string name="study_details_remove_alert_message">This study will be removed from the current chart.</string>
+    <string name="study_details_remove">Remove</string>
+    <string name="study_details_cancel">Cancel</string>
+    <string name="study_details_reset_alert_title">Do You Want To Reset This Study To Defaults?</string>
+    <string name="study_details_reset_alert_message">This study will be reset to default options.</string>
+    <string name="study_details_reset">Reset</string>
+    <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
+    <string name="study_details_select_parameter_title">Select Option</string>
+
+    <!-- Settings -->
+    <string name="settings_chart_config">Chart Config</string>
+    <string name="settings_chart_preferences">Chart Preferences</string>
+    <string name="settings_log_scale">Log Scale</string>
+    <string name="settings_invert_y_axis">Invert Y-Axis</string>
+    <string name="settings_extend_hours">Extend Hours</string>
+    <string name="settings_language_preferences">Language Preferences</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_chart_style">Chart Style</string>
+    <string name="settings_select_style_title">Chart Style</string>
+    <string name="settings_select_language_title">Select Language</string>
+
+    <!-- General strings -->
+    <string name="general_the_internet_connection_appears_to_be_offline">The Internet connection appears to be offline.</string>
+    <string name="general_warning_something_went_wrong">Something went wrong</string>
+    <string name="general_reconnect">Reconnect</string>
+    <string name="general_cancel">Cancel</string>
+
+    <!-- Drawing Tool Settings -->
+    <string name="drawing_tool_settings_title_select_color">Select Color</string>
+    <string name="drawing_tool_settings_title_select_line_type">Select Line type</string>
+    <string name="drawing_tool_settings_title_config">Config</string>
+    <string name="drawing_tool_settings_title_add_config">Add config</string>
+    <string name="drawing_tool_settings_title_fill_color">Fill Color"</string>
+    <string name="drawing_tool_settings_title_line_color">Line Color"</string>
+    <string name="drawing_tool_settings_title_line_type">Line Type"</string>
+    <string name="drawing_tool_settings_title_font_family">Font Family"</string>
+    <string name="drawing_tool_settings_title_font_size">Font Size"</string>
+    <string name="drawing_tool_settings_title_font_style">Font Style"</string>
+    <string name="drawing_tool_settings_title_axis_label">Axis Label"</string>
+    <string name="drawing_tool_settings_title_fibonacci_settings">Fibonacci Settings"</string>
+    <string name="drawing_tool_settings_title_wave_template">Wave Template"</string>
+    <string name="drawing_tool_settings_title_decoration">Decoration"</string>
+    <string name="drawing_tool_settings_title_impulse">Impulse"</string>
+    <string name="drawing_tool_settings_title_corrective">Corrective"</string>
+    <string name="drawing_tool_settings_title_show_lines">Show Lines"</string>
+    <string name="drawing_tool_settings_title_deviations_settings">STD Deviations"</string>
+    <string name="drawing_tool_settings_title_show_line_1">Show Line 1"</string>
+    <string name="drawing_tool_settings_title_show_line_2">Show Line 2"</string>
+    <string name="drawing_tool_settings_title_show_line_3">Show Line 3"</string>
+    <string name="drawing_tool_settings_title_line_1_color">Line 1 Color"</string>
+    <string name="drawing_tool_settings_title_line_2_color">Line 2 Color"</string>
+    <string name="drawing_tool_settings_title_line_3_color">Line 3 Color"</string>
+    <string name="drawing_tool_settings_title_line_1_type">Line 1 Type"</string>
+    <string name="drawing_tool_settings_title_line_2_type">Line 2 Type"</string>
+    <string name="drawing_tool_settings_title_line_3_type">Line 3 Type</string>
+    <string name="drawing_tool_settings_menu_save">Save as Template</string>
+    <string name="drawing_tool_settings_menu_restore">Restore Config</string>
+    <string name="drawing_tool_settings_add">Add</string>
+    <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
+
+    <string name="chart_type_heikinashi">Heikin Ashi</string>
+    <string name="chart_type_kagi">Kagi</string>
+    <string name="chart_type_linebreak">Line Break</string>
+    <string name="chart_type_renko">Renko</string>
+    <string name="chart_type_rangebars">Range Bars</string>
+    <string name="chart_type_pandf"><![CDATA[Point & Figure]]></string>
+    <string name="chart_type_candle">Candle</string>
+    <string name="chart_type_bar">Bar</string>
+    <string name="chart_type_colored_bar">Colored Bar</string>
+    <string name="chart_type_line">Line</string>
+    <string name="chart_type_vertex_line">Vertex Line</string>
+    <string name="chart_type_step">Step</string>
+    <string name="chart_type_mountain">Mountain</string>
+    <string name="chart_type_baseline">Baseline</string>
+    <string name="chart_type_hollow_candle">Hollow Candle</string>
+    <string name="chart_type_volume_candle">Volume Candle</string>
+    <string name="chart_type_colored_hlc">Colored HLC Bar</string>
+    <string name="chart_type_scatterplot">Scatterplot</string>
+    <string name="chart_type_histogram">Histogram</string>
+
+</resources>

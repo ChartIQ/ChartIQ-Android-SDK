@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="@dimen/padding_medium">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/symbolTextView"
+        style="@style/SubtitleTextAppearance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="AAP" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/symbolFullNameTextView"
+        style="@style/SecondaryTextAppearance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/fundTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/symbolTextView"
+        tools:text="Aberdeen Asia-Pasific (ex-Japan) Equity FD " />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fundTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkElectricBlue"
+        android:textSize="@dimen/text_size_secondary_text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="NYSE" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

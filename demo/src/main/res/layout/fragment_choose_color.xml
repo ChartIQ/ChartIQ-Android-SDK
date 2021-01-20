@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chooseScreenBackgroundColor">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/colorsToolbar"
+        style="@style/AppToolbar"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="@string/drawing_tool_settings_title_select_color" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/colorsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:clipToPadding="true"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="5"
+        tools:itemCount="1" />
+</FrameLayout>
