@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colorView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    android:background="@drawable/shape_background_color"
+    android:minWidth="56dp"
+    android:minHeight="56dp"
+    tools:backgroundTint="@color/coralRed"
+    tools:foreground="@drawable/layer_color_selected_ok" />

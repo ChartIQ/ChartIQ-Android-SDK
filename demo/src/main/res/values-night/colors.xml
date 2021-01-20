@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="logoTitleColor">@color/white</color>
+    <color name="icPrimaryColor">@color/white</color>
+    <color name="toolbarBackgroundColor">@color/chineseBlack</color>
+    <color name="toolbarTitleTextColor">@color/white</color>
+    <color name="placeholderSecondaryColor">@color/chineseBlack</color>
+    <color name="placeholderTertiaryColor">@color/darkGunmetal</color>
+    <color name="chooseScreenBackgroundColor">@color/darkGunmetal</color>
+    <color name="navBarBackgroundColor">@color/chineseBlack</color>
+    <color name="layoutBackgroundColor">@color/darkGunmetal</color>
+
+    <color name="chartButtonBackgroundTintColor">@color/yankeesBlue</color>
+    <color name="favoriteCheckboxTintColor">@color/white</color>
+    <color name="checkboxButtonColor">@color/yankeesBlue</color>
+    <color name="checkboxIcColor">@color/yankeesBlue</color>
+    <color name="crosshairsBackgroundColor">@color/chineseBlack</color>
+    <color name="crosshairsLabelColor">@color/cadetBlue</color>
+    <color name="crosshairsTextColor">@color/mayaBlue</color>
+    <color name="drawActionBackgroundColor">@color/darkGunmetal</color>
+    <color name="panelBackgroundColor">@color/yankeesBlue</color>
+    <color name="panelInstrumentBackgroundColor">@color/darkGunmetal</color>
+    <color name="panelItemBackgroundColor">@color/chineseBlack</color>
+    <color name="fontStyleColor">@color/white</color>
+
+    <color name="secondaryTextColor">@color/white</color>
+    <color name="subtitleTextColor">@color/white</color>
+
+    <color name="dialogNeutralButtonTextColor">@color/white</color>
+    <color name="dialogBackgroundColor">@color/darkGunmetal</color>
+    <color name="searchStudyInputBackgroundColor">@color/darkGunmetal</color>
+    <color name="separatorColor">@color/outerSpace</color>
+</resources>

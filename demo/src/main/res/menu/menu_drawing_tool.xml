@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/restore_default_parameters"
+        android:title="@string/drawing_tool_restore_default_parameters" />
+
+    <item
+        android:id="@+id/clear_existing_drawings"
+        android:title="@string/drawing_tool_clear_existing_drawings" />
+</menu>

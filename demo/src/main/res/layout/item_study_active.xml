@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/padding_medium"
+    android:paddingTop="@dimen/padding_medium_small"
+    android:paddingEnd="@dimen/padding_small"
+    android:paddingBottom="@dimen/padding_medium_small">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/studyNameTextView"
+        style="@style/SubtitleTextAppearance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/optionsImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="NYSE" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/studyValueTextView"
+        style="@style/SecondaryTextAppearance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/optionsImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/studyNameTextView"
+        tools:text="(14,14,y,n)" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/optionsImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_more_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/studyNameTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

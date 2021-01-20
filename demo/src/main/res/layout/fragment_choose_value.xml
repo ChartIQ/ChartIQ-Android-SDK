@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chooseScreenBackgroundColor">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/valuesToolbar"
+        style="@style/AppToolbar"
+        app:menu="@menu/menu_choose_value"
+        app:navigationIcon="@drawable/ic_close" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/valuesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:clipToPadding="true"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="1" />
+</FrameLayout>

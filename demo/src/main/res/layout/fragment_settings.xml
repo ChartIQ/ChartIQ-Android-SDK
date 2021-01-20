@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/title_settings" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/chartConfigHeaderTextView"
+                style="@style/SecondaryTextAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:text="@string/settings_chart_config"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+
+            <com.chartiq.demo.ui.common.widget.TwoLineSettingsView
+                android:id="@+id/chartConfigContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingsTitle="@string/settings_chart_style"
+                tools:settingsSubtitle="Candle" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/chartPreferencesHeaderTextView"
+                style="@style/SecondaryTextAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:text="@string/settings_chart_preferences"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <com.chartiq.demo.ui.common.widget.SwitcherSettingsView
+                android:id="@+id/logScaleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingsSwitcherChecked="false"
+                app:settingsSwitcherTitle="@string/settings_log_scale" />
+
+            <com.chartiq.demo.ui.common.widget.SwitcherSettingsView
+                android:id="@+id/invertYLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingsSwitcherChecked="false"
+                app:settingsSwitcherTitle="@string/settings_invert_y_axis" />
+
+            <com.chartiq.demo.ui.common.widget.SwitcherSettingsView
+                android:id="@+id/extendHoursLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingsSwitcherChecked="false"
+                app:settingsSwitcherTitle="@string/settings_extend_hours" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/languageHeaderTextView"
+                style="@style/SecondaryTextAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:text="@string/settings_language_preferences"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <com.chartiq.demo.ui.common.widget.TwoLineSettingsView
+                android:id="@+id/languageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingsTitle="@string/settings_language"
+                tools:settingsSubtitle="English" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
