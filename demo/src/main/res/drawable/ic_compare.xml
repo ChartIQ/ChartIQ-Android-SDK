@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <path
+        android:fillColor="@color/checkboxButtonColor"
+        android:fillType="nonZero"
+        android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"
+        android:strokeWidth="1"
+        android:strokeColor="#00000000" />
+    <path
+        android:fillColor="@color/icPrimaryColor"
+        android:fillType="nonZero"
+        android:pathData="M23.3432,23.8626L23.3432,14.0664L19.0329,14.0664L19.0329,23.8626L17.9554,23.8626L17.9554,12.1706L13.645,12.1706L13.645,23.8626L12.5675,23.8626L12.5675,15.3412L8.2572,15.3412L8.2572,23.8626L7,23.8626L7,25L24.6363,25L24.6363,23.8626L23.3432,23.8626ZM11.4899,23.8626L9.3347,23.8626L9.3347,16.4787L11.4899,16.4787L11.4899,23.8626ZM16.8778,23.8626L14.7226,23.8626L14.7226,13.3081L16.8778,13.3081L16.8778,23.8626ZM22.2657,23.8626L20.1105,23.8626L20.1105,15.2038L22.2657,15.2038L22.2657,23.8626Z"
+        android:strokeWidth="1"
+        android:strokeColor="#00000000" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M10.5,11.5m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M15.8,8m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M21.2,10m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M11.5,11L14.7226,8.5"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M16.75,8L20.5,9.5"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+</vector>

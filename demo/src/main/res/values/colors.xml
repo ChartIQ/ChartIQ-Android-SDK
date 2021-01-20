@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/mountainMeadow</color>
+    <color name="colorPrimaryDark">@color/ghostWhite</color>
+    <color name="colorAccent">@color/mountainMeadow</color>
+
+    <color name="white">#ffffff</color>
+    <color name="cadetBlue">#abb0ba</color>
+    <color name="mountainMeadow">#27cc8d</color>
+    <color name="ghostWhite">#f9f9f9</color>
+    <color name="brightGrey">#ebeff3</color>
+    <color name="darkElectricBlue">#53627c</color>
+    <color name="gainsboro">#dadfe3</color>
+
+    <color name="logoTitleColor">@color/darkGunmetal</color>
+    <color name="icPrimaryColor">@color/darkElectricBlue</color>
+    <color name="toolbarBackgroundColor">@color/ghostWhite</color>
+    <color name="toolbarTitleTextColor">@color/black</color>
+    <color name="placeholderSecondaryColor">@color/brightGrey</color>
+    <color name="placeholderTertiaryColor">@color/ghostWhite</color>
+    <color name="chooseScreenBackgroundColor">@color/ghostWhite</color>
+    <color name="navBarBackgroundColor">@color/ghostWhite</color>
+    <color name="layoutBackgroundColor">@color/white</color>
+
+    <color name="chartButtonBackgroundTintColor">@color/brightGrey</color>
+    <color name="favoriteCheckboxTintColor">@color/darkElectricBlue</color>
+    <color name="checkboxButtonColor">@color/brightGrey</color>
+    <color name="checkboxIcColor">@color/brightGrey</color>
+    <color name="crosshairsLabelColor">@color/darkElectricBlue</color>
+    <color name="crosshairsTextColor">@color/yankeesBlue</color>
+    <color name="crosshairsBackgroundColor">@color/ghostWhite</color>
+    <color name="drawActionBackgroundColor">@color/white</color>
+    <color name="panelBackgroundColor">@color/brightGrey</color>
+    <color name="panelInstrumentBackgroundColor">@color/white</color>
+    <color name="panelItemBackgroundColor">@color/white</color>
+    <color name="fontStyleColor">@color/chineseBlack</color>
+
+    <color name="secondaryTextColor">@color/cadetBlue</color>
+    <color name="subtitleTextColor">@color/darkElectricBlue</color>
+
+    <color name="dialogNeutralButtonTextColor">@color/elevationDark</color>
+    <color name="dialogBackgroundColor">@color/white</color>
+    <color name="searchStudyInputBackgroundColor">@color/white</color>
+    <color name="separatorColor">@color/brightGrey</color>
+
+    <color name="darkGunmetal">#18252e</color>
+    <color name="chineseBlack">#091924</color>
+    <color name="yankeesBlue">#153246</color>
+    <color name="outerSpace">#273843</color>
+    <color name="coralRed">#ff3b30</color>
+    <color name="black">#000000</color>
+    <color name="elevationDark">#121212</color>
+    <color name="scrim">#51000000</color>
+    <color name="disabledBtn">#efefef</color>
+    <color name="mayaBlue">#8bd0ff</color>
+</resources>
