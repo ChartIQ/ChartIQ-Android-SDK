@@ -3,10 +3,12 @@ package com.chartiq.demo
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +65,11 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
                 )
             }
         })
+
+        if(android.os.Build.MANUFACTURER == "Xiaomi") {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = 0x66000000
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
