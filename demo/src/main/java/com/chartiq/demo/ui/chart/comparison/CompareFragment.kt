@@ -106,9 +106,9 @@ class CompareFragment : Fragment(), SearchSymbolFragment.DialogFragmentListener,
     }
 
     private fun navigateToSearchSymbol() {
-        val dialog = SearchSymbolFragment()
+        val dialog = SearchSymbolFragment.getInstance()
         dialog.setTargetFragment(this, REQUEST_CODE_SEARCH_SYMBOL)
-        dialog.show(parentFragmentManager, null)
+        dialog.show(parentFragmentManager, SearchSymbolFragment.DIALOG_TAG)
     }
 
     private fun getSeriesColors(): List<Int> {

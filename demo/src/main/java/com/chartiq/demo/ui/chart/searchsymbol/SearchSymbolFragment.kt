@@ -164,6 +164,10 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
     }
 
     companion object {
+        fun getInstance() = SearchSymbolFragment()
+
+        const val DIALOG_TAG = "search.symbol.tag"
+
         private const val TAB_ALL = 0
         private const val TAB_STOCKS = 1
         private const val TAB_FX = 2

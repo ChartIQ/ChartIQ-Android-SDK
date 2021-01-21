@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +16,11 @@ import androidx.appcompat.app.ViewPumpAppCompatDelegate
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.MainFragment
 import com.chartiq.demo.ui.MainViewModel
+import com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 import com.chartiq.sdk.ChartIQ
 import dev.b3nedikt.restring.Restring
+import java.lang.NullPointerException
 
 
 class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
@@ -71,11 +74,21 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
             when (it.action) {
                 Intent.ACTION_SEARCH -> {
                     intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                        (supportFragmentManager
-                            .findFragmentById(R.id.nav_host_fragment)
-                            ?.childFragmentManager
-                            ?.fragments?.getOrNull(0) as? VoiceQueryReceiver)
-                            ?.receiveVoiceQuery(query)
+                        // TODO: 21.01.21 Discuss the solution with Yuliya.
+                        try {
+                            val voiceReceiver = supportFragmentManager
+                                .fragments
+                                .getOrNull(0) // NavHostFragment
+                                ?.childFragmentManager
+                                ?.fragments
+                                ?.getOrNull(0) // MainFragment
+                                ?.childFragmentManager
+                                ?.findFragmentByTag(SearchSymbolFragment.DIALOG_TAG) as? VoiceQueryReceiver
+
+                            voiceReceiver?.receiveVoiceQuery(query)
+                        } catch (e: NullPointerException) {
+                            Log.d(this.javaClass.name, "No voice receiver found")
+                        }
                     }
                 }
                 else -> {
