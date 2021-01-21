@@ -156,6 +156,7 @@ class MainViewModel(
 
     fun updateTheme(theme: ChartTheme) {
         chartTheme.value = Event(theme)
+        chartIQ.setTheme(theme)
     }
 
     fun prepareSession() {
