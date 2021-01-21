@@ -117,7 +117,8 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
                         if (query.isNotEmpty()) {
                             symbolNotFoundPlaceholder.root.isVisible = true
                         } else {
-                            binding.typeToSearchPlaceholder.root.isVisible = true
+                            typeToSearchPlaceholder.root.isVisible = true
+                            symbolNotFoundPlaceholder.root.isVisible = false
                         }
                     }
                 }
