@@ -25,7 +25,7 @@ import com.chartiq.demo.util.hideKeyboard
 import com.google.android.material.tabs.TabLayout
 import androidx.appcompat.R.id as appCompat
 
-class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
+class ChooseSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
@@ -164,7 +164,7 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
     }
 
     companion object {
-        fun getInstance() = SearchSymbolFragment()
+        fun getInstance() = ChooseSymbolFragment()
 
         const val DIALOG_TAG = "search.symbol.tag"
 
