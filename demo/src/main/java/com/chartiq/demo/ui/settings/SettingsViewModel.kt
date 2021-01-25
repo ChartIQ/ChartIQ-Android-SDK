@@ -78,9 +78,9 @@ class SettingsViewModel(
     fun changeLogScale(enabled: Boolean) {
         chartIQ.setChartScale(
             if (enabled) {
-                ChartScale.LINEAR
-            } else {
                 ChartScale.LOG
+            } else {
+                ChartScale.LINEAR
             }
         )
         initChartScale()
