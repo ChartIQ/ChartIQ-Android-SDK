@@ -357,7 +357,9 @@ class ChartIQHandler(
         executeJavascript(script) { value ->
             val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
             val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
-            callback.onReturn(resultEntity.map { it.toParameter(type) })
+            callback.onReturn(resultEntity
+                .filter { entity -> entity.type in ParameterEntityValueType.values().map { it.value } }
+                .map { it.toParameter(type) })
         }
     }
 
