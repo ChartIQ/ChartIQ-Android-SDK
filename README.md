@@ -5,7 +5,7 @@ This SDK has been designed to support a basic application and may need to be ext
 
 ## Requirements
 
-- Version 8.1.0+ of the ChartIQ library.
+- Version 8.2.0+ of the ChartIQ library.
 
   Please contact info@cosaic.io if you do not already have a license or evaluation version of the library.
 
