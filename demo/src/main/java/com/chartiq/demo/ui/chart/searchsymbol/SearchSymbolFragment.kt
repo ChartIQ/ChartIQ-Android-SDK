@@ -46,7 +46,7 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
         }
     }
     private val onSearchResultClickListener = OnSearchResultClickListener {
-        val symbol = Symbol(viewModel.query.value!!)
+        val symbol = Symbol(it.symbol)
         (targetFragment as DialogFragmentListener).onChooseSymbol(symbol)
         navigateBack()
     }
