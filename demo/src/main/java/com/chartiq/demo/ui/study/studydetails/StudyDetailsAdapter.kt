@@ -175,7 +175,9 @@ class StudyDetailsAdapter : RecyclerView.Adapter<StudyDetailsAdapter.ParameterVi
             with(binding) {
                 parameterTextColorTextView.text = studyParameter.name
                 parameterTextColor.backgroundTintList = ColorStateList.valueOf(convertStringColorToInt(colorValue))
-                parameterTextColorLayout.setOnClickListener { listener?.onColorParamChange(studyParameter) }
+                parameterTextColorFrameLayout.setOnClickListener {
+                    listener?.onColorParamChange(studyParameter)
+                }
                 parameterTextColorEditText.setText(numValue.toString())
                 parameterTextColorEditText.addTextChangedListener {
                     if (it.isNullOrEmpty()) {
