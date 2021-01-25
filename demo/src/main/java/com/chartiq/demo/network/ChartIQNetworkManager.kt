@@ -9,7 +9,7 @@ import com.chartiq.sdk.model.QuoteFeedParams
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.UnknownHostException
+import java.io.IOException
 
 class ChartIQNetworkManager : NetworkManager {
 
@@ -36,8 +36,8 @@ class ChartIQNetworkManager : NetworkManager {
                     applicationId
                 )
                 .safeExtractNetworkResult()
-        } catch (e: UnknownHostException) {
-            // The exception occurs when the device has no internet connection, but it's not clear why so far
+        } catch (e: IOException) {
+            // The exception occurs when the internet connection is not stable
             NetworkResult.Failure(NetworkException(null, 3000))
         }
     }
