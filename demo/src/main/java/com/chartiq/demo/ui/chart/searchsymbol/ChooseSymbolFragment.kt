@@ -46,7 +46,7 @@ class ChooseSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
         }
     }
     private val onSearchResultClickListener = OnSearchResultClickListener {
-        val symbol = Symbol(viewModel.query.value!!)
+        val symbol = Symbol(it.symbol)
         (targetFragment as DialogFragmentListener).onChooseSymbol(symbol)
         navigateBack()
     }
@@ -117,7 +117,8 @@ class ChooseSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
                         if (query.isNotEmpty()) {
                             symbolNotFoundPlaceholder.root.isVisible = true
                         } else {
-                            binding.typeToSearchPlaceholder.root.isVisible = true
+                            typeToSearchPlaceholder.root.isVisible = true
+                            symbolNotFoundPlaceholder.root.isVisible = false
                         }
                     }
                 }
