@@ -141,7 +141,9 @@ class ActiveStudyDetailsViewModel(
             val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
-            } else param
+            } else {
+                param
+            }
         }
         is StudyParameter.TextColor -> {
             val generatedNameForColor = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
@@ -164,25 +166,33 @@ class ActiveStudyDetailsViewModel(
             val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
-            } else param
+            } else {
+                param
+            }
         }
         is StudyParameter.Number -> {
             val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue.toDouble())
-            } else param
+            } else {
+                param
+            }
         }
         is StudyParameter.Checkbox -> {
             val generatedName =
                 getParameterName(param, StudyParameter.StudyParameterNamePostfix.Enabled)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue.toBoolean())
-            } else param
+            } else {
+                param
+            }
         }
         is StudyParameter.Select -> {
             if (map[param.name] != null) {
                 param.copy(value = (map[param.name] ?: error("")).fieldSelectedValue)
-            } else param
+            } else {
+                param
+            }
         }
     }
 
