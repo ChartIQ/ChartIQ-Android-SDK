@@ -358,7 +358,7 @@ class ChartIQHandler(
             val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
             val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
             callback.onReturn(resultEntity
-                .filter { entity -> entity.type in ParameterEntityValueType.values().map { it.value } }
+                .filter { entity -> entity.type in (ParameterEntityValueType.values().map { it.value } + null) }
                 .map { it.toParameter(type) })
         }
     }
@@ -466,7 +466,7 @@ class ChartIQHandler(
             }
             callback.onReturn(seriesList)
         }
-     }
+    }
 
     override fun addSeries(series: Series, isComparison: Boolean) {
         executeJavascript(scriptManager.getAddSeriesScript(series.symbolName, series.color, isComparison))
