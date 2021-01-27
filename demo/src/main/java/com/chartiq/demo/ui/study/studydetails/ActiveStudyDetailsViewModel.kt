@@ -111,25 +111,79 @@ class ActiveStudyDetailsViewModel(
         }
         errorList.value = errors
         parametersToSave.value = map
+
     }
 
-    private fun onColorParamChange(parameter: StudyParameter, newValue: String) {
-        val name = getParameterName(parameter, StudyParameter.StudyParameterNamePostfix.Color)
+    private fun onColorParamChange(ChangedParameter: StudyParameter, newValue: String) {
+        val name = getParameterName(ChangedParameter, StudyParameter.StudyParameterNamePostfix.Color)
         val map = parametersToSave.value!!.toMutableMap()
         map[name] = StudyParameterModel(name, newValue)
         val updatedParams: List<StudyParameter> = (studyParams.value ?: emptyList()).map { param ->
-            if (param.name == parameter.name) {
+            if (param.name == ChangedParameter.name) {
                 when (param) {
                     is StudyParameter.Color -> param.copy(value = newValue)
                     is StudyParameter.TextColor -> param.copy(color = newValue)
                     else -> param
                 }
             } else {
-                param
+                updateParameterWithSavedData(param, map)
             }
         }
         studyParams.value = updatedParams
         parametersToSave.value = map
+    }
+
+    private fun updateParameterWithSavedData(
+        param: StudyParameter,
+        map: Map<String, StudyParameterModel>
+    ) = when (param) {
+        is StudyParameter.Color -> {
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
+            if (map[generatedName] != null) {
+                param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
+            } else param
+        }
+        is StudyParameter.TextColor -> {
+            val generatedNameForColor = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
+            val generatedNameForNumber = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            if (listOf(map[generatedNameForNumber], map[generatedNameForColor]).all { it == null }) {
+                param
+            } else {
+                var newParameter = param
+                if (map[generatedNameForColor] != null) {
+                    newParameter = param.copy(color = (map[generatedNameForColor] ?: error("")).fieldSelectedValue)
+                }
+                if (map[generatedNameForNumber] != null) {
+                    newParameter =
+                        param.copy(value = (map[generatedNameForNumber] ?: error("")).fieldSelectedValue.toDouble())
+                }
+                newParameter
+            }
+        }
+        is StudyParameter.Text -> {
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            if (map[generatedName] != null) {
+                param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
+            } else param
+        }
+        is StudyParameter.Number -> {
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            if (map[generatedName] != null) {
+                param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue.toDouble())
+            } else param
+        }
+        is StudyParameter.Checkbox -> {
+            val generatedName =
+                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Enabled)
+            if (map[generatedName] != null) {
+                param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue.toBoolean())
+            } else param
+        }
+        is StudyParameter.Select -> {
+            if (map[param.name] != null) {
+                param.copy(value = (map[param.name] ?: error("")).fieldSelectedValue)
+            } else param
+        }
     }
 
     fun onSelectChange(parameter: StudyParameter.Select, newValue: String) {
@@ -155,7 +209,7 @@ class ActiveStudyDetailsViewModel(
             if (it.name == changedParameter.name) {
                 changedParameter.copy(value = newValue)
             } else {
-                it
+                updateParameterWithSavedData(it, parametersToSave.value ?: emptyMap())
             }
         }
     }
