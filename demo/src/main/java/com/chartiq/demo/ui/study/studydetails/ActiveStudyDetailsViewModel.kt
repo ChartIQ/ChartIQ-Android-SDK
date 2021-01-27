@@ -114,12 +114,12 @@ class ActiveStudyDetailsViewModel(
 
     }
 
-    private fun onColorParamChange(ChangedParameter: StudyParameter, newValue: String) {
-        val name = getParameterName(ChangedParameter, StudyParameter.StudyParameterNamePostfix.Color)
+    private fun onColorParamChange(сhangedParameter: StudyParameter, newValue: String) {
+        val name = getParameterName(сhangedParameter, StudyParameter.StudyParameterNamePostfix.Color)
         val map = parametersToSave.value!!.toMutableMap()
         map[name] = StudyParameterModel(name, newValue)
         val updatedParams: List<StudyParameter> = (studyParams.value ?: emptyList()).map { param ->
-            if (param.name == ChangedParameter.name) {
+            if (param.name == сhangedParameter.name) {
                 when (param) {
                     is StudyParameter.Color -> param.copy(value = newValue)
                     is StudyParameter.TextColor -> param.copy(color = newValue)
