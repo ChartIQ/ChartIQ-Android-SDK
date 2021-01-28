@@ -308,8 +308,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
-    override fun setDrawingParameter(parameter: String, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
+    override fun setDrawingParameter(parameterName: String, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameterName, value))
     }
 
     override fun setDrawingParameter(parameter: DrawingParameterType, value: String) {
@@ -476,8 +476,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveSeriesScript(symbolName))
     }
 
-    override fun setSeriesParameter(symbolName: String, field: String, value: String) {
-        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, field, value))
+    override fun setSeriesParameter(symbolName: String, parameterName: String, value: String) {
+        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, parameterName, value))
     }
 
     companion object {

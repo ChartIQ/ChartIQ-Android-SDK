@@ -5,7 +5,7 @@ import java.util.*
 
 /**
  * A data class of OHLC parameters
- * @property date A date string in format described below, representing the start time of the bar or tick, in case a DT compatible value is not available.
+ * @property date A date string, representing the start time of the bar or tick, in case a DT compatible value is not available.
  * @property open Opening price for the bar. Required for candle charts only.
  * @property high High price for the bar. Required for candle charts only.
  * @property low Low price for the bar. Required for candle charts only.

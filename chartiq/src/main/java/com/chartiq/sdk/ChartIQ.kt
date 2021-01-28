@@ -148,13 +148,32 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setTheme(theme: ChartTheme)
 
+    /**
+     * Gets all active series on the chart.
+     * @param callback A callback to subscribe to to receive a list of active series.
+     */
     fun getActiveSeries(callback: OnReturnCallback<List<Series>>)
 
+    /**
+     * Adds the symbol from the series to the chart with its color.
+     * @param series A series to add.
+     * @param isComparison A boolean telling the chart whether the symbol should be compared to the main symbol.
+     */
     fun addSeries(series: Series, isComparison: Boolean)
 
+    /**
+     * Removes a selected symbol from the chart's series.
+     * @param symbolName The symbol to remove OR the series ojbect itself.
+     */
     fun removeSeries(symbolName: String)
 
-    fun setSeriesParameter(symbolName: String, field: String, value: String)
+    /**
+     * Modifies a property of an existing series.
+     * @param symbolName A symbol to set.
+     * @param parameterName The property you want to change.
+     * @param value The value to change to property to.
+     */
+    fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {
