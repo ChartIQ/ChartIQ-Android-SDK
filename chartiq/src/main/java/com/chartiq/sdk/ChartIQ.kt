@@ -3,8 +3,9 @@ package com.chartiq.sdk
 import android.content.Context
 import android.view.View
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.drawingtool.ChartIQDrawingTool
 import com.chartiq.sdk.model.study.ChartIQStudy
 
 interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
@@ -59,7 +60,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Sets an Aggregation type for charts
      * @param aggregationType A selected aggregation type
      */
-    fun setAggregationType(aggregationType: AggregationChartType)
+    fun setAggregationType(aggregationType: ChartAggregationType)
 
     /**
      * Sets an chart type for charts
@@ -71,13 +72,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Gets a selected chart type
      * @param callback A callback to subscribe to to get a chart type
      */
+    // what
     fun getChartType(callback: OnReturnCallback<ChartType?>)
 
     /**
      * Gets a selected aggregation chart type
      * @param callback A callback to subscribe to to get an aggregation chart type
      */
-    fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
+    fun getChartAggregationType(callback: OnReturnCallback<ChartAggregationType?>)
 
     /**
      * Gets a selected chart scale

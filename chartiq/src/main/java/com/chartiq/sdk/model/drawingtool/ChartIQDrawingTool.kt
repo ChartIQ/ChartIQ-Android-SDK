@@ -1,8 +1,7 @@
-package com.chartiq.sdk
+package com.chartiq.sdk.model.drawingtool
 
+import com.chartiq.sdk.OnReturnCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.drawingtool.DrawingParameterType
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 interface ChartIQDrawingTool {
 

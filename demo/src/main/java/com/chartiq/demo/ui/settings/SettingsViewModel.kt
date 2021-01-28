@@ -10,7 +10,7 @@ import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.demo.ui.settings.language.ChartIQLanguage
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartScale
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -64,7 +64,7 @@ class SettingsViewModel(
     }
 
     private fun initChartStyle() {
-        chartIQ.getAggregationChartType { aggregationChartType ->
+        chartIQ.getChartAggregationType { aggregationChartType ->
             if (aggregationChartType != null) {
                 chartStyle.postValue(aggregationChartType.toModel())
             } else {
@@ -100,8 +100,8 @@ class SettingsViewModel(
         if (ChartType.values().any { it.name == chartStyle.name }) {
             val selectedChartType = ChartType.valueOf(chartStyle.name)
             chartIQ.setChartType(selectedChartType)
-        } else if (AggregationChartType.values().any { it.name == chartStyle.name }) {
-            val selectedAggregationChartType = AggregationChartType.valueOf(chartStyle.name)
+        } else if (ChartAggregationType.values().any { it.name == chartStyle.name }) {
+            val selectedAggregationChartType = ChartAggregationType.valueOf(chartStyle.name)
             chartIQ.setAggregationType(selectedAggregationChartType)
         }
         initChartStyle()

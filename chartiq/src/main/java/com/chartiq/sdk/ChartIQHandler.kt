@@ -8,7 +8,7 @@ import android.webkit.*
 import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
@@ -152,7 +152,7 @@ class ChartIQHandler(
 
     override fun setDataMethod(method: DataMethod, symbol: String) {
         when (method) {
-            DataMethod.PUSH -> executeJavascript(scriptManager.getSetDataMethodScript(symbol))
+            DataMethod.PUSH -> executeJavascript(scriptManager.getLoadChartScript())
             DataMethod.PULL -> Log.d(
                 javaClass.simpleName,
                 "If you want to add a QuoteFeed please do so in your javascript code."
@@ -222,7 +222,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun setAggregationType(aggregationType: AggregationChartType) {
+    override fun setAggregationType(aggregationType: ChartAggregationType) {
         val value = aggregationType.name.toLowerCase(Locale.ENGLISH)
         executeJavascript(scriptManager.getSetAggregationTypeScript(value))
     }
@@ -247,7 +247,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>) {
+    override fun getChartAggregationType(callback: OnReturnCallback<ChartAggregationType?>) {
         val script = scriptManager.getAggregationTypeScript()
         executeJavascript(script) { value ->
             if (value.isNullOrEmpty()) {
@@ -255,8 +255,8 @@ class ChartIQHandler(
             } else {
                 val parsedValue = value.substring(1, value.length - 1)
                     .toUpperCase(Locale.ENGLISH)
-                val type = if (AggregationChartType.values().any { it.name == parsedValue }) {
-                    AggregationChartType.valueOf(parsedValue)
+                val type = if (ChartAggregationType.values().any { it.name == parsedValue }) {
+                    ChartAggregationType.valueOf(parsedValue)
                 } else {
                     null
                 }
