@@ -31,8 +31,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getDateFromTickScript(): String =
         CHART_IQ_JS_OBJECT + "dateFromTick(${1})"
 
-    override fun getSetDataMethodScript(symbol: String): String =
-        CHART_IQ_JS_OBJECT + "loadChart(\"$symbol\");"
+    override fun getLoadChartScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "loadChart();"
 
     override fun getSetAccessibilityModeScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "accessibilityMode();"
