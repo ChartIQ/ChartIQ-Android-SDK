@@ -329,6 +329,10 @@ class ChartIQHandler(
                 val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
                 callback.onReturn(parameters)
             }
+            if (tool == DrawingTool.NO_TOOL) {
+                // undefined value is returned for notool drawing tool
+                callback.onReturn(mapOf<String, String>())
+            }
         }
     }
 
