@@ -3,8 +3,9 @@ package com.chartiq.sdk
 import android.content.Context
 import android.view.View
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
+import com.chartiq.sdk.model.drawingtool.ChartIQDrawingTool
 import com.chartiq.sdk.model.study.ChartIQStudy
 
 interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
@@ -59,7 +60,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Sets an Aggregation type for charts
      * @param aggregationType A selected aggregation type
      */
-    fun setAggregationType(aggregationType: AggregationChartType)
+    fun setAggregationType(aggregationType: ChartAggregationType)
 
     /**
      * Sets an chart type for charts
@@ -71,13 +72,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Gets a selected chart type
      * @param callback A callback to subscribe to to get a chart type
      */
+    // what
     fun getChartType(callback: OnReturnCallback<ChartType?>)
 
     /**
      * Gets a selected aggregation chart type
      * @param callback A callback to subscribe to to get an aggregation chart type
      */
-    fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>)
+    fun getChartAggregationType(callback: OnReturnCallback<ChartAggregationType?>)
 
     /**
      * Gets a selected chart scale
@@ -148,13 +150,32 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setTheme(theme: ChartTheme)
 
+    /**
+     * Gets all active series on the chart.
+     * @param callback A callback to subscribe to to receive a list of active series.
+     */
     fun getActiveSeries(callback: OnReturnCallback<List<Series>>)
 
+    /**
+     * Adds the symbol from the series to the chart with its color.
+     * @param series A series to add.
+     * @param isComparison A boolean telling the chart whether the symbol should be compared to the main symbol.
+     */
     fun addSeries(series: Series, isComparison: Boolean)
 
+    /**
+     * Removes a selected symbol from the chart's series.
+     * @param symbolName The symbol to remove OR the series ojbect itself.
+     */
     fun removeSeries(symbolName: String)
 
-    fun setSeriesParameter(symbolName: String, field: String, value: String)
+    /**
+     * Modifies a property of an existing series.
+     * @param symbolName A symbol to set.
+     * @param parameterName The property you want to change.
+     * @param value The value to change to property to.
+     */
+    fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
 
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {

@@ -30,7 +30,7 @@ import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
-import com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment
+import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.common.colorpicker.ColorItem
 import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
@@ -47,7 +47,7 @@ import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 import java.util.*
 
 class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener,
-    SearchSymbolFragment.DialogFragmentListener {
+    ChooseSymbolFragment.DialogFragmentListener {
 
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
@@ -286,9 +286,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun navigateToSearchSymbol() {
-        val dialog = SearchSymbolFragment()
+        val dialog = ChooseSymbolFragment.getInstance()
         dialog.setTargetFragment(this, REQUEST_CODE_SEARCH_SYMBOL)
-        dialog.show(parentFragmentManager, null)
+        dialog.show(parentFragmentManager, ChooseSymbolFragment.DIALOG_TAG)
     }
 
     private fun setupCrosshairsLayout() {
