@@ -17,13 +17,13 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentCompareBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
-import com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment
+import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.ui.study.SimpleItemTouchCallBack
 import com.chartiq.sdk.model.Series
 
-class CompareFragment : Fragment(), SearchSymbolFragment.DialogFragmentListener,
+class CompareFragment : Fragment(), ChooseSymbolFragment.DialogFragmentListener,
     ChooseColorFragment.DialogFragmentListener {
 
     private lateinit var binding: FragmentCompareBinding
@@ -106,9 +106,9 @@ class CompareFragment : Fragment(), SearchSymbolFragment.DialogFragmentListener,
     }
 
     private fun navigateToSearchSymbol() {
-        val dialog = SearchSymbolFragment()
+        val dialog = ChooseSymbolFragment.getInstance()
         dialog.setTargetFragment(this, REQUEST_CODE_SEARCH_SYMBOL)
-        dialog.show(parentFragmentManager, null)
+        dialog.show(parentFragmentManager, ChooseSymbolFragment.DIALOG_TAG)
     }
 
     private fun getSeriesColors(): List<Int> {

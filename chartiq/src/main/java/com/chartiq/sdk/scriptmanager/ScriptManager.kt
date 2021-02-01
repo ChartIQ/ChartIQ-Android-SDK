@@ -22,7 +22,7 @@ internal interface ScriptManager {
 
     fun getDateFromTickScript(): String
 
-    fun getSetDataMethodScript(symbol: String): String
+    fun getLoadChartScript(): String
 
     fun getSetAccessibilityModeScript(): String
 

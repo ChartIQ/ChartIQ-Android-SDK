@@ -25,7 +25,7 @@ import com.chartiq.demo.util.hideKeyboard
 import com.google.android.material.tabs.TabLayout
 import androidx.appcompat.R.id as appCompat
 
-class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
+class ChooseSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
 
     private lateinit var binding: FragmentSearchSymbolBinding
     private val viewModel: SearchSymbolViewModel by viewModels(factoryProducer = {
@@ -46,7 +46,7 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
         }
     }
     private val onSearchResultClickListener = OnSearchResultClickListener {
-        val symbol = Symbol(viewModel.query.value!!)
+        val symbol = Symbol(it.symbol)
         (targetFragment as DialogFragmentListener).onChooseSymbol(symbol)
         navigateBack()
     }
@@ -117,7 +117,8 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
                         if (query.isNotEmpty()) {
                             symbolNotFoundPlaceholder.root.isVisible = true
                         } else {
-                            binding.typeToSearchPlaceholder.root.isVisible = true
+                            typeToSearchPlaceholder.root.isVisible = true
+                            symbolNotFoundPlaceholder.root.isVisible = false
                         }
                     }
                 }
@@ -164,6 +165,10 @@ class SearchSymbolFragment : FullscreenDialogFragment(), VoiceQueryReceiver {
     }
 
     companion object {
+        fun getInstance() = ChooseSymbolFragment()
+
+        const val DIALOG_TAG = "search.symbol.tag"
+
         private const val TAB_ALL = 0
         private const val TAB_STOCKS = 1
         private const val TAB_FX = 2
