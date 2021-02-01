@@ -60,11 +60,6 @@ class ChartIQHandler(
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     Log.d(TAG, consoleMessage?.message() ?: "Undefined JS exception")
-                    Toast.makeText(
-                        context, consoleMessage?.message()
-                            ?: "Undefined JS exception", Toast.LENGTH_SHORT
-                    )
-                        .show()
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
