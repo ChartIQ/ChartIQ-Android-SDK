@@ -8,7 +8,7 @@ import android.webkit.*
 import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
@@ -60,11 +60,6 @@ class ChartIQHandler(
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     Log.d(TAG, consoleMessage?.message() ?: "Undefined JS exception")
-                    Toast.makeText(
-                        context, consoleMessage?.message()
-                            ?: "Undefined JS exception", Toast.LENGTH_SHORT
-                    )
-                        .show()
                     return super.onConsoleMessage(consoleMessage)
                 }
             }
@@ -152,7 +147,7 @@ class ChartIQHandler(
 
     override fun setDataMethod(method: DataMethod, symbol: String) {
         when (method) {
-            DataMethod.PUSH -> executeJavascript(scriptManager.getSetDataMethodScript(symbol))
+            DataMethod.PUSH -> executeJavascript(scriptManager.getLoadChartScript())
             DataMethod.PULL -> Log.d(
                 javaClass.simpleName,
                 "If you want to add a QuoteFeed please do so in your javascript code."
@@ -222,7 +217,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun setAggregationType(aggregationType: AggregationChartType) {
+    override fun setAggregationType(aggregationType: ChartAggregationType) {
         val value = aggregationType.name.toLowerCase(Locale.ENGLISH)
         executeJavascript(scriptManager.getSetAggregationTypeScript(value))
     }
@@ -247,7 +242,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun getAggregationChartType(callback: OnReturnCallback<AggregationChartType?>) {
+    override fun getChartAggregationType(callback: OnReturnCallback<ChartAggregationType?>) {
         val script = scriptManager.getAggregationTypeScript()
         executeJavascript(script) { value ->
             if (value.isNullOrEmpty()) {
@@ -255,8 +250,8 @@ class ChartIQHandler(
             } else {
                 val parsedValue = value.substring(1, value.length - 1)
                     .toUpperCase(Locale.ENGLISH)
-                val type = if (AggregationChartType.values().any { it.name == parsedValue }) {
-                    AggregationChartType.valueOf(parsedValue)
+                val type = if (ChartAggregationType.values().any { it.name == parsedValue }) {
+                    ChartAggregationType.valueOf(parsedValue)
                 } else {
                     null
                 }
@@ -308,8 +303,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetStudyParametersScript(study.name, parameters))
     }
 
-    override fun setDrawingParameter(parameter: String, value: String) {
-        executeJavascript(scriptManager.getSetDrawingParameterScript(parameter, value))
+    override fun setDrawingParameter(parameterName: String, value: String) {
+        executeJavascript(scriptManager.getSetDrawingParameterScript(parameterName, value))
     }
 
     override fun setDrawingParameter(parameter: DrawingParameterType, value: String) {
@@ -328,6 +323,10 @@ class ChartIQHandler(
                 val typeToken = object : TypeToken<Map<String, Any>>() {}.type
                 val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
                 callback.onReturn(parameters)
+            }
+            if (tool == DrawingTool.NO_TOOL) {
+                // undefined value is returned for notool drawing tool
+                callback.onReturn(mapOf<String, String>())
             }
         }
     }
@@ -357,7 +356,9 @@ class ChartIQHandler(
         executeJavascript(script) { value ->
             val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
             val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
-            callback.onReturn(resultEntity.map { it.toParameter(type) })
+            callback.onReturn(resultEntity
+                .filter { entity -> entity.type in (ParameterEntityValueType.values().map { it.value } + null) }
+                .map { it.toParameter(type) })
         }
     }
 
@@ -464,7 +465,7 @@ class ChartIQHandler(
             }
             callback.onReturn(seriesList)
         }
-     }
+    }
 
     override fun addSeries(series: Series, isComparison: Boolean) {
         executeJavascript(scriptManager.getAddSeriesScript(series.symbolName, series.color, isComparison))
@@ -474,8 +475,8 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveSeriesScript(symbolName))
     }
 
-    override fun setSeriesParameter(symbolName: String, field: String, value: String) {
-        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, field, value))
+    override fun setSeriesParameter(symbolName: String, parameterName: String, value: String) {
+        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, parameterName, value))
     }
 
     companion object {
