@@ -114,7 +114,8 @@ class DrawingToolSettingsViewModel(
                 valuesList.map {
                     val map = hashMapOf(
                         Pair(KEY_DISPLAY, it.isSelected.toString()),
-                        Pair(KEY_LEVEL, it.value)
+                        // remove "%" character
+                        Pair(KEY_LEVEL, it.value.substring(0, it.value.length - 1))
                     )
                     list.add(map)
                 }
