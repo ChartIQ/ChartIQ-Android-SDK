@@ -1,0 +1,20 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Checkbox///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Checkbox.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Color///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Color.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Companion///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Companion.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Number///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Number.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Select///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Select.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.StudyParameterNamePostfix///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.StudyParameterNamePostfix.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.Text///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.Text.html
+$dokka.location:com.chartiq.sdk.model.study/StudyParameter.TextColor///PointingToDeclaration/com/chartiq/sdk/model/study/StudyParameter.TextColor.html
+$dokka.location:com.chartiq.sdk/ChartIQ.Companion///PointingToDeclaration/com/chartiq/sdk/ChartIQ.Companion.html
+$dokka.location:com.chartiq.sdk/ChartIQHandler.Companion///PointingToDeclaration/com/chartiq/sdk/ChartIQHandler.Companion.html
+com.chartiq.sdk
+com.chartiq.sdk.model
+com.chartiq.sdk.model.charttype
+com.chartiq.sdk.model.drawingtool
+com.chartiq.sdk.model.drawingtool.drawingmanager
+com.chartiq.sdk.model.drawingtool.elliottwave
+com.chartiq.sdk.model.study
+

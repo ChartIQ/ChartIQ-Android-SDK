@@ -1,0 +1,103 @@
+.navBarCell1Rev,
+.overviewSummary caption span,
+.memberSummary caption span,
+.typeSummary caption span,
+.useSummary caption span,
+.constantsSummary caption span,
+.deprecatedSummary caption span,
+.requiresSummary caption span,
+.packagesSummary caption span,
+.providesSummary caption span,
+.usesSummary caption span {
+	background-color: rgb(253, 185, 19);
+}
+
+.topNav,
+.bottomNav {
+	background-color: #131d24;
+	padding: 16px;
+	display: flex;
+	align-items: center;
+}
+
+.topNav {
+	padding: 28px;
+}
+
+.topNav li:nth-child(2),
+.topNav li:nth-child(3),
+.topNav li:nth-child(4),
+.topNav li:nth-child(5),
+.topNav li:nth-child(7),
+.bottomNav li:nth-child(2),
+.bottomNav li:nth-child(3),
+.bottomNav li:nth-child(4),
+.bottomNav li:nth-child(5),
+.bottomNav li:nth-child(7) {
+	display: none;
+}
+
+.topNav li:first-child {
+	margin-left: 130px;
+}
+
+.topNav li:first-child::before {
+	content: "";
+	display: block;
+	background-image: url("https://documentation.chartiq.com/img/CIQ_logo_full_negative.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 45px;
+	width: 121px;
+	position: absolute;
+	z-index: 10000;
+	opacity: 1;
+	left: 10px;
+	top: 10px;
+}
+
+.topNav li:first-child::after {
+	content: "Native Android SDK";
+	position: absolute;
+	left: 12px;
+	color: white;
+	font-size: 11px;
+	top: 62px;
+}
+
+.subNav,
+ul.navListSearch {
+	padding: 0 16px;
+}
+
+ul.navListSearch {
+	margin-right: 11px;
+}
+
+.bar {
+	background-color: #131d24;
+}
+
+input {
+	background-color: rgb(59, 114, 98);
+}
+
+input::placeholder {
+	color: white;
+}
+
+#search {
+	background-image: none;
+	padding: 5px;
+	color: white;
+	border-radius: 5px;
+	border: none;
+}
+
+label[for="search"] {
+	display: none;
+}
+
+#reset {
+	left: -7px;
+}
