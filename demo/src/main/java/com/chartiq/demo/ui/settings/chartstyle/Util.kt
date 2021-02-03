@@ -1,27 +1,27 @@
 package com.chartiq.demo.ui.settings.chartstyle
 
 import com.chartiq.demo.R
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 
-fun AggregationChartType.toModel(): ChartTypeItem {
+fun ChartAggregationType.toModel(): ChartTypeItem {
     return ChartTypeItem(
         titleRes = when (this) {
-            AggregationChartType.HEIKINASHI -> R.string.chart_type_heikinashi
-            AggregationChartType.KAGI -> R.string.chart_type_kagi
-            AggregationChartType.LINEBREAK -> R.string.chart_type_linebreak
-            AggregationChartType.RENKO -> R.string.chart_type_renko
-            AggregationChartType.RANGEBARS -> R.string.chart_type_rangebars
-            AggregationChartType.PANDF -> R.string.chart_type_pandf
+            ChartAggregationType.HEIKINASHI -> R.string.chart_type_heikinashi
+            ChartAggregationType.KAGI -> R.string.chart_type_kagi
+            ChartAggregationType.LINEBREAK -> R.string.chart_type_linebreak
+            ChartAggregationType.RENKO -> R.string.chart_type_renko
+            ChartAggregationType.RANGEBARS -> R.string.chart_type_rangebars
+            ChartAggregationType.PANDF -> R.string.chart_type_pandf
         },
         name = name,
         iconRes = when (this) {
-            AggregationChartType.HEIKINASHI -> R.drawable.ic_chart_style_heikin_ashi
-            AggregationChartType.KAGI -> R.drawable.ic_chart_style_kagi
-            AggregationChartType.LINEBREAK -> R.drawable.ic_chart_style_line_break
-            AggregationChartType.RENKO -> R.drawable.ic_chart_style_renko
-            AggregationChartType.RANGEBARS -> R.drawable.ic_chart_style_range_bar
-            AggregationChartType.PANDF -> R.drawable.ic_chart_style_point_and_figure
+            ChartAggregationType.HEIKINASHI -> R.drawable.ic_chart_style_heikin_ashi
+            ChartAggregationType.KAGI -> R.drawable.ic_chart_style_kagi
+            ChartAggregationType.LINEBREAK -> R.drawable.ic_chart_style_line_break
+            ChartAggregationType.RENKO -> R.drawable.ic_chart_style_renko
+            ChartAggregationType.RANGEBARS -> R.drawable.ic_chart_style_range_bar
+            ChartAggregationType.PANDF -> R.drawable.ic_chart_style_point_and_figure
         }
     )
 }

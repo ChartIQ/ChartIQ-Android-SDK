@@ -97,7 +97,10 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
                                 }.show(parentFragmentManager, ChooseColorFragment::class.simpleName)
 
                             } else if (studyParameter is StudyParameter.TextColor) {
-                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.color ?: "")
+                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.color ?: "").apply {
+                                    setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_COLOR_PICKER)
+                                }
+                                    .show(parentFragmentManager, ChooseColorFragment::class.simpleName)
                             }
                         }
 
