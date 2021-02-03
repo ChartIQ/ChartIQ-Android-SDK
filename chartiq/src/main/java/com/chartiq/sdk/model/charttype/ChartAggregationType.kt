@@ -4,7 +4,7 @@ package com.chartiq.sdk.model.charttype
  * A list of possible aggregation chart types
  * @property value A String value of the type
  */
-enum class AggregationChartType(val value: String) {
+enum class ChartAggregationType(val value: String) {
     /**
      * <p>Heikin-Ashi charts are time series charts that resemble candle charts. In a normal candle chart,
      * each candle is calculated independent of the other candles. However in Heikin-Ashi charts, the candles appear to

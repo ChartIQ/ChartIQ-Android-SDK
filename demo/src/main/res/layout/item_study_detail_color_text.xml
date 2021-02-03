@@ -31,14 +31,14 @@
         android:inputType="numberDecimal"
         android:maxWidth="100dp"
         android:minWidth="50dp"
-        app:layout_constraintStart_toEndOf="@+id/parameterTextColorTextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/parameterColorLayout"
+        app:layout_constraintEnd_toStartOf="@+id/parameterTextColorFrameLayout"
+        app:layout_constraintStart_toEndOf="@+id/parameterTextColorTextView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="20" />
 
     <FrameLayout
-        android:id="@+id/parameterTextColorLayout"
+        android:id="@+id/parameterTextColorFrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"

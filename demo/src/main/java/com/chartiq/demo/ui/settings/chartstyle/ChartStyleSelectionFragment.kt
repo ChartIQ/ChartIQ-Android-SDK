@@ -8,7 +8,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChartStyleSelectionBinding
 import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
-import com.chartiq.sdk.model.charttype.AggregationChartType
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 
 class ChartStyleSelectionFragment : FullscreenDialogFragment() {
@@ -18,7 +18,7 @@ class ChartStyleSelectionFragment : FullscreenDialogFragment() {
         ChartStyleSelectionFragmentArgs.fromBundle(requireArguments()).selectedStyle
     }
     private val originalChartStyles: List<ChartTypeItem> by lazy {
-        (ChartType.values().map { it.toModel() } + AggregationChartType.values()
+        (ChartType.values().map { it.toModel() } + ChartAggregationType.values()
             .map { it.toModel() })
             .map {
                 it.copy(isSelected = selectedStyle?.name == it.name)

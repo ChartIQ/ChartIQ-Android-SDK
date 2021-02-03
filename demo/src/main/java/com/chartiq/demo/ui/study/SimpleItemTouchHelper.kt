@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.chartiq.demo.R
 
 class SimpleItemTouchCallBack(
     private val text: String,
@@ -44,9 +45,10 @@ class SimpleItemTouchCallBack(
         val itemView = viewHolder.itemView
         val mBackground = color
         val text = text
+        val size = recyclerView.context.resources.getDimensionPixelSize(R.dimen.text_size_subtitle)
         val paint = Paint().apply {
             color = Color.WHITE
-            textSize = TEXT_SIZE
+            textSize = size.toFloat()
             textAlign = Paint.Align.CENTER
         }
         val bounds = Rect()
@@ -86,9 +88,5 @@ class SimpleItemTouchCallBack(
 
     fun interface OnSwipeListener {
         fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int)
-    }
-
-    companion object {
-        private const val TEXT_SIZE = 40F
     }
 }
