@@ -22,11 +22,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/symbolButton"
+                android:ellipsize="middle"
                 style="@style/ChartButtonStyle"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/padding_medium"
+                android:letterSpacing="0"
+                android:scrollHorizontally="true"
+                android:maxWidth="120dp"
+                android:singleLine="true"
                 android:paddingEnd="@dimen/padding_medium"
                 tools:text="AAPL" />
 

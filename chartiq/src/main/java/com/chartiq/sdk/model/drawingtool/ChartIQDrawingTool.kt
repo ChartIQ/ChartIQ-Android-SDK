@@ -1,8 +1,7 @@
-package com.chartiq.sdk
+package com.chartiq.sdk.model.drawingtool
 
+import com.chartiq.sdk.OnReturnCallback
 import com.chartiq.sdk.model.ChartLayer
-import com.chartiq.sdk.model.drawingtool.DrawingParameterType
-import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 interface ChartIQDrawingTool {
 
@@ -27,7 +26,7 @@ interface ChartIQDrawingTool {
      * @param parameter A parameter to update the value of
      * @param value A new value to be set to the parameter
      */
-    fun setDrawingParameter(parameter: String, value: String)
+    fun setDrawingParameter(parameterName: String, value: String)
 
     /**
      * Sets a value for the drawing tool parameter
