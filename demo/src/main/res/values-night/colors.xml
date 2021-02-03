@@ -5,7 +5,7 @@
     <color name="toolbarBackgroundColor">@color/chineseBlack</color>
     <color name="toolbarTitleTextColor">@color/white</color>
     <color name="placeholderSecondaryColor">@color/chineseBlack</color>
-    <color name="placeholderTertiaryColor">@color/darkGunmetal</color>
+    <color name="placeholderTertiaryColor">@color/outerSpace</color>
     <color name="chooseScreenBackgroundColor">@color/darkGunmetal</color>
     <color name="navBarBackgroundColor">@color/chineseBlack</color>
     <color name="layoutBackgroundColor">@color/darkGunmetal</color>

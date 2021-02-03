@@ -111,7 +111,7 @@
         android:label="CustomIntervalFragment" />
     <fragment
         android:id="@+id/searchSymbolFragment"
-        android:name="com.chartiq.demo.ui.chart.searchsymbol.SearchSymbolFragment"
+        android:name="com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment"
         android:label="SearchSymbolFragment" />
     <fragment
         android:id="@+id/drawingToolFragment"

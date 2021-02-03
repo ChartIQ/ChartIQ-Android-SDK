@@ -184,6 +184,7 @@ class ChartViewModel(
         if (isCrosshairsVisible.value!!) {
             launchCrosshairsUpdate()
         }
+        getDrawingToolParameters()
     }
 
     fun onPause() {
