@@ -17,7 +17,7 @@
 }
 
 #logo::after {
-	content: "Native Android SDK";
+    content: "Native Android SDK";
     position: absolute;
     left: 160px;
     color: white;
