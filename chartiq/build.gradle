@@ -8,7 +8,7 @@ apply plugin: 'org.jetbrains.dokka'
 
 ext.version_name = "4.0.0"
 
-dokkaJavadoc.configure {
+dokkaHtml.configure {
     dokkaSourceSets {
         named("main") {
             noAndroidSdkLink.set(false)
