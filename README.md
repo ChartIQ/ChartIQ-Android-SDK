@@ -14,6 +14,8 @@ The Android app has been totally reengineered for improved usability and functio
 
 Version 8.2.0 or later of the ChartIQ library.
 
+Android SDK 27 or later
+
 Go to our <a href="https://cosaic.io/chartiq-sdk-library-download/" target="_blank">download site</a> to obtain a free 30-day trial version of the library, or send us an email at <info@cosaic.io>, and we'll send you an evaluation version.
 
 ## Sample app
@@ -23,6 +25,8 @@ The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder
 ## Questions and support
 
 Contact our development support team at <support@chartiq.com>.
+
+See the SDK documentation at https://documentation.chartiq.com/android-sdk/chartiq/.
 
 See our JavaScript documentation at https://documentation.chartiq.com.
 
