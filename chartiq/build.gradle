@@ -12,6 +12,7 @@ dokkaHtml.configure {
     dokkaSourceSets {
         named("main") {
             noAndroidSdkLink.set(false)
+            outputDirectory.set(file("docs"))
         }
     }
 }
