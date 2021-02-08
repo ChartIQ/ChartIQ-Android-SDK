@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.chartiq.demo"
-        minSdkVersion 21
+        minSdkVersion 27
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -20,14 +20,6 @@ android {
 
         buildConfigField("String", "DEFAULT_CHART_URL", "\"https://android.demo.chartiq.com/sample-template-native-sdk.html\"")
     }
-    signingConfigs {
-        release {
-            storeFile ***REMOVED***
-            storePassword ***REMOVED***
-            keyAlias ***REMOVED***
-            keyPassword ***REMOVED***
-        }
-    }
     lintOptions {
         checkReleaseBuilds false
     }
@@ -35,7 +27,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
