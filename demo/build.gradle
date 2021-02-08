@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://i.codeit.pro/autobuild-bot/i/chartIQ/ChartIQJS_8.0_release/sample-template-native-sdk.html\"")
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://android.demo.chartiq.com/sample-template-native-sdk.html\"")
     }
     signingConfigs {
         release {
