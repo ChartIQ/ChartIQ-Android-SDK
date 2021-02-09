@@ -20,7 +20,7 @@ The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder
 
 **End of legacy app support**
 
-The Android app has been totally reengineered for improved usability and functionality using Kotlin. As a result, there is no upgrade path from the [legacy app](https://github.com/ChartIQ/Charting-Library---Android-Sample-App-Legacy) (which is compatible with ChartIQ versions 7.0.5&ndash;7.5.0) to this new app/SDK. To take advantage of the major improvements offered by the new mobile app, upgrade to Version 8.2.0 or later of the library and reimplement any custom functionality from your legacy app in the new app.
+The Android app has been totally reengineered for improved usability and functionality using Kotlin. As a result, there is no upgrade path from the [legacy app](https://github.com/ChartIQ/Charting-Library---Android-Sample-App-Legacy) (which is compatible with ChartIQ versions 7.0.5&ndash;7.5.0) to the new app/SDK. To take advantage of the major improvements offered by the new mobile app, upgrade to Version 8.2.0 or later of the library and reimplement any custom functionality from your legacy app in the new app.
 
 ## API documentation
 
