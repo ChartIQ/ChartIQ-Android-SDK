@@ -24,9 +24,9 @@ The app is also available on Google Play.
 
 <table>
   <tr>
-    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Candle_Chart.png" alt="Candle chart" width="200" height="433"/></td>
-    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Chart_with_Studies.png?raw=true" alt="Chart with studies" width="200" height="433"/></td>
-    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Chart_Styles_and_Types.png?raw=true" alt="Chart styles and types" width="200" height="433"/></td>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/main/screenshots/Candle_Chart.png" alt="Candle chart" width="200" height="433"/></td>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/main/screenshots/Chart_with_Studies.png" alt="Chart with studies" width="200" height="433"/></td>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/main/screenshots/Chart_Styles_and_Types.png" alt="Chart styles and types" width="200" height="433"/></td>
   </tr>
 </table>
 
