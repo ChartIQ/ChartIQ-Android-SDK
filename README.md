@@ -18,6 +18,18 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder of this repository contains a sample app that was built using the SDK. Customize the app to quickly create your own Android charting application.
 
+The app is also available on Google Play.
+
+**App screen shots**
+
+<table>
+  <tr>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Candle_Chart.png" alt="Candle chart" width="200" height="433"/></td>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Chart_with_Studies.png?raw=true" alt="Chart with studies" width="200" height="433"/></td>
+    <td><img src="https://github.com/ChartIQ/ChartIQ-Android-SDK/blob/8.2_README_Update/screenshots/Chart_Styles_and_Types.png?raw=true" alt="Chart styles and types" width="200" height="433"/></td>
+  </tr>
+</table>
+
 **End of legacy app support**
 
 The Android app has been totally reengineered for improved usability and functionality using Kotlin. As a result, there is no upgrade path from the [legacy app](https://github.com/ChartIQ/Charting-Library---Android-Sample-App-Legacy) (which is compatible with ChartIQ versions 7.0.5&ndash;7.5.0) to the new app/SDK. To take advantage of the major improvements offered by the new mobile app, upgrade to Version 8.2.0 or later of the library and reimplement any custom functionality from your legacy app in the new app.
