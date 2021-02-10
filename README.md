@@ -36,7 +36,7 @@ The Android app has been totally reengineered for improved usability and functio
 
 ## Getting started
 
-See the [Starting on Mobile: Android](https://documentation.chartiq.com/tutorial-Starting%20on%20Android.html) tutorial for instructions on installing the app and using the SDK.
+See the [Getting Started on Mobile: Android](https://documentation.chartiq.com/tutorial-Starting%20on%20Android.html) tutorial for instructions on installing the app and using the SDK.
 
 ## API documentation
 
