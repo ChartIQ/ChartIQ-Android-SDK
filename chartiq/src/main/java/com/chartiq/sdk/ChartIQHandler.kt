@@ -91,7 +91,8 @@ class ChartIQHandler(
             QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // set moreAvailable to true as you want to see if there is more historical data after the initial pull
+                invokePullCallback(callbackId, data, true)
             }
         }
     }
@@ -109,7 +110,8 @@ class ChartIQHandler(
             QuoteFeedParams(symbol, period?.toInt(), interval, start, null, meta, callbackId)
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // just an update, no need to see if there is more historical data available
+                invokePullCallback(callbackId, data, false)
             }
         }
     }
@@ -128,7 +130,13 @@ class ChartIQHandler(
             QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullPaginationData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // Check to see if you need to try and retrieve more historical data.
+                // This is where you can put your own logic on when to stop retrieving historical data.
+                // By default if the last pagination request return 0 data then it has probably reached the end.
+                // If you have spotty data then another idea might be to check the last historical date, this would require you knowing what date to stop at though.
+                var moreAvailable = true
+                if(data.size < 1) moreAvailable = false
+                invokePullCallback(callbackId, data, moreAvailable)
             }
         }
     }
@@ -445,8 +453,8 @@ class ChartIQHandler(
         chartIQView.evaluateJavascript(script, callback)
     }
 
-    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
-        executeJavascript(scriptManager.getParseDataScript(data, callbackId))
+    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>, moreAvailable: Boolean) {
+        executeJavascript(scriptManager.getParseDataScript(data, callbackId, moreAvailable))
     }
 
     override fun getActiveSeries(callback: OnReturnCallback<List<Series>>) {
