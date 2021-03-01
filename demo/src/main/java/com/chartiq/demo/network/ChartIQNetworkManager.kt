@@ -30,6 +30,7 @@ class ChartIQNetworkManager : NetworkManager {
                 .fetchDataFeedAsync(
                     params.symbol,
                     params.start,
+                    params.end,
                     params.interval,
                     params.period?.toString(),
                     DEFAULT_VALUE_EXTENDED,
