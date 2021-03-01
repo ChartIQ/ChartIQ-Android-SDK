@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChartIQ</string>
+    <string name="app_name">ChartIQ Demo</string>
 
     <string name="title_chart">Chart</string>
     <string name="title_study">Studies</string>
