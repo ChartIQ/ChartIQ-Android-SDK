@@ -11,6 +11,7 @@ interface ChartAPI {
     suspend fun fetchDataFeedAsync(
         @Query("identifier") identifier: String?,
         @Query("startdate") startDate: String?,
+        @Query("enddate") endDate: String?,
         @Query("interval") interval: String?,
         @Query("period") period: String?,
         @Query("extended") extended: String?,
