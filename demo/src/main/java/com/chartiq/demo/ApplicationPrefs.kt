@@ -25,13 +25,13 @@ interface ApplicationPrefs {
 
     fun saveChartSymbol(symbol: Symbol)
 
-    fun saveDrawingTool(tool: DrawingTool?)
+    fun saveDrawingTool(tool: DrawingTool)
 
-    fun getDrawingTool(): DrawingTool?
+    fun getDrawingTool(): DrawingTool
 
-    fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool?>)
+    fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>)
 
-    fun getFavoriteDrawingTools(): Set<DrawingTool?>
+    fun getFavoriteDrawingTools(): Set<DrawingTool>
 
     fun getApplicationId(): String
 
@@ -72,14 +72,14 @@ interface ApplicationPrefs {
             putString(KEY_CHART_SYMBOL, symbol.value)
         }
 
-        override fun saveDrawingTool(tool: DrawingTool?) = prefs.edit(true) {
+        override fun saveDrawingTool(tool: DrawingTool) = prefs.edit(true) {
             putString(KEY_DRAWING_TOOL, tool.toString())
         }
 
-        override fun getDrawingTool(): DrawingTool? =
+        override fun getDrawingTool(): DrawingTool =
             DrawingTool.valueOf(prefs.getString(KEY_DRAWING_TOOL, DrawingTool.NONE.toString())!!)
 
-        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool?>) =
+        override fun saveFavoriteDrawingTools(drawingToolsSet: Set<DrawingTool>) =
             prefs.edit(true) {
                 val set = drawingToolsSet
                     .map { it.toString() }
@@ -87,7 +87,7 @@ interface ApplicationPrefs {
                 putStringSet(KEY_DRAWING_TOOL_FAVORITE, set)
             }
 
-        override fun getFavoriteDrawingTools(): Set<DrawingTool?> {
+        override fun getFavoriteDrawingTools(): Set<DrawingTool> {
             return prefs.getStringSet(KEY_DRAWING_TOOL_FAVORITE, setOf())!!
                 .map { DrawingTool.valueOf(it.toUpperCase()) }
                 .toHashSet()

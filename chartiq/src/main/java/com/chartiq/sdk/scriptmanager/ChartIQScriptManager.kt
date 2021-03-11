@@ -93,14 +93,14 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetCrosshairHUDDetailsScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
-    override fun getEnableDrawingScript(type: DrawingTool?): String =
+    override fun getEnableDrawingScript(type: DrawingTool): String =
         "currentDrawing = \"${type?.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
 
     override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
-    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool?, all: Boolean): String {
+    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String {
         var toolName: String? = ""
         toolName = if (!all) {
             tool?.value

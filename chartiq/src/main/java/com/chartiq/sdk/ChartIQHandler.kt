@@ -176,7 +176,7 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, unit))
     }
 
-    override fun enableDrawing(type: DrawingTool?) {
+    override fun enableDrawing(type: DrawingTool) {
         executeJavascript(scriptManager.getEnableDrawingScript(type))
     }
 
