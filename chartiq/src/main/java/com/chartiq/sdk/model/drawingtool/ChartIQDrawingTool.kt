@@ -14,7 +14,7 @@ interface ChartIQDrawingTool {
      * Activates a selected drawing [DrawingTool]
      * @param tool A [DrawingTool] to be selected
      */
-    fun enableDrawing(tool: DrawingTool)
+    fun enableDrawing(tool: DrawingTool?)
 
     /**
      * Deactivates drawing mode

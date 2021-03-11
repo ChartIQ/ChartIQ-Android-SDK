@@ -60,7 +60,7 @@ internal interface ScriptManager {
 
     fun getGetCrosshairHUDDetailsScript(): String
 
-    fun getEnableDrawingScript(type: DrawingTool): String
+    fun getEnableDrawingScript(type: DrawingTool?): String
 
     fun getDisableDrawingScript(): String
 
@@ -88,7 +88,7 @@ internal interface ScriptManager {
 
     fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String
 
-    fun getGetDrawingParametersScript(drawingName: String): String
+    fun getGetDrawingParametersScript(drawingName: String?): String
 
     fun getSetChartStyleScript(obj: String, attribute: String, value: String): String
 
@@ -124,7 +124,7 @@ internal interface ScriptManager {
 
     fun getSetLanguageScript(languageCode: String): String
 
-    fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String
+    fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool?, all: Boolean): String
 
     fun getGetActiveSeriesScript(): String
 

@@ -93,17 +93,19 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetCrosshairHUDDetailsScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getHudDetails();"
 
-    override fun getEnableDrawingScript(type: DrawingTool): String =
-        "currentDrawing = \"${type.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
+    override fun getEnableDrawingScript(type: DrawingTool?): String =
+        "currentDrawing = \"${type?.value}\";" + CHART_IQ_JS_OBJECT + "changeVectorType(currentDrawing);"
 
     override fun getDisableDrawingScript(): String = getEnableDrawingScript(DrawingTool.NONE)
 
     override fun getClearDrawingScript(): String = CHART_IQ_JS_OBJECT + "clearDrawings();"
 
-    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool, all: Boolean): String {
-        var toolName = ""
-        if (!all) {
-            toolName = tool.value
+    override fun getRestoreDefaultDrawingConfigScript(tool: DrawingTool?, all: Boolean): String {
+        var toolName: String? = ""
+        toolName = if (!all) {
+            tool?.value
+        } else {
+            null
         }
         return MOBILE_BRIDGE_NAME_SPACE + "restoreDefaultDrawingConfig(\"$toolName\", $all);"
     }
@@ -137,6 +139,10 @@ internal class ChartIQScriptManager : ScriptManager {
     ): String {
         return MOBILE_BRIDGE_NAME_SPACE + "setStudy(\"$studyName\", \"${parameter.fieldName.asSafeScriptParameter}\", \"${parameter.fieldSelectedValue.asSafeScriptParameter}\");"
     }
+
+//    override fun getGetDrawingParametersScript(drawingName: String): String {
+//        TODO("Not yet implemented")
+//    }
 
     override fun getSetStudyParametersScript(
         name: String,
@@ -216,7 +222,7 @@ internal class ChartIQScriptManager : ScriptManager {
         return script
     }
 
-    override fun getGetDrawingParametersScript(drawingName: String): String =
+    override fun getGetDrawingParametersScript(drawingName: String?): String =
         MOBILE_BRIDGE_NAME_SPACE + "getDrawingParameters(\"$drawingName\");"
 
     override fun getSetChartStyleScript(obj: String, attribute: String, value: String): String =
