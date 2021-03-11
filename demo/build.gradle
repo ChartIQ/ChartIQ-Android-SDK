@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "DEFAULT_CHART_URL", "\"http://192.168.0.3:5500/dist/sample-template-native-sdk.html\"")
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://android.demo.chartiq.com/sample-template-native-sdk.html\"")
     }
     lintOptions {
         checkReleaseBuilds false
