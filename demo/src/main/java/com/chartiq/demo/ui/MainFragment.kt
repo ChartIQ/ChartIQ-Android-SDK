@@ -83,7 +83,6 @@ class MainFragment : Fragment() {
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         if (position == MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.ordinal) {
-                            reloadData()
                             (requireActivity() as MainFragmentPagerObserver).onPageChanged()
                         }
                     }
@@ -97,10 +96,8 @@ class MainFragment : Fragment() {
         mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.navView.isVisible = isVisible
         }
-        mainViewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isAvailable ->
-            if (isAvailable) {
-                reloadData()
-            } else {
+        mainViewModel.networkIsNotAvailable.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
                 showDeviceIsOfflineDialog()
             }
         }
@@ -119,11 +116,6 @@ class MainFragment : Fragment() {
                 setCanceledOnTouchOutside(false)
             }
             .show()
-    }
-
-    private fun reloadData() {
-        mainViewModel.setupChart()
-        mainViewModel.fetchActiveStudyData()
     }
 
     private fun isDarkThemeOn(): Boolean {

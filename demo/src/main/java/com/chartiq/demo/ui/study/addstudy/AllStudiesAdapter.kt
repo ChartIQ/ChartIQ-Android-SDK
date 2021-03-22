@@ -49,7 +49,7 @@ class AllStudiesAdapter(
         fun bind(item: Study) {
             with(binding) {
                 root.setOnClickListener {
-                    studyCheckBox.isChecked = true
+                    studyCheckBox.isChecked = !studyCheckBox.isChecked
                 }
                 studyCheckBox.apply {
                     setOnCheckedChangeListener(null)

@@ -18,6 +18,14 @@ internal interface ScriptManager {
 
     fun getAddMeasureListener(): String
 
+    fun getGetSymbolScript() : String
+
+    fun getGetIntervalScript() : String
+
+    fun getGetTimeUnitScript() : String
+
+    fun getGetPeriodicityScript() : String
+
     fun getSetSymbolScript(symbol: String): String
 
     fun getDateFromTickScript(): String
@@ -100,7 +108,7 @@ internal interface ScriptManager {
 
     fun getGetEnginePropertyScript(property: String): String
 
-    fun getParseDataScript(data: List<OHLCParams>, callbackId: String, moreAvailable: Boolean): String
+    fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
 
     fun getInvertYAxisScript(): String
 

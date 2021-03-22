@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.lifecycle.*
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.localization.RemoteTranslations
+import com.chartiq.demo.network.NetworkException
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.ui.chart.interval.model.Interval
@@ -18,7 +19,6 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.Study
@@ -63,7 +63,7 @@ class MainViewModel(
 
     val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
-    val isNetworkAvailable = MutableLiveData(false)
+    val networkIsNotAvailable = MutableLiveData<Event<Unit>>()
 
     private val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
@@ -101,6 +101,7 @@ class MainViewModel(
 
                 val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
                 chartIQ.setTheme(theme)
+                setupChart()
             }
         }
     }
@@ -115,27 +116,13 @@ class MainViewModel(
         }
     }
 
-    fun setupChart() {
-        val currentSymbol = applicationPrefs.getChartSymbol()
-        if (symbol.value != currentSymbol) {
-            symbol.value = currentSymbol
-            chartIQ.setSymbol(currentSymbol.value)
-            chartIQ.setDataMethod(DataMethod.PULL, currentSymbol.value)
-        }
-        val currentInterval = applicationPrefs.getChartInterval()
-        if (interval.value != currentInterval) {
-            interval.value = currentInterval
-            chartIQ.setPeriodicity(
-                currentInterval.getPeriod(),
-                currentInterval.getInterval(),
-                currentInterval.getSafeTimeUnit()
-            )
-        }
-    }
-
     fun checkInternetAvailability() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            isNetworkAvailable.value = connectivityManager.activeNetworkInfo != null
+            if (connectivityManager.activeNetworkInfo != null) {
+                reloadData()
+            } else {
+                networkIsNotAvailable.value = Event(Unit)
+            }
         } else {
             val allNetworks: Array<Network> = connectivityManager.allNetworks
             for (network in allNetworks) {
@@ -145,12 +132,12 @@ class MainViewModel(
                         || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
                         || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                     ) {
-                        isNetworkAvailable.value = true
+                        reloadData()
                         return
                     }
                 }
             }
-            isNetworkAvailable.value = false
+            networkIsNotAvailable.value = Event(Unit)
         }
     }
 
@@ -168,9 +155,47 @@ class MainViewModel(
         isNavBarAlwaysVisible.postValue(alwaysOnDisplay)
     }
 
-    fun saveSymbol(symbol: Symbol) {
-        applicationPrefs.saveChartSymbol(symbol)
+    fun updateSymbol(symbol: Symbol) {
+        chartIQ.setSymbol(symbol.value)
         setupChart()
+    }
+
+    fun updateInterval(interval: Interval) {
+        chartIQ.setPeriodicity(
+            interval.getPeriod(),
+            interval.getInterval(),
+            interval.getSafeTimeUnit(),
+        )
+        setupChart()
+    }
+
+    private fun reloadData() {
+        symbol.value?.let {
+            updateSymbol(it)
+        }
+        fetchActiveStudyData()
+    }
+
+    private fun setupChart() {
+        with(chartIQ) {
+            getSymbol {
+                val currentSymbol = Symbol(it)
+                if (symbol.value != currentSymbol) {
+                    symbol.value = currentSymbol
+                }
+            }
+            getPeriodicity { periodicity ->
+                getInterval { cInterval ->
+                    getTimeUnit { timeUnit ->
+                        val currentInterval =
+                            Interval.createInterval(periodicity, cInterval, timeUnit)
+                        if (interval.value != currentInterval) {
+                            interval.value = currentInterval
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
@@ -180,7 +205,14 @@ class MainViewModel(
                 is NetworkResult.Success -> {
                     withContext(Dispatchers.Main) { callback.execute(result.data) }
                 }
-                is NetworkResult.Failure -> errorLiveData.postValue(Unit)
+                is NetworkResult.Failure -> {
+                    when (result.exception) {
+                        is NetworkException -> withContext(Dispatchers.Main) {
+                            checkInternetAvailability()
+                        }
+                        else -> errorLiveData.postValue(Unit)
+                    }
+                }
 
             }
         }

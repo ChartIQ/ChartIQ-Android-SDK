@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-    private val chartIQ: ChartIQ,
-    private val applicationPrefs: ApplicationPrefs
+        private val chartIQ: ChartIQ,
+        private val applicationPrefs: ApplicationPrefs
 ) : ViewModel() {
 
     val language = MutableLiveData<ChartIQLanguage>(ChartIQLanguage.EN)
@@ -77,11 +77,11 @@ class SettingsViewModel(
 
     fun changeLogScale(enabled: Boolean) {
         chartIQ.setChartScale(
-            if (enabled) {
-                ChartScale.LOG
-            } else {
-                ChartScale.LINEAR
-            }
+                if (enabled) {
+                    ChartScale.LOG
+                } else {
+                    ChartScale.LINEAR
+                }
         )
         initChartScale()
     }
@@ -113,14 +113,14 @@ class SettingsViewModel(
     }
 
     class ViewModelFactory(
-        private val argChartIQ: ChartIQ,
-        private val applicationPrefs: ApplicationPrefs
+            private val argChartIQ: ChartIQ,
+            private val applicationPrefs: ApplicationPrefs
     ) :
-        ViewModelProvider.Factory {
+            ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(ChartIQ::class.java, ApplicationPrefs::class.java)
-                .newInstance(argChartIQ, applicationPrefs)
+                    .getConstructor(ChartIQ::class.java, ApplicationPrefs::class.java)
+                    .newInstance(argChartIQ, applicationPrefs)
         }
     }
 }
