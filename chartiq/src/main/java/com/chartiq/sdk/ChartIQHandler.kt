@@ -28,6 +28,7 @@ class ChartIQHandler(
     private val scriptManager = ChartIQScriptManager()
     private val chartIQView = ChartIQView(context)
     private var measureCallback: MeasureCallback? = null
+    private var chartAvailableCallback: ChartAvailableCallback? = null
 
     override val chartView: View
         get() = chartIQView
@@ -38,8 +39,7 @@ class ChartIQHandler(
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_NATIVE_SDK)
             loadUrl(chartIQUrl)
         }
     }
@@ -50,9 +50,6 @@ class ChartIQHandler(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
 //                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
-                    executeJavascript(scriptManager.getAddDrawingListenerScript())
-                    executeJavascript(scriptManager.getAddLayoutListenerScript())
-                    executeJavascript(scriptManager.getAddMeasureListener())
                     onStartCallback.onStart()
                 }
             }
@@ -74,6 +71,18 @@ class ChartIQHandler(
     @JavascriptInterface
     override fun measureChange(json: String) {
         measureCallback?.onMeasureUpdate(json.substring(1, json.length - 1))
+    }
+
+    @JavascriptInterface
+    override fun chartAvailableChange(json: String) {
+        val isChartAvailable = json.toBoolean()
+        chartAvailableCallback?.onChartAvailableUpdate(isChartAvailable)
+
+        if(isChartAvailable) {
+            executeJavascript(scriptManager.getAddDrawingListenerScript())
+            executeJavascript(scriptManager.getAddLayoutListenerScript())
+            executeJavascript(scriptManager.getAddMeasureListener())
+        }
     }
 
     @JavascriptInterface
@@ -441,6 +450,9 @@ class ChartIQHandler(
         this.measureCallback = measureCallback
     }
 
+	override fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback) {
+        this.chartAvailableCallback = chartAvailableCallback
+    }
 
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
         executeJavascript(scriptManager.getUndoDrawingScript())
@@ -528,8 +540,7 @@ class ChartIQHandler(
     }
 
     companion object {
-        private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
-        private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
+        private const val JAVASCRIPT_INTERFACE_NATIVE_SDK = "ChartIQ"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
 }

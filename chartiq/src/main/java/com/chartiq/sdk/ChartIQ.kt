@@ -166,6 +166,12 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param measureCallback A [MeasureCallback] to be added
      */
     fun addMeasureListener(measureCallback: MeasureCallback)
+    
+    /**
+     * Adds a measure listener
+     * @param measureCallback A [MeasureCallback] to be added
+     */
+    fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback)
 
     /**
      * Sets a theme to the chart
