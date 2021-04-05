@@ -7,23 +7,12 @@ import java.util.*
 
 @Parcelize
 data class Interval(
-    val duration: Int,
+    val period: Int,
+    val interval: Int,
     val timeUnit: TimeUnit
 ) : Parcelable {
-    fun getPeriod(): Int {
-        return if (timeUnit == TimeUnit.HOUR) {
-            duration * 2
-        } else {
-            1
-        }
-    }
 
     fun getInterval(): String {
-        val interval = if (timeUnit == TimeUnit.HOUR) {
-            30
-        } else {
-            duration
-        }
         return "$interval"
     }
 
@@ -36,21 +25,22 @@ data class Interval(
     }
 
     companion object {
-        fun createInterval(periodicity: Int, interval: String, timeUnit: String): Interval {
+        fun createInterval(period: Int, interval: String, timeUnit: String): Interval {
             val unit: TimeUnit?
-            val duration: Int
+            val convertedInterval: Int
             if (timeUnit == "null") {
                 val value = interval.substring(1, interval.length - 1).toUpperCase(Locale.ROOT)
                 unit = TimeUnit.valueOf(value)
-                duration = periodicity
-            } else if (periodicity > 1 && timeUnit.toUpperCase(Locale.ROOT) == TimeUnit.MINUTE.toString()) {
-                unit = TimeUnit.HOUR
-                duration = periodicity * interval.toInt() / 60
+                convertedInterval = 1
             } else {
-                unit = TimeUnit.valueOf(timeUnit.toUpperCase(Locale.ROOT))
-                duration = interval.toInt()
+                convertedInterval = interval.toInt()
+                unit = if(convertedInterval * period % 60 == 0) {
+                    TimeUnit.HOUR
+                } else {
+                    TimeUnit.valueOf(timeUnit.toUpperCase(Locale.ROOT))
+                }
             }
-            return Interval(duration, unit)
+            return Interval(period, convertedInterval, unit)
         }
     }
 }

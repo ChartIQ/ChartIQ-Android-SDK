@@ -68,13 +68,13 @@ class CustomIntervalFragment : FullscreenDialogFragment() {
                 dismiss()
             }
             doneButton.setOnClickListener {
-                val duration = selectValueAutoCompleteTextView.text.toString().toInt()
+                val interval = selectValueAutoCompleteTextView.text.toString().toInt()
                 val unit = TimeUnit.valueOf(
                     selectMeasurementAutoCompleteTextView.text
                         .toString()
                         .toUpperCase()
                 )
-                val item = IntervalItem(duration, unit, true)
+                val item = IntervalItem(1, interval, unit, true)
                 viewModel.onIntervalSelect(item)
                 dismiss()
             }

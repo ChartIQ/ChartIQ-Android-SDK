@@ -96,17 +96,17 @@ class ChooseIntervalFragment : FullscreenDialogFragment() {
         private const val ARG_INTERVAL = "choose.interval.argument.interval"
 
         private val DEFAULT_INTERVAL_LIST = listOf(
-            Interval(1, TimeUnit.DAY),
-            Interval(1, TimeUnit.WEEK),
-            Interval(1, TimeUnit.MONTH),
-            Interval(1, TimeUnit.MINUTE),
-            Interval(5, TimeUnit.MINUTE),
-            Interval(10, TimeUnit.MINUTE),
-            Interval(15, TimeUnit.MINUTE),
-            Interval(30, TimeUnit.MINUTE),
-            Interval(1, TimeUnit.HOUR),
-            Interval(4, TimeUnit.HOUR),
-            Interval(30, TimeUnit.SECOND),
+            Interval(1,1, TimeUnit.DAY),
+            Interval(1,1, TimeUnit.WEEK),
+            Interval(1,1, TimeUnit.MONTH),
+            Interval(1,1, TimeUnit.MINUTE),
+            Interval(1,5, TimeUnit.MINUTE),
+            Interval(1,10, TimeUnit.MINUTE),
+            Interval(3,5, TimeUnit.MINUTE),
+            Interval(1,30, TimeUnit.MINUTE),
+            Interval(2, 30, TimeUnit.HOUR),
+            Interval(8, 30, TimeUnit.HOUR),
+            Interval(1,30, TimeUnit.SECOND),
         )
     }
 

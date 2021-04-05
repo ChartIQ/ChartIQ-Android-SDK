@@ -162,7 +162,7 @@ class MainViewModel(
 
     fun updateInterval(interval: Interval) {
         chartIQ.setPeriodicity(
-            interval.getPeriod(),
+            interval.period,
             interval.getInterval(),
             interval.getSafeTimeUnit(),
         )

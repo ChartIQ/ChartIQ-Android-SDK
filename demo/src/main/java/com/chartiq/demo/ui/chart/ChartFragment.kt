@@ -164,6 +164,10 @@ class ChartFragment : Fragment(),
             }
             interval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
+                    var fullPeriodicity = period * interval
+                    if(timeUnit == TimeUnit.HOUR) {
+                        fullPeriodicity /= 60
+                    }
                     val shortTimeUnitName = localizationManager.getTranslationFromValue(
                             timeUnit.toString().first().toString(),
                             requireContext()
@@ -171,9 +175,9 @@ class ChartFragment : Fragment(),
                     binding.intervalButton.text = when (timeUnit) {
                         TimeUnit.SECOND,
                         TimeUnit.MINUTE -> {
-                            "$duration${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
+                            "$fullPeriodicity${shortTimeUnitName.toLowerCase(Locale.getDefault())}"
                         }
-                        else -> "$duration${shortTimeUnitName}"
+                        else -> "$fullPeriodicity${shortTimeUnitName}"
                     }
                 }
             }
