@@ -4,7 +4,7 @@ Native Android SDK for the [ChartIQ JavaScript library](https://documentation.ch
 
 <table>
   <tr>
-    <td>:construction: <b>BETA Release</b>. Please visit us again starting April 6, 2021 to download the final release of this SDK and accompanying mobile application.</td>
+    <td>:construction: <b>BETA Release</b>. Please visit us again starting April 15, 2021 to download the final release of this SDK and accompanying mobile application.</td>
   </tr>
 </table>
 
