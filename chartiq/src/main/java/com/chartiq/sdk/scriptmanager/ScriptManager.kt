@@ -96,7 +96,7 @@ internal interface ScriptManager {
 
     fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String
 
-    fun getGetDrawingParametersScript(drawingName: String): String
+    fun getGetDrawingParametersScript(drawingName: String?): String
 
     fun getSetChartStyleScript(obj: String, attribute: String, value: String): String
 
