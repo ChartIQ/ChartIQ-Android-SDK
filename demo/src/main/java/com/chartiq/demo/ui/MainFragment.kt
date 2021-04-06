@@ -31,32 +31,32 @@ class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-            ChartIQNetworkManager(),
-            (requireActivity().application as ServiceLocator).applicationPreferences,
-            chartIQ,
-            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                ChartIQNetworkManager(),
+                (requireActivity().application as ServiceLocator).applicationPreferences,
+                chartIQ,
+                requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private lateinit var binding: FragmentMainBinding
 
     private val onNavItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            val page = when (item.itemId) {
-                R.id.navigation_chart -> MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value
-                R.id.navigation_study -> MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.value
-                R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
-                else -> throw IllegalStateException()
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                val page = when (item.itemId) {
+                    R.id.navigation_chart -> MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value
+                    R.id.navigation_study -> MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.value
+                    R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
+                    else -> throw IllegalStateException()
+                }
+                mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
+                binding.mainViewPager.setCurrentItem(page, true)
+                true
             }
-            mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
-            binding.mainViewPager.setCurrentItem(page, true)
-            true
-        }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         mainViewModel.checkInternetAvailability()
@@ -96,26 +96,28 @@ class MainFragment : Fragment() {
         mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.navView.isVisible = isVisible
         }
-        mainViewModel.networkIsNotAvailable.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                showDeviceIsOfflineDialog()
+        mainViewModel.networkIsAvailableEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { value ->
+                if(!value) {
+                    showDeviceIsOfflineDialog()
+                }
             }
         }
     }
 
     private fun showDeviceIsOfflineDialog() {
         AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
-            .setTitle(R.string.general_warning_something_went_wrong)
-            .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
-            .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
-            .setPositiveButton(R.string.general_reconnect) { _, _ ->
-                mainViewModel.checkInternetAvailability()
-            }
-            .create()
-            .apply {
-                setCanceledOnTouchOutside(false)
-            }
-            .show()
+                .setTitle(R.string.general_warning_something_went_wrong)
+                .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
+                .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
+                .setPositiveButton(R.string.general_reconnect) { _, _ ->
+                    mainViewModel.checkInternetAvailability()
+                }
+                .create()
+                .apply {
+                    setCanceledOnTouchOutside(false)
+                }
+                .show()
     }
 
     private fun isDarkThemeOn(): Boolean {

@@ -73,6 +73,12 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun disableCrosshairs()
 
     /**
+     * Checks if crosshair is enabled
+     * @param callback A callback to subscribe to to get the indicator if crosshairs are enabled
+     */
+    fun isCrosshairsEnabled(callback: OnReturnCallback<Boolean>)
+
+    /**
      * Sets periodicity to the chart
      * @param period A number of elements from masterData to roll-up together into one data point on the chart.
      * @param interval An interval is a numeric portion of the time unit.
@@ -166,7 +172,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param measureCallback A [MeasureCallback] to be added
      */
     fun addMeasureListener(measureCallback: MeasureCallback)
-    
+
     /**
      * Adds a measure listener
      * @param measureCallback A [MeasureCallback] to be added

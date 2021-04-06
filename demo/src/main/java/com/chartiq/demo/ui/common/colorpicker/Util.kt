@@ -1,7 +1,10 @@
 package com.chartiq.demo.ui.common.colorpicker
 
+import android.content.res.Resources
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import androidx.core.content.res.ResourcesCompat
+import com.chartiq.demo.R
 
 const val COLOR_AUTO = "auto"
 private const val NO_SUCH_ITEM_IN_LIST_INDEX = -1
@@ -28,5 +31,14 @@ fun convertStringColorToInt(color: String): Int {
     }
 }
 
+@ColorInt
+fun convertStringColorToInt(color: String, resources: Resources): Int {
+    return if (color.isEmpty() || color == COLOR_AUTO) {
+        ResourcesCompat.getColor(resources, R.color.studyParameterAutoColor, null)
+    } else {
+        Color.parseColor(color)
+    }
+}
+
 fun Int.toHexStringWithHash(): String =
-    Integer.toHexString(this).replaceFirst(COLOR_ALPHA_COMPONENT, HASH)
+        Integer.toHexString(this).replaceFirst(COLOR_ALPHA_COMPONENT, HASH)

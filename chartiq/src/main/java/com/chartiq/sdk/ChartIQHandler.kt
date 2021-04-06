@@ -216,6 +216,16 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getEnableCrosshairScript(false))
     }
 
+    override fun isCrosshairsEnabled(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getIsCrosshairsEnabledScript()) { value ->
+            if (value == "\"true\"") {
+                callback.onReturn(true)
+            } else {
+                callback.onReturn(false)
+            }
+        }
+    }
+
     override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
         val unit = timeUnit.toString().toLowerCase(Locale.ENGLISH)
         executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, unit))
@@ -460,7 +470,7 @@ class ChartIQHandler(
         this.measureCallback = measureCallback
     }
 
-	override fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback) {
+    override fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback) {
         this.chartAvailableCallback = chartAvailableCallback
     }
 

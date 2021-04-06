@@ -22,19 +22,22 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
     private val isMultipleSelect by lazy {
         requireArguments().getBoolean(ARG_IS_MULTIPLE_SELECTION)
     }
-    private val hasCustomInput by lazy {
-        requireArguments().getBoolean(ARG_HAS_CUSTOM_VALUE_SUPPORT)
+    private val supportsCustomValues by lazy {
+        requireArguments().getBoolean(ARG_SUPPORTS_CUSTOM_VALUES)
+    }
+    private val supportsNegativeValues by lazy {
+        requireArguments().getBoolean(ARG_SUPPORTS_NEGATIVE_VALUES)
     }
     private val parameter by lazy {
         requireArguments().getString(ARG_PARAM)
-            ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
+                ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
     }
     private val valuesAdapter = OptionsAdapter()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseValueBinding.inflate(inflater, container, false)
 
@@ -46,13 +49,13 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
         optionList = optionList.toMutableList().apply {
             add(OptionItem(value, true))
         }
-        valuesAdapter.items = optionList
+        updateValues(optionList)
     }
 
     private fun setupViews() {
         with(binding) {
             optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
-                ?: throw IllegalStateException("No value options were passed to the fragment")
+                    ?: throw IllegalStateException("No value options were passed to the fragment")
 
             valuesToolbar.apply {
                 val title = getString(requireArguments().getInt(ARG_TITLE))
@@ -60,11 +63,11 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                 setNavigationOnClickListener {
                     if (isMultipleSelect) {
                         (targetFragment as DialogFragmentListener)
-                            .onChooseValue(parameter, optionList)
+                                .onChooseValue(parameter, optionList)
                     }
                     dismiss()
                 }
-                if (hasCustomInput) {
+                if (supportsCustomValues) {
                     menu.findItem(R.id.add_custom_value).apply {
                         isVisible = true
                         setOnMenuItemClickListener {
@@ -75,7 +78,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                 }
             }
             valuesRecyclerView.apply {
-                valuesAdapter.items = optionList
+                updateValues(optionList)
                 valuesAdapter.listener = OnSelectItemListener { selectedOption ->
                     onValueSelected(selectedOption)
                 }
@@ -87,7 +90,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
     }
 
     private fun navigateToCustomValue() {
-        val dialog = AddConfigFragment.getInstance()
+        val dialog = AddConfigFragment.getInstance(supportsNegativeValues)
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_CUSTOM_VALUE)
         dialog.show(parentFragmentManager, null)
     }
@@ -103,7 +106,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                     it.copy(isSelected = it.isSelected)
                 }
             }
-            valuesAdapter.items = optionList
+            updateValues(optionList)
         } else {
             val list = optionList.map { it.copy(isSelected = it == selectedOption) }
             (targetFragment as DialogFragmentListener).onChooseValue(param, list)
@@ -111,31 +114,43 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
         }
     }
 
+    private fun updateValues(values: List<OptionItem>) {
+        valuesAdapter.items = if (supportsNegativeValues) {
+            values
+        } else {
+            values.filter { !it.value.startsWith("-") }
+        }
+    }
+
     companion object {
         fun getInstance(
-            @StringRes title: Int,
-            param: String,
-            valueList: List<OptionItem>,
-            isMultipleSelect: Boolean = false,
-            hasCustomValueSupport: Boolean
+                @StringRes title: Int,
+                param: String,
+                valueList: List<OptionItem>,
+                isMultipleSelect: Boolean = false,
+                supportsCustomValues: Boolean,
+                supportsNegativeValues: Boolean
         ): ChooseValueFragment {
             val dialog = ChooseValueFragment()
             dialog.arguments = bundleOf(
-                ARG_TITLE to title,
-                ARG_PARAM to param,
-                ARG_OPTIONS to valueList,
-                ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
-                ARG_HAS_CUSTOM_VALUE_SUPPORT to hasCustomValueSupport
+                    ARG_TITLE to title,
+                    ARG_PARAM to param,
+                    ARG_OPTIONS to valueList,
+                    ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
+                    ARG_SUPPORTS_CUSTOM_VALUES to supportsCustomValues,
+                    ARG_SUPPORTS_NEGATIVE_VALUES to supportsNegativeValues
             )
             return dialog
         }
 
         private const val ARG_TITLE = "choose.values.title"
-        private const val REQUEST_CODE_SHOW_CUSTOM_VALUE = 10210
         private const val ARG_PARAM = "choose.values.argument.parameter"
         private const val ARG_OPTIONS = "choose.values.argument.options.list"
         private const val ARG_IS_MULTIPLE_SELECTION = "choose.values.argument.is.multiple.selection"
-        private const val ARG_HAS_CUSTOM_VALUE_SUPPORT = "choose.values.argument.supports.custom.input"
+        private const val ARG_SUPPORTS_CUSTOM_VALUES = "choose.values.argument.supports.custom.input"
+        private const val ARG_SUPPORTS_NEGATIVE_VALUES = "choose.values.argument.supports.negative.values"
+
+        private const val REQUEST_CODE_SHOW_CUSTOM_VALUE = 10210
     }
 
     interface DialogFragmentListener {

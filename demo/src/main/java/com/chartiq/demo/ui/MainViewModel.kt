@@ -30,10 +30,10 @@ import java.util.*
 
 
 class MainViewModel(
-    private val networkManager: NetworkManager,
-    private val applicationPrefs: ApplicationPrefs,
-    private val chartIQ: ChartIQ,
-    private val connectivityManager: ConnectivityManager
+        private val networkManager: NetworkManager,
+        private val applicationPrefs: ApplicationPrefs,
+        private val chartIQ: ChartIQ,
+        private val connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
@@ -47,23 +47,23 @@ class MainViewModel(
     private val isFullView = MutableLiveData(false)
 
     val isNavBarVisible: LiveData<Boolean> =
-        Transformations.map(
-            combineLatest(
-                isNavBarAlwaysVisible,
-                currentOrientation,
-                isFullView
-            )
-        ) { (isVisible, orientation, isFull) ->
-            return@map if (isVisible == true) {
-                true
-            } else {
-                orientation == Configuration.ORIENTATION_PORTRAIT && isFull == true
+            Transformations.map(
+                    combineLatest(
+                            isNavBarAlwaysVisible,
+                            currentOrientation,
+                            isFullView
+                    )
+            ) { (isVisible, orientation, isFull) ->
+                return@map if (isVisible == true) {
+                    true
+                } else {
+                    orientation == Configuration.ORIENTATION_PORTRAIT && isFull == true
+                }
             }
-        }
 
     val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
-    val networkIsNotAvailable = MutableLiveData<Event<Unit>>()
+    val networkIsAvailableEvent = MutableLiveData<Event<Boolean>>()
 
     private val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
@@ -71,26 +71,28 @@ class MainViewModel(
 
     val interval = MutableLiveData<Interval>()
 
+    val isFullscreen = MutableLiveData(false)
+
     init {
         chartIQ.apply {
             setDataSource(object : DataSource {
                 override fun pullInitialData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
 
                 override fun pullUpdateData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
 
                 override fun pullPaginationData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
@@ -106,6 +108,10 @@ class MainViewModel(
         }
     }
 
+    fun setFullscreen(isLandscape: Boolean) {
+        isFullscreen.value = isLandscape
+    }
+
     fun updateFullView(isFullView: Boolean) {
         this.isFullView.postValue(isFullView)
     }
@@ -119,9 +125,12 @@ class MainViewModel(
     fun checkInternetAvailability() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             if (connectivityManager.activeNetworkInfo != null) {
-                reloadData()
+                if (networkIsAvailableEvent.value?.peekContent() != true) {
+                    reloadData()
+                    networkIsAvailableEvent.value = Event(true)
+                }
             } else {
-                networkIsNotAvailable.value = Event(Unit)
+                networkIsAvailableEvent.value = Event(false)
             }
         } else {
             val allNetworks: Array<Network> = connectivityManager.allNetworks
@@ -129,15 +138,18 @@ class MainViewModel(
                 val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
                 if (networkCapabilities != null) {
                     if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                     ) {
-                        reloadData()
+                        if (networkIsAvailableEvent.value?.peekContent() != true) {
+                            reloadData()
+                            networkIsAvailableEvent.value = Event(true)
+                        }
                         return
                     }
                 }
             }
-            networkIsNotAvailable.value = Event(Unit)
+            networkIsAvailableEvent.value = Event(false)
         }
     }
 
@@ -162,9 +174,9 @@ class MainViewModel(
 
     fun updateInterval(interval: Interval) {
         chartIQ.setPeriodicity(
-            interval.period,
-            interval.getInterval(),
-            interval.getSafeTimeUnit(),
+                interval.period,
+                interval.getInterval(),
+                interval.getSafeTimeUnit(),
         )
         setupChart()
     }
@@ -188,7 +200,7 @@ class MainViewModel(
                 getInterval { cInterval ->
                     getTimeUnit { timeUnit ->
                         val currentInterval =
-                            Interval.createInterval(periodicity, cInterval, timeUnit)
+                                Interval.createInterval(periodicity, cInterval, timeUnit)
                         if (interval.value != currentInterval) {
                             interval.value = currentInterval
                         }
@@ -226,12 +238,12 @@ class MainViewModel(
                     chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
                         currentLocaleEvent.postValue(
-                            Event(
-                                RemoteTranslations(
-                                    locale,
-                                    translationsMap
+                                Event(
+                                        RemoteTranslations(
+                                                locale,
+                                                translationsMap
+                                        )
                                 )
-                            )
                         )
                     }
                 }
@@ -240,26 +252,26 @@ class MainViewModel(
     }
 
     class ViewModelFactory(
-        private val argNetworkManager: NetworkManager,
-        private val argApplicationPrefs: ApplicationPrefs,
-        private val argChartIQHandler: ChartIQ,
-        private val argConnectivityManager: ConnectivityManager
+            private val argNetworkManager: NetworkManager,
+            private val argApplicationPrefs: ApplicationPrefs,
+            private val argChartIQHandler: ChartIQ,
+            private val argConnectivityManager: ConnectivityManager
     ) :
-        ViewModelProvider.Factory {
+            ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(
-                    NetworkManager::class.java,
-                    ApplicationPrefs::class.java,
-                    ChartIQ::class.java,
-                    ConnectivityManager::class.java
-                )
-                .newInstance(
-                    argNetworkManager,
-                    argApplicationPrefs,
-                    argChartIQHandler,
-                    argConnectivityManager
-                )
+                    .getConstructor(
+                            NetworkManager::class.java,
+                            ApplicationPrefs::class.java,
+                            ChartIQ::class.java,
+                            ConnectivityManager::class.java
+                    )
+                    .newInstance(
+                            argNetworkManager,
+                            argApplicationPrefs,
+                            argChartIQHandler,
+                            argConnectivityManager
+                    )
         }
     }
 }

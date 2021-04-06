@@ -24,6 +24,11 @@
         <item name="titleTextColor">@color/toolbarTitleTextColor</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="SubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">

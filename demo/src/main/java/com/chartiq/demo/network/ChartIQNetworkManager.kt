@@ -47,14 +47,19 @@ class ChartIQNetworkManager : NetworkManager {
             symbol: String,
             filter: String?
     ): NetworkResult<SymbolResponse> {
-        return symbolsRetrofit
-                .fetchSymbolAsync(
-                        symbol,
-                        DEFAULT_VALUE_MAX_RESULT,
-                        DEFAULT_VALUE_FUNDS,
-                        filter
-                )
-                .safeExtractNetworkResult()
+        return try {
+            symbolsRetrofit
+                    .fetchSymbolAsync(
+                            symbol,
+                            DEFAULT_VALUE_MAX_RESULT,
+                            DEFAULT_VALUE_FUNDS,
+                            filter
+                    )
+                    .safeExtractNetworkResult()
+        } catch (e: IOException) {
+            // The exception occurs when the internet connection is not stable
+            NetworkResult.Failure(NetworkException(null, 3000))
+        }
     }
 
     private fun <T> getRetrofit(baseUrl: String, api: Class<T>): T {
@@ -67,7 +72,7 @@ class ChartIQNetworkManager : NetworkManager {
     }
 
     companion object {
-        private const val HOST_SIMULATOR = "https://simulator.chartiq.com"
+        private const val HOST_SIMULATOR = "https://mobile-simulator.chartiq.com"
         private const val HOST_SYMBOLS = "https://symbols.chartiq.com"
 
         private const val DEFAULT_VALUE_EXTENDED = "1"
