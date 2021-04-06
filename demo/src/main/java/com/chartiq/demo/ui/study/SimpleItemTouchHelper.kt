@@ -13,7 +13,7 @@ class SimpleItemTouchCallBack(
     private val text: String,
     private val color: ColorDrawable,
 ) : ItemTouchHelper.SimpleCallback(
-    ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+    ItemTouchHelper.ACTION_STATE_IDLE,
     ItemTouchHelper.LEFT
 ) {
     var onSwipeListener: OnSwipeListener? = null

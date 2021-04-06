@@ -25,9 +25,10 @@ import com.chartiq.demo.network.model.PanelDrawingToolParameters
 import com.chartiq.demo.ui.MainFragmentDirections
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.fullview.CollapseButtonOnSwipeTouchListener
+import com.chartiq.demo.ui.chart.interval.ChooseIntervalFragment
+import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.panel.InstrumentPanelAdapter
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
-import com.chartiq.demo.ui.chart.panel.layer.ManageLayersModelBottomSheet
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
@@ -40,14 +41,13 @@ import com.chartiq.demo.ui.common.linepicker.LineAdapter
 import com.chartiq.demo.ui.common.linepicker.LineItem
 import com.chartiq.demo.ui.common.linepicker.findLineIndex
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.ChartLayer
 import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 import java.util.*
 
-class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentListener,
-    ChooseSymbolFragment.DialogFragmentListener {
+class ChartFragment : Fragment(),
+        ChooseSymbolFragment.DialogFragmentListener, ChooseIntervalFragment.DialogFragmentListener {
 
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
@@ -61,35 +61,28 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     private val colorsAdapter by lazy { ColorsAdapter() }
     private val linesAdapter by lazy { LineAdapter() }
     private val panelAdapter: InstrumentPanelAdapter by lazy { InstrumentPanelAdapter() }
-    private val collapseFullviewButtonOnSwipeListener by lazy {
-        CollapseButtonOnSwipeTouchListener(binding.root, requireContext()) {
-            listOf(binding.moveLeftCollapseButtonView, binding.moveDownCollapseButtonView).forEach {
-                it.isVisible = false
-            }
-        }
-    }
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-            ChartIQNetworkManager(),
-            (requireActivity().application as ServiceLocator).applicationPreferences,
-            chartIQ,
-            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                ChartIQNetworkManager(),
+                (requireActivity().application as ServiceLocator).applicationPreferences,
+                chartIQ,
+                requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private val chartViewModel: ChartViewModel by viewModels(factoryProducer = {
         ChartViewModel.ChartViewModelFactory(
-            (requireActivity().application as ServiceLocator).applicationPreferences,
-            chartIQ,
-            ChartIQDrawingManager()
+                (requireActivity().application as ServiceLocator).applicationPreferences,
+                chartIQ,
+                ChartIQDrawingManager()
         )
     })
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentChartBinding.inflate(inflater, container, false)
         setupViews()
@@ -99,16 +92,14 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        chartViewModel.toggleFullscreen()
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        chartViewModel.toggleFullscreen(isLandscape)
     }
 
     private fun setChartIQView() {
         chartIQ.chartView.apply {
             (parent as? FrameLayout)?.removeAllViews()
             binding.chartIqView.addView(this)
-        }
-        if (chartIQ.chartView.parent == null) {
-            mainViewModel.setupChart()
         }
     }
 
@@ -122,18 +113,15 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         chartViewModel.onPause()
     }
 
-    override fun onManageLayer(layer: ChartLayer) {
-        chartViewModel.manageLayer(layer)
-    }
+    override fun onChooseSymbol(symbol: Symbol) =
+            mainViewModel.updateSymbol(symbol)
 
-    override fun onChooseSymbol(symbol: Symbol) {
-        mainViewModel.saveSymbol(symbol)
-        chartViewModel.fetchSymbol()
-    }
+    override fun onChooseInterval(interval: Interval) =
+            mainViewModel.updateInterval(interval)
 
     private fun setupViews() {
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            chartViewModel.toggleFullscreen()
+            chartViewModel.toggleFullscreen(true)
         }
         with(binding) {
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
@@ -141,7 +129,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                 navigateToSearchSymbol()
             }
             intervalButton.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_chooseIntervalFragment)
+                navigateToChooseInterval()
             }
             compareCheckBox.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_compareFragment)
@@ -155,22 +143,30 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             fullviewCheckBox.setOnClickListener {
                 toggleFullscreenViews(true)
             }
-            collapseFullviewCheckBox.setOnClickListener {
-                toggleFullscreenViews(false)
+            collapseFullviewCheckBox.apply {
+                setOnClickListener {
+                    toggleFullscreenViews(false)
+                }
+                val touchListener = CollapseButtonOnSwipeTouchListener(root, requireContext()) {
+                    listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView).forEach {
+                        it.isVisible = false
+                    }
+                }
+                setOnTouchListener(touchListener)
             }
-            collapseFullviewCheckBox.setOnTouchListener(collapseFullviewButtonOnSwipeListener)
+
         }
         setupCrosshairsLayout()
 
-        with(chartViewModel) {
-            currentSymbol.observe(viewLifecycleOwner) { symbol ->
+        with(mainViewModel) {
+            symbol.observe(viewLifecycleOwner) { symbol ->
                 binding.symbolButton.text = symbol.value
             }
-            chartInterval.observe(viewLifecycleOwner) { chartInterval ->
+            interval.observe(viewLifecycleOwner) { chartInterval ->
                 chartInterval.apply {
                     val shortTimeUnitName = localizationManager.getTranslationFromValue(
-                        timeUnit.toString().first().toString(),
-                        requireContext()
+                            timeUnit.toString().first().toString(),
+                            requireContext()
                     )
                     binding.intervalButton.text = when (timeUnit) {
                         TimeUnit.SECOND,
@@ -181,7 +177,8 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     }
                 }
             }
-
+        }
+        with(chartViewModel) {
             drawingTool.observe(viewLifecycleOwner) { drawingTool ->
                 val isDrawingToolSelected = drawingTool != DrawingTool.NONE
                 with(binding) {
@@ -233,9 +230,9 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             }
             mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(
-                    requireContext(),
-                    getString(R.string.general_warning_something_went_wrong),
-                    Toast.LENGTH_SHORT
+                        requireContext(),
+                        getString(R.string.general_warning_something_went_wrong),
+                        Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -266,20 +263,33 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
                     if (areShown) {
                         with(binding) {
                             listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView)
-                                .forEach { view ->
-                                    view.isVisible = true
-                                    root.postDelayed({
-                                        view.isVisible = false
-                                    }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
-                                }
+                                    .forEach { view ->
+                                        view.isVisible = true
+                                        root.postDelayed({
+                                            view.isVisible = false
+                                        }, ANIMATION_MOVE_HINT_DELAY_DISAPPEAR)
+                                    }
                         }
                     }
                 }
             }
-            measureToolInfo.observe(viewLifecycleOwner) { value ->
+            measureToolInfo.observe(viewLifecycleOwner) { measure ->
                 binding.measureToolInfoTextView.apply {
-                    isVisible = value.isNotEmpty()
-                    text = value
+                    with (measure) {
+                        text = when (oldValue) {
+                            null -> ""
+                            else -> if(newValue.isEmpty()) {
+                                if (oldValue.isEmpty()) {
+                                    ""
+                                } else {
+                                    oldValue
+                                }
+                            } else {
+                                newValue
+                            }
+                        }
+                        isVisible = text.isNotEmpty()
+                    }
                 }
             }
         }
@@ -291,22 +301,51 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         dialog.show(parentFragmentManager, ChooseSymbolFragment.DIALOG_TAG)
     }
 
+    private fun navigateToChooseInterval() {
+        mainViewModel.interval.value?.let { interval ->
+            val dialog = ChooseIntervalFragment.getInstance(interval)
+            dialog.setTargetFragment(this, REQUEST_CODE_CHOOSE_INTERVAL)
+            dialog.show(parentFragmentManager, null)
+        }
+    }
+
     private fun setupCrosshairsLayout() {
         with(binding.crosshairLayout) {
             priceLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_price))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_price)
+                    )
             volLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_vol))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_vol)
+                    )
             openLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_open)
+                    )
             highLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_high))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_high)
+                    )
             closeLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_close))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_close)
+                    )
             lowLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_low))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_low)
+                    )
             openLabelTextView.text =
-                String.format(getString(R.string.crosshair_full_label), getString(R.string.crosshair_label_open))
+                    String.format(
+                            getString(R.string.crosshair_full_label),
+                            getString(R.string.crosshair_label_open)
+                    )
         }
     }
 
@@ -329,9 +368,6 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             Instrument.FILL -> showFillColorCarousel()
             Instrument.COLOR -> showColorCarousel()
             Instrument.LINE_TYPE -> showLineTypeCarousel()
-            Instrument.CLONE -> chartViewModel.cloneDrawing()
-            Instrument.DELETE -> chartViewModel.deleteDrawing()
-            Instrument.LAYER_MANAGEMENT -> showLayerManagementDialogue()
             Instrument.SETTINGS -> navigateToInstrumentSettings()
         }
     }
@@ -342,7 +378,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun navigateToInstrumentSettings() {
         val direction = MainFragmentDirections
-            .actionMainFragmentToDrawingToolSettingsFragment(chartViewModel.drawingTool.value!!)
+                .actionMainFragmentToDrawingToolSettingsFragment(chartViewModel.drawingTool.value!!)
         findNavController().navigate(direction)
     }
 
@@ -354,7 +390,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             findColorIndex(colors, paramColor)
         }
         colorsAdapter.items = colors
-            .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
+                .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateFillColor(colorItem.color)
         }
@@ -370,7 +406,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         }
 
         colorsAdapter.items = colors
-            .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
+                .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         colorsAdapter.listener = OnSelectItemListener { colorItem ->
             chartViewModel.updateColor(colorItem.color)
         }
@@ -379,25 +415,19 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun showLineTypeCarousel() {
         val lines = LineTypes.values()
-            .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
+                .map { LineItem(it.lineType, it.lineWidth, it.iconRes) }
 
         val scrollIndex = findLineIndex(
-            lines,
-            drawingToolParameters?.lineType,
-            drawingToolParameters?.lineWidth
+                lines,
+                drawingToolParameters?.lineType,
+                drawingToolParameters?.lineWidth
         )
         linesAdapter.items = lines
-            .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
+                .mapIndexed { index, it -> it.copy(isSelected = index == scrollIndex) }
         linesAdapter.listener = OnSelectItemListener { lineItem ->
             chartViewModel.updateLine(lineItem.lineType, lineItem.lineWidth)
         }
         setupInstrumentPicker(linesAdapter, scrollIndex)
-    }
-
-    private fun showLayerManagementDialogue() {
-        val dialogue = ManageLayersModelBottomSheet()
-        dialogue.setTargetFragment(this, REQUEST_CODE_MANAGE_LAYERS)
-        dialogue.show(parentFragmentManager, null)
     }
 
     private fun getColors(): List<ColorItem> {
@@ -411,12 +441,13 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     }
 
     private fun toggleFullscreenViews(enterFullview: Boolean) {
-        val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
         with(binding) {
+            forceCloseCrosshairs()
             toolbar.isVisible = !enterFullview
             collapseFullviewCheckBox.isVisible = enterFullview
             mainViewModel.updateFullView(!enterFullview)
 
+            val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
             if (isDrawingToolSelected) {
                 undoImageView.isVisible = !enterFullview
                 redoImageView.isVisible = !enterFullview
@@ -428,6 +459,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
 
     private fun enableFullscreen(isDrawingToolSelected: Boolean) {
         with(binding) {
+            forceCloseCrosshairs()
             toolbar.isVisible = isDrawingToolSelected
             collapseFullviewCheckBox.isVisible = !isDrawingToolSelected
             fullviewCheckBox.isVisible = true
@@ -439,7 +471,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             activity?.window?.decorView?.let { decorView ->
                 activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
-                    decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
             }
         } else {
             activity?.window?.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -470,7 +502,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
             activity?.window?.decorView?.let { decorView ->
                 activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 decorView.systemUiVisibility =
-                    decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
+                        decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN.inv()
             }
         } else {
             activity?.window?.insetsController?.show(WindowInsets.Type.statusBars())
@@ -478,9 +510,16 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
         chartViewModel.showMoveHints(false)
     }
 
+    private fun forceCloseCrosshairs() {
+        if (chartViewModel.isCrosshairsVisible.value == true) {
+            binding.crosshairCheckBox.isChecked = false
+            chartViewModel.toggleCrosshairs()
+        }
+    }
+
     private fun <VH, T : RecyclerView.Adapter<VH>> setupInstrumentPicker(
-        pickerAdapter: T,
-        scrollIndex: Int?
+            pickerAdapter: T,
+            scrollIndex: Int?
     ) {
         binding.instrumentRecyclerView.apply {
             setHasFixedSize(true)
@@ -495,7 +534,7 @@ class ChartFragment : Fragment(), ManageLayersModelBottomSheet.DialogFragmentLis
     companion object {
         private const val ANIMATION_MOVE_HINT_DELAY_APPEAR = 1000L
         private const val ANIMATION_MOVE_HINT_DELAY_DISAPPEAR = 1800L
-        private const val REQUEST_CODE_MANAGE_LAYERS = 1012
         private const val REQUEST_CODE_SEARCH_SYMBOL = 1013
+        private const val REQUEST_CODE_CHOOSE_INTERVAL = 1014
     }
 }

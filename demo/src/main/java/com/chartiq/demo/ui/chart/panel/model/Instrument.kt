@@ -5,8 +5,5 @@ enum class Instrument {
     FILL,
     COLOR,
     LINE_TYPE,
-    CLONE,
-    DELETE,
-    LAYER_MANAGEMENT,
     SETTINGS
 }
