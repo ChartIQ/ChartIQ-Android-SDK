@@ -28,6 +28,7 @@ class ChartIQHandler(
     private val scriptManager = ChartIQScriptManager()
     private val chartIQView = ChartIQView(context)
     private var measureCallback: MeasureCallback? = null
+    private var chartAvailableCallback: ChartAvailableCallback? = null
 
     override val chartView: View
         get() = chartIQView
@@ -38,8 +39,7 @@ class ChartIQHandler(
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_NATIVE_SDK)
             loadUrl(chartIQUrl)
         }
     }
@@ -50,9 +50,6 @@ class ChartIQHandler(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
 //                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
-                    executeJavascript(scriptManager.getAddDrawingListenerScript())
-                    executeJavascript(scriptManager.getAddLayoutListenerScript())
-                    executeJavascript(scriptManager.getAddMeasureListener())
                     onStartCallback.onStart()
                 }
             }
@@ -77,6 +74,20 @@ class ChartIQHandler(
     }
 
     @JavascriptInterface
+    override fun chartAvailableChange(json: String) {
+        val isChartAvailable = json.toBoolean()
+        chartAvailableCallback?.onChartAvailableUpdate(isChartAvailable)
+
+        if(isChartAvailable) {
+            chartIQView.post {
+                executeJavascript(scriptManager.getAddDrawingListenerScript())
+                executeJavascript(scriptManager.getAddLayoutListenerScript())
+                executeJavascript(scriptManager.getAddMeasureListener())
+            }
+        }
+    }
+
+    @JavascriptInterface
     override fun pullInitialData(
             symbol: String?,
             period: String?,
@@ -90,7 +101,8 @@ class ChartIQHandler(
                 QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // set moreAvailable to true as you want to see if there is more historical data after the initial pull
+                invokePullCallback(callbackId, data, true)
             }
         }
     }
@@ -108,7 +120,8 @@ class ChartIQHandler(
                 QuoteFeedParams(symbol, period?.toInt(), interval, start, null, meta, callbackId)
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // just an update, no need to see if there is more historical data available
+                invokePullCallback(callbackId, data, false)
             }
         }
     }
@@ -127,7 +140,13 @@ class ChartIQHandler(
                 QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullPaginationData(quoteFeedParams) { data ->
             callbackId?.let {
-                invokePullCallback(callbackId, data)
+                // Check to see if you need to try and retrieve more historical data.
+                // This is where you can put your own logic on when to stop retrieving historical data.
+                // By default if the last pagination request return 0 data then it has probably reached the end.
+                // If you have spotty data then another idea might be to check the last historical date, this would require you knowing what date to stop at though.
+                var moreAvailable = true
+                if(data.size < 1) moreAvailable = false
+                invokePullCallback(callbackId, data, moreAvailable)
             }
         }
     }
@@ -195,6 +214,16 @@ class ChartIQHandler(
 
     override fun disableCrosshairs() {
         executeJavascript(scriptManager.getEnableCrosshairScript(false))
+    }
+
+    override fun isCrosshairsEnabled(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getIsCrosshairsEnabledScript()) { value ->
+            if (value == "\"true\"") {
+                callback.onReturn(true)
+            } else {
+                callback.onReturn(false)
+            }
+        }
     }
 
     override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
@@ -441,6 +470,9 @@ class ChartIQHandler(
         this.measureCallback = measureCallback
     }
 
+    override fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback) {
+        this.chartAvailableCallback = chartAvailableCallback
+    }
 
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
         executeJavascript(scriptManager.getUndoDrawingScript())
@@ -481,8 +513,8 @@ class ChartIQHandler(
         chartIQView.evaluateJavascript(script, callback)
     }
 
-    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>) {
-        executeJavascript(scriptManager.getParseDataScript(data, callbackId))
+    private fun invokePullCallback(callbackId: String, data: List<OHLCParams>, moreAvailable: Boolean) {
+        executeJavascript(scriptManager.getParseDataScript(data, callbackId, moreAvailable))
     }
 
     override fun getActiveSeries(callback: OnReturnCallback<List<Series>>) {
@@ -528,8 +560,7 @@ class ChartIQHandler(
     }
 
     companion object {
-        private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
-        private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
+        private const val JAVASCRIPT_INTERFACE_NATIVE_SDK = "ChartIQ"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
 }

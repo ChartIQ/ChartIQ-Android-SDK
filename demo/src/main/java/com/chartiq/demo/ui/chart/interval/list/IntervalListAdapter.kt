@@ -8,6 +8,7 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemIntervalBinding
 import com.chartiq.demo.databinding.ItemIntervalChooseCustomBinding
 import com.chartiq.demo.localization.LocalizationManager
+import com.chartiq.sdk.model.TimeUnit
 
 class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalViewHolder>() {
 
@@ -22,11 +23,13 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
     var onSelectIntervalListener: OnIntervalSelectListener? = null
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
+        // take out custom periodicity for the time being
+        /*return if (position == 0) {
             TYPE_CUSTOM
         } else {
             TYPE_REGULAR
-        }
+        }*/
+        return TYPE_REGULAR
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IntervalViewHolder {
@@ -67,10 +70,14 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
                 localizationManager: LocalizationManager?
             ) {
                 with(binding) {
-                    val timeUnitText = getTimeUnitText(root.resources, item.duration, item.timeUnit)
+                    val timeUnitText = getTimeUnitText(root.resources, item.interval, item.timeUnit)
+                    var fullPeriodicity = item.period * item.interval
+                    if(item.timeUnit == TimeUnit.HOUR) {
+                        fullPeriodicity /= 60
+                    }
                     intervalTextView.text = root.context.getString(
                         R.string.interval_full_label,
-                        item.duration,
+                        fullPeriodicity,
                         localizationManager?.getTranslationFromValue(timeUnitText, root.context) ?: timeUnitText
                     )
 
@@ -96,11 +103,15 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
             ) {
                 with(binding) {
                     if (item.isSelected) {
-                        val timeUnitText = getTimeUnitText(root.resources, item.duration, item.timeUnit)
+                        val timeUnitText = getTimeUnitText(root.resources, item.interval, item.timeUnit)
+                        var fullPeriodicity = item.period * item.interval
+                        if(item.timeUnit == TimeUnit.HOUR) {
+                            fullPeriodicity /= 60
+                        }
 
                         selectCustomTextView.text = root.context.getString(
                             R.string.interval_full_label,
-                            item.duration,
+                            fullPeriodicity,
                             localizationManager?.getTranslationFromValue(timeUnitText, root.context) ?: timeUnitText
                         )
                         checkImageView.visibility = View.VISIBLE

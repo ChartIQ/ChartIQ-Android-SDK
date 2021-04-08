@@ -3,6 +3,7 @@
 
     <string name="title_chart">Chart</string>
     <string name="title_study">Studies</string>
+    <string name="title_active_studies">Active Studies</string>
     <string name="title_settings">Settings</string>
 
     <!--Compare-->
@@ -103,12 +104,6 @@
     <string name="drawing_tool_category_fibonacci">FIBONACCI</string>
     <string name="drawing_tool_category_markings">MARKINGS</string>
     <string name="drawing_tool_category_lines">LINES</string>
-
-    <!--Instrument panel-->
-    <string name="instrument_panel_layers_bring_to_top">Bring to Top</string>
-    <string name="instrument_panel_layers_bring_forward">Bring Forward</string>
-    <string name="instrument_panel_layers_send_backward">Send Backward</string>
-    <string name="instrument_panel_layers_send_to_bottom">Send to Bottom</string>
 
     <!--Crosshair-->
     <string name="crosshair_label_price">Price</string>

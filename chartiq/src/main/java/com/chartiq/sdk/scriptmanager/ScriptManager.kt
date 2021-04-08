@@ -108,7 +108,7 @@ internal interface ScriptManager {
 
     fun getGetEnginePropertyScript(property: String): String
 
-    fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String
+    fun getParseDataScript(data: List<OHLCParams>, callbackId: String, moreAvailable: Boolean): String
 
     fun getInvertYAxisScript(): String
 

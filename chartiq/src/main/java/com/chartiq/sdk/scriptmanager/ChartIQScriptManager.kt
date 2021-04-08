@@ -259,8 +259,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getGetEnginePropertyScript(property: String): String =
             MOBILE_BRIDGE_NAME_SPACE + "getEngineProperty(\"$property\");"
 
-    override fun getParseDataScript(data: List<OHLCParams>, callbackId: String): String =
-            MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\")"
+    override fun getParseDataScript(data: List<OHLCParams>, callbackId: String, moreAvailable: Boolean): String =
+            MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\", $moreAvailable)"
 
     override fun getInvertYAxisScript(): String =
             MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"

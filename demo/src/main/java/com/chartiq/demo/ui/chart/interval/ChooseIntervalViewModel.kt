@@ -18,24 +18,24 @@ class ChooseIntervalViewModel : ViewModel() {
     }
 
     fun onIntervalSelect(item: IntervalItem) {
-        interval.value = Interval(item.duration, item.timeUnit)
+        interval.value = Interval(item.period, item.interval, item.timeUnit)
         intervalSelectedEvent.value = Event(Unit)
     }
 
     fun setupList(intervalsList: List<Interval>, selectedInterval: Interval?): List<IntervalItem> {
         // If selected interval is not in the default list then it's custom
         val customInterval = if (selectedInterval == null || intervalsList.contains(selectedInterval)) {
-            Interval(0, TimeUnit.SECOND)
+            Interval(1, 1, TimeUnit.SECOND)
         } else {
-            Interval(selectedInterval.duration, selectedInterval.timeUnit)
+            Interval(selectedInterval.period, selectedInterval.interval, selectedInterval.timeUnit)
         }
         val intervalItemsList = intervalsList
             .toMutableList()
             .apply {
                 // Add custom interval item in the begging
-                add(0, customInterval)
+                // add(0, customInterval)
             }
-            .map { IntervalItem(it.duration, it.timeUnit, it == selectedInterval) }
+            .map { IntervalItem(it.period, it.interval, it.timeUnit, it == selectedInterval) }
         return intervalItemsList
     }
 }

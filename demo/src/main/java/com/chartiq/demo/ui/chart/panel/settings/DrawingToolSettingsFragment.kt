@@ -21,18 +21,18 @@ import com.chartiq.sdk.model.drawingtool.LineType
 import com.chartiq.sdk.model.drawingtool.drawingmanager.ChartIQDrawingManager
 
 class DrawingToolSettingsFragment : Fragment(),
-    ChooseColorFragment.DialogFragmentListener,
-    ChooseLineFragment.DialogFragmentListener,
-    ChooseValueFragment.DialogFragmentListener {
+        ChooseColorFragment.DialogFragmentListener,
+        ChooseLineFragment.DialogFragmentListener,
+        ChooseValueFragment.DialogFragmentListener {
 
     private lateinit var binding: FragmentDrawingToolSettingsBinding
     private val chartIQ: ChartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
     private val settingsViewModel: DrawingToolSettingsViewModel by activityViewModels(
-        factoryProducer = {
-            DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
-        })
+            factoryProducer = {
+                DrawingToolSettingsViewModel.ViewModelFactory(chartIQ, ChartIQDrawingManager())
+            })
     private val settingsAdapter = DrawingToolSettingsAdapter()
     private val settingsListener = OnSelectItemListener<DrawingToolSettingsItem> { item ->
         when (item) {
@@ -46,9 +46,9 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDrawingToolSettingsBinding.inflate(inflater, container, false)
 
@@ -63,10 +63,10 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     override fun onChooseLine(
-        lineParam: String,
-        widthParam: String,
-        lineType: LineType,
-        lineWidth: Int
+            lineParam: String,
+            widthParam: String,
+            lineType: LineType,
+            lineWidth: Int
     ) {
         settingsViewModel.updateParameter(lineParam, lineType.value)
         settingsViewModel.updateParameter(widthParam, lineWidth.toString())
@@ -126,10 +126,10 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToChooseLine(item: DrawingToolSettingsItem.Line) {
         val dialog = ChooseLineFragment.getInstance(
-            item.lineTypeParam,
-            item.lineWidthParam,
-            item.lineType,
-            item.lineWidth
+                item.lineTypeParam,
+                item.lineWidthParam,
+                item.lineType,
+                item.lineWidth
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_LINE_PICKER)
         dialog.show(parentFragmentManager, null)
@@ -137,8 +137,8 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToDeviationSettings(item: DrawingToolSettingsItem.Deviation) {
         val direction = DrawingToolSettingsFragmentDirections
-            .actionDrawingToolSettingsFragmentSelf(settingsViewModel.drawingTool.value!!)
-            .setArgDeviation(item)
+                .actionDrawingToolSettingsFragmentSelf(settingsViewModel.drawingTool.value!!)
+                .setArgDeviation(item)
         findNavController().navigate(direction)
     }
 
@@ -150,11 +150,12 @@ class DrawingToolSettingsFragment : Fragment(),
 
     private fun navigateToChooseValueFromList(item: DrawingToolSettingsItem.ChooseValue) {
         val dialog = ChooseValueFragment.getInstance(
-            item.title,
-            item.param,
-            item.valueList,
-            item.isMultipleSelection,
-            item.hasCustomValueSupport
+                item.title,
+                item.param,
+                item.valueList,
+                item.isMultipleSelection,
+                item.hasCustomValueSupport,
+                item.hasNegativeValueSupport
         )
         dialog.setTargetFragment(this, REQUEST_CODE_SHOW_VALUE_LIST)
         dialog.show(parentFragmentManager, null)
