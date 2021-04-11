@@ -16,7 +16,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "DEFAULT_CHART_URL", "\"http://mobile-develop.demo.chartiq.com.s3-website-us-east-1.amazonaws.com\"")
+        buildConfigField("String", "DEFAULT_CHART_URL", "\"https://android.demo.chartiq.com/sample-template-native-sdk.html\"")
     }
     signingConfigs {
         release {
