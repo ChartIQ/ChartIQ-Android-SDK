@@ -55,9 +55,7 @@ class ChartViewModel(
             if(drawingTool.value != DrawingTool.NONE) {
                 with(measureToolInfo) {
                     val currentValue = value?.newValue
-                    val newValue = if (measureValue.isEmpty() &&
-                            !value?.oldValue.isNullOrEmpty() &&
-                            drawingTool.value == DrawingTool.MEASURE) {
+                    val newValue = if (measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
                         value?.oldValue!!
                     } else {
                         measureValue
@@ -265,8 +263,6 @@ class ChartViewModel(
 
     companion object {
         private const val CROSSHAIRS_UPDATE_PERIOD = 300L
-
-        private const val REFRESH_TIME_MILLIS = 400L
         private const val REFRESH_IMMEDIATE_MILLIS = 0L
     }
 }

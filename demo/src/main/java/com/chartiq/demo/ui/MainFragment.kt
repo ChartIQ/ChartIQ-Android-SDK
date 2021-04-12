@@ -49,7 +49,9 @@ class MainFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
                 mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
-                binding.mainViewPager.setCurrentItem(page, true)
+                val instantScroll = page == MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value &&
+                        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+                binding.mainViewPager.setCurrentItem(page, !instantScroll)
                 true
             }
 
