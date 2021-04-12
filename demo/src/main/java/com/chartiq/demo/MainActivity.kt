@@ -3,7 +3,7 @@ package com.chartiq.demo
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
@@ -37,19 +37,19 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
     }
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-            ChartIQNetworkManager(),
-            (application as ServiceLocator).applicationPreferences,
-            chartIQ,
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                ChartIQNetworkManager(),
+                (application as ServiceLocator).applicationPreferences,
+                chartIQ,
+                getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
     private val appCompatDelegate: AppCompatDelegate by lazy {
         ViewPumpAppCompatDelegate(
-            baseDelegate = super.getDelegate(),
-            baseContext = this,
-            wrapContext = { baseContext ->
-                Restring.wrapContext(baseContext)
-            }
+                baseDelegate = super.getDelegate(),
+                baseContext = this,
+                wrapContext = { baseContext ->
+                    Restring.wrapContext(baseContext)
+                }
         )
     }
 
@@ -65,16 +65,23 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
                 localizationManager.updateTranslationsForLocale(
-                    translations,
-                    findViewById<FrameLayout>(R.id.content)
+                        translations,
+                        findViewById<FrameLayout>(R.id.content)
                 )
             }
         })
+        mainViewModel.setFullscreen(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
 
-        if(android.os.Build.MANUFACTURER == "Xiaomi") {
+        if (android.os.Build.MANUFACTURER == "Xiaomi") {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = 0x66000000
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        mainViewModel.setFullscreen(isLandscape)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -85,8 +92,8 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
                     intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                         try {
                             val voiceReceiver = findNestedDialogFragment(
-                                supportFragmentManager,
-                                ChooseSymbolFragment.DIALOG_TAG
+                                    supportFragmentManager,
+                                    ChooseSymbolFragment.DIALOG_TAG
                             ) as? VoiceQueryReceiver
 
                             voiceReceiver?.receiveVoiceQuery(query)
@@ -104,8 +111,8 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
 
     override fun onPageChanged() {
         Handler(Looper.getMainLooper()).postDelayed(
-            { localizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
-            400
+                { localizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
+                400
         )
     }
 

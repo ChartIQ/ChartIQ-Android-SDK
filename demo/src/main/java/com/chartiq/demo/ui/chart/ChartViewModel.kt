@@ -42,18 +42,40 @@ class ChartViewModel(
 
     val isPickerItemSelected = MutableLiveData(false)
 
-    val isFullscreen = MutableLiveData(false)
-
     val moveHintsAreShown = MutableLiveData(Event(false))
 
     val navigateToDrawingToolsEvent = MutableLiveData<Event<Unit>>()
 
     val measureToolInfo = MutableLiveData(MeasureItem(null, ""))
 
-    fun showMoveHints(show: Boolean) {
-        if (!moveHintsAreShown.value!!.peekContent()) {
-            moveHintsAreShown.value = Event(show)
+    val isCollapsed = MutableLiveData<Boolean>()
+
+    init {
+        chartIQHandler.addMeasureListener { measureValue ->
+            if(drawingTool.value != DrawingTool.NONE) {
+                with(measureToolInfo) {
+                    val currentValue = value?.newValue
+                    val newValue = if (measureValue.isEmpty() &&
+                            !value?.oldValue.isNullOrEmpty() &&
+                            drawingTool.value == DrawingTool.MEASURE) {
+                        value?.oldValue!!
+                    } else {
+                        measureValue
+                    }
+                    postValue(MeasureItem(currentValue, newValue))
+                }
+            }
         }
+        chartIQHandler.isCrosshairsEnabled { value ->
+            if(value) {
+                isCrosshairsVisible.value = value
+                launchCrosshairsUpdate()
+            }
+        }
+    }
+
+    fun showMoveHints(show: Boolean) {
+        moveHintsAreShown.value = Event(show)
     }
 
     fun setupInstrumentsList(): List<InstrumentItem> {
@@ -87,15 +109,12 @@ class ChartViewModel(
         return instrumentList
     }
 
-    fun toggleFullscreen(isLandscape: Boolean) {
-        isFullscreen.value = isLandscape
-    }
-
     fun toggleDrawingTool() {
         if (drawingTool.value != DrawingTool.NONE) {
             drawingTool.value = DrawingTool.NONE
             chartIQHandler.disableDrawing()
             applicationPrefs.saveDrawingTool(DrawingTool.NONE)
+            measureToolInfo.value = MeasureItem(null, "")
         } else {
             navigateToDrawingToolsEvent.value = Event(Unit)
         }
@@ -171,6 +190,10 @@ class ChartViewModel(
         isPickerItemSelected.value = false
     }
 
+    fun toggleFullscreenViews(enterFullview: Boolean) {
+        isCollapsed.value = enterFullview
+    }
+
     private fun getDrawingToolParameters() {
         chartIQHandler.getDrawingParameters(drawingTool.value!!) { parameters ->
             val gson = Gson()
@@ -183,24 +206,12 @@ class ChartViewModel(
     private fun fetchDrawingTool() {
         val tool = applicationPrefs.getDrawingTool()
         if (drawingTool.value != tool) {
-            drawingTool.value = tool
-            if (drawingTool.value != DrawingTool.NONE) {
-                chartIQHandler.enableDrawing(drawingTool.value!!)
+            measureToolInfo.value = MeasureItem(null, "")
+            if (tool != DrawingTool.NONE) {
+                chartIQHandler.enableDrawing(tool)
                 getDrawingToolParameters()
-                if (drawingTool.value == DrawingTool.MEASURE) {
-                    chartIQHandler.addMeasureListener { measureValue ->
-                        with(measureToolInfo) {
-                            val currentValue = value?.newValue
-                            val value = if(measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
-                                value?.oldValue!!
-                            } else {
-                                measureValue
-                            }
-                            postValue(MeasureItem(currentValue, value))
-                        }
-                    }
-                }
             }
+            drawingTool.value = tool
         }
     }
 

@@ -90,12 +90,6 @@ class ChartFragment : Fragment(),
         return binding.root
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        chartViewModel.toggleFullscreen(isLandscape)
-    }
-
     private fun setChartIQView() {
         chartIQ.chartView.apply {
             (parent as? FrameLayout)?.removeAllViews()
@@ -108,9 +102,17 @@ class ChartFragment : Fragment(),
         chartViewModel.onResume()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (chartViewModel.moveHintsAreShown.value?.peekContent() == true) {
+            hideCollapseButtonArrowsWithoutAnimation()
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         chartViewModel.onPause()
+        showStatusBar()
     }
 
     override fun onChooseSymbol(symbol: Symbol) =
@@ -120,9 +122,6 @@ class ChartFragment : Fragment(),
             mainViewModel.updateInterval(interval)
 
     private fun setupViews() {
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            chartViewModel.toggleFullscreen(true)
-        }
         with(binding) {
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             symbolButton.setOnClickListener {
@@ -141,11 +140,12 @@ class ChartFragment : Fragment(),
                 chartViewModel.toggleCrosshairs()
             }
             fullviewCheckBox.setOnClickListener {
-                toggleFullscreenViews(true)
+                chartViewModel.toggleFullscreenViews(true)
             }
             collapseFullviewCheckBox.apply {
                 setOnClickListener {
-                    toggleFullscreenViews(false)
+                    chartViewModel.toggleFullscreenViews(false)
+                    hideCollapseButtonArrowsWithoutAnimation()
                 }
                 val touchListener = CollapseButtonOnSwipeTouchListener(root, requireContext()) {
                     listOf(moveLeftCollapseButtonView, moveDownCollapseButtonView).forEach {
@@ -154,7 +154,6 @@ class ChartFragment : Fragment(),
                 }
                 setOnTouchListener(touchListener)
             }
-
         }
         setupCrosshairsLayout()
 
@@ -179,6 +178,21 @@ class ChartFragment : Fragment(),
                         }
                         else -> "$fullPeriodicity${shortTimeUnitName}"
                     }
+                }
+            }
+            errorLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                        requireContext(),
+                        getString(R.string.general_warning_something_went_wrong),
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            isFullscreen.observe(viewLifecycleOwner) { isFullscreen ->
+                val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
+                if (isFullscreen) {
+                    enableFullscreen(isDrawingToolSelected)
+                } else {
+                    disableFullscreen(isDrawingToolSelected)
                 }
             }
         }
@@ -232,15 +246,12 @@ class ChartFragment : Fragment(),
                     panelAdapter.items = panelList.map { it.copy(isSelected = false) }
                 }
             }
-            mainViewModel.errorLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(
-                        requireContext(),
-                        getString(R.string.general_warning_something_went_wrong),
-                        Toast.LENGTH_SHORT
-                ).show()
-            }
-
             isCrosshairsVisible.observe(viewLifecycleOwner) { value ->
+                binding.crosshairCheckBox.apply {
+                    if (isChecked != value) {
+                        isChecked = value
+                    }
+                }
                 binding.crosshairLayout.root.isVisible = value
                 //update the translations
                 setupCrosshairsLayout()
@@ -253,15 +264,6 @@ class ChartFragment : Fragment(),
                     findNavController().navigate(R.id.action_mainFragment_to_drawingToolFragment)
                 }
             }
-            isFullscreen.observe(viewLifecycleOwner) { isFullscreen ->
-                val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
-                if (isFullscreen) {
-                    enableFullscreen(isDrawingToolSelected)
-                } else {
-                    disableFullscreen(isDrawingToolSelected)
-                }
-            }
-
             moveHintsAreShown.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let { areShown ->
                     if (areShown) {
@@ -293,6 +295,27 @@ class ChartFragment : Fragment(),
                             }
                         }
                         isVisible = text.isNotEmpty()
+                    }
+                }
+            }
+            isCollapsed.observe(viewLifecycleOwner) { isFullview ->
+                with(binding) {
+                    forceCloseCrosshairs()
+                    toolbar.isVisible = !isFullview
+                    collapseFullviewCheckBox.isVisible = isFullview
+                    mainViewModel.updateFullView(!isFullview)
+                    if(isFullview) {
+                        hideStatusBar()
+                    } else {
+                        showStatusBar()
+                    }
+
+                    val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
+                    if (isDrawingToolSelected) {
+                        undoImageView.isVisible = !isFullview
+                        redoImageView.isVisible = !isFullview
+                        instrumentRecyclerView.isVisible = !isFullview && instrumentRecyclerView.adapter?.itemCount != null
+                        panelRecyclerView.isVisible = !isFullview
                     }
                 }
             }
@@ -444,23 +467,6 @@ class ChartFragment : Fragment(),
         return colorsList
     }
 
-    private fun toggleFullscreenViews(enterFullview: Boolean) {
-        with(binding) {
-            forceCloseCrosshairs()
-            toolbar.isVisible = !enterFullview
-            collapseFullviewCheckBox.isVisible = enterFullview
-            mainViewModel.updateFullView(!enterFullview)
-
-            val isDrawingToolSelected = chartViewModel.drawingTool.value != DrawingTool.NONE
-            if (isDrawingToolSelected) {
-                undoImageView.isVisible = !enterFullview
-                redoImageView.isVisible = !enterFullview
-                instrumentRecyclerView.isVisible = !enterFullview
-                panelRecyclerView.isVisible = !enterFullview
-            }
-        }
-    }
-
     private fun enableFullscreen(isDrawingToolSelected: Boolean) {
         with(binding) {
             forceCloseCrosshairs()
@@ -471,15 +477,7 @@ class ChartFragment : Fragment(),
                 mainViewModel.updateFullView(false)
             }
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            activity?.window?.decorView?.let { decorView ->
-                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                decorView.systemUiVisibility =
-                        decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
-            }
-        } else {
-            activity?.window?.insetsController?.hide(WindowInsets.Type.statusBars())
-        }
+        hideStatusBar()
         if (!isDrawingToolSelected) {
             binding.root.postDelayed({
                 chartViewModel.showMoveHints(true)
@@ -501,7 +499,11 @@ class ChartFragment : Fragment(),
                 chartViewModel.disablePicker()
             }
         }
+        showStatusBar()
+        chartViewModel.showMoveHints(false)
+    }
 
+    private fun showStatusBar() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             activity?.window?.decorView?.let { decorView ->
                 activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -511,7 +513,18 @@ class ChartFragment : Fragment(),
         } else {
             activity?.window?.insetsController?.show(WindowInsets.Type.statusBars())
         }
-        chartViewModel.showMoveHints(false)
+    }
+
+    private fun hideStatusBar() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            activity?.window?.decorView?.let { decorView ->
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                decorView.systemUiVisibility =
+                        decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
+            }
+        } else {
+            activity?.window?.insetsController?.hide(WindowInsets.Type.statusBars())
+        }
     }
 
     private fun forceCloseCrosshairs() {
@@ -519,6 +532,14 @@ class ChartFragment : Fragment(),
             binding.crosshairCheckBox.isChecked = false
             chartViewModel.toggleCrosshairs()
         }
+    }
+
+    private fun hideCollapseButtonArrowsWithoutAnimation() {
+        val layoutTransition = binding.parentLayout.layoutTransition
+        layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING)
+        binding.moveLeftCollapseButtonView.isVisible = false
+        binding.moveDownCollapseButtonView.isVisible = false
+        layoutTransition.enableTransitionType(LayoutTransition.DISAPPEARING)
     }
 
     private fun <VH, T : RecyclerView.Adapter<VH>> setupInstrumentPicker(

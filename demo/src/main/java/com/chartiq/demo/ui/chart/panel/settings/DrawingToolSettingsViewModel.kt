@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.R
 import com.chartiq.demo.network.model.Fib
 import com.chartiq.demo.network.model.Font
-import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.demo.util.Event
@@ -174,8 +173,8 @@ class DrawingToolSettingsViewModel(
     }
 
     private fun MutableList<DrawingToolSettingsItem>.addFontModels(params: Map<String, Any>) {
-        val value = params[KEY_FONT].toString()
-        val font = Gson().fromJson(value, Font::class.java)
+        val jsonElement = Gson().toJsonTree(params[KEY_FONT])
+        val font = Gson().fromJson(jsonElement, Font::class.java)
 
         // family
         val familyParam = DrawingParameterType.FAMILY.value
