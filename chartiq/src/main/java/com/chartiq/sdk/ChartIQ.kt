@@ -26,6 +26,30 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun start(onStartCallback: OnStartCallback)
 
     /**
+     * Gets the chart's symbol
+     * @param callback A callback to subscribe to to get a current symbol
+     */
+    fun getSymbol(callback: OnReturnCallback<String>)
+
+    /**
+     * Gets the chart's interval
+     * @param callback A callback to subscribe to to get a current interval
+     */
+    fun getInterval(callback: OnReturnCallback<String>)
+
+    /**
+     * Gets the chart's time unit
+     * @param callback A callback to subscribe to to get a current time unit
+     */
+    fun getTimeUnit(callback: OnReturnCallback<String>)
+
+    /**
+     * Gets the chart's periodicity
+     * @param callback A callback to subscribe to to get a current periodicity
+     */
+    fun getPeriodicity(callback: OnReturnCallback<Int>)
+
+    /**
      * Sets a symbol to the chart
      * @param symbol A symbol to be set
      */
@@ -47,6 +71,12 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Disables crosshairs
      */
     fun disableCrosshairs()
+
+    /**
+     * Checks if crosshair is enabled
+     * @param callback A callback to subscribe to to get the indicator if crosshairs are enabled
+     */
+    fun isCrosshairsEnabled(callback: OnReturnCallback<Boolean>)
 
     /**
      * Sets periodicity to the chart
@@ -72,7 +102,6 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * Gets a selected chart type
      * @param callback A callback to subscribe to to get a chart type
      */
-    // what
     fun getChartType(callback: OnReturnCallback<ChartType?>)
 
     /**
@@ -143,6 +172,12 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param measureCallback A [MeasureCallback] to be added
      */
     fun addMeasureListener(measureCallback: MeasureCallback)
+
+    /**
+     * Adds a measure listener
+     * @param measureCallback A [MeasureCallback] to be added
+     */
+    fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback)
 
     /**
      * Sets a theme to the chart

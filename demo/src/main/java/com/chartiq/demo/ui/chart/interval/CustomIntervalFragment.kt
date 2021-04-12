@@ -7,23 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
+import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.sdk.model.TimeUnit
 
-class CustomIntervalFragment : Fragment() {
+class CustomIntervalFragment : FullscreenDialogFragment() {
 
     private lateinit var binding: FragmentChooseCustomIntervalBinding
 
-    private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
-        ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
-            (requireActivity().application as ServiceLocator).applicationPreferences
-        )
-    })
+    private val viewModel: ChooseIntervalViewModel by activityViewModels()
     private val intervalTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -71,23 +65,25 @@ class CustomIntervalFragment : Fragment() {
             }
 
             toolbar.setNavigationOnClickListener {
-                findNavController().navigateUp()
+                dismiss()
             }
             doneButton.setOnClickListener {
-                val duration = selectValueAutoCompleteTextView.text.toString().toInt()
+                val interval = selectValueAutoCompleteTextView.text.toString().toInt()
                 val unit = TimeUnit.valueOf(
                     selectMeasurementAutoCompleteTextView.text
                         .toString()
                         .toUpperCase()
                 )
-                val item = IntervalItem(duration, unit, true)
+                val item = IntervalItem(1, interval, unit, true)
                 viewModel.onIntervalSelect(item)
-                findNavController().navigateUp()
+                dismiss()
             }
         }
     }
 
     companion object {
+        fun getInstance() = CustomIntervalFragment()
+
         private const val MINIMAL_INTERVAL_VALUE = 1
         private const val MAX_INTERVAL_VALUE = 99
 

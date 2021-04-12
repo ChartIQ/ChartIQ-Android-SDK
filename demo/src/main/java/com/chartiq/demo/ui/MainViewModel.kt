@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.lifecycle.*
 import com.chartiq.demo.ApplicationPrefs
 import com.chartiq.demo.localization.RemoteTranslations
+import com.chartiq.demo.network.NetworkException
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.ui.chart.interval.model.Interval
@@ -18,7 +19,6 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
-import com.chartiq.sdk.model.DataMethod
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.Study
@@ -30,10 +30,10 @@ import java.util.*
 
 
 class MainViewModel(
-    private val networkManager: NetworkManager,
-    private val applicationPrefs: ApplicationPrefs,
-    private val chartIQ: ChartIQ,
-    private val connectivityManager: ConnectivityManager
+        private val networkManager: NetworkManager,
+        private val applicationPrefs: ApplicationPrefs,
+        private val chartIQ: ChartIQ,
+        private val connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
@@ -47,23 +47,23 @@ class MainViewModel(
     private val isFullView = MutableLiveData(false)
 
     val isNavBarVisible: LiveData<Boolean> =
-        Transformations.map(
-            combineLatest(
-                isNavBarAlwaysVisible,
-                currentOrientation,
-                isFullView
-            )
-        ) { (isVisible, orientation, isFull) ->
-            return@map if (isVisible == true) {
-                true
-            } else {
-                orientation == Configuration.ORIENTATION_PORTRAIT && isFull == true
+            Transformations.map(
+                    combineLatest(
+                            isNavBarAlwaysVisible,
+                            currentOrientation,
+                            isFullView
+                    )
+            ) { (isVisible, orientation, isFull) ->
+                return@map if (isVisible == true) {
+                    true
+                } else {
+                    orientation == Configuration.ORIENTATION_PORTRAIT && isFull == true
+                }
             }
-        }
 
     val currentLocaleEvent = MutableLiveData<Event<RemoteTranslations>>()
 
-    val isNetworkAvailable = MutableLiveData(false)
+    val networkIsAvailableEvent = MutableLiveData<Event<Boolean>>()
 
     private val chartTheme = MutableLiveData<Event<ChartTheme>>()
 
@@ -71,26 +71,28 @@ class MainViewModel(
 
     val interval = MutableLiveData<Interval>()
 
+    val isFullscreen = MutableLiveData(false)
+
     init {
         chartIQ.apply {
             setDataSource(object : DataSource {
                 override fun pullInitialData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
 
                 override fun pullUpdateData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
 
                 override fun pullPaginationData(
-                    params: QuoteFeedParams,
-                    callback: DataSourceCallback,
+                        params: QuoteFeedParams,
+                        callback: DataSourceCallback,
                 ) {
                     loadChartData(params, callback)
                 }
@@ -101,8 +103,13 @@ class MainViewModel(
 
                 val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
                 chartIQ.setTheme(theme)
+                setupChart()
             }
         }
+    }
+
+    fun setFullscreen(isLandscape: Boolean) {
+        isFullscreen.value = isLandscape
     }
 
     fun updateFullView(isFullView: Boolean) {
@@ -115,42 +122,34 @@ class MainViewModel(
         }
     }
 
-    fun setupChart() {
-        val currentSymbol = applicationPrefs.getChartSymbol()
-        if (symbol.value != currentSymbol) {
-            symbol.value = currentSymbol
-            chartIQ.setSymbol(currentSymbol.value)
-            chartIQ.setDataMethod(DataMethod.PULL, currentSymbol.value)
-        }
-        val currentInterval = applicationPrefs.getChartInterval()
-        if (interval.value != currentInterval) {
-            interval.value = currentInterval
-            chartIQ.setPeriodicity(
-                currentInterval.getPeriod(),
-                currentInterval.getInterval(),
-                currentInterval.getSafeTimeUnit()
-            )
-        }
-    }
-
     fun checkInternetAvailability() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            isNetworkAvailable.value = connectivityManager.activeNetworkInfo != null
+            if (connectivityManager.activeNetworkInfo != null) {
+                if (networkIsAvailableEvent.value?.peekContent() != true) {
+                    reloadData()
+                    networkIsAvailableEvent.value = Event(true)
+                }
+            } else {
+                networkIsAvailableEvent.value = Event(false)
+            }
         } else {
             val allNetworks: Array<Network> = connectivityManager.allNetworks
             for (network in allNetworks) {
                 val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
                 if (networkCapabilities != null) {
                     if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                     ) {
-                        isNetworkAvailable.value = true
+                        if (networkIsAvailableEvent.value?.peekContent() != true) {
+                            reloadData()
+                            networkIsAvailableEvent.value = Event(true)
+                        }
                         return
                     }
                 }
             }
-            isNetworkAvailable.value = false
+            networkIsAvailableEvent.value = Event(false)
         }
     }
 
@@ -168,9 +167,47 @@ class MainViewModel(
         isNavBarAlwaysVisible.postValue(alwaysOnDisplay)
     }
 
-    fun saveSymbol(symbol: Symbol) {
-        applicationPrefs.saveChartSymbol(symbol)
+    fun updateSymbol(symbol: Symbol) {
+        chartIQ.setSymbol(symbol.value)
         setupChart()
+    }
+
+    fun updateInterval(interval: Interval) {
+        chartIQ.setPeriodicity(
+                interval.period,
+                interval.getInterval(),
+                interval.getSafeTimeUnit(),
+        )
+        setupChart()
+    }
+
+    private fun reloadData() {
+        symbol.value?.let {
+            updateSymbol(it)
+        }
+        fetchActiveStudyData()
+    }
+
+    private fun setupChart() {
+        with(chartIQ) {
+            getSymbol {
+                val currentSymbol = Symbol(it)
+                if (symbol.value != currentSymbol) {
+                    symbol.value = currentSymbol
+                }
+            }
+            getPeriodicity { periodicity ->
+                getInterval { cInterval ->
+                    getTimeUnit { timeUnit ->
+                        val currentInterval =
+                                Interval.createInterval(periodicity, cInterval, timeUnit)
+                        if (interval.value != currentInterval) {
+                            interval.value = currentInterval
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun loadChartData(params: QuoteFeedParams, callback: DataSourceCallback) {
@@ -180,7 +217,14 @@ class MainViewModel(
                 is NetworkResult.Success -> {
                     withContext(Dispatchers.Main) { callback.execute(result.data) }
                 }
-                is NetworkResult.Failure -> errorLiveData.postValue(Unit)
+                is NetworkResult.Failure -> {
+                    when (result.exception) {
+                        is NetworkException -> withContext(Dispatchers.Main) {
+                            checkInternetAvailability()
+                        }
+                        else -> errorLiveData.postValue(Unit)
+                    }
+                }
 
             }
         }
@@ -194,12 +238,12 @@ class MainViewModel(
                     chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
                     chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
                         currentLocaleEvent.postValue(
-                            Event(
-                                RemoteTranslations(
-                                    locale,
-                                    translationsMap
+                                Event(
+                                        RemoteTranslations(
+                                                locale,
+                                                translationsMap
+                                        )
                                 )
-                            )
                         )
                     }
                 }
@@ -208,26 +252,26 @@ class MainViewModel(
     }
 
     class ViewModelFactory(
-        private val argNetworkManager: NetworkManager,
-        private val argApplicationPrefs: ApplicationPrefs,
-        private val argChartIQHandler: ChartIQ,
-        private val argConnectivityManager: ConnectivityManager
+            private val argNetworkManager: NetworkManager,
+            private val argApplicationPrefs: ApplicationPrefs,
+            private val argChartIQHandler: ChartIQ,
+            private val argConnectivityManager: ConnectivityManager
     ) :
-        ViewModelProvider.Factory {
+            ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(
-                    NetworkManager::class.java,
-                    ApplicationPrefs::class.java,
-                    ChartIQ::class.java,
-                    ConnectivityManager::class.java
-                )
-                .newInstance(
-                    argNetworkManager,
-                    argApplicationPrefs,
-                    argChartIQHandler,
-                    argConnectivityManager
-                )
+                    .getConstructor(
+                            NetworkManager::class.java,
+                            ApplicationPrefs::class.java,
+                            ChartIQ::class.java,
+                            ConnectivityManager::class.java
+                    )
+                    .newInstance(
+                            argNetworkManager,
+                            argApplicationPrefs,
+                            argChartIQHandler,
+                            argConnectivityManager
+                    )
         }
     }
 }

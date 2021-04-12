@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.webkit.*
-import android.widget.Toast
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
 import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.ChartAggregationType
@@ -21,14 +20,15 @@ import java.util.*
 
 @SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
-    private val chartIQUrl: String,
-    context: Context,
+        private val chartIQUrl: String,
+        context: Context,
 ) : ChartIQ, ChartIQStudy, JavaScriptHandler {
 
     private var dataSource: DataSource? = null
     private val scriptManager = ChartIQScriptManager()
     private val chartIQView = ChartIQView(context)
     private var measureCallback: MeasureCallback? = null
+    private var chartAvailableCallback: ChartAvailableCallback? = null
 
     override val chartView: View
         get() = chartIQView
@@ -39,8 +39,7 @@ class ChartIQHandler(
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_QUOTE_FEED)
-            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_PARAMETERS)
+            addJavascriptInterface(this@ChartIQHandler, JAVASCRIPT_INTERFACE_NATIVE_SDK)
             loadUrl(chartIQUrl)
         }
     }
@@ -51,9 +50,6 @@ class ChartIQHandler(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     executeJavascript(scriptManager.getDetermineOSScript())
 //                    executeJavascript(scriptManager.getNativeQuoteFeedScript())//todo comment until it is needed
-                    executeJavascript(scriptManager.getAddDrawingListenerScript())
-                    executeJavascript(scriptManager.getAddLayoutListenerScript())
-                    executeJavascript(scriptManager.getAddMeasureListener())
                     onStartCallback.onStart()
                 }
             }
@@ -78,17 +74,31 @@ class ChartIQHandler(
     }
 
     @JavascriptInterface
+    override fun chartAvailableChange(json: String) {
+        val isChartAvailable = json.toBoolean()
+        chartAvailableCallback?.onChartAvailableUpdate(isChartAvailable)
+
+        if(isChartAvailable) {
+            chartIQView.post {
+                executeJavascript(scriptManager.getAddDrawingListenerScript())
+                executeJavascript(scriptManager.getAddLayoutListenerScript())
+                executeJavascript(scriptManager.getAddMeasureListener())
+            }
+        }
+    }
+
+    @JavascriptInterface
     override fun pullInitialData(
-        symbol: String?,
-        period: String?,
-        interval: String?,
-        start: String?,
-        end: String?,
-        meta: String?,
-        callbackId: String?
+            symbol: String?,
+            period: String?,
+            interval: String?,
+            start: String?,
+            end: String?,
+            meta: String?,
+            callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
+                QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
                 // set moreAvailable to true as you want to see if there is more historical data after the initial pull
@@ -99,15 +109,15 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun pullUpdate(
-        symbol: String?,
-        period: String?,
-        interval: String?,
-        start: String?,
-        meta: String?,
-        callbackId: String?
+            symbol: String?,
+            period: String?,
+            interval: String?,
+            start: String?,
+            meta: String?,
+            callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period?.toInt(), interval, start, null, meta, callbackId)
+                QuoteFeedParams(symbol, period?.toInt(), interval, start, null, meta, callbackId)
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
                 // just an update, no need to see if there is more historical data available
@@ -118,16 +128,16 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun pullPagination(
-        symbol: String?,
-        period: String?,
-        interval: String?,
-        start: String?,
-        end: String?,
-        meta: String?,
-        callbackId: String?
+            symbol: String?,
+            period: String?,
+            interval: String?,
+            start: String?,
+            end: String?,
+            meta: String?,
+            callbackId: String?
     ) {
         val quoteFeedParams =
-            QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
+                QuoteFeedParams(symbol, period?.toInt(), interval, start, end, meta, callbackId)
         dataSource?.pullPaginationData(quoteFeedParams) { data ->
             callbackId?.let {
                 // Check to see if you need to try and retrieve more historical data.
@@ -137,6 +147,41 @@ class ChartIQHandler(
                 var moreAvailable = true
                 if(data.size < 1) moreAvailable = false
                 invokePullCallback(callbackId, data, moreAvailable)
+            }
+        }
+    }
+
+    override fun getSymbol(callback: OnReturnCallback<String>) {
+        executeJavascript(scriptManager.getGetSymbolScript()) { value ->
+            if (value != "null") {
+                callback.onReturn(value.substring(1, value.length - 1))
+            } else {
+                callback.onReturn("")
+            }
+        }
+    }
+
+    override fun getInterval(callback: OnReturnCallback<String>) {
+        executeJavascript(scriptManager.getGetIntervalScript()) { value ->
+            callback.onReturn(value)
+        }
+    }
+
+    override fun getTimeUnit(callback: OnReturnCallback<String>) {
+        executeJavascript(scriptManager.getGetTimeUnitScript()) { value ->
+            if (value != "null") {
+                callback.onReturn(value.substring(1, value.length - 1))
+            } else {
+                callback.onReturn(value)
+            }
+        }
+    }
+
+    override fun getPeriodicity(callback: OnReturnCallback<Int>) {
+        executeJavascript(scriptManager.getGetPeriodicityScript()) { value ->
+            val periodicity = value.toIntOrNull()
+            if (periodicity != null) {
+                callback.onReturn(periodicity)
             }
         }
     }
@@ -157,8 +202,8 @@ class ChartIQHandler(
         when (method) {
             DataMethod.PUSH -> executeJavascript(scriptManager.getLoadChartScript())
             DataMethod.PULL -> Log.d(
-                javaClass.simpleName,
-                "If you want to add a QuoteFeed please do so in your javascript code."
+                    javaClass.simpleName,
+                    "If you want to add a QuoteFeed please do so in your javascript code."
             )
         }
     }
@@ -169,6 +214,16 @@ class ChartIQHandler(
 
     override fun disableCrosshairs() {
         executeJavascript(scriptManager.getEnableCrosshairScript(false))
+    }
+
+    override fun isCrosshairsEnabled(callback: OnReturnCallback<Boolean>) {
+        executeJavascript(scriptManager.getIsCrosshairsEnabledScript()) { value ->
+            if (value == "\"true\"") {
+                callback.onReturn(true)
+            } else {
+                callback.onReturn(false)
+            }
+        }
     }
 
     override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
@@ -198,10 +253,10 @@ class ChartIQHandler(
             val objectResult = Gson().fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
             val studyList = Gson().fromJson<Map<String, StudyEntity>>(
-                objectResult.toString(), typeToken
+                    objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
-                    .toStudy()
+                        .toStudy()
             }
             callback.onReturn(studyList)
         }
@@ -217,8 +272,8 @@ class ChartIQHandler(
             val typeToken = object : TypeToken<List<StudyEntity>>() {}.type
 
             val gson = GsonBuilder()
-                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
-                .create()
+                    .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                    .create()
             val response: List<StudyEntity> = gson.fromJson(result, typeToken)
             val studyList = response.map { it.toStudy() }
             callback.onReturn(studyList)
@@ -241,10 +296,10 @@ class ChartIQHandler(
                 callback.onReturn(null)
             } else {
                 callback.onReturn(
-                    ChartType.valueOf(
-                        it.substring(1, it.length - 1)
-                            .toUpperCase(Locale.ENGLISH)
-                    )
+                        ChartType.valueOf(
+                                it.substring(1, it.length - 1)
+                                        .toUpperCase(Locale.ENGLISH)
+                        )
                 )
             }
         }
@@ -257,7 +312,7 @@ class ChartIQHandler(
                 callback.onReturn(null)
             } else {
                 val parsedValue = value.substring(1, value.length - 1)
-                    .toUpperCase(Locale.ENGLISH)
+                        .toUpperCase(Locale.ENGLISH)
                 val type = if (ChartAggregationType.values().any { it.name == parsedValue }) {
                     ChartAggregationType.valueOf(parsedValue)
                 } else {
@@ -273,10 +328,10 @@ class ChartIQHandler(
         executeJavascript(script) {
             try {
                 callback.onReturn(
-                    ChartScale.valueOf(
-                        it.substring(1, it.length - 1)
-                            .toUpperCase()
-                    )
+                        ChartScale.valueOf(
+                                it.substring(1, it.length - 1)
+                                        .toUpperCase()
+                        )
                 )
             } catch (e: Exception) {
                 callback.onReturn(ChartScale.LINEAR)
@@ -320,14 +375,14 @@ class ChartIQHandler(
     }
 
     override fun getDrawingParameters(
-        tool: DrawingTool,
-        callback: OnReturnCallback<Map<String, Any>>
+            tool: DrawingTool,
+            callback: OnReturnCallback<Map<String, Any>>
     ) {
         executeJavascript(scriptManager.getGetDrawingParametersScript(tool.value)) { value ->
             if (value != "null") {
                 val result = value
-                    .substring(1, value.length - 1)
-                    .replace("\\", "")
+                        .substring(1, value.length - 1)
+                        .replace("\\", "")
                 val typeToken = object : TypeToken<Map<String, Any>>() {}.type
                 val parameters: Map<String, Any> = Gson().fromJson(result, typeToken)
                 callback.onReturn(parameters)
@@ -352,9 +407,9 @@ class ChartIQHandler(
     }
 
     override fun getStudyParameters(
-        study: Study,
-        type: StudyParameterType,
-        callback: OnReturnCallback<List<StudyParameter>>
+            study: Study,
+            type: StudyParameterType,
+            callback: OnReturnCallback<List<StudyParameter>>
     ) {
         val script = when (type) {
             StudyParameterType.Inputs -> scriptManager.getStudyInputParametersScript(study.name)
@@ -365,8 +420,10 @@ class ChartIQHandler(
             val typeToken = object : TypeToken<List<StudyParameterEntity>>() {}.type
             val resultEntity = Gson().fromJson<List<StudyParameterEntity>>(value, typeToken)
             callback.onReturn(resultEntity
-                .filter { entity -> entity.type in (ParameterEntityValueType.values().map { it.value } + null) }
-                .map { it.toParameter(type) })
+                    .filter { entity ->
+                        entity.type in (ParameterEntityValueType.values().map { it.value } + null)
+                    }
+                    .map { it.toParameter(type) })
         }
     }
 
@@ -413,6 +470,9 @@ class ChartIQHandler(
         this.measureCallback = measureCallback
     }
 
+    override fun addChartAvailableListener(chartAvailableCallback: ChartAvailableCallback) {
+        this.chartAvailableCallback = chartAvailableCallback
+    }
 
     override fun undoDrawing(callback: OnReturnCallback<Boolean>) {
         executeJavascript(scriptManager.getUndoDrawingScript())
@@ -423,8 +483,8 @@ class ChartIQHandler(
     }
 
     override fun getTranslations(
-        languageCode: String,
-        callback: OnReturnCallback<Map<String, String>>
+            languageCode: String,
+            callback: OnReturnCallback<Map<String, String>>
     ) {
         val script = scriptManager.getGetTranslationsScript(languageCode)
         executeJavascript(script) {
@@ -432,7 +492,7 @@ class ChartIQHandler(
                 val objectResult = Gson().fromJson(it, Object::class.java)
                 val typeToken = object : TypeToken<Map<String, String>>() {}.type
                 val translations = Gson().fromJson<Map<String, String>>(
-                    objectResult.toString(), typeToken
+                        objectResult.toString(), typeToken
                 )
                 callback.onReturn(translations)
             } else {
@@ -460,8 +520,8 @@ class ChartIQHandler(
     override fun getActiveSeries(callback: OnReturnCallback<List<Series>>) {
         executeJavascript(scriptManager.getGetActiveSeriesScript()) { value ->
             val result = value
-                .substring(1, value.length - 1)
-                .replace("\\", "")
+                    .substring(1, value.length - 1)
+                    .replace("\\", "")
             val typeToken = object : TypeToken<Map<String, Map<String, String>>>() {}.type
             val seriesMap: Map<String, Any> = Gson().fromJson(result, typeToken)
             val seriesList = seriesMap.keys.mapTo(mutableListOf()) { key ->
@@ -476,7 +536,13 @@ class ChartIQHandler(
     }
 
     override fun addSeries(series: Series, isComparison: Boolean) {
-        executeJavascript(scriptManager.getAddSeriesScript(series.symbolName, series.color, isComparison))
+        executeJavascript(
+                scriptManager.getAddSeriesScript(
+                        series.symbolName,
+                        series.color,
+                        isComparison
+                )
+        )
     }
 
     override fun removeSeries(symbolName: String) {
@@ -484,12 +550,17 @@ class ChartIQHandler(
     }
 
     override fun setSeriesParameter(symbolName: String, parameterName: String, value: String) {
-        executeJavascript(scriptManager.getSetSeriesParameterScript(symbolName, parameterName, value))
+        executeJavascript(
+                scriptManager.getSetSeriesParameterScript(
+                        symbolName,
+                        parameterName,
+                        value
+                )
+        )
     }
 
     companion object {
-        private const val JAVASCRIPT_INTERFACE_QUOTE_FEED = "QuoteFeed"
-        private const val JAVASCRIPT_INTERFACE_PARAMETERS = "parameters"
+        private const val JAVASCRIPT_INTERFACE_NATIVE_SDK = "ChartIQ"
         private val TAG = ChartIQHandler::class.java.simpleName
     }
 }

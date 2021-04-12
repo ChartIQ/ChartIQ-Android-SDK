@@ -22,21 +22,21 @@ class ChartIQNetworkManager : NetworkManager {
 
     @SuppressLint("HardwareIds")
     override suspend fun fetchDataFeed(
-        params: QuoteFeedParams,
-        applicationId: String
+            params: QuoteFeedParams,
+            applicationId: String
     ): NetworkResult<List<OHLCParams>> {
         return try {
             chartRetrofit
-                .fetchDataFeedAsync(
-                    params.symbol,
-                    params.start,
-                    params.end,
-                    params.interval,
-                    params.period?.toString(),
-                    DEFAULT_VALUE_EXTENDED,
-                    applicationId
-                )
-                .safeExtractNetworkResult()
+                    .fetchDataFeedAsync(
+                            params.symbol,
+                            params.start,
+                            params.end,
+                            params.interval,
+                            params.period?.toString(),
+                            DEFAULT_VALUE_EXTENDED,
+                            applicationId
+                    )
+                    .safeExtractNetworkResult()
         } catch (e: IOException) {
             // The exception occurs when the internet connection is not stable
             NetworkResult.Failure(NetworkException(null, 3000))
@@ -44,26 +44,31 @@ class ChartIQNetworkManager : NetworkManager {
     }
 
     override suspend fun fetchSymbol(
-        symbol: String,
-        filter: String?
+            symbol: String,
+            filter: String?
     ): NetworkResult<SymbolResponse> {
-        return symbolsRetrofit
-            .fetchSymbolAsync(
-                symbol,
-                DEFAULT_VALUE_MAX_RESULT,
-                DEFAULT_VALUE_FUNDS,
-                filter
-            )
-            .safeExtractNetworkResult()
+        return try {
+            symbolsRetrofit
+                    .fetchSymbolAsync(
+                            symbol,
+                            DEFAULT_VALUE_MAX_RESULT,
+                            DEFAULT_VALUE_FUNDS,
+                            filter
+                    )
+                    .safeExtractNetworkResult()
+        } catch (e: IOException) {
+            // The exception occurs when the internet connection is not stable
+            NetworkResult.Failure(NetworkException(null, 3000))
+        }
     }
 
     private fun <T> getRetrofit(baseUrl: String, api: Class<T>): T {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(api)
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(api)
     }
 
     companion object {
@@ -74,6 +79,6 @@ class ChartIQNetworkManager : NetworkManager {
 
         private const val DEFAULT_VALUE_MAX_RESULT = "50"
         private const val DEFAULT_VALUE_FUNDS =
-            "[XNYS,XASE,XNAS,XASX,INDCBSX,INDXASE,INDXNAS,IND_DJI,ARCX,INDARCX,forex,mutualfund,futures]"
+                "[XNYS,XASE,XNAS,XASX,INDCBSX,INDXASE,INDXNAS,IND_DJI,ARCX,INDARCX,forex,mutualfund,futures]"
     }
 }

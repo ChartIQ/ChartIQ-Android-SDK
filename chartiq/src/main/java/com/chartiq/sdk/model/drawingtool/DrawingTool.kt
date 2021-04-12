@@ -3,7 +3,7 @@ package com.chartiq.sdk.model.drawingtool
 /**
  * An enumeration of available drawing tools
  */
-enum class DrawingTool(val value: String) {
+enum class DrawingTool(val value: String?) {
     ANNOTATION("annotation"),
     ARROW("arrow"),
     AVERAGE_LINE("average"),
@@ -28,7 +28,7 @@ enum class DrawingTool(val value: String) {
     HORIZONTAL_LINE("horizontal"),
     LINE("line"),
     MEASURE("measure"),
-    NO_TOOL("notool"),
+    NO_TOOL(""),
     PITCHFORK("pitchfork"),
     QUADRANT_LINES("quadrant"),
     RAY("ray"),
@@ -42,5 +42,5 @@ enum class DrawingTool(val value: String) {
     TIRONE_LEVELS("tirone"),
     TREND_LINE("trendline"),
     VERTICAL_LINE("vertical"),
-    NONE("")
+    NONE(null)
 }

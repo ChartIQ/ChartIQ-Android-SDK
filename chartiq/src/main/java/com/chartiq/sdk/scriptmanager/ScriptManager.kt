@@ -18,6 +18,14 @@ internal interface ScriptManager {
 
     fun getAddMeasureListener(): String
 
+    fun getGetSymbolScript() : String
+
+    fun getGetIntervalScript() : String
+
+    fun getGetTimeUnitScript() : String
+
+    fun getGetPeriodicityScript() : String
+
     fun getSetSymbolScript(symbol: String): String
 
     fun getDateFromTickScript(): String
@@ -88,7 +96,7 @@ internal interface ScriptManager {
 
     fun getSetStudyParameterScript(studyName: String, parameter: StudyParameterModel): String
 
-    fun getGetDrawingParametersScript(drawingName: String): String
+    fun getGetDrawingParametersScript(drawingName: String?): String
 
     fun getSetChartStyleScript(obj: String, attribute: String, value: String): String
 

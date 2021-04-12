@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:menu="@menu/menu_add_study"
-                app:navigationIcon="@drawable/ic_close"
+                app:navigationIcon="@drawable/ic_nav_back"
                 app:title="@string/study_title_add_study" />
 
             <FrameLayout

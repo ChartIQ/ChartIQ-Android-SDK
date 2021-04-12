@@ -14,6 +14,9 @@ internal interface JavaScriptHandler {
     fun measureChange(json: String)
 
     @JavascriptInterface
+    fun chartAvailableChange(json: String)
+
+    @JavascriptInterface
     fun pullInitialData(
         symbol: String?,
         period: String?,

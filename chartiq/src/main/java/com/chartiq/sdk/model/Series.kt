@@ -6,6 +6,6 @@ package com.chartiq.sdk.model
  * @property color A string with a hex color of the symbol to be displayed
  */
 data class Series(
-    val symbolName: String,
-    val color: String
+        val symbolName: String,
+        val color: String
 )

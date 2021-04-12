@@ -14,18 +14,18 @@ import java.util.*
  * @property adjClose Closing price adjusted price after splits or dividends. This is only necessary if you wish to give users the ability to display both adjusted and unadjusted values.
  */
 data class OHLCParams(
-    @SerializedName("DT")
-    val date: Date?,
-    @SerializedName("Open")
-    val open: Double?,
-    @SerializedName("High")
-    val high: Double?,
-    @SerializedName("Low")
-    val low: Double?,
-    @SerializedName("Close")
-    val close: Double?,
-    @SerializedName("Volume")
-    val volume: Double?,
-    @SerializedName("AdjClose")
-    val adjClose: Double?
+        @SerializedName("DT")
+        val date: Date?,
+        @SerializedName("Open")
+        val open: Double?,
+        @SerializedName("High")
+        val high: Double?,
+        @SerializedName("Low")
+        val low: Double?,
+        @SerializedName("Close")
+        val close: Double?,
+        @SerializedName("Volume")
+        val volume: Double?,
+        @SerializedName("AdjClose")
+        val adjClose: Double?
 )

@@ -4,28 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
-import com.chartiq.demo.R
-import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentChooseIntervalBinding
-import com.chartiq.demo.ui.LineItemDecoration.*
+import com.chartiq.demo.ui.LineItemDecoration.Default
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
 import com.chartiq.demo.ui.chart.interval.list.IntervalListAdapter
 import com.chartiq.demo.ui.chart.interval.list.OnIntervalSelectListener
 import com.chartiq.demo.ui.chart.interval.model.Interval
+import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.sdk.model.TimeUnit
 
-class ChooseIntervalFragment : Fragment() {
+class ChooseIntervalFragment : FullscreenDialogFragment() {
 
-    private val viewModel: ChooseIntervalViewModel by activityViewModels(factoryProducer = {
-        ChooseIntervalViewModel.ChooseIntervalViewModelFactory(
-            (requireActivity().application as ServiceLocator).applicationPreferences
-        )
-    })
+    private val viewModel: ChooseIntervalViewModel by activityViewModels()
     private val localizationManager by lazy {
         (requireActivity().application as ChartIQApplication).localizationManager
     }
@@ -52,7 +45,10 @@ class ChooseIntervalFragment : Fragment() {
     private fun setupViews(binding: FragmentChooseIntervalBinding) {
         viewModel.intervalSelectedEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().navigateUp()
+                viewModel.interval.value?.let { interval ->
+                    (targetFragment as DialogFragmentListener).onChooseInterval(interval)
+                }
+                dismiss()
             }
         }
         viewModel.chooseCustomIntervalEvent.observe(viewLifecycleOwner) { event ->
@@ -63,7 +59,10 @@ class ChooseIntervalFragment : Fragment() {
 
         val intervalAdapter = IntervalListAdapter().apply {
             localizationManager = this@ChooseIntervalFragment.localizationManager
-            items = viewModel.setupList(DEFAULT_INTERVAL_LIST)
+            items = viewModel.setupList(
+                DEFAULT_INTERVAL_LIST,
+                requireArguments().getParcelable(ARG_INTERVAL)
+            )
             onSelectIntervalListener = this@ChooseIntervalFragment.onSelectIntervalListener
         }
         with(binding) {
@@ -73,29 +72,46 @@ class ChooseIntervalFragment : Fragment() {
             }
 
             toolbar.setNavigationOnClickListener {
-                findNavController().navigateUp()
+                dismiss()
             }
         }
     }
 
     private fun navigateToChooseCustomInterval() {
-        NavHostFragment.findNavController(this@ChooseIntervalFragment)
-            .navigate(R.id.action_chooseIntervalFragment_to_customIntervalFragment)
+        CustomIntervalFragment
+            .getInstance()
+            .show(parentFragmentManager, null)
     }
 
     companion object {
+
+        fun getInstance(interval: Interval): ChooseIntervalFragment {
+            val dialog = ChooseIntervalFragment()
+            dialog.arguments = bundleOf(
+                ARG_INTERVAL to interval
+            )
+            return dialog
+        }
+
+        private const val ARG_INTERVAL = "choose.interval.argument.interval"
+
         private val DEFAULT_INTERVAL_LIST = listOf(
-            Interval(1, TimeUnit.DAY),
-            Interval(1, TimeUnit.WEEK),
-            Interval(1, TimeUnit.MONTH),
-            Interval(1, TimeUnit.MINUTE),
-            Interval(5, TimeUnit.MINUTE),
-            Interval(10, TimeUnit.MINUTE),
-            Interval(15, TimeUnit.MINUTE),
-            Interval(30, TimeUnit.MINUTE),
-            Interval(1, TimeUnit.HOUR),
-            Interval(4, TimeUnit.HOUR),
-            Interval(30, TimeUnit.SECOND),
+            Interval(1,1, TimeUnit.DAY),
+            Interval(1,1, TimeUnit.WEEK),
+            Interval(1,1, TimeUnit.MONTH),
+            Interval(1,1, TimeUnit.MINUTE),
+            Interval(1,5, TimeUnit.MINUTE),
+            Interval(1,10, TimeUnit.MINUTE),
+            Interval(3,5, TimeUnit.MINUTE),
+            Interval(1,30, TimeUnit.MINUTE),
+            Interval(2, 30, TimeUnit.HOUR),
+            Interval(8, 30, TimeUnit.HOUR),
+            Interval(1,30, TimeUnit.SECOND),
         )
+    }
+
+    interface DialogFragmentListener {
+
+        fun onChooseInterval(interval: Interval)
     }
 }

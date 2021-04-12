@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.R
 import com.chartiq.demo.network.model.Fib
 import com.chartiq.demo.network.model.Font
-import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.demo.ui.common.colorpicker.toHexStringWithHash
 import com.chartiq.demo.ui.common.optionpicker.OptionItem
 import com.chartiq.demo.util.Event
@@ -22,8 +21,8 @@ import com.google.gson.Gson
 import java.util.*
 
 class DrawingToolSettingsViewModel(
-    private val chartIQHandler: ChartIQ,
-    private val drawingManager: DrawingManager
+        private val chartIQHandler: ChartIQ,
+        private val drawingManager: DrawingManager
 ) : ViewModel() {
 
     val parameters = MutableLiveData<Event<Map<String, Any>>>()
@@ -105,17 +104,17 @@ class DrawingToolSettingsViewModel(
 
     // TODO: Discuss encoding. Should be simplified for the end user
     fun updateChooseValueParameter(
-        parameter: String,
-        valuesList: List<OptionItem>
+            parameter: String,
+            valuesList: List<OptionItem>
     ) {
         val value = when (parameter) {
             DrawingParameterType.FIBS.value -> {
                 val list = mutableListOf<Map<String, String>>()
                 valuesList.map {
                     val map = hashMapOf(
-                        Pair(KEY_DISPLAY, it.isSelected.toString()),
-                        // remove "%" character
-                        Pair(KEY_LEVEL, it.value.substring(0, it.value.length - 1))
+                            Pair(KEY_DISPLAY, it.isSelected.toString()),
+                            // remove "%" character
+                            Pair(KEY_LEVEL, it.value.substring(0, it.value.length - 1))
                     )
                     list.add(map)
                 }
@@ -141,11 +140,11 @@ class DrawingToolSettingsViewModel(
         val colorParam = DrawingParameterType.FILL_COLOR.value
         val color = params[colorParam].toString()
         add(
-            DrawingToolSettingsItem.Color(
-                R.string.drawing_tool_settings_title_fill_color,
-                color,
-                colorParam
-            )
+                DrawingToolSettingsItem.Color(
+                        R.string.drawing_tool_settings_title_fill_color,
+                        color,
+                        colorParam
+                )
         )
     }
 
@@ -153,11 +152,11 @@ class DrawingToolSettingsViewModel(
         val colorParam = DrawingParameterType.LINE_COLOR.value
         val color = params[colorParam].toString()
         add(
-            DrawingToolSettingsItem.Color(
-                R.string.drawing_tool_settings_title_line_color,
-                color,
-                colorParam
-            )
+                DrawingToolSettingsItem.Color(
+                        R.string.drawing_tool_settings_title_line_color,
+                        color,
+                        colorParam
+                )
         )
     }
 
@@ -165,30 +164,30 @@ class DrawingToolSettingsViewModel(
         val lineType = params[DrawingParameterType.LINE_TYPE.value].toString()
         val lineWidth = params[DrawingParameterType.LINE_WIDTH.value].toString()
         add(
-            DrawingToolSettingsItem.Line(
-                R.string.drawing_tool_settings_title_line_type,
-                LineType.valueOf(lineType.toUpperCase(Locale.getDefault())),
-                lineWidth.toDouble().toInt()
-            )
+                DrawingToolSettingsItem.Line(
+                        R.string.drawing_tool_settings_title_line_type,
+                        LineType.valueOf(lineType.toUpperCase(Locale.getDefault())),
+                        lineWidth.toDouble().toInt()
+                )
         )
     }
 
     private fun MutableList<DrawingToolSettingsItem>.addFontModels(params: Map<String, Any>) {
-        val value = params[KEY_FONT].toString()
-        val font = Gson().fromJson(value, Font::class.java)
+        val jsonElement = Gson().toJsonTree(params[KEY_FONT])
+        val font = Gson().fromJson(jsonElement, Font::class.java)
 
         // family
         val familyParam = DrawingParameterType.FAMILY.value
         val family = font.family.value
         add(
-            DrawingToolSettingsItem.ChooseValue(
-                R.string.drawing_tool_settings_title_font_family,
-                family,
-                familyParam,
-                FontFamily.values().map {
-                    OptionItem(it.value, it.value == family)
-                }
-            )
+                DrawingToolSettingsItem.ChooseValue(
+                        R.string.drawing_tool_settings_title_font_family,
+                        family,
+                        familyParam,
+                        FontFamily.values().map {
+                            OptionItem(it.value, it.value == family)
+                        }
+                )
         )
         // style
         // is text italic
@@ -205,36 +204,36 @@ class DrawingToolSettingsViewModel(
         }
 
         add(
-            DrawingToolSettingsItem.Style(
-                R.string.drawing_tool_settings_title_font_style,
-                isBold,
-                isItalic
-            )
+                DrawingToolSettingsItem.Style(
+                        R.string.drawing_tool_settings_title_font_style,
+                        isBold,
+                        isItalic
+                )
         )
 
         // size
         val sizeParam = DrawingParameterType.SIZE.value
         val size = font.size
         add(
-            DrawingToolSettingsItem.ChooseValue(
-                R.string.drawing_tool_settings_title_font_size,
-                size,
-                sizeParam,
-                FontSize.values().map {
-                    OptionItem(it.pxValue, it.pxValue == size)
-                }
-            )
+                DrawingToolSettingsItem.ChooseValue(
+                        R.string.drawing_tool_settings_title_font_size,
+                        size,
+                        sizeParam,
+                        FontSize.values().map {
+                            OptionItem(it.pxValue, it.pxValue == size)
+                        }
+                )
         )
     }
 
     private fun MutableList<DrawingToolSettingsItem>.addAxisLabelModels(params: Map<String, Any>) {
         val checked = params[KEY_AXIS_LABEL]?.toString()?.toBoolean() ?: false
         add(
-            DrawingToolSettingsItem.Switch(
-                R.string.drawing_tool_settings_title_axis_label,
-                checked,
-                KEY_AXIS_LABEL
-            )
+                DrawingToolSettingsItem.Switch(
+                        R.string.drawing_tool_settings_title_axis_label,
+                        checked,
+                        KEY_AXIS_LABEL
+                )
         )
     }
 
@@ -243,11 +242,11 @@ class DrawingToolSettingsViewModel(
         fun addColorModel(colorParam: DrawingParameterType, @StringRes title: Int) {
             val color = params[colorParam.value].toString()
             deviationList.add(
-                DrawingToolSettingsItem.Color(
-                    title,
-                    color,
-                    colorParam.value
-                )
+                    DrawingToolSettingsItem.Color(
+                            title,
+                            color,
+                            colorParam.value
+                    )
             )
         }
 
@@ -259,58 +258,58 @@ class DrawingToolSettingsViewModel(
                 value.toBoolean()
             }
             deviationList.add(
-                DrawingToolSettingsItem.Switch(
-                    title,
-                    isChecked,
-                    boolParam.value
-                )
+                    DrawingToolSettingsItem.Switch(
+                            title,
+                            isChecked,
+                            boolParam.value
+                    )
             )
         }
 
         fun addLineModel(
-            typeParam: DrawingParameterType,
-            widthParam: DrawingParameterType,
-            @StringRes title: Int
+                typeParam: DrawingParameterType,
+                widthParam: DrawingParameterType,
+                @StringRes title: Int
         ) {
             val lineType = params[typeParam.value].toString()
             val lineWidth = params[widthParam.value].toString()
             deviationList.add(
-                DrawingToolSettingsItem.Line(
-                    title,
-                    LineType.valueOf(lineType.toUpperCase(Locale.getDefault())),
-                    lineWidth.toDouble().toInt(),
-                    typeParam.value,
-                    widthParam.value
-                )
+                    DrawingToolSettingsItem.Line(
+                            title,
+                            LineType.valueOf(lineType.toUpperCase(Locale.getDefault())),
+                            lineWidth.toDouble().toInt(),
+                            typeParam.value,
+                            widthParam.value
+                    )
             )
         }
 
         addBooleanModel(DrawingParameterType.ACTIVE_1, R.string.drawing_tool_settings_title_show_line_1)
         addColorModel(DrawingParameterType.COLOR_1, R.string.drawing_tool_settings_title_line_1_color)
         addLineModel(
-            DrawingParameterType.PATTERN_1,
-            DrawingParameterType.LINE_WIDTH_1,
-            R.string.drawing_tool_settings_title_show_line_1
+                DrawingParameterType.PATTERN_1,
+                DrawingParameterType.LINE_WIDTH_1,
+                R.string.drawing_tool_settings_title_show_line_1
         )
         addBooleanModel(DrawingParameterType.ACTIVE_2, R.string.drawing_tool_settings_title_show_line_2)
         addColorModel(DrawingParameterType.COLOR_2, R.string.drawing_tool_settings_title_line_2_color)
         addLineModel(
-            DrawingParameterType.PATTERN_2,
-            DrawingParameterType.LINE_WIDTH_2,
-            R.string.drawing_tool_settings_title_line_2_type
+                DrawingParameterType.PATTERN_2,
+                DrawingParameterType.LINE_WIDTH_2,
+                R.string.drawing_tool_settings_title_line_2_type
         )
         addBooleanModel(DrawingParameterType.ACTIVE_3, R.string.drawing_tool_settings_title_show_line_3)
         addColorModel(DrawingParameterType.COLOR_3, R.string.drawing_tool_settings_title_line_3_color)
         addLineModel(
-            DrawingParameterType.PATTERN_3,
-            DrawingParameterType.LINE_WIDTH_3,
-            R.string.drawing_tool_settings_title_line_3_type
+                DrawingParameterType.PATTERN_3,
+                DrawingParameterType.LINE_WIDTH_3,
+                R.string.drawing_tool_settings_title_line_3_type
         )
         add(
-            DrawingToolSettingsItem.Deviation(
-                R.string.drawing_tool_settings_title_deviations_settings,
-                deviationList
-            )
+                DrawingToolSettingsItem.Deviation(
+                        R.string.drawing_tool_settings_title_deviations_settings,
+                        deviationList
+                )
         )
     }
 
@@ -320,35 +319,36 @@ class DrawingToolSettingsViewModel(
         if (params[fibsParam].toString() != "null") {
             val values = Gson().fromJson(params[fibsParam].toString(), Array<Fib>::class.java).toList()
             add(
-                DrawingToolSettingsItem.ChooseValue(
-                    R.string.drawing_tool_settings_title_config,
-                    "",
-                    fibsParam,
-                    values.map {
-                        val value = it.level.toString() + "%"
-                        OptionItem(value, it.display)
-                    },
-                    isMultipleSelection = true,
-                    hasCustomValueSupport = true
-                )
+                    DrawingToolSettingsItem.ChooseValue(
+                            R.string.drawing_tool_settings_title_config,
+                            "",
+                            fibsParam,
+                            values.map {
+                                val value = it.level.toString() + "%"
+                                OptionItem(value, it.display)
+                            },
+                            isMultipleSelection = true,
+                            hasCustomValueSupport = true,
+                            hasNegativeValueSupport = drawingTool.value != DrawingTool.FIB_ARC
+                    )
             )
         }
     }
 
     private fun MutableList<DrawingToolSettingsItem>.addElliotWaveModels(params: Map<String, Any>) {
         fun addChooseValueModel(
-            param: DrawingParameterType,
-            @StringRes title: Int,
-            secondaryText: String,
-            values: List<OptionItem>
+                param: DrawingParameterType,
+                @StringRes title: Int,
+                secondaryText: String,
+                values: List<OptionItem>
         ) {
             add(
-                DrawingToolSettingsItem.ChooseValue(
-                    title,
-                    secondaryText,
-                    param.value,
-                    values
-                )
+                    DrawingToolSettingsItem.ChooseValue(
+                            title,
+                            secondaryText,
+                            param.value,
+                            values
+                    )
             )
         }
 
@@ -356,33 +356,33 @@ class DrawingToolSettingsViewModel(
 
         val impulseValue = waveParameters[DrawingParameterType.IMPULSE.value].toString()
         addChooseValueModel(
-            DrawingParameterType.IMPULSE,
-            R.string.drawing_tool_settings_title_impulse,
-            impulseValue,
-            Impulse.values().map { OptionItem(it.value, impulseValue == it.value) })
+                DrawingParameterType.IMPULSE,
+                R.string.drawing_tool_settings_title_impulse,
+                impulseValue,
+                Impulse.values().map { OptionItem(it.value, impulseValue == it.value) })
 
         val correctiveValue = waveParameters[DrawingParameterType.CORRECTIVE.value].toString()
         addChooseValueModel(
-            DrawingParameterType.CORRECTIVE,
-            R.string.drawing_tool_settings_title_corrective,
-            correctiveValue,
-            Corrective.values().map { OptionItem(it.value, impulseValue == it.value) })
+                DrawingParameterType.CORRECTIVE,
+                R.string.drawing_tool_settings_title_corrective,
+                correctiveValue,
+                Corrective.values().map { OptionItem(it.value, impulseValue == it.value) })
 
         val decoration = waveParameters[DrawingParameterType.DECORATION.value].toString()
         addChooseValueModel(
-            DrawingParameterType.DECORATION,
-            R.string.drawing_tool_settings_title_decoration,
-            decoration.capitalize(),
-            Decoration.values().map { OptionItem(it.value, impulseValue == it.value) })
+                DrawingParameterType.DECORATION,
+                R.string.drawing_tool_settings_title_decoration,
+                decoration.capitalize(),
+                Decoration.values().map { OptionItem(it.value, impulseValue == it.value) })
 
         val showLines =
-            waveParameters[DrawingParameterType.SHOW_LINES.value]?.toString()?.toBoolean() ?: false
+                waveParameters[DrawingParameterType.SHOW_LINES.value]?.toString()?.toBoolean() ?: false
         add(
-            DrawingToolSettingsItem.Switch(
-                R.string.drawing_tool_settings_title_show_lines,
-                showLines,
-                DrawingParameterType.SHOW_LINES.value
-            )
+                DrawingToolSettingsItem.Switch(
+                        R.string.drawing_tool_settings_title_show_lines,
+                        showLines,
+                        DrawingParameterType.SHOW_LINES.value
+                )
         )
     }
 
@@ -399,13 +399,13 @@ class DrawingToolSettingsViewModel(
     }
 
     class ViewModelFactory(
-        private val argChartIQHandler: ChartIQ,
-        private val drawingManager: DrawingManager
+            private val argChartIQHandler: ChartIQ,
+            private val drawingManager: DrawingManager
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(ChartIQ::class.java, DrawingManager::class.java)
-                .newInstance(argChartIQHandler, drawingManager)
+                    .getConstructor(ChartIQ::class.java, DrawingManager::class.java)
+                    .newInstance(argChartIQHandler, drawingManager)
         }
     }
 }

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.chartiq.demo.databinding.FragmentChooseConfigBinding
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.demo.util.hideKeyboard
@@ -14,6 +15,10 @@ import com.chartiq.demo.util.hideKeyboard
 class AddConfigFragment : FullscreenDialogFragment() {
 
     private lateinit var binding: FragmentChooseConfigBinding
+
+    private val supportsNegativeInput by lazy {
+        requireArguments().getBoolean(ARG_SUPPORTS_NEGATIVE_INPUT)
+    }
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -25,10 +30,15 @@ class AddConfigFragment : FullscreenDialogFragment() {
         }
 
         override fun afterTextChanged(s: Editable?) {
-            if (!s.toString().endsWith(PERCENTAGE)) {
-                with(binding.addConfigEditText) {
-                    val input = s.toString().replace(PERCENTAGE, "")
-                    setText(input + PERCENTAGE)
+            with(binding.addConfigEditText) {
+                if (s.toString().startsWith(CHARACTER_MINUS) && !supportsNegativeInput) {
+                    val input = s.toString().replace(CHARACTER_MINUS, "")
+                    setText(input)
+                    Selection.setSelection(text, text!!.length - 1)
+                }
+                if (!s.toString().endsWith(CHARACTER_PERCENTAGE)) {
+                    val input = s.toString().replace(CHARACTER_PERCENTAGE, "")
+                    setText(input + CHARACTER_PERCENTAGE)
                     Selection.setSelection(text, text!!.length - 1)
                 }
             }
@@ -36,9 +46,9 @@ class AddConfigFragment : FullscreenDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseConfigBinding.inflate(inflater, container, false)
 
@@ -61,11 +71,17 @@ class AddConfigFragment : FullscreenDialogFragment() {
     }
 
     companion object {
-        fun getInstance(): AddConfigFragment {
-            return AddConfigFragment()
+        fun getInstance(supportsNegativeInput: Boolean): AddConfigFragment {
+            val dialog = AddConfigFragment()
+            dialog.arguments = bundleOf(
+                    ARG_SUPPORTS_NEGATIVE_INPUT to supportsNegativeInput
+            )
+            return dialog
         }
 
-        private const val PERCENTAGE = "%"
+        private const val CHARACTER_PERCENTAGE = "%"
+        private const val CHARACTER_MINUS = "-"
+        private const val ARG_SUPPORTS_NEGATIVE_INPUT = "add.config.argument.supports.negative"
     }
 
     interface DialogFragmentListener {

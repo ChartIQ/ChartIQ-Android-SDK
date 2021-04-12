@@ -8,278 +8,271 @@ import com.chartiq.demo.ui.chart.drawingtools.list.model.DrawingToolSection
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 
 enum class DrawingTools(
-    val tool: DrawingTool,
-    @DrawableRes
-    val iconRes: Int,
-    @StringRes
-    val nameRes: Int,
-    val category: DrawingToolCategory,
-    val section: DrawingToolSection,
+        val tool: DrawingTool,
+        @DrawableRes
+        val iconRes: Int,
+        @StringRes
+        val nameRes: Int,
+        val category: DrawingToolCategory,
+        val section: DrawingToolSection,
 ) {
-    NO_TOOL(
-        DrawingTool.NO_TOOL,
-        R.drawable.ic_drawing_tool_no_tool,
-        R.string.drawing_tool_no_tool,
-        DrawingToolCategory.NONE,
-        DrawingToolSection.OTHER
-    ),
     MEASURE(
-        DrawingTool.MEASURE,
-        R.drawable.ic_drawing_tool_measure,
-        R.string.drawing_tool_measure,
-        DrawingToolCategory.NONE,
-        DrawingToolSection.OTHER
+            DrawingTool.MEASURE,
+            R.drawable.ic_drawing_tool_measure,
+            R.string.drawing_tool_measure,
+            DrawingToolCategory.NONE,
+            DrawingToolSection.OTHER
     ),
     ANNOTATION(
-        DrawingTool.ANNOTATION,
-        R.drawable.ic_drawing_tool_annotation,
-        R.string.drawing_tool_annotation,
-        DrawingToolCategory.TEXT,
-        DrawingToolSection.MAIN
+            DrawingTool.ANNOTATION,
+            R.drawable.ic_drawing_tool_annotation,
+            R.string.drawing_tool_annotation,
+            DrawingToolCategory.TEXT,
+            DrawingToolSection.MAIN
     ),
     ARROW(
-        DrawingTool.ARROW,
-        R.drawable.ic_drawing_tool_arrow,
-        R.string.drawing_tool_arrow,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.ARROW,
+            R.drawable.ic_drawing_tool_arrow,
+            R.string.drawing_tool_arrow,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     AVERAGE_LINE(
-        DrawingTool.AVERAGE_LINE,
-        R.drawable.ic_drawing_tool_average_line,
-        R.string.drawing_tool_average_line,
-        DrawingToolCategory.STATISTICS,
-        DrawingToolSection.MAIN
+            DrawingTool.AVERAGE_LINE,
+            R.drawable.ic_drawing_tool_average_line,
+            R.string.drawing_tool_average_line,
+            DrawingToolCategory.STATISTICS,
+            DrawingToolSection.MAIN
     ),
     CALLOUT(
-        DrawingTool.CALLOUT,
-        R.drawable.ic_drawing_tool_callout,
-        R.string.drawing_tool_callout,
-        DrawingToolCategory.TEXT,
-        DrawingToolSection.MAIN
+            DrawingTool.CALLOUT,
+            R.drawable.ic_drawing_tool_callout,
+            R.string.drawing_tool_callout,
+            DrawingToolCategory.TEXT,
+            DrawingToolSection.MAIN
     ),
     CHANNEL(
-        DrawingTool.CHANNEL,
-        R.drawable.ic_drawing_tool_channel,
-        R.string.drawing_tool_channel,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.CHANNEL,
+            R.drawable.ic_drawing_tool_channel,
+            R.string.drawing_tool_channel,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     CHECK(
-        DrawingTool.CHECK,
-        R.drawable.ic_drawing_tool_check,
-        R.string.drawing_tool_check,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.CHECK,
+            R.drawable.ic_drawing_tool_check,
+            R.string.drawing_tool_check,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     CONTINUOUS_LINE(
-        DrawingTool.CONTINUOUS_LINE,
-        R.drawable.ic_drawing_tool_continuous_line,
-        R.string.drawing_tool_continuous_line,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.CONTINUOUS_LINE,
+            R.drawable.ic_drawing_tool_continuous_line,
+            R.string.drawing_tool_continuous_line,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     CROSS(
-        DrawingTool.CROSS,
-        R.drawable.ic_drawing_tool_cross,
-        R.string.drawing_tool_cross,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.CROSS,
+            R.drawable.ic_drawing_tool_cross,
+            R.string.drawing_tool_cross,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     CROSSLINE(
-        DrawingTool.CROSSLINE,
-        R.drawable.ic_drawing_tool_crossline,
-        R.string.drawing_tool_crossline,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.CROSSLINE,
+            R.drawable.ic_drawing_tool_crossline,
+            R.string.drawing_tool_crossline,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     DOODLE(
-        DrawingTool.DOODLE,
-        R.drawable.ic_drawing_tool_doodle,
-        R.string.drawing_tool_doodle,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.DOODLE,
+            R.drawable.ic_drawing_tool_doodle,
+            R.string.drawing_tool_doodle,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     ELLIOTT_WAVE(
-        DrawingTool.ELLIOTT_WAVE,
-        R.drawable.ic_drawing_tool_elliott_wave,
-        R.string.drawing_tool_elliott_wave,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.ELLIOTT_WAVE,
+            R.drawable.ic_drawing_tool_elliott_wave,
+            R.string.drawing_tool_elliott_wave,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     ELLIPSE(
-        DrawingTool.ELLIPSE,
-        R.drawable.ic_drawing_tool_ellipse,
-        R.string.drawing_tool_ellipse,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.ELLIPSE,
+            R.drawable.ic_drawing_tool_ellipse,
+            R.string.drawing_tool_ellipse,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     FIB_ARC(
-        DrawingTool.FIB_ARC,
-        R.drawable.ic_drawing_tool_fib_arc,
-        R.string.drawing_tool_fib_arc,
-        DrawingToolCategory.FIBONACCI,
-        DrawingToolSection.MAIN
+            DrawingTool.FIB_ARC,
+            R.drawable.ic_drawing_tool_fib_arc,
+            R.string.drawing_tool_fib_arc,
+            DrawingToolCategory.FIBONACCI,
+            DrawingToolSection.MAIN
     ),
     FIB_FAN(
-        DrawingTool.FIB_FAN,
-        R.drawable.ic_drawing_tool_fib_fan,
-        R.string.drawing_tool_fib_fan,
-        DrawingToolCategory.FIBONACCI,
-        DrawingToolSection.MAIN
+            DrawingTool.FIB_FAN,
+            R.drawable.ic_drawing_tool_fib_fan,
+            R.string.drawing_tool_fib_fan,
+            DrawingToolCategory.FIBONACCI,
+            DrawingToolSection.MAIN
     ),
     FIB_PROJECTION(
-        DrawingTool.FIB_PROJECTION,
-        R.drawable.ic_drawing_tool_fib_projection,
-        R.string.drawing_tool_fib_projection,
-        DrawingToolCategory.FIBONACCI,
-        DrawingToolSection.MAIN
+            DrawingTool.FIB_PROJECTION,
+            R.drawable.ic_drawing_tool_fib_projection,
+            R.string.drawing_tool_fib_projection,
+            DrawingToolCategory.FIBONACCI,
+            DrawingToolSection.MAIN
     ),
     FIB_RETRACEMENT(
-        DrawingTool.FIB_RETRACEMENT,
-        R.drawable.ic_drawing_tool_fib_retracement,
-        R.string.drawing_tool_fib_retracement,
-        DrawingToolCategory.FIBONACCI,
-        DrawingToolSection.MAIN
+            DrawingTool.FIB_RETRACEMENT,
+            R.drawable.ic_drawing_tool_fib_retracement,
+            R.string.drawing_tool_fib_retracement,
+            DrawingToolCategory.FIBONACCI,
+            DrawingToolSection.MAIN
     ),
     FIB_TIME_ZONE(
-        DrawingTool.FIB_TIME_ZONE,
-        R.drawable.ic_drawing_tool_fib_time_zone,
-        R.string.drawing_tool_fib_time_zone,
-        DrawingToolCategory.FIBONACCI,
-        DrawingToolSection.MAIN
+            DrawingTool.FIB_TIME_ZONE,
+            R.drawable.ic_drawing_tool_fib_time_zone,
+            R.string.drawing_tool_fib_time_zone,
+            DrawingToolCategory.FIBONACCI,
+            DrawingToolSection.MAIN
     ),
     FOCUS(
-        DrawingTool.FOCUS,
-        R.drawable.ic_drawing_tool_focus,
-        R.string.drawing_tool_focus,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.FOCUS,
+            R.drawable.ic_drawing_tool_focus,
+            R.string.drawing_tool_focus,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     GANN_FAN(
-        DrawingTool.GANN_FAN,
-        R.drawable.ic_drawing_tool_gann_fan,
-        R.string.drawing_tool_gann_fan,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.GANN_FAN,
+            R.drawable.ic_drawing_tool_gann_fan,
+            R.string.drawing_tool_gann_fan,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     GARTLEY(
-        DrawingTool.GARTLEY,
-        R.drawable.ic_drawing_tool_gartley,
-        R.string.drawing_tool_gartley,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.GARTLEY,
+            R.drawable.ic_drawing_tool_gartley,
+            R.string.drawing_tool_gartley,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     HEART(
-        DrawingTool.HEART,
-        R.drawable.ic_drawing_tool_heart,
-        R.string.drawing_tool_heart,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.HEART,
+            R.drawable.ic_drawing_tool_heart,
+            R.string.drawing_tool_heart,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     HORIZONTAL_LINE(
-        DrawingTool.HORIZONTAL_LINE,
-        R.drawable.ic_drawing_tool_horizontal_line,
-        R.string.drawing_tool_horizontal_line,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.HORIZONTAL_LINE,
+            R.drawable.ic_drawing_tool_horizontal_line,
+            R.string.drawing_tool_horizontal_line,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     LINE(
-        DrawingTool.LINE,
-        R.drawable.ic_drawing_tool_line,
-        R.string.drawing_tool_line,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.LINE,
+            R.drawable.ic_drawing_tool_line,
+            R.string.drawing_tool_line,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     PITCHFORK(
-        DrawingTool.PITCHFORK,
-        R.drawable.ic_drawing_tool_pitchfork,
-        R.string.drawing_tool_pitchfork,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.PITCHFORK,
+            R.drawable.ic_drawing_tool_pitchfork,
+            R.string.drawing_tool_pitchfork,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     QUADRANT_LINES(
-        DrawingTool.QUADRANT_LINES,
-        R.drawable.ic_drawing_tool_quadrant_lines,
-        R.string.drawing_tool_quadrant_lines,
-        DrawingToolCategory.STATISTICS,
-        DrawingToolSection.MAIN
+            DrawingTool.QUADRANT_LINES,
+            R.drawable.ic_drawing_tool_quadrant_lines,
+            R.string.drawing_tool_quadrant_lines,
+            DrawingToolCategory.STATISTICS,
+            DrawingToolSection.MAIN
     ),
     RAY(
-        DrawingTool.RAY,
-        R.drawable.ic_drawing_tool_ray,
-        R.string.drawing_tool_ray,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.RAY,
+            R.drawable.ic_drawing_tool_ray,
+            R.string.drawing_tool_ray,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     RECTANGLE(
-        DrawingTool.RECTANGLE,
-        R.drawable.ic_drawing_tool_rectangle,
-        R.string.drawing_tool_rectangle,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.RECTANGLE,
+            R.drawable.ic_drawing_tool_rectangle,
+            R.string.drawing_tool_rectangle,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     REGRESSION_LINE(
-        DrawingTool.REGRESSION_LINE,
-        R.drawable.ic_drawing_tool_regression_line,
-        R.string.drawing_tool_regression_line,
-        DrawingToolCategory.STATISTICS,
-        DrawingToolSection.MAIN
+            DrawingTool.REGRESSION_LINE,
+            R.drawable.ic_drawing_tool_regression_line,
+            R.string.drawing_tool_regression_line,
+            DrawingToolCategory.STATISTICS,
+            DrawingToolSection.MAIN
     ),
     SEGMENT(
-        DrawingTool.SEGMENT,
-        R.drawable.ic_drawing_tool_segment,
-        R.string.drawing_tool_segment,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.SEGMENT,
+            R.drawable.ic_drawing_tool_segment,
+            R.string.drawing_tool_segment,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     ),
     STAR(
-        DrawingTool.STAR,
-        R.drawable.ic_drawing_tool_star,
-        R.string.drawing_tool_star,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
+            DrawingTool.STAR,
+            R.drawable.ic_drawing_tool_star,
+            R.string.drawing_tool_star,
+            DrawingToolCategory.MARKINGS,
+            DrawingToolSection.MAIN
     ),
     SPEED_RESISTANCE_ARC(
-        DrawingTool.SPEED_RESISTANCE_ARC,
-        R.drawable.ic_drawing_tool_speed_resistance_arc,
-        R.string.drawing_tool_speed_resistance_arc,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.SPEED_RESISTANCE_ARC,
+            R.drawable.ic_drawing_tool_speed_resistance_arc,
+            R.string.drawing_tool_speed_resistance_arc,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     SPEED_RESISTANCE_LINE(
-        DrawingTool.SPEED_RESISTANCE_LINE,
-        R.drawable.ic_drawing_tool_speed_resistance_line,
-        R.string.drawing_tool_speed_resistance_line,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.SPEED_RESISTANCE_LINE,
+            R.drawable.ic_drawing_tool_speed_resistance_line,
+            R.string.drawing_tool_speed_resistance_line,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     TIME_CYCLE(
-        DrawingTool.TIME_CYCLE,
-        R.drawable.ic_drawing_tool_time_cycle,
-        R.string.drawing_tool_time_cycle,
-        DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
+            DrawingTool.TIME_CYCLE,
+            R.drawable.ic_drawing_tool_time_cycle,
+            R.string.drawing_tool_time_cycle,
+            DrawingToolCategory.TECHNICALS,
+            DrawingToolSection.MAIN
     ),
     TIRONE_LEVELS(
-        DrawingTool.TIRONE_LEVELS,
-        R.drawable.ic_drawing_tool_tirone_levels,
-        R.string.drawing_tool_tirone_levels,
-        DrawingToolCategory.STATISTICS,
-        DrawingToolSection.MAIN
+            DrawingTool.TIRONE_LEVELS,
+            R.drawable.ic_drawing_tool_tirone_levels,
+            R.string.drawing_tool_tirone_levels,
+            DrawingToolCategory.STATISTICS,
+            DrawingToolSection.MAIN
     ),
     TREND_LINE(
-        DrawingTool.TREND_LINE,
-        R.drawable.ic_drawing_tool_trend_line,
-        R.string.drawing_tool_trend_line,
-        DrawingToolCategory.TEXT,
-        DrawingToolSection.MAIN
+            DrawingTool.TREND_LINE,
+            R.drawable.ic_drawing_tool_trend_line,
+            R.string.drawing_tool_trend_line,
+            DrawingToolCategory.TEXT,
+            DrawingToolSection.MAIN
     ),
     VERTICAL_LINE(
-        DrawingTool.VERTICAL_LINE,
-        R.drawable.ic_drawing_tool_vertical_line,
-        R.string.drawing_tool_vertical_line,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
+            DrawingTool.VERTICAL_LINE,
+            R.drawable.ic_drawing_tool_vertical_line,
+            R.string.drawing_tool_vertical_line,
+            DrawingToolCategory.LINES,
+            DrawingToolSection.MAIN
     )
 }
