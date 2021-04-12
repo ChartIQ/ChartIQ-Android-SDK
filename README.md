@@ -14,7 +14,8 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 ## Requirements
 
-- Version 8.2.0 or later of the ChartIQ library
+- Version 1.0.0 of the Android app requires Version 8.2.0 of the ChartIQ library
+- Version 2.0.0 of the Android app requires Version 8.2.1 or later of the ChartIQ library
 
   Go to our <a href="https://cosaic.io/chartiq-sdk-library-download/" target="_blank">download site</a> to obtain a free 30-day trial version of the library, or send us an email at <info@cosaic.io>, and we'll send you an evaluation version.
 
