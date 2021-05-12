@@ -48,12 +48,12 @@ class InstrumentPanelAdapter : RecyclerView.Adapter<InstrumentPanelAdapter.Instr
                     }
                     Instrument.COLOR -> {
                         parameters?.color?.let {
-                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker)
+                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker, binding.root.resources)
                         }
                     }
                     Instrument.FILL -> {
                         parameters?.fillColor?.let {
-                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker)
+                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker, binding.root.resources)
                         }
                     }
                     Instrument.LINE_TYPE -> {
