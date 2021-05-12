@@ -413,7 +413,7 @@ class ChartFragment : Fragment(),
         val colors = getColors()
         // If `fillColor` color is in colors list then it should be selected
         val scrollIndex = drawingToolParameters?.fillColor?.let {
-            val paramColor = convertStringColorToInt(it)
+            val paramColor = convertStringColorToInt(it, binding.root.resources)
             findColorIndex(colors, paramColor)
         }
         colorsAdapter.items = colors
@@ -428,7 +428,7 @@ class ChartFragment : Fragment(),
         val colors = getColors()
         // If `color` color is in colors list then it should be selected
         val scrollIndex = drawingToolParameters?.color?.let {
-            val paramColor = convertStringColorToInt(it)
+            val paramColor = convertStringColorToInt(it, binding.root.resources)
             findColorIndex(colors, paramColor)
         }
 
