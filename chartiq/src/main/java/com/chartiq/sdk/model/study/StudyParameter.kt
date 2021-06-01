@@ -122,6 +122,9 @@ sealed class StudyParameter : Parcelable {
         val options: Map<String, String>
     ) : StudyParameter()
 
+    /**
+     * @suppress
+     */
     companion object {
         const val AUTO_VALUE = "auto"
     }
@@ -132,6 +135,11 @@ sealed class StudyParameter : Parcelable {
     enum class StudyParameterNamePostfix {
         Enabled,
         Value,
-        Color
+        Color;
+
+        /**
+         * @suppress
+         */
+        constructor()
     }
 }

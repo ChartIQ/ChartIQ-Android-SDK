@@ -3,7 +3,12 @@ package com.chartiq.sdk.model.drawingtool
 /**
  * An enumeration of available drawing tools
  */
-enum class DrawingTool(val value: String?) {
+enum class DrawingTool(
+    /**
+     * @suppress
+     */
+    val value: String?
+) {
     ANNOTATION("annotation"),
     ARROW("arrow"),
     AVERAGE_LINE("average"),
