@@ -42,7 +42,21 @@
         android:top="22dp">
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
-            <solid android:color="@color/black" />
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+    <item
+        android:id="@+id/colorPickerOutline"
+        android:bottom="6dp"
+        android:end="4dp"
+        android:start="4dp"
+        android:top="22dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="0.5dp"
+                android:color="@color/cadetBlue" />
         </shape>
     </item>
 </layer-list>

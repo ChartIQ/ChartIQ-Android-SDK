@@ -34,7 +34,7 @@ data class Interval(
                 convertedInterval = 1
             } else {
                 convertedInterval = interval.toInt()
-                unit = if(convertedInterval * period % 60 == 0) {
+                unit = if (convertedInterval * period % 60 == 0) {
                     TimeUnit.HOUR
                 } else {
                     TimeUnit.valueOf(timeUnit.toUpperCase(Locale.ROOT))

@@ -27,11 +27,12 @@
             android:layout_weight="1"
             android:paddingTop="@dimen/padding_medium_small"
             android:paddingBottom="@dimen/padding_medium_small"
-            tools:text="@string/settings_log_scale"
+            android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/parameterSwitch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/settings_log_scale" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/parameterSwitch"

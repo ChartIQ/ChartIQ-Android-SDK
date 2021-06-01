@@ -8,13 +8,13 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemPanelInstrumentBinding
-import com.chartiq.demo.network.model.PanelDrawingToolParameters
+import com.chartiq.demo.network.model.PanelDrawingToolParameter
 import com.chartiq.demo.ui.chart.panel.model.Instrument
 import com.chartiq.demo.ui.chart.panel.model.InstrumentItem
 
 class InstrumentPanelAdapter : RecyclerView.Adapter<InstrumentPanelAdapter.InstrumentViewHolder>() {
 
-    var parameters: PanelDrawingToolParameters? = null
+    var parameter: PanelDrawingToolParameter? = null
 
     var items = listOf<InstrumentItem>()
         set(value) {
@@ -47,18 +47,18 @@ class InstrumentPanelAdapter : RecyclerView.Adapter<InstrumentPanelAdapter.Instr
                         setPadding(dimen, dimen, dimen, dimen)
                     }
                     Instrument.COLOR -> {
-                        parameters?.color?.let {
-                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker)
+                        parameter?.color?.let {
+                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker, resources)
                         }
                     }
                     Instrument.FILL -> {
-                        parameters?.fillColor?.let {
-                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker)
+                        parameter?.fillColor?.let {
+                            (drawable as LayerDrawable).updatePickerColor(it, R.id.colorPicker, resources)
                         }
                     }
                     Instrument.LINE_TYPE -> {
-                        parameters?.lineType?.let {
-                            val lineType = it.getLineTypeResource(parameters?.lineWidth ?: 0)
+                        parameter?.lineType?.let {
+                            val lineType = it.getLineTypeResource(parameter?.lineWidth ?: 0)
                             setImageResource(lineType)
                         }
                     }
