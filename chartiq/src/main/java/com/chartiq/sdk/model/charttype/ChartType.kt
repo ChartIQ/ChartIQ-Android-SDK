@@ -2,12 +2,15 @@ package com.chartiq.sdk.model.charttype
 
 /**
  * A list of possible Chart types
- * @property value A String value of the type
  */
-enum class ChartType(val value: String) {
+enum class ChartType(
     /**
-     * Like bar charts, candle charts represent OHLC except in the form of colored rectangles called ‘candles’.
-     * When the open is lower than the close, the candle is shaded green. When the open is higher than the close,
+     * @suppress
+     */
+    val value: String
+) {
+    /**
+     * Like bar charts, candle charts represent OHLC except in the form of colored rectangles called ‘candles’.When the open is lower than the close, the candle is shaded green. When the open is higher than the close,
      * the candle is shaded red. If the open and close are the same, a thin horizontal line segment is drawn at that
      * price (this type of candle is called a "doji"). Each candle has a ‘wick’ that extends beyond the candle to
      * indicate the high and low, respectively.

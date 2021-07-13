@@ -3,7 +3,12 @@ package com.chartiq.sdk.model.drawingtool.elliottwave
 /**
  * An enumeration of available templates
  */
-enum class Template(val value: String) {
+enum class Template(
+    /**
+     * @suppress
+     */
+    value: String
+) {
     GRAND_SUPERCYCLE("Grand Supercycle"),
     SUPERCYCLE("Supercycle"),
     CYCLE("Cycle"),

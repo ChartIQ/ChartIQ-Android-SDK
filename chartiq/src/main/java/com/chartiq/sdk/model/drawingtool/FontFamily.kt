@@ -5,7 +5,12 @@ import com.google.gson.annotations.SerializedName
 /**
  * An enumeration of available font families
  */
-enum class FontFamily(val value: String) {
+enum class FontFamily(
+    /**
+     * @suppress
+     */
+    val value: String
+) {
     @SerializedName("Default")
     DEFAULT("Default"),
 

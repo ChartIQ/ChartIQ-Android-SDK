@@ -6,7 +6,6 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
  * An implementation of DrawingManager that checks which parameters and settings a drawing tool supports
  */
 class ChartIQDrawingManager : DrawingManager {
-
     override fun isSupportingFillColor(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.ARROW,

@@ -9,5 +9,10 @@ enum class TimeUnit {
     HOUR,
     DAY,
     WEEK,
-    MONTH
+    MONTH;
+
+    /**
+     * @suppress
+     */
+    constructor()
 }

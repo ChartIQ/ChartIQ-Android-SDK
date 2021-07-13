@@ -2,6 +2,7 @@ package com.chartiq.sdk
 
 import android.webkit.JavascriptInterface
 
+
 internal interface JavaScriptHandler {
 
     @JavascriptInterface

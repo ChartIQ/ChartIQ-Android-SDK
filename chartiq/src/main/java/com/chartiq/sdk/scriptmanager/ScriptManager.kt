@@ -6,6 +6,7 @@ import com.chartiq.sdk.model.OHLCParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
 
+
 internal interface ScriptManager {
 
     fun getDetermineOSScript(): String
@@ -18,13 +19,13 @@ internal interface ScriptManager {
 
     fun getAddMeasureListener(): String
 
-    fun getGetSymbolScript() : String
+    fun getGetSymbolScript(): String
 
-    fun getGetIntervalScript() : String
+    fun getGetIntervalScript(): String
 
-    fun getGetTimeUnitScript() : String
+    fun getGetTimeUnitScript(): String
 
-    fun getGetPeriodicityScript() : String
+    fun getGetPeriodicityScript(): String
 
     fun getSetSymbolScript(symbol: String): String
 
@@ -108,7 +109,11 @@ internal interface ScriptManager {
 
     fun getGetEnginePropertyScript(property: String): String
 
-    fun getParseDataScript(data: List<OHLCParams>, callbackId: String, moreAvailable: Boolean): String
+    fun getParseDataScript(
+        data: List<OHLCParams>,
+        callbackId: String,
+        moreAvailable: Boolean
+    ): String
 
     fun getInvertYAxisScript(): String
 
