@@ -29,11 +29,11 @@ class AllStudiesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return StudyViewHolder(
-                ItemStudyBinding.inflate(
-                        inflater,
-                        parent,
-                        false
-                )
+            ItemStudyBinding.inflate(
+                inflater,
+                parent,
+                false
+            )
         )
     }
 
@@ -45,7 +45,7 @@ class AllStudiesAdapter(
 
 
     inner class StudyViewHolder(private val binding: ItemStudyBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Study) {
             with(binding) {
                 root.setOnClickListener {
@@ -65,7 +65,7 @@ class AllStudiesAdapter(
                         listener?.onStudiesSelected(selectedItems.toList())
                     }
                 }
-                nameTextView.text = localizationManager?.getTranslationFromValue(item.name, root.context)?: item.name
+                nameTextView.text = localizationManager?.getTranslationFromValue(item.name, root.context) ?: item.name
             }
         }
     }

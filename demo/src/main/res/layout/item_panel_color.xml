@@ -4,9 +4,9 @@
     android:id="@+id/colorView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="48dp"
-    android:minWidth="48dp"
     android:layout_margin="@dimen/margin_small"
-    tools:foreground="@drawable/layer_color_selected_ok"
     android:background="@drawable/shape_background_color"
-    tools:backgroundTint="@color/coralRed" />
+    android:minWidth="48dp"
+    android:minHeight="48dp"
+    tools:backgroundTint="@color/coralRed"
+    tools:foreground="@drawable/layer_color_selected_ok" />

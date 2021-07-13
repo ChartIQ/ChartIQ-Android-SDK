@@ -1,6 +1,7 @@
 package com.chartiq.demo.ui.common.colorpicker
 
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -41,10 +42,10 @@ class ColorsAdapter : RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
                     minimumHeight = config.minHeight ?: minimumHeight
                 }
                 (background.mutate() as GradientDrawable).setColor(item.color)
-                foreground = if (item.isSelected) {
-                    ContextCompat.getDrawable(context, R.drawable.layer_color_selected_ok)
-                } else {
-                    null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (item.isSelected) {
+                        foreground = ContextCompat.getDrawable(context, R.drawable.layer_color_selected_ok)
+                    }
                 }
                 setOnClickListener {
                     listener?.onSelected(item)

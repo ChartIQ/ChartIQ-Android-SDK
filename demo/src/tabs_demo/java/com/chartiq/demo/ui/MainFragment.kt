@@ -2,7 +2,6 @@ package com.chartiq.demo.ui
 
 import android.content.Context
 import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,8 +18,8 @@ import com.chartiq.demo.R
 import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentMainBinding
 import com.chartiq.demo.network.ChartIQNetworkManager
+import com.chartiq.demo.ui.chart.ChartViewState
 import com.chartiq.sdk.ChartIQ
-import com.chartiq.sdk.model.ChartTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFragment : Fragment() {
@@ -31,34 +30,33 @@ class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-                ChartIQNetworkManager(),
-                (requireActivity().application as ServiceLocator).applicationPreferences,
-                chartIQ,
-                requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            ChartIQNetworkManager(),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
 
     private lateinit var binding: FragmentMainBinding
 
     private val onNavItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                val page = when (item.itemId) {
-                    R.id.navigation_chart -> MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value
-                    R.id.navigation_study -> MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.value
-                    R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
-                    else -> throw IllegalStateException()
-                }
-                mainViewModel.setAlwaysOnDisplayNavBar(item.itemId != R.id.navigation_chart)
-                val instantScroll = page == MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value &&
-                        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-                binding.mainViewPager.setCurrentItem(page, !instantScroll)
-                true
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            val page = when (item.itemId) {
+                R.id.navigation_chart -> MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value
+                R.id.navigation_study -> MainViewPagerAdapter.MainNavigation.FRAGMENT_STUDIES.value
+                R.id.navigation_settings -> MainViewPagerAdapter.MainNavigation.FRAGMENT_SETTINGS.value
+                else -> throw IllegalStateException()
             }
+            val instantScroll = page == MainViewPagerAdapter.MainNavigation.FRAGMENT_CHART.value &&
+                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+            binding.mainViewPager.setCurrentItem(page, !instantScroll)
+            true
+        }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         mainViewModel.checkInternetAvailability()
@@ -67,14 +65,6 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (isDarkThemeOn()) {
-            mainViewModel.updateTheme(ChartTheme.NIGHT)
-        } else {
-            mainViewModel.updateTheme(ChartTheme.DAY)
-        }
-    }
 
     private fun setupViews() {
         with(binding) {
@@ -95,12 +85,12 @@ class MainFragment : Fragment() {
                 setOnNavigationItemSelectedListener(onNavItemSelectedListener)
             }
         }
-        mainViewModel.isNavBarVisible.observe(viewLifecycleOwner) { isVisible ->
-            binding.navView.isVisible = isVisible
+        mainViewModel.chartViewState.observe(viewLifecycleOwner) { state ->
+            binding.navView.isVisible = state is ChartViewState.Simple
         }
         mainViewModel.networkIsAvailableEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { value ->
-                if(!value) {
+                if (!value) {
                     showDeviceIsOfflineDialog()
                 }
             }
@@ -109,23 +99,19 @@ class MainFragment : Fragment() {
 
     private fun showDeviceIsOfflineDialog() {
         AlertDialog.Builder(requireContext(), R.style.PositiveAlertDialogTheme)
-                .setTitle(R.string.general_warning_something_went_wrong)
-                .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
-                .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
-                .setPositiveButton(R.string.general_reconnect) { _, _ ->
-                    mainViewModel.checkInternetAvailability()
-                }
-                .create()
-                .apply {
-                    setCanceledOnTouchOutside(false)
-                }
-                .show()
+            .setTitle(R.string.general_warning_something_went_wrong)
+            .setMessage(R.string.general_the_internet_connection_appears_to_be_offline)
+            .setNegativeButton(R.string.general_cancel) { _, _ -> Unit }
+            .setPositiveButton(R.string.general_reconnect) { _, _ ->
+                mainViewModel.checkInternetAvailability()
+            }
+            .create()
+            .apply {
+                setCanceledOnTouchOutside(false)
+            }
+            .show()
     }
 
-    private fun isDarkThemeOn(): Boolean {
-        return resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
-    }
 
     interface MainFragmentPagerObserver {
         fun onPageChanged()

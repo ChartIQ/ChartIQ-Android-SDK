@@ -3,69 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/mainFragment">
+    app:startDestination="@+id/chartFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.chartiq.demo.ui.MainFragment"
+        android:id="@+id/chartFragment"
+        android:name="com.chartiq.demo.ui.chart.ChartFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_chart">
         <action
-            android:id="@+id/action_mainFragment_to_navigation_settings"
+            android:id="@+id/action_chartFragment_to_navigation_settings"
             app:destination="@id/navigation_settings"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_navigation_study"
+            android:id="@+id/action_chartFragment_to_navigation_study"
             app:destination="@id/navigation_study"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_navigation_chart"
-            app:destination="@id/navigation_chart"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_mainFragment_to_chooseIntervalFragment"
-            app:destination="@id/chooseIntervalFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_mainFragment_to_drawingToolFragment"
+            android:id="@+id/action_chartFragment_to_drawingToolFragment"
             app:destination="@id/drawingToolFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_drawingToolSettingsFragment"
+            android:id="@+id/action_chartFragment_to_drawingToolSettingsFragment"
             app:destination="@id/drawingToolSettingsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_compareFragment"
+            android:id="@+id/action_chartFragment_to_compareFragment"
             app:destination="@id/compareFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-
-    <fragment
-        android:id="@+id/navigation_chart"
-        android:name="com.chartiq.demo.ui.chart.ChartFragment"
-        android:label="@string/title_chart"
-        tools:layout="@layout/fragment_chart" />
 
     <fragment
         android:id="@+id/navigation_study"
@@ -94,25 +74,9 @@
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/chooseIntervalFragment"
-        android:name="com.chartiq.demo.ui.chart.interval.ChooseIntervalFragment"
-        android:label="ChooseIntervalFragmentCustomIntervalFragment">
-        <action
-            android:id="@+id/action_chooseIntervalFragment_to_customIntervalFragment"
-            app:destination="@id/customIntervalFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
         android:id="@+id/customIntervalFragment"
         android:name="com.chartiq.demo.ui.chart.interval.CustomIntervalFragment"
         android:label="CustomIntervalFragment" />
-    <fragment
-        android:id="@+id/searchSymbolFragment"
-        android:name="com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment"
-        android:label="SearchSymbolFragment" />
     <fragment
         android:id="@+id/drawingToolFragment"
         android:name="com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment"

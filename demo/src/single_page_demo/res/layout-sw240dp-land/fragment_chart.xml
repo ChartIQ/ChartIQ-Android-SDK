@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.chart.ChartFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/symbolButton"
+                style="@style/ChartButtonStyle"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:ellipsize="middle"
+                android:letterSpacing="0"
+                android:maxWidth="120dp"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingEnd="@dimen/padding_medium"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                tools:text="AAPL" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/intervalButton"
+                style="@style/ChartButtonStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toEndOf="@+id/symbolButton"
+                android:textAllCaps="false"
+                tools:text="1D" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/chartTypeCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@id/studyCheckBox"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/checkboxButtonColor"
+                android:button="@null"
+                android:padding="4dp" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/studyCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/compareCheckBox"
+                android:button="@drawable/ic_nav_study" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/compareCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/crosshairCheckBox"
+                android:button="@drawable/ic_compare" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/crosshairCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/drawCheckBox"
+                android:button="@drawable/selector_crosshair" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/drawCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/settingsCheckBox"
+                android:button="@drawable/selector_draw" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/settingsCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/fullviewCheckBox"
+                android:button="@drawable/ic_nav_settings" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/fullviewCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:button="@drawable/ic_fullview"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/chartIqView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/panelRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
+
+    <View
+        android:id="@+id/moveLeftCollapseButtonView"
+        android:layout_width="24dp"
+        android:layout_height="16dp"
+        android:background="@drawable/ic_arrow_move_left"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/collapseFullviewCheckBox"
+        app:layout_constraintEnd_toStartOf="@id/collapseFullviewCheckBox"
+        app:layout_constraintTop_toTopOf="@id/collapseFullviewCheckBox" />
+
+    <View
+        android:id="@+id/moveDownCollapseButtonView"
+        android:layout_width="16dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_arrow_move_down"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/collapseFullviewCheckBox"
+        app:layout_constraintStart_toStartOf="@id/collapseFullviewCheckBox"
+        app:layout_constraintTop_toBottomOf="@id/collapseFullviewCheckBox" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/collapseFullviewCheckBox"
+        style="@style/ChartCheckBoxStyle"
+        android:layout_margin="@dimen/margin_medium"
+        android:button="@drawable/ic_fullview_active"
+        app:layout_constraintEnd_toEndOf="@id/chartIqView"
+        app:layout_constraintTop_toTopOf="@id/chartIqView"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <include
+        android:id="@+id/crosshairLayout"
+        layout="@layout/layout_crosshairs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/undoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:src="@drawable/ic_undo"
+        app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/redoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:src="@drawable/ic_redo"
+        app:layout_constraintStart_toEndOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/crosshairLayout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/measureToolInfoTextView"
+        style="@style/SubtitleTextAppearance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/shape_background_measure"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_small"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/chartIqView"
+        app:layout_constraintStart_toStartOf="@id/chartIqView"
+        app:layout_constraintTop_toBottomOf="@id/redoImageView"
+        tools:text="1.70(-1.7) 40 Bars" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/instrumentRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/panelInstrumentBackgroundColor"
+        android:foreground="@drawable/shape_stroke_top_only"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/panelRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_panel_line_type"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/panelRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/panelBackgroundColor"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_panel_instrument"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

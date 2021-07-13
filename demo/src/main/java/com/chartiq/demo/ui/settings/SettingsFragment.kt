@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.ChartIQApplication
+import com.chartiq.demo.R
 import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentSettingsBinding
 import com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment
@@ -40,6 +45,18 @@ class SettingsFragment : Fragment(), ChartStyleSelectionFragment.DialogFragmentL
 
     private fun setupViews() {
         with(binding) {
+            chartConfigHeaderTextView.isVisible = BuildConfig.NEEDS_CHAR_STYLE_OPTION
+            chartConfigContainer.isVisible = BuildConfig.NEEDS_CHAR_STYLE_OPTION
+            toolbar.navigationIcon =
+                if (BuildConfig.NEEDS_BACK_NAVIGATION) {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_nav_back)
+                } else {
+                    null
+                }
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+
             chartConfigContainer.setOnClickListener {
 
                 ChartStyleSelectionFragment

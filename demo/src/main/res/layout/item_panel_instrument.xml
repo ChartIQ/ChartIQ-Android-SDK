@@ -4,10 +4,10 @@
     android:id="@+id/panelInstrumentLayout"
     android:layout_width="32dp"
     android:layout_height="32dp"
-    android:padding="0.5dp"
     android:layout_margin="@dimen/margin_small"
+    android:background="@drawable/shape_stroked_rectangle_transparent"
     android:backgroundTint="@color/yankeesBlue"
-    android:background="@drawable/shape_stroked_rectangle_transparent">
+    android:padding="0.5dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iconImageButton"

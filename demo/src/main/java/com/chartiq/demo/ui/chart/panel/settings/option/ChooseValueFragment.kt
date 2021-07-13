@@ -30,14 +30,14 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
     }
     private val parameter by lazy {
         requireArguments().getString(ARG_PARAM)
-                ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
+            ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
     }
     private val valuesAdapter = OptionsAdapter()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseValueBinding.inflate(inflater, container, false)
 
@@ -55,7 +55,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
     private fun setupViews() {
         with(binding) {
             optionList = requireArguments().getParcelableArrayList(ARG_OPTIONS)
-                    ?: throw IllegalStateException("No value options were passed to the fragment")
+                ?: throw IllegalStateException("No value options were passed to the fragment")
 
             valuesToolbar.apply {
                 val title = getString(requireArguments().getInt(ARG_TITLE))
@@ -63,7 +63,7 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
                 setNavigationOnClickListener {
                     if (isMultipleSelect) {
                         (targetFragment as DialogFragmentListener)
-                                .onChooseValue(parameter, optionList)
+                            .onChooseValue(parameter, optionList)
                     }
                     dismiss()
                 }
@@ -124,21 +124,21 @@ class ChooseValueFragment : FullscreenDialogFragment(), AddConfigFragment.Dialog
 
     companion object {
         fun getInstance(
-                @StringRes title: Int,
-                param: String,
-                valueList: List<OptionItem>,
-                isMultipleSelect: Boolean = false,
-                supportsCustomValues: Boolean,
-                supportsNegativeValues: Boolean
+            @StringRes title: Int,
+            param: String,
+            valueList: List<OptionItem>,
+            isMultipleSelect: Boolean = false,
+            supportsCustomValues: Boolean,
+            supportsNegativeValues: Boolean
         ): ChooseValueFragment {
             val dialog = ChooseValueFragment()
             dialog.arguments = bundleOf(
-                    ARG_TITLE to title,
-                    ARG_PARAM to param,
-                    ARG_OPTIONS to valueList,
-                    ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
-                    ARG_SUPPORTS_CUSTOM_VALUES to supportsCustomValues,
-                    ARG_SUPPORTS_NEGATIVE_VALUES to supportsNegativeValues
+                ARG_TITLE to title,
+                ARG_PARAM to param,
+                ARG_OPTIONS to valueList,
+                ARG_IS_MULTIPLE_SELECTION to isMultipleSelect,
+                ARG_SUPPORTS_CUSTOM_VALUES to supportsCustomValues,
+                ARG_SUPPORTS_NEGATIVE_VALUES to supportsNegativeValues
             )
             return dialog
         }

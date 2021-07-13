@@ -1,4 +1,4 @@
-package com.chartiq.demo
+package com.chartiq.demo.ui
 
 import android.app.SearchManager
 import android.content.Context
@@ -6,10 +6,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.WindowManager
 import android.util.Log
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,17 +15,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.network.ChartIQNetworkManager
-import com.chartiq.demo.ui.MainFragment
-import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
 import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.ChartTheme
 import dev.b3nedikt.restring.Restring
-import java.lang.NullPointerException
 
 
-class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver {
+class MainActivity : AppCompatActivity() {
 
     private val chartIQ: ChartIQ by lazy {
         (application as ServiceLocator).chartIQ
@@ -37,19 +35,19 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
     }
     private val mainViewModel: MainViewModel by viewModels(factoryProducer = {
         MainViewModel.ViewModelFactory(
-                ChartIQNetworkManager(),
-                (application as ServiceLocator).applicationPreferences,
-                chartIQ,
-                getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            ChartIQNetworkManager(),
+            (application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
     private val appCompatDelegate: AppCompatDelegate by lazy {
         ViewPumpAppCompatDelegate(
-                baseDelegate = super.getDelegate(),
-                baseContext = this,
-                wrapContext = { baseContext ->
-                    Restring.wrapContext(baseContext)
-                }
+            baseDelegate = super.getDelegate(),
+            baseContext = this,
+            wrapContext = { baseContext ->
+                Restring.wrapContext(baseContext)
+            }
         )
     }
 
@@ -60,17 +58,15 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainViewModel.prepareSession()
 
         mainViewModel.currentLocaleEvent.observe({ lifecycle }, { event ->
             event.getContentIfNotHandled()?.let { translations ->
                 localizationManager.updateTranslationsForLocale(
-                        translations,
-                        findViewById<FrameLayout>(R.id.content)
+                    translations,
+                    findViewById<FrameLayout>(R.id.content)
                 )
             }
         })
-        mainViewModel.setFullscreen(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
 
         if (android.os.Build.MANUFACTURER == "Xiaomi") {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -78,10 +74,13 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        mainViewModel.setFullscreen(isLandscape)
+    override fun onResume() {
+        super.onResume()
+        if (isDarkThemeOn()) {
+            mainViewModel.updateTheme(ChartTheme.NIGHT)
+        } else {
+            mainViewModel.updateTheme(ChartTheme.DAY)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -92,8 +91,8 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
                     intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                         try {
                             val voiceReceiver = findNestedDialogFragment(
-                                    supportFragmentManager,
-                                    ChooseSymbolFragment.DIALOG_TAG
+                                supportFragmentManager,
+                                ChooseSymbolFragment.DIALOG_TAG
                             ) as? VoiceQueryReceiver
 
                             voiceReceiver?.receiveVoiceQuery(query)
@@ -109,11 +108,10 @@ class MainActivity : AppCompatActivity(), MainFragment.MainFragmentPagerObserver
         }
     }
 
-    override fun onPageChanged() {
-        Handler(Looper.getMainLooper()).postDelayed(
-                { localizationManager.rewordUi(this.findViewById<FrameLayout>(R.id.content)) },
-                400
-        )
+
+    private fun isDarkThemeOn(): Boolean {
+        return resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun findNestedDialogFragment(manager: FragmentManager, tag: String): Fragment? {

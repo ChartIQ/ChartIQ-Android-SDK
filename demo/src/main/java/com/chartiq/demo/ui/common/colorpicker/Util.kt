@@ -23,15 +23,6 @@ fun findColorIndex(colors: List<ColorItem>, @ColorInt color: Int): Int? {
 }
 
 @ColorInt
-fun convertStringColorToInt(color: String): Int {
-    return if (color.isEmpty() || color == COLOR_AUTO) {
-        Color.BLACK
-    } else {
-        Color.parseColor(color)
-    }
-}
-
-@ColorInt
 fun convertStringColorToInt(color: String, resources: Resources): Int {
     return if (color.isEmpty() || color == COLOR_AUTO) {
         ResourcesCompat.getColor(resources, R.color.studyParameterAutoColor, null)
@@ -41,4 +32,15 @@ fun convertStringColorToInt(color: String, resources: Resources): Int {
 }
 
 fun Int.toHexStringWithHash(): String =
-        Integer.toHexString(this).replaceFirst(COLOR_ALPHA_COMPONENT, HASH)
+    Integer.toHexString(this).replaceFirst(COLOR_ALPHA_COMPONENT, HASH)
+
+
+fun Resources.getPickerColors(): List<ColorItem> {
+    val colors = obtainTypedArray(R.array.colors)
+    val colorsList = mutableListOf<ColorItem>()
+    for (index in 0 until colors.length()) {
+        colorsList.add(ColorItem(colors.getColor(index, Color.WHITE)))
+    }
+    colors.recycle()
+    return colorsList
+}

@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 
 class SimpleItemTouchCallBack(
-        private val text: String,
-        private val color: ColorDrawable,
+    private val text: String,
+    private val color: ColorDrawable,
 ) : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.ACTION_STATE_IDLE,
-        ItemTouchHelper.LEFT
+    ItemTouchHelper.ACTION_STATE_IDLE,
+    ItemTouchHelper.LEFT
 ) {
     var onSwipeListener: OnSwipeListener? = null
 
     override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder,
     ): Boolean {
         return false
     }
@@ -30,17 +30,17 @@ class SimpleItemTouchCallBack(
     }
 
     override fun onChildDraw(
-            c: Canvas,
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            dX: Float,
-            dY: Float,
-            actionState: Int,
-            isCurrentlyActive: Boolean,
+        c: Canvas,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean,
     ) {
 
         super.onChildDraw(
-                c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
+            c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
         )
         val itemView = viewHolder.itemView
         val mBackground = color
@@ -58,17 +58,17 @@ class SimpleItemTouchCallBack(
         when {
             dX > 0 -> { // Swiping to the right
                 mBackground.setBounds(
-                        itemView.left,
-                        itemView.top,
-                        itemView.left + dX.toInt(),
-                        itemView.bottom
+                    itemView.left,
+                    itemView.top,
+                    itemView.left + dX.toInt(),
+                    itemView.bottom
                 )
                 textX = 0f
             }
             dX < 0 -> { // Swiping to the left
                 mBackground.setBounds(
-                        itemView.right + dX.toInt(),
-                        itemView.top, itemView.right, itemView.bottom
+                    itemView.right + dX.toInt(),
+                    itemView.top, itemView.right, itemView.bottom
                 )
                 textX = if (itemView.right + dX.toInt() < (itemView.right - bounds.width() * 2).toFloat()) {
                     (itemView.right - bounds.width()).toFloat()
