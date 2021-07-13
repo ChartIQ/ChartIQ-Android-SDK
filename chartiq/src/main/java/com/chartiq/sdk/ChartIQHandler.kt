@@ -343,6 +343,33 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartScaleScript(scale.value))
     }
 
+    override fun setChartStyle(obj: String, attribute: String, value: String) {
+        val script = scriptManager.getSetChartStyleScript(obj, attribute, value)
+        executeJavascript(script)
+    }
+
+    override fun getEngineProperty(property: String, callback: OnReturnCallback<String>) {
+        val script = scriptManager.getGetEnginePropertyScript(property)
+        executeJavascript(script) {
+            callback.onReturn(it)
+        }
+    }
+
+    override fun setEngineProperty(property: String, value: String) {
+        executeJavascript(scriptManager.getSetEnginePropertyScript(property, value))
+    }
+
+    override fun getChartProperty(property: String, callback: OnReturnCallback<String>) {
+        val script = scriptManager.getGetChartPropertyScript(property)
+        executeJavascript(script) {
+            callback.onReturn(it)
+        }
+    }
+
+    override fun setChartProperty(property: String, value: String) {
+        executeJavascript(scriptManager.getSetChartPropertyScript(property, value))
+    }
+
     override fun removeStudy(study: Study) {
         executeJavascript(scriptManager.getRemoveStudyScript(study.name))
     }

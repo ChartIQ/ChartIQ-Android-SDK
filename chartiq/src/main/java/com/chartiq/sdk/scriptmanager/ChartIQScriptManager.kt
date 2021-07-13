@@ -244,17 +244,14 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartStyleScript(obj: String, attribute: String, value: String): String =
             CHART_IQ_JS_OBJECT + "setStyle(\"$obj\", \"$attribute\", \"$value\")"
 
-    override fun getSetChartPropertyScript(property: String, value: Any): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSetChartPropertyScript(property: String, value: Any): String =
+            MOBILE_BRIDGE_NAME_SPACE + "setChartProperty(\"$property\", \"$value\");"
 
-    override fun getGetChartPropertyScript(property: String): String {
-        TODO("Not yet implemented")
-    }
+    override fun getGetChartPropertyScript(property: String): String =
+            MOBILE_BRIDGE_NAME_SPACE + "getChartProperty(\"$property\");"
 
-    override fun getSetEnginePropertyScript(property: String, value: Any): String {
-        TODO("Not yet implemented")
-    }
+    override fun getSetEnginePropertyScript(property: String, value: Any): String =
+            MOBILE_BRIDGE_NAME_SPACE + "setEngineProperty(\"$property\", \"$value\");"
 
     override fun getGetEnginePropertyScript(property: String): String =
             MOBILE_BRIDGE_NAME_SPACE + "getEngineProperty(\"$property\");"

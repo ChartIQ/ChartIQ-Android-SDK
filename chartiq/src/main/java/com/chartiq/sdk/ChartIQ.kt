@@ -122,6 +122,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setChartScale(scale: ChartScale)
 
+    fun getEngineProperty(property: String, callback: OnReturnCallback<String>)
+
+    fun setEngineProperty(property: String, value: String)
+
+    fun getChartProperty(property: String, callback: OnReturnCallback<String>)
+
+    fun setChartProperty(property: String, value: String)
+
     /**
      * Gets a selected chart Y axis invertion
      * @param callback A callback to subscribe to to get a selected Y-axis invertion.
