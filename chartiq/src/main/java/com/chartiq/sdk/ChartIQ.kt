@@ -122,12 +122,32 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setChartScale(scale: ChartScale)
 
+    /**
+     * Gets a property off the chart engine object
+     * @param property the property to look for on the chart engine object
+     * @param callback A callback to subscribe to get the value of the chart engine property
+     */
     fun getEngineProperty(property: String, callback: OnReturnCallback<String>)
 
+    /**
+     * Sets a value on the selected chart engine property
+     * @param property the property to look for on the chart engine object
+     * @param value the value to change on the chart engine property
+     */
     fun setEngineProperty(property: String, value: String)
 
+    /**
+     * Gets a property off the chart object
+     * @param property the property to look for on the chart object
+     * @param callback A callback to subscribe to get the value of the chart property
+     */
     fun getChartProperty(property: String, callback: OnReturnCallback<String>)
 
+    /**
+     * Sets a value on the selected chart property
+     * @param property the property to look for on the chart object
+     * @param value the value to change on the chart property
+     */
     fun setChartProperty(property: String, value: String)
 
     /**

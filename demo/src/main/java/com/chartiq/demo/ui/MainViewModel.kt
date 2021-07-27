@@ -11,7 +11,6 @@ import com.chartiq.demo.localization.RemoteTranslations
 import com.chartiq.demo.network.NetworkException
 import com.chartiq.demo.network.NetworkManager
 import com.chartiq.demo.network.NetworkResult
-import com.chartiq.demo.ui.chart.MeasureItem
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
 import com.chartiq.demo.util.Event
@@ -20,10 +19,7 @@ import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
 import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
-import com.chartiq.sdk.model.DataMethod
-import com.chartiq.sdk.model.OHLCParams
 import com.chartiq.sdk.model.QuoteFeedParams
-import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
@@ -102,19 +98,9 @@ class MainViewModel(
                 }
             })
 
-            addChartAvailableListener { chartAvailable ->
-                if(chartAvailable) {
-                    //val data = callToGetData() // where data is a List<OHLCParams>
-                    chartIQ.setSymbol("FORD")
-                    chartIQ.setChartType(ChartType.MOUNTAIN)
-                    setupChart()
-                }
-            }
-
             start {
                 observeLocalization()
-
-                chartIQ.setDataMethod(DataMethod.PULL, "")
+                
                 val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
                 chartIQ.setTheme(theme)
                 setupChart()
