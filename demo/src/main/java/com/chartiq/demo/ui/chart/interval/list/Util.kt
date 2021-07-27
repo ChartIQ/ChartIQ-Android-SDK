@@ -7,6 +7,7 @@ import com.chartiq.sdk.model.TimeUnit
 fun getTimeUnitText(resources: Resources, interval: Int, timeUnit: TimeUnit): String {
     with(resources) {
         return when (timeUnit) {
+            TimeUnit.TICK -> getString(R.string.interval_tick, interval)
             TimeUnit.SECOND -> getString(R.string.interval_second, interval)
             TimeUnit.MINUTE -> getString(R.string.interval_minute, interval)
             TimeUnit.HOUR -> getString(R.string.interval_hour, interval)

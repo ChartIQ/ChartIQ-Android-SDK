@@ -28,6 +28,7 @@
     <string name="title_intervals">Intervals</string>
     <string name="title_custom_intervals">Custom Intervals</string>
     <string name="interval_full_label">%d %s</string>
+    <string name="interval_tick">tick</string>
     <string name="interval_second">second</string>
     <string name="interval_minute">minute</string>
     <string name="interval_hour">hour</string>
