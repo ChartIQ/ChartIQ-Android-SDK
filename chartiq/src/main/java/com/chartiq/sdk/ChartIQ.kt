@@ -93,6 +93,14 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
     fun setAggregationType(aggregationType: ChartAggregationType)
 
     /**
+     * Sets an chart style for charts
+     * @param obj The object whose style you wish to change (stx_grid, stx_xaxis, etc).
+     * @param attribute The style name of the object you wish to change (color, border, etc).
+     * @param value The value to assign to the attribute.
+     */
+    fun setChartStyle(obj: String, attribute: String, value: String)
+
+    /**
      * Sets an chart type for charts
      * @param chartType A selected chart type
      */

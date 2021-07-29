@@ -100,7 +100,7 @@ class MainViewModel(
 
             start {
                 observeLocalization()
-                
+
                 val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
                 chartIQ.setTheme(theme)
                 setupChart()
