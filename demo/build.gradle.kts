@@ -23,10 +23,10 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file("keystore/release.jks")
-            storePassword = "CduNh9W7d2rzjrHV"
-            keyAlias = "chartKey"
-            keyPassword = "8RcZah58RhRmYtpu"
+            storeFile = file("path to keystore")
+            storePassword = ""
+            keyAlias = ""
+            keyPassword = ""
         }
     }
 
