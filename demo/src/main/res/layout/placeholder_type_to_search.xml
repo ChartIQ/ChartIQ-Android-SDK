@@ -14,7 +14,7 @@
         style="@style/PlaceHolderHintTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="center|bottom"
+        android:gravity="center"
         android:text="@string/search_action_hint" />
 </FrameLayout>

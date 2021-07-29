@@ -34,7 +34,12 @@ class CompareAdapter : RecyclerView.Adapter<CompareAdapter.CompareViewHolder>() 
         fun bind(item: Series) {
             with(binding) {
                 titleTextView.text = item.symbolName
-                (colorImageView.background as GradientDrawable).setColor(convertStringColorToInt(item.color))
+                (colorImageView.background as GradientDrawable).setColor(
+                    convertStringColorToInt(
+                        item.color,
+                        itemView.resources
+                    )
+                )
                 colorImageView.setOnClickListener {
                     listener?.onSelected(item)
                 }

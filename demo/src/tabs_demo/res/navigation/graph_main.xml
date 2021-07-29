@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.chartiq.demo.ui.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_navigation_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_navigation_study"
+            app:destination="@id/navigation_study"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_navigation_chart"
+            app:destination="@id/navigation_chart"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_drawingToolFragment"
+            app:destination="@id/drawingToolFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_drawingToolSettingsFragment"
+            app:destination="@id/drawingToolSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_compareFragment"
+            app:destination="@id/compareFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.chartiq.demo.ui.chart.ChartFragment"
+        android:label="@string/title_chart"
+        tools:layout="@layout/fragment_chart" />
+
+    <fragment
+        android:id="@+id/navigation_study"
+        android:name="com.chartiq.demo.ui.study.StudyFragment"
+        android:label="@string/title_study"
+        tools:layout="@layout/fragment_study">
+        <action
+            android:id="@+id/action_navigation_study_to_addStudyFragment"
+            app:destination="@id/addStudyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_study_to_activeStudyDetailsFragment"
+            app:destination="@id/activeStudyDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.chartiq.demo.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/customIntervalFragment"
+        android:name="com.chartiq.demo.ui.chart.interval.CustomIntervalFragment"
+        android:label="CustomIntervalFragment" />
+    <fragment
+        android:id="@+id/drawingToolFragment"
+        android:name="com.chartiq.demo.ui.chart.drawingtools.DrawingToolFragment"
+        android:label="DrawingToolFragment" />
+    <fragment
+        android:id="@+id/addStudyFragment"
+        android:name="com.chartiq.demo.ui.study.addstudy.AddStudyFragment"
+        android:label="AddStudyFragment" />
+    <fragment
+        android:id="@+id/drawingToolSettingsFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsFragment"
+        android:label="DrawingToolSettingsFragment">
+        <argument
+            android:name="argDrawingTool"
+            app:argType="com.chartiq.sdk.model.drawingtool.DrawingTool" />
+        <argument
+            android:name="argDeviation"
+            android:defaultValue="@null"
+            app:argType="com.chartiq.demo.ui.chart.panel.settings.DrawingToolSettingsItem$Deviation"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_drawingToolSettingsFragment_self"
+            app:destination="@id/drawingToolSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addConfigFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.config.AddConfigFragment"
+        android:label="AddConfigFragment" />
+    <fragment
+        android:id="@+id/chooseLineFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.line.ChooseLineFragment"
+        android:label="ChooseLineFragment" />
+    <fragment
+        android:id="@+id/chooseColorFragment"
+        android:name="com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment"
+        android:label="ChooseColorFragment" />
+    <fragment
+        android:id="@+id/activeStudyDetailsFragment"
+        android:name="com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragment"
+        android:label="ActiveStudyDetailsFragment">
+        <argument
+            android:name="study"
+            app:argType="com.chartiq.sdk.model.study.Study" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectParameterDialogFragment"
+        android:name="com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment"
+        android:label="SelectParameterDialogFragment">
+        <argument
+            android:name="parameter"
+            app:argType="com.chartiq.sdk.model.study.StudyParameter$Select" />
+    </fragment>
+    <fragment
+        android:id="@+id/chartStyleSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.chartstyle.ChartStyleSelectionFragment"
+        android:label="ChartStyleSelectionFragment">
+        <argument
+            android:name="selectedStyle"
+            app:argType="com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem"
+            app:nullable="true" />
+    </fragment>
+    <dialog
+        android:id="@+id/languageSelectionFragment"
+        android:name="com.chartiq.demo.ui.settings.language.LanguageSelectionFragment"
+        android:label="LanguageSelectionFragment">
+        <argument
+            android:name="selectedLanguage"
+            app:argType="com.chartiq.demo.ui.settings.language.ChartIQLanguage" />
+    </dialog>
+    <fragment
+        android:id="@+id/compareFragment"
+        android:name="com.chartiq.demo.ui.chart.comparison.CompareFragment"
+        android:label="CompareFragment" />
+</navigation>

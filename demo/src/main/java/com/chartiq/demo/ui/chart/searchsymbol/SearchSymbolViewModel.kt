@@ -48,8 +48,8 @@ class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewMo
     }
 
     private fun SymbolResponse.mapToItemList(): List<SearchResultItem> = payload.symbols
-            .map { element -> element.split('|') }
-            .map { SearchResultItem(it[0], it[1], it[2]) }
+        .map { element -> element.split('|') }
+        .map { SearchResultItem(it[0], it[1], it[2]) }
 
     private fun fetchSymbolWithDebounce(symbol: String) {
         searchJob?.cancel()
@@ -78,8 +78,8 @@ class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewMo
     class SearchViewModelFactory(private val argNetworkManager: NetworkManager) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                    .getConstructor(NetworkManager::class.java)
-                    .newInstance(argNetworkManager)
+                .getConstructor(NetworkManager::class.java)
+                .newInstance(argNetworkManager)
         }
     }
 }

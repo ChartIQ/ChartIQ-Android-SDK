@@ -17,9 +17,9 @@ class ChooseColorFragment : FullscreenDialogFragment() {
     private lateinit var binding: FragmentChooseColorBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseColorBinding.inflate(inflater, container, false)
 
@@ -41,14 +41,14 @@ class ChooseColorFragment : FullscreenDialogFragment() {
                 }
 
                 colorsAdapter.items =
-                        colorList.mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }
+                    colorList.mapIndexed { index, it -> it.copy(isSelected = index == selectedIndex) }
                 colorsAdapter.viewHolderConfiguration = ColorViewHolderConfiguration(
-                        minWidth = resources.getDimensionPixelSize(R.dimen.list_item_color_min_width_fullscreen),
-                        minHeight = resources.getDimensionPixelSize(R.dimen.list_item_color_min_height_fullscreen)
+                    minWidth = resources.getDimensionPixelSize(R.dimen.list_item_color_min_width_fullscreen),
+                    minHeight = resources.getDimensionPixelSize(R.dimen.list_item_color_min_height_fullscreen)
                 )
                 colorsAdapter.listener = OnSelectItemListener {
                     val parameter = requireArguments().getString(ARG_PARAMETER)
-                            ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
+                        ?: throw IllegalStateException("No drawing parameter was passed to the fragment")
                     (targetFragment as DialogFragmentListener).onChooseColor(parameter, it.color)
 
                     dismiss()
@@ -65,7 +65,7 @@ class ChooseColorFragment : FullscreenDialogFragment() {
         val colorsList = mutableListOf<ColorItem>()
         for (index in 0 until colors.length()) {
             colorsList.add(
-                    ColorItem(colors.getColor(index, Color.WHITE))
+                ColorItem(colors.getColor(index, Color.WHITE))
             )
         }
         colors.recycle()
@@ -76,8 +76,8 @@ class ChooseColorFragment : FullscreenDialogFragment() {
         fun getInstance(param: String, selectedColor: String): ChooseColorFragment {
             val dialog = ChooseColorFragment()
             dialog.arguments = bundleOf(
-                    ARG_PARAMETER to param,
-                    ARG_SELECTED_COLOR to selectedColor
+                ARG_PARAMETER to param,
+                ARG_SELECTED_COLOR to selectedColor
             )
             return dialog
         }

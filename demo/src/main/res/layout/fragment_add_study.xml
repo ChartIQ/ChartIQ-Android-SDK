@@ -28,10 +28,10 @@
                 app:title="@string/study_title_add_study" />
 
             <FrameLayout
-                android:elevation="@dimen/elevation_small"
-                android:background="@color/toolbarBackgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/toolbarBackgroundColor"
+                android:elevation="@dimen/elevation_small"
                 android:padding="@dimen/padding_medium">
 
                 <androidx.appcompat.widget.AppCompatEditText
