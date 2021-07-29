@@ -2,19 +2,15 @@
 
 Native Android SDK for the [ChartIQ JavaScript library](https://documentation.chartiq.com).
 
-<table>
-  <tr>
-    <td>:construction: <b>BETA Release</b>. Please visit us again starting March 19, 2021 to download the final release of this SDK and accompanying mobile application.</td>
-  </tr>
-</table>
-
 The ChartIQ Android SDK supports a basic charting application. The SDK can be extended to support more elaborate implementations by adding code to invoke ChartIQ library functions directly or by creating a bridge file similar to *nativeSdkBridge.js* (in the *mobile/js* folder of your ChartIQ library).
 
 Contact us at <support@chartiq.com> to request sample code and guidance on how to extend the SDK.
 
 ## Requirements
 
-- Version 8.2.0 or later of the ChartIQ library
+- Version 8.2.1 or later of the ChartIQ library
+
+  For previous version support, please refer to the [Releases](https://github.com/ChartIQ/ChartIQ-Android-SDK/releases) section.
 
   Go to our <a href="https://cosaic.io/chartiq-sdk-library-download/" target="_blank">download site</a> to obtain a free 30-day trial version of the library, or send us an email at <info@cosaic.io>, and we'll send you an evaluation version.
 

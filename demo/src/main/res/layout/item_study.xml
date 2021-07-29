@@ -13,11 +13,12 @@
         tools:checked="true" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/SubtitleTextAppearance"
         android:id="@+id/nameTextView"
+        style="@style/SubtitleTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_extra_large"
         android:layout_weight="1"
+        android:textAlignment="viewStart"
         tools:text="Anchored VWAP" />
 </LinearLayout>

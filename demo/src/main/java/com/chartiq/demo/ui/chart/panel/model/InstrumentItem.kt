@@ -6,5 +6,5 @@ data class InstrumentItem(
     val instrument: Instrument,
     @DrawableRes
     val iconRes: Int,
-    val isSelected: Boolean = false
+    val isSelected: Boolean
 )

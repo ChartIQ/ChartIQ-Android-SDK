@@ -11,7 +11,7 @@ import com.chartiq.sdk.ChartIQ
 class ChartIQApplication : Application(), ServiceLocator {
 
     override val applicationPreferences: ApplicationPrefs by lazy {
-        ApplicationPrefs.Default(this)
+        DefaultApplicationPrefs(this)
     }
     override val localizationManager: LocalizationManager by lazy {
         ChartIQLocalizationManager()

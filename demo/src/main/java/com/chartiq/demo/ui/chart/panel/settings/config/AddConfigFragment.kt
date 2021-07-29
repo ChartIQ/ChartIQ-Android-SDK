@@ -46,9 +46,9 @@ class AddConfigFragment : FullscreenDialogFragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = FragmentChooseConfigBinding.inflate(inflater, container, false)
 
@@ -74,7 +74,7 @@ class AddConfigFragment : FullscreenDialogFragment() {
         fun getInstance(supportsNegativeInput: Boolean): AddConfigFragment {
             val dialog = AddConfigFragment()
             dialog.arguments = bundleOf(
-                    ARG_SUPPORTS_NEGATIVE_INPUT to supportsNegativeInput
+                ARG_SUPPORTS_NEGATIVE_INPUT to supportsNegativeInput
             )
             return dialog
         }

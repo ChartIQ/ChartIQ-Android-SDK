@@ -20,10 +20,10 @@
         style="@style/SubtitleTextAppearance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginVertical="@dimen/margin_medium_small"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="1"
+        android:textAlignment="viewStart"
         tools:text="Candle" />
 
     <androidx.appcompat.widget.AppCompatImageView

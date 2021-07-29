@@ -72,7 +72,7 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
                 with(binding) {
                     val timeUnitText = getTimeUnitText(root.resources, item.interval, item.timeUnit)
                     var fullPeriodicity = item.period * item.interval
-                    if(item.timeUnit == TimeUnit.HOUR) {
+                    if (item.timeUnit == TimeUnit.HOUR) {
                         fullPeriodicity /= 60
                     }
                     intervalTextView.text = root.context.getString(
@@ -105,7 +105,7 @@ class IntervalListAdapter : RecyclerView.Adapter<IntervalListAdapter.IntervalVie
                     if (item.isSelected) {
                         val timeUnitText = getTimeUnitText(root.resources, item.interval, item.timeUnit)
                         var fullPeriodicity = item.period * item.interval
-                        if(item.timeUnit == TimeUnit.HOUR) {
+                        if (item.timeUnit == TimeUnit.HOUR) {
                             fullPeriodicity /= 60
                         }
 
