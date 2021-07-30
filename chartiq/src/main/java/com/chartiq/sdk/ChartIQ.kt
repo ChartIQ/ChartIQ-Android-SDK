@@ -212,6 +212,9 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
 
+    /**
+     * @suppress
+     */
     companion object {
         fun getInstance(url: String, context: Context): ChartIQ {
             return ChartIQHandler(url, context)
