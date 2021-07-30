@@ -3,6 +3,7 @@ package com.chartiq.demo
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.chartiq.demo.ui.MainActivity
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {

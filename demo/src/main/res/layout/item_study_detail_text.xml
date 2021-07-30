@@ -18,8 +18,8 @@
             android:id="@+id/parameterNumberEditText"
             style="@style/SubtitleTextAppearance"
             android:layout_width="match_parent"
-            android:imeOptions="actionDone"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
