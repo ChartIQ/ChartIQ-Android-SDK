@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -99,7 +100,7 @@ class DrawingToolSettingsAdapter :
             item as DrawingToolSettingsItem.Color
             with(binding) {
                 val color = if (item.color.isEmpty() || item.color == COLOR_AUTO) {
-                    Color.BLACK
+                    ResourcesCompat.getColor(binding.root.resources, R.color.studyParameterAutoColor, null)
                 } else {
                     Color.parseColor(item.color)
                 }

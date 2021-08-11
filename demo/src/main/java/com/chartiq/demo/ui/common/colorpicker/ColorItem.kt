@@ -7,3 +7,4 @@ data class ColorItem(
     val color: Int,
     val isSelected: Boolean = false
 )
+

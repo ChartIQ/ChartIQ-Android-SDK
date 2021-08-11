@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.chartiq.demo.BuildConfig
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.ServiceLocator
@@ -38,10 +39,10 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     })
     private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
         MainViewModel.ViewModelFactory(
-                ChartIQNetworkManager(),
-                (requireActivity().application as ServiceLocator).applicationPreferences,
-                chartIQ,
-                requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            ChartIQNetworkManager(),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         )
     })
     private val activeStudiesAdapter = ActiveStudiesAdapter()
@@ -49,9 +50,9 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     private lateinit var binding: FragmentStudyBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentStudyBinding.inflate(inflater, container, false)
         setupViews()
@@ -69,6 +70,15 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                 navigateToStudyList()
                 true
             }
+            toolbar.navigationIcon =
+                if (BuildConfig.NEEDS_BACK_NAVIGATION) {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_nav_back)
+                } else {
+                    null
+                }
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
             activeStudiesRecyclerView.apply {
                 adapter = activeStudiesAdapter
                 addItemDecoration(LineItemDecoration.Default(requireContext()))
@@ -76,26 +86,26 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                 activeStudiesAdapter.listener = object : ActiveStudiesAdapter.StudyListener {
                     override fun onOptionsClick(study: Study) {
                         ActiveStudyBottomSheetDialogFragment
-                                .getInstance(study).apply {
-                                    setTargetFragment(this@StudyFragment, REQUEST_CODE)
-                                }
-                                .show(
-                                        parentFragmentManager,
-                                        ActiveStudyBottomSheetDialogFragment::class.java.simpleName
-                                )
+                            .getInstance(study).apply {
+                                setTargetFragment(this@StudyFragment, REQUEST_CODE)
+                            }
+                            .show(
+                                parentFragmentManager,
+                                ActiveStudyBottomSheetDialogFragment::class.java.simpleName
+                            )
                     }
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
-                        SimpleItemTouchCallBack(
-                                getString(R.string.study_delete).toUpperCase(),
-                                ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
-                        ).apply {
-                            onSwipeListener = SimpleItemTouchCallBack.OnSwipeListener { viewHolder, _ ->
-                                val position = viewHolder.adapterPosition
-                                val studyToDelete = activeStudiesAdapter.items[position]
-                                deleteStudy(studyToDelete)
-                            }
+                    SimpleItemTouchCallBack(
+                        getString(R.string.study_delete).toUpperCase(),
+                        ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
+                    ).apply {
+                        onSwipeListener = SimpleItemTouchCallBack.OnSwipeListener { viewHolder, _ ->
+                            val position = viewHolder.adapterPosition
+                            val studyToDelete = activeStudiesAdapter.items[position]
+                            deleteStudy(studyToDelete)
                         }
+                    }
                 )
                 deleteItemTouchHelper.attachToRecyclerView(this)
             }
