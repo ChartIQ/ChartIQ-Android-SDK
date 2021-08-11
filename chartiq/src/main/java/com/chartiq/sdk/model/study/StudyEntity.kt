@@ -20,6 +20,7 @@ internal data class StudyEntity(
     val yAxis: Map<String, Object>?
 ) : Serializable
 
+
 internal fun StudyEntity.toStudy(): Study {
     return Study(
         attributes = attributes ?: emptyMap(),

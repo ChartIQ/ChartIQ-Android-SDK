@@ -5,7 +5,12 @@ import com.google.gson.annotations.SerializedName
 /**
  * An enumeration of available line types
  */
-enum class LineType(val value: String) {
+enum class LineType(
+    /**
+     * @suppress
+     */
+    val value: String
+) {
     @SerializedName("solid")
     SOLID("solid"),
 

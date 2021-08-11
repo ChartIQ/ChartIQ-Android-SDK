@@ -13,7 +13,8 @@
         android:drawableStart="@drawable/ic_menu_settings"
         android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
-        android:text="@string/study_settings" />
+        android:text="@string/study_settings"
+        android:textAlignment="viewStart" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bottomCloneTextView"
@@ -24,7 +25,8 @@
         android:drawableStart="@drawable/ic_clone"
         android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
-        android:text="@string/study_clone" />
+        android:text="@string/study_clone"
+        android:textAlignment="viewStart" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bottomDeleteTextView"
@@ -36,5 +38,6 @@
         android:drawablePadding="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
         android:text="@string/study_delete"
+        android:textAlignment="viewStart"
         android:textColor="@color/coralRed" />
 </LinearLayout>

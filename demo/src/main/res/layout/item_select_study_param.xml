@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:background="?attr/selectableItemBackground"
+    android:gravity="center"
     android:orientation="horizontal"
     android:paddingStart="@dimen/padding_medium"
     android:paddingEnd="@dimen/padding_small">
@@ -28,12 +28,12 @@
         tools:text="NYSE" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:clickable="false"
         android:id="@+id/parameterSelectValueTextView"
         style="@style/SecondaryTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
