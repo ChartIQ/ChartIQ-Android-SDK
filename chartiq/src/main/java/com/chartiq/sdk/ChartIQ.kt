@@ -142,7 +142,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param property the property to look for on the chart engine object
      * @param value the value to change on the chart engine property
      */
-    fun setEngineProperty(property: String, value: String)
+    fun setEngineProperty(property: String, value: Any)
 
     /**
      * Gets a property off the chart object
@@ -156,7 +156,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param property the property to look for on the chart object
      * @param value the value to change on the chart property
      */
-    fun setChartProperty(property: String, value: String)
+    fun setChartProperty(property: String, value: Any)
 
     /**
      * Gets a selected chart Y axis invertion

@@ -354,8 +354,9 @@ class ChartIQHandler(
         }
     }
 
-    override fun setEngineProperty(property: String, value: String) {
-        executeJavascript(scriptManager.getSetEnginePropertyScript(property, value))
+    override fun setEngineProperty(property: String, value: Any) {
+        val script = scriptManager.getSetEnginePropertyScript(property, value)
+        executeJavascript(script)
     }
 
     override fun getChartProperty(property: String, callback: OnReturnCallback<String>) {
@@ -365,8 +366,9 @@ class ChartIQHandler(
         }
     }
 
-    override fun setChartProperty(property: String, value: String) {
-        executeJavascript(scriptManager.getSetChartPropertyScript(property, value))
+    override fun setChartProperty(property: String, value: Any) {
+        val script = scriptManager.getSetChartPropertyScript(property, value)
+        executeJavascript(script)
     }
 
     override fun removeStudy(study: Study) {
