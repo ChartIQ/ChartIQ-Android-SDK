@@ -6,7 +6,6 @@ import android.graphics.drawable.LayerDrawable
 import androidx.annotation.IdRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.content.res.ResourcesCompat
 import com.chartiq.demo.R
 import com.chartiq.demo.ui.common.colorpicker.COLOR_AUTO
 import com.chartiq.sdk.model.drawingtool.LineType
