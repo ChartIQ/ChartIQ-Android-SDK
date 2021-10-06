@@ -15,8 +15,8 @@
         tools:src="@drawable/ic_drawing_tool_annotation" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/SubtitleTextAppearance"
         android:id="@+id/toolNameTextView"
+        style="@style/SubtitleTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_extra_large"
@@ -45,13 +45,13 @@
         android:id="@+id/starIndicatorImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium_small"
         android:width="0dp"
         android:button="@drawable/selector_star"
         android:buttonTint="@color/favoriteCheckboxTintColor"
         android:minWidth="32dp"
         android:minHeight="24dp"
         android:padding="@dimen/padding_medium"
-        android:layout_marginEnd="@dimen/margin_medium_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
