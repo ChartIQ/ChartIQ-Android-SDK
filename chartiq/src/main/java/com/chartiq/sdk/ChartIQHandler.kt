@@ -150,6 +150,16 @@ class ChartIQHandler(
         }
     }
 
+    override fun push(symbol: String, data: List<OHLCParams>) {
+
+        executeJavascript(scriptManager.getPushDataScript(symbol, data))
+    }
+
+    override fun pushUpdate(data: List<OHLCParams>) {
+        executeJavascript("stxx.chart.yAxis.decimalPlaces = 3;")
+        executeJavascript(scriptManager.getPushUpdateScript(data))
+    }
+
     override fun getSymbol(callback: OnReturnCallback<String>) {
         executeJavascript(scriptManager.getGetSymbolScript()) { value ->
             if (value != "null") {

@@ -248,6 +248,10 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      */
     fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
 
+    fun push(symbol: String, data: List<OHLCParams>)
+
+    fun pushUpdate(data: List<OHLCParams>)
+
     /**
      * @suppress
      */

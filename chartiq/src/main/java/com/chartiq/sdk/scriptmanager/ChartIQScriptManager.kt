@@ -56,12 +56,11 @@ internal class ChartIQScriptManager : ScriptManager {
         MOBILE_BRIDGE_NAME_SPACE + "setPeriodicity($period, $interval, \"$timeUnit\");"
 
     override fun getPushDataScript(symbol: String, data: List<OHLCParams>): String {
-        val jsonString = ""
-        return MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"\", $jsonString); "
+        return MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"$symbol\", '${Gson().toJson(data)}'); "
     }
 
     override fun getPushUpdateScript(data: List<OHLCParams>): String {
-        return MOBILE_BRIDGE_NAME_SPACE + "parseData($data');"
+        return MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}');"
     }
 
     override fun getSetChartTypeScript(chartType: String): String =
