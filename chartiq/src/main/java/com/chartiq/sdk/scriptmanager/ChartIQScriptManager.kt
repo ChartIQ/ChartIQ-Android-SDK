@@ -59,8 +59,8 @@ internal class ChartIQScriptManager : ScriptManager {
         return MOBILE_BRIDGE_NAME_SPACE + "loadChart(\"$symbol\", '${Gson().toJson(data)}'); "
     }
 
-    override fun getPushUpdateScript(data: List<OHLCParams>): String {
-        return MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}');"
+    override fun getPushUpdateScript(data: List<OHLCParams>, useAsLastSale: Boolean): String {
+        return MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', null, null, null, $useAsLastSale);"
     }
 
     override fun getSetChartTypeScript(chartType: String): String =
@@ -265,9 +265,10 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getParseDataScript(
         data: List<OHLCParams>,
         callbackId: String,
-        moreAvailable: Boolean
+        moreAvailable: Boolean,
+        upToDate: Boolean
     ): String =
-        MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\", $moreAvailable)"
+        MOBILE_BRIDGE_NAME_SPACE + "parseData('${Gson().toJson(data)}', \"$callbackId\", $moreAvailable, $upToDate)"
 
     override fun getInvertYAxisScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "getLayoutProperty(\"flipped\");"

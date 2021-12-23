@@ -250,7 +250,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     fun push(symbol: String, data: List<OHLCParams>)
 
-    fun pushUpdate(data: List<OHLCParams>)
+    fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean)
 
     /**
      * @suppress
