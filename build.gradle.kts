@@ -8,10 +8,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.1")
+        classpath("com.android.tools.build:gradle:7.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlin_version"]}")
         classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.4.32")
 
 

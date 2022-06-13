@@ -85,8 +85,8 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartScaleScript(scale: String): String =
         CHART_IQ_JS_OBJECT + "setChartScale(\"$scale\");"
 
-    override fun getAddStudyScript(studyName: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
+    override fun getAddStudyScript(studyName: String, inputs: String, outputs: String, parameters: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy('$studyName', '$inputs', '$outputs', '$parameters');"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"

@@ -6,19 +6,19 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        applicationId("com.chartiq.demo")
-        minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
+        applicationId = "com.chartiq.demo"
+        minSdk = 21
+        targetSdk = 30
+        versionCode = 8
+        versionName = "3.1.0"
 
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.0.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.1.0/sample-template-native-sdk.html\""
         )
     }
     signingConfigs {
@@ -38,8 +38,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
-
-    flavorDimensions("version")
+    flavorDimensions += listOf("version")
 
     productFlavors {
         create("single_page_demo")
