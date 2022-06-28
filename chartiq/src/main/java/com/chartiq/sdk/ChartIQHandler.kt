@@ -4,18 +4,50 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.View
-import android.webkit.*
+import android.webkit.ConsoleMessage
+import android.webkit.JavascriptInterface
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.chartiq.sdk.adapters.StudyEntityClassTypeAdapter
-import com.chartiq.sdk.model.*
+import com.chartiq.sdk.model.ChartLayer
+import com.chartiq.sdk.model.ChartScale
+import com.chartiq.sdk.model.ChartTheme
+import com.chartiq.sdk.model.CrosshairHUD
+import com.chartiq.sdk.model.DataMethod
+import com.chartiq.sdk.model.OHLCParams
+import com.chartiq.sdk.model.ParameterEntityValueType
+import com.chartiq.sdk.model.QuoteFeedParams
+import com.chartiq.sdk.model.Series
+import com.chartiq.sdk.model.TimeUnit
 import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
-import com.chartiq.sdk.model.study.*
+import com.chartiq.sdk.model.signal.Condition
+import com.chartiq.sdk.model.signal.ConditionEntity
+import com.chartiq.sdk.model.signal.Signal
+import com.chartiq.sdk.model.signal.SignalTemp
+import com.chartiq.sdk.model.signal.StudyShortNameEntity
+import com.chartiq.sdk.model.signal.toData
+import com.chartiq.sdk.model.study.ChartIQStudy
+import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyEntity
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterEntity
+import com.chartiq.sdk.model.study.StudyParameterModel
+import com.chartiq.sdk.model.study.StudyParameterType
+import com.chartiq.sdk.model.study.toParameter
+import com.chartiq.sdk.model.study.toStudy
 import com.chartiq.sdk.scriptmanager.ChartIQScriptManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.util.*
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -43,6 +75,19 @@ class ChartIQHandler(
             loadUrl(chartIQUrl)
         }
     }
+
+    val conditionsListSerializer =
+        JsonSerializer<ConditionEntity>() { condition: ConditionEntity, type: Type, jsonSerializationContext: JsonSerializationContext ->
+            val array = JsonArray()
+            array.apply {
+                add(condition.lhs)
+                add(condition.signalOperator)
+                add(condition.rhs)
+                add(condition.color)
+                add(Gson().toJson(condition.markerOption))
+            }
+            return@JsonSerializer array
+        }
 
     override fun start(onStartCallback: OnStartCallback) {
         chartIQView.apply {
@@ -226,7 +271,7 @@ class ChartIQHandler(
     }
 
     override fun setPeriodicity(period: Int, interval: String, timeUnit: TimeUnit) {
-        val unit = timeUnit.toString().toLowerCase(Locale.ENGLISH)
+        val unit = timeUnit.toString().lowercase(Locale.ENGLISH)
         executeJavascript(scriptManager.getSetPeriodicityScript(period, interval, unit))
     }
 
@@ -244,14 +289,17 @@ class ChartIQHandler(
 
     override fun getStudyList(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetStudyListScript()) { value: String ->
-            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val result = if (value.lowercase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
             }
-            val objectResult = Gson().fromJson(result, Object::class.java)
+            val gson = GsonBuilder()
+                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                .create()
+            val objectResult = gson.fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
-            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
+            val studyList = gson.fromJson<Map<String, StudyEntity>>(
                 objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
@@ -263,7 +311,7 @@ class ChartIQHandler(
 
     override fun getActiveStudies(callback: OnReturnCallback<List<Study>>) {
         executeJavascript(scriptManager.getGetActiveStudiesScript()) { value ->
-            val result = if (value.toLowerCase(Locale.ENGLISH) == "null") {
+            val result = if (value.lowercase(Locale.ENGLISH) == "null") {
                 "[]"
             } else {
                 value
@@ -280,12 +328,12 @@ class ChartIQHandler(
     }
 
     override fun setAggregationType(aggregationType: ChartAggregationType) {
-        val value = aggregationType.name.toLowerCase(Locale.ENGLISH)
+        val value = aggregationType.name.lowercase(Locale.ENGLISH)
         executeJavascript(scriptManager.getSetAggregationTypeScript(value))
     }
 
     override fun setChartType(chartType: ChartType) {
-        executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.toLowerCase(Locale.ENGLISH)))
+        executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.lowercase(Locale.ENGLISH)))
     }
 
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
@@ -297,7 +345,7 @@ class ChartIQHandler(
                 callback.onReturn(
                     ChartType.valueOf(
                         it.substring(1, it.length - 1)
-                            .toUpperCase(Locale.ENGLISH)
+                            .uppercase(Locale.ENGLISH)
                     )
                 )
             }
@@ -311,7 +359,7 @@ class ChartIQHandler(
                 callback.onReturn(null)
             } else {
                 val parsedValue = value.substring(1, value.length - 1)
-                    .toUpperCase(Locale.ENGLISH)
+                    .uppercase(Locale.ENGLISH)
                 val type = if (ChartAggregationType.values().any { it.name == parsedValue }) {
                     ChartAggregationType.valueOf(parsedValue)
                 } else {
@@ -329,7 +377,7 @@ class ChartIQHandler(
                 callback.onReturn(
                     ChartScale.valueOf(
                         it.substring(1, it.length - 1)
-                            .toUpperCase()
+                            .uppercase(Locale.ENGLISH)
                     )
                 )
             } catch (e: Exception) {
@@ -375,21 +423,64 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getRemoveStudyScript(study.name))
     }
 
+    override fun getSignals(callback: OnReturnCallback<List<Signal>>) {
+        executeJavascript(scriptManager.getGetActiveSignalsListScript()) { value ->
+            val result = if (value.lowercase(Locale.ENGLISH) == "null") {
+                ""
+            } else {
+                value
+            }
+            callback.onReturn(emptyList())
+        }
+    }
+
+    override fun toggleSignal(signal: Signal) {
+        executeJavascript(scriptManager.getToggleSignalScript(signal.name))
+    }
+
+    override fun removeSignal(signal: Signal) {
+        executeJavascript(scriptManager.getRemoveSignalScript(signal.name))
+    }
+
+    override fun addSignalStudy(name: String, callback: OnReturnCallback<Study>) {
+        executeJavascript(scriptManager.getAddStudyAsSignalScript(name)) { value ->
+            if (value.lowercase(Locale.ENGLISH) != "null") {
+                val currentStudy = Gson().fromJson(
+                    value
+                        .substring(1, value.length - 1)
+                        .replace("\\", ""),
+                    StudyShortNameEntity::class.java
+                )
+                getActiveStudies { list: List<Study> ->
+                    callback.onReturn(list.first { study -> study.shortName == currentStudy.name })
+                }
+            }
+        }
+    }
+
+    override fun addSignal(name: String, signalTemp: SignalTemp, editMode: Boolean) {
+        val gson =
+            GsonBuilder()
+                .registerTypeAdapter(ConditionEntity::class.java, conditionsListSerializer)
+                .create()
+        val signalParams = gson.toJson(signalTemp.toData())
+        val script ="CIQ.MobileBridge.saveSignal(\'\u200CAroon\u200C (14)\', '{\"name\":\"test\",\"description\":\"\"," +
+                "\"joiner\":\"|\",\"conditions\":[[\"Aroon Down \u200CAroon\u200C (14)\",\"<\",\"Aroon Up \u200CAroon\u200C (14)\",null," +
+                "{\"type\":\"marker\",\"shape\":\"circle\",\"label\":\"X\",\"size\":\"M\",\"position\":\"above_candle\"}]]," +
+                "\"studyName\":\"\u200CAroon\u200C (14)\"}', \'false\');"
+            //val script = scriptManager.getSaveSignalScript(name, signalParams, editMode)
+        executeJavascript(script){ value ->
+            Log.e("111", value)
+        }
+    }
+
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
             study.type!!
         } else {
             study.shortName
         }
-
-        var inputs = ""
-        var outputs = ""
-        var parameters = ""
-
-        if(!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
-        if(!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
-        if(!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
-        val scripts = scriptManager.getAddStudyScript(key, inputs, outputs, parameters)
+        val scripts = scriptManager.getAddStudyScript(key)
         executeJavascript(scripts)
     }
 

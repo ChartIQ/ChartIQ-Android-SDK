@@ -3,6 +3,7 @@
 
     <string name="title_chart">Chart</string>
     <string name="title_study">Studies</string>
+    <string name="title_signal">SignalIQ</string>
     <string name="title_active_studies">Active Studies</string>
     <string name="title_settings">Settings</string>
 
@@ -123,6 +124,61 @@
     <string name="study_clone">Clone</string>
     <string name="study_done">Done</string>
     <string name="study_search">Search</string>
+
+    <!-- Signals -->
+    <string name="signal_add_signal">New Signal</string>
+    <string name="signal_empty_active_signal">No Signals to display yet</string>
+    <string name="signal_delete">Delete</string>
+    <string name="signal_title_add_signal">New Signal</string>
+    <string name="signal_settings">Settings</string>
+    <string name="signal_clone">Clone</string>
+    <string name="signal_done">Done</string>
+    <string name="signal_search">Search</string>
+    <string name="signal_select_study">Select study</string>
+    <string name="signal_edit_study">Change study</string>
+    <string name="signal_add_condition">Add condition</string>
+    <string name="signal_title_hint">Test name</string>
+    <string name="signal_desc_hint">Test description</string>
+    <string name="signal_condition_settings">CONDITION SETTINGS</string>
+    <string name="signal_appearance_settings">APPEARANCE SETTINGS</string>
+    <string name="signal_condition_n">%1$d Condition</string>
+    <string name="signal_and">And</string>
+    <string name="signal_or">Or</string>
+
+    <!-- Signals values-->
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="circle">Circle</string>
+    <string name="square">Square</string>
+    <string name="diamond">Diamond</string>
+    <string name="above_candle">Above candle</string>
+    <string name="below_candle">Below candle</string>
+    <string name="on_candle">On candle</string>
+    <string name="greater_than">Is Greater Than</string>
+    <string name="less_than">Is Less Than</string>
+    <string name="equal_to">Is Equal To</string>
+    <string name="crosses">Crosses</string>
+    <string name="crosses_above">Crosses Above</string>
+    <string name="crosses_below">Crosses Below</string>
+    <string name="increases">Increases</string>
+    <string name="decreases">Decreases</string>
+    <string name="does_not_change">Does Not Change</string>
+    <string name="turns_up">Turns up</string>
+    <string name="turns_down">Turns down</string>
+
+    <!-- Signals conditions -->
+    <string name="signal_indicator_1">Indicator 1</string>
+    <string name="signal_indicator_2">Indicator 2</string>
+    <string name="value">Value</string>
+    <string name="signal_mark">Tag mark</string>
+    <string name="signal_shape">Shape</string>
+    <string name="signal_size">Size</string>
+    <string name="signal_position">Position</string>
+    <string name="signal_color">Color</string>
+    <string name="signal_marker_type">Color</string>
+    <string name="signal_save_condition">Save condition</string>
+
 
     <!-- Study details -->
     <string name="study_details_clone_study">Clone Study</string>

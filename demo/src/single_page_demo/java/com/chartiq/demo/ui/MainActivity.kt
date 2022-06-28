@@ -20,6 +20,7 @@ import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
+import com.chartiq.demo.ui.signal.OnBackPressed
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartTheme
 import dev.b3nedikt.restring.Restring
@@ -124,5 +125,12 @@ class MainActivity : AppCompatActivity() {
         } else {
             fragment
         }
+    }
+
+    override fun onBackPressed() {
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        (fragment?.childFragmentManager?.fragments?.get(0) as? OnBackPressed)?.onBackPressed()
+        super.onBackPressed()
     }
 }

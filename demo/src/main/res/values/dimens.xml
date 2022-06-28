@@ -13,6 +13,8 @@
     <dimen name="list_item_color_min_width_fullscreen">56dp</dimen>
     <dimen name="list_item_color_min_height_fullscreen">56dp</dimen>
 
+    <dimen name="divider_height">56dp</dimen>
+
     <dimen name="margin_extra_small">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium_small">12dp</dimen>

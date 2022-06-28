@@ -28,8 +28,8 @@ class AddStudyViewModel(
             val filtered = list
                 .filter {
                     localizationManager.getTranslationFromValue(it.name, context)
-                        .toLowerCase(Locale.getDefault())
-                        .contains(query.toLowerCase(Locale.getDefault()))
+                        .lowercase(Locale.getDefault())
+                        .contains(query.lowercase(Locale.getDefault()))
                 }
             filtered
         }
@@ -62,7 +62,11 @@ class AddStudyViewModel(
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(ChartIQ::class.java, LocalizationManager::class.java, Context::class.java)
+                .getConstructor(
+                    ChartIQ::class.java,
+                    LocalizationManager::class.java,
+                    Context::class.java
+                )
                 .newInstance(chartIQ, localizationManager, context)
         }
     }

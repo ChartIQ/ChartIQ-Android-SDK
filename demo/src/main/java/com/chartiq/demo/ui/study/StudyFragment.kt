@@ -24,6 +24,7 @@ import com.chartiq.demo.ui.LineItemDecoration
 import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
 import com.chartiq.sdk.model.study.Study
+import java.util.*
 
 
 class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFragmentListener {
@@ -97,7 +98,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
                 }
                 val deleteItemTouchHelper = ItemTouchHelper(
                     SimpleItemTouchCallBack(
-                        getString(R.string.study_delete).toUpperCase(),
+                        getString(R.string.study_delete).uppercase(Locale.getDefault()),
                         ColorDrawable(ContextCompat.getColor(requireContext(), R.color.coralRed))
                     ).apply {
                         onSwipeListener = SimpleItemTouchCallBack.OnSwipeListener { viewHolder, _ ->

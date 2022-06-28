@@ -57,7 +57,7 @@ internal interface ScriptManager {
 
     fun getSetChartScaleScript(scale: String): String
 
-    fun getAddStudyScript(studyName: String, inputs: String, outputs: String, parameters: String): String
+    fun getAddStudyScript(studyName: String): String
 
     fun getRemoveStudyScript(studyName: String): String
 
@@ -80,6 +80,20 @@ internal interface ScriptManager {
     fun getSetStyleScript(obj: String, parameter: String, value: String): String
 
     fun getSetThemeScript(theme: ChartTheme): String
+
+    fun getGetActiveSignalsListScript(): String
+
+    fun getAddStudyAsSignalScript(signalName: String): String
+
+    fun getRemoveSignalScript(signalName: String): String
+
+    fun getToggleSignalScript(signalName: String): String
+
+    fun getSaveSignalScript(
+        studyName: String,
+        signalParams: String,
+        editMode: Boolean
+    ): String
 
     fun getGetStudyListScript(): String
 

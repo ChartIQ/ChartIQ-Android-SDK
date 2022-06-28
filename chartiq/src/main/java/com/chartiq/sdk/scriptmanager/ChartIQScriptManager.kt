@@ -85,11 +85,30 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartScaleScript(scale: String): String =
         CHART_IQ_JS_OBJECT + "setChartScale(\"$scale\");"
 
-    override fun getAddStudyScript(studyName: String, inputs: String, outputs: String, parameters: String): String =
-        MOBILE_BRIDGE_NAME_SPACE + "addStudy('$studyName', '$inputs', '$outputs', '$parameters');"
+    override fun getAddStudyScript(studyName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudy(\"$studyName\");"
 
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
+
+    override fun getRemoveSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "removeSignal(\"$signalName\");"
+
+    override fun getGetActiveSignalsListScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "getActiveSignals();"
+
+    override fun getAddStudyAsSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "addStudyAsSignal(\"$signalName\");"
+
+    override fun getToggleSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + "toggleSignalStudy(\"$signalName\");"
+
+    override fun getSaveSignalScript(
+        studyName: String,
+        signalParams: String,
+        editMode: Boolean
+    ): String =
+        MOBILE_BRIDGE_NAME_SPACE + "saveSignal(\"$studyName\", \"$signalParams\", \"$editMode\");"
 
     override fun getRemoveAllStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeAllStudies();"

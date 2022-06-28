@@ -17,6 +17,14 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_chartFragment_to_signal_fragment"
+            app:destination="@id/signalFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_chartFragment_to_navigation_study"
             app:destination="@id/navigation_study"
@@ -73,6 +81,7 @@
         android:name="com.chartiq.demo.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
     <fragment
         android:id="@+id/customIntervalFragment"
         android:name="com.chartiq.demo.ui.chart.interval.CustomIntervalFragment"
@@ -154,4 +163,40 @@
         android:id="@+id/compareFragment"
         android:name="com.chartiq.demo.ui.chart.comparison.CompareFragment"
         android:label="CompareFragment" />
+
+    <fragment
+        android:id="@+id/signalFragment"
+        android:name="com.chartiq.demo.ui.signal.SignalFragment"
+        android:label="SignalFragment"
+        tools:layout="@layout/fragment_signal">
+        <action
+            android:id="@+id/action_signalFragment_to_addSignalFragment"
+            app:destination="@id/addSignalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addSignalFragment"
+        android:name="com.chartiq.demo.ui.signal.addsignal.AddSignalFragment"
+        android:label="AddSignalFragment"
+        tools:layout="@layout/fragment_add_signal">
+        <action
+            android:id="@+id/action_addSignalFragment_to_selectStudyForSignalFragment"
+            app:destination="@id/selectStudyForSignalFragment" />
+        <action
+            android:id="@+id/action_addSignalFragment_to_AddConditionSignalFragment"
+            app:destination="@id/AddConditionSignalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/selectStudyForSignalFragment"
+        android:name="com.chartiq.demo.ui.signal.addsignal.study_select.SelectStudyFragment"
+        android:label="SelectStudyFragment"
+        tools:layout="@layout/fragment_select_study" />
+
+    <fragment
+        android:id="@+id/AddConditionSignalFragment"
+        android:name="com.chartiq.demo.ui.signal.addsignal.add_condition.AddConditionFragment"
+        android:label="AddConditionFragment"
+        tools:layout="@layout/fragment_add_condition" />
+
 </navigation>
