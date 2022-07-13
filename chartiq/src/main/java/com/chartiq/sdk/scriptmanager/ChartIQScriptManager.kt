@@ -7,7 +7,6 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
-
 internal class ChartIQScriptManager : ScriptManager {
 
     override fun getDetermineOSScript(): String =
@@ -91,6 +90,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getRemoveStudyScript(studyName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeStudy(\"$studyName\");"
 
+    override fun getRemoveAllStudiesScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + "removeAllStudies();"
+
     override fun getRemoveSignalScript(signalName: String): String =
         MOBILE_BRIDGE_NAME_SPACE + "removeSignal(\"$signalName\");"
 
@@ -108,10 +110,7 @@ internal class ChartIQScriptManager : ScriptManager {
         signalParams: String,
         editMode: Boolean
     ): String =
-        MOBILE_BRIDGE_NAME_SPACE + "saveSignal(\"$studyName\", \"$signalParams\", \"$editMode\");"
-
-    override fun getRemoveAllStudiesScript(): String =
-        MOBILE_BRIDGE_NAME_SPACE + "removeAllStudies();"
+        MOBILE_BRIDGE_NAME_SPACE + "saveSignal(\"$studyName\", \'$signalParams\', \"$editMode\");"
 
     override fun getEnableCrosshairScript(value: Boolean): String =
         MOBILE_BRIDGE_NAME_SPACE + "enableCrosshairs($value);"
@@ -197,7 +196,8 @@ internal class ChartIQScriptManager : ScriptManager {
                 "});\n" +
                 "console.log(JSON.stringify(newInputParameters));\n" +
                 "console.log(JSON.stringify(newOutputParameters));\n" +
-                "console.log(JSON.stringify(newParameters));"
+                "console.log(JSON.stringify(newParameters));" +
+                "CIQ.MobileBridge.getSlimSd(helper.sd.name);"
     }
 
     private fun getStudyDescriptorScript(name: String): String {

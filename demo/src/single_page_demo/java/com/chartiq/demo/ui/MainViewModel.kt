@@ -43,7 +43,7 @@ class MainViewModel(
 
     val activeStudies = MutableLiveData<List<Study>>()
 
-    val signals = MutableLiveData<List<Signal>>()
+    val activeSignals = MutableLiveData<List<Signal>>()
 
     val errorLiveData = MutableLiveData<Unit>()
 
@@ -103,9 +103,9 @@ class MainViewModel(
         }
     }
 
-    fun fetchSignalData() {
-        chartIQ.getSignals { result ->
-            signals.value = result
+    fun fetchActiveSignalData() {
+        chartIQ.getActiveSignals { result ->
+            activeSignals.value = result
         }
     }
 

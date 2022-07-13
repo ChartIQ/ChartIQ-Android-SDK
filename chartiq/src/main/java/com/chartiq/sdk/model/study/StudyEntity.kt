@@ -2,7 +2,7 @@ package com.chartiq.sdk.model.study
 
 import java.io.Serializable
 
-internal data class StudyEntity(
+data class StudyEntity(
     val attributes: Map<String, Object>?,
     val centerLine: Double,
     val customRemoval: Boolean,

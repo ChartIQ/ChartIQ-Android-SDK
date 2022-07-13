@@ -4,16 +4,35 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-enum class SignalOperator(val title: String) : Parcelable {
-    GREATER_THAN("Grater than"),
-    LESS_THAN("Less than"),
-    EQUAL_TO("Equal to"),
-    CROSSES("Crosses"),
-    CROSSES_ABOVE("Crosses above"),
-    CROSSES_BELOW("Crosses below"),
-    TURNS_UP("Turns up"),
-    TURNS_DOWN("Turns down"),
-    INCREASES("Increases"),
-    DECREASES("Decreases"),
-    DOES_NOT_CHANGE("Does not change")
+enum class SignalOperator(val key: String) : Parcelable {
+    GREATER_THAN("greater_than"),
+    LESS_THAN("less_than"),
+    EQUAL_TO("equal_to"),
+    CROSSES("crosses"),
+    CROSSES_ABOVE("crosses_above"),
+    CROSSES_BELOW("crosses_below"),
+    TURNS_UP("turns_up"),
+    TURNS_DOWN("turns_down"),
+    INCREASES("increases"),
+    DECREASES("decreases"),
+    DOES_NOT_CHANGE("does_not_change");
+
+    companion object {
+        fun from(title: String): SignalOperator {
+            return when (title) {
+                ">" -> GREATER_THAN
+                "<" -> LESS_THAN
+                "=" -> EQUAL_TO
+                "x" -> CROSSES
+                "x+" -> CROSSES_ABOVE
+                "x-" -> CROSSES_BELOW
+                "t+" -> TURNS_UP
+                "t-" -> TURNS_DOWN
+                ">p" -> INCREASES
+                "<p" -> DECREASES
+                "=p" -> DOES_NOT_CHANGE
+                else -> DOES_NOT_CHANGE
+            }
+        }
+    }
 }

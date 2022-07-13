@@ -20,7 +20,6 @@ import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.network.ChartIQNetworkManager
 import com.chartiq.demo.ui.chart.searchsymbol.ChooseSymbolFragment
 import com.chartiq.demo.ui.chart.searchsymbol.VoiceQueryReceiver
-import com.chartiq.demo.ui.signal.OnBackPressed
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.ChartTheme
 import dev.b3nedikt.restring.Restring

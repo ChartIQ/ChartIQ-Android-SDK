@@ -12,6 +12,7 @@ import com.chartiq.sdk.model.study.Study
 import com.chartiq.sdk.model.study.StudyParameter
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.chartiq.sdk.model.study.StudyParameterType
+import com.chartiq.sdk.model.study.StudySimplified
 
 class ActiveStudyDetailsViewModel(
     private val chartIQ: ChartIQ,
@@ -19,7 +20,7 @@ class ActiveStudyDetailsViewModel(
 ) : ViewModel() {
     private val parametersToSave = MutableLiveData<Map<String, StudyParameterModel>>(emptyMap())
     val studyParams = MutableLiveData<List<StudyParameter>>(emptyList())
-    val successUpdateEvent = MutableLiveData<Event<Unit>>()
+    val successUpdateEvent = MutableLiveData<Event<StudySimplified>>()
     val errorList = MutableLiveData<Set<String>>(emptySet())
 
     init {
@@ -115,8 +116,7 @@ class ActiveStudyDetailsViewModel(
     }
 
     private fun onColorParamChange(сhangedParameter: StudyParameter, newValue: String) {
-        val name =
-            getParameterName(сhangedParameter, StudyParameter.StudyParameterNamePostfix.Color)
+        val name = getParameterName(сhangedParameter, StudyParameter.StudyParameterNamePostfix.Color)
         val map = parametersToSave.value!!.toMutableMap()
         map[name] = StudyParameterModel(name, newValue)
         val updatedParams: List<StudyParameter> = (studyParams.value ?: emptyList()).map { param ->
@@ -139,8 +139,7 @@ class ActiveStudyDetailsViewModel(
         map: Map<String, StudyParameterModel>
     ) = when (param) {
         is StudyParameter.Color -> {
-            val generatedName =
-                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
             } else {
@@ -148,36 +147,24 @@ class ActiveStudyDetailsViewModel(
             }
         }
         is StudyParameter.TextColor -> {
-            val generatedNameForColor =
-                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
-            val generatedNameForNumber =
-                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
-            if (listOf(
-                    map[generatedNameForNumber],
-                    map[generatedNameForColor]
-                ).all { it == null }
-            ) {
+            val generatedNameForColor = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Color)
+            val generatedNameForNumber = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            if (listOf(map[generatedNameForNumber], map[generatedNameForColor]).all { it == null }) {
                 param
             } else {
                 var newParameter = param
                 if (map[generatedNameForColor] != null) {
-                    newParameter = param.copy(
-                        color = (map[generatedNameForColor] ?: error("")).fieldSelectedValue
-                    )
+                    newParameter = param.copy(color = (map[generatedNameForColor] ?: error("")).fieldSelectedValue)
                 }
                 if (map[generatedNameForNumber] != null) {
                     newParameter =
-                        param.copy(
-                            value = (map[generatedNameForNumber]
-                                ?: error("")).fieldSelectedValue.toDouble()
-                        )
+                        param.copy(value = (map[generatedNameForNumber] ?: error("")).fieldSelectedValue.toDouble())
                 }
                 newParameter
             }
         }
         is StudyParameter.Text -> {
-            val generatedName =
-                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue)
             } else {
@@ -185,8 +172,7 @@ class ActiveStudyDetailsViewModel(
             }
         }
         is StudyParameter.Number -> {
-            val generatedName =
-                getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
+            val generatedName = getParameterName(param, StudyParameter.StudyParameterNamePostfix.Value)
             if (map[generatedName] != null) {
                 param.copy(value = (map[generatedName] ?: error("")).fieldSelectedValue.toDouble())
             } else {
@@ -221,8 +207,9 @@ class ActiveStudyDetailsViewModel(
 
     fun updateStudy() {
         parametersToSave.value?.forEach { Log.i("&&&&", it.toString()) }
-        chartIQ.setStudyParameters(study, parametersToSave.value!!.values.toList())
-        successUpdateEvent.postValue(Event(Unit))
+        chartIQ.setStudyParameters(study, parametersToSave.value!!.values.toList()){ study ->
+            successUpdateEvent.postValue(Event(study))
+        }
     }
 
     private fun updateList(

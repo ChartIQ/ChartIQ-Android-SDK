@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.DividerAndBinding
 import com.chartiq.demo.databinding.DividerSelectBinding
 import com.chartiq.demo.databinding.ItemConditionRowBinding
-import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.SignalJoiner
 
 class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
@@ -28,21 +26,21 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
-            0 -> DividerViewHolder(
+            ConditionHolderType.DIVIDER.ordinal -> DividerViewHolder(
                 DividerAndBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
             )
-            1 -> ConditionsViewHolder(
+            ConditionHolderType.CONDITION_ROW.ordinal -> ConditionsViewHolder(
                 ItemConditionRowBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
             )
-            2 -> SelectDividerViewHolder(
+            ConditionHolderType.DIVIDER_SELECTOR.ordinal -> SelectDividerViewHolder(
                 DividerSelectBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -73,9 +71,13 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 1) {
-            2
+            ConditionHolderType.DIVIDER_SELECTOR.ordinal
         } else {
-            (position + 1) % 2
+            when (position % 2) {
+                0 -> ConditionHolderType.CONDITION_ROW.ordinal
+                1 -> ConditionHolderType.DIVIDER.ordinal
+                else -> ConditionHolderType.DIVIDER.ordinal
+            }
         }
     }
 
@@ -88,22 +90,41 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 
         override fun bind(conditionItem: ConditionItem?, position: Int) {
             conditionItem?.let { item ->
+                val backgroundColor = Color.parseColor(conditionItem.condition.markerOption.color)
                 binding.previewTextView.apply {
-                    isVisible =
-                        signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0)
-                    background = AppCompatResources.getDrawable(
-                        context,
-                        R.drawable.item_background
-                    )?.apply {
-                        setTint(Color.parseColor(conditionItem.condition.color))
-                    }
+                    text = conditionItem.condition.markerOption.label
+                    setTextColor(defineTextColor(backgroundColor))
+
+                }
+                binding.previewContainer.background = AppCompatResources.getDrawable(
+                    binding.root.context,
+                    R.drawable.item_background
+                )?.apply {
+                    setTint(backgroundColor)
+                    setVisible(
+                        signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0),
+                        true
+                    )
                 }
                 binding.titleConditionTextView.text = item.title
                 binding.conditionsTextView.text = item.description
                 binding.root.setOnClickListener {
-                    listener?.onClick(item.condition)
+                    listener?.onClick(item)
                 }
             }
+        }
+
+        private fun defineTextColor(backgroundColor: Int): Int {
+            val red = Color.red(backgroundColor)
+            val green = Color.green(backgroundColor)
+            val blue = Color.blue(backgroundColor)
+            return Color.parseColor(
+                if (red * 0.299 + green * 0.587 + blue * 0.114 > 186) {
+                    "#000000"
+                } else {
+                    "#ffffff"
+                }
+            )
         }
     }
 
@@ -139,6 +160,6 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 }
 
 interface ConditionsClickListener {
-    fun onClick(condition: Condition)
+    fun onClick(condition: ConditionItem)
     fun onChangeJoiner(signalJoiner: SignalJoiner)
 }

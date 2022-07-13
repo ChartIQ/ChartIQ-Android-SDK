@@ -10,11 +10,10 @@ import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.signal.Condition
+import com.chartiq.sdk.model.signal.Signal
 import com.chartiq.sdk.model.signal.SignalJoiner
-import com.chartiq.sdk.model.signal.SignalShape
-import com.chartiq.sdk.model.signal.SignalSize
-import com.chartiq.sdk.model.signal.SignalTemp
 import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudySimplified
 import java.util.*
 
 class AddSignalViewModel(
@@ -32,11 +31,13 @@ class AddSignalViewModel(
     val signalJoiner = MutableLiveData(SignalJoiner.OR)
     val name = MutableLiveData("")
     val description = MutableLiveData("")
+    val editType = MutableLiveData(SignalEditType.NEW_SIGNAL)
 
-    val listOfConditions = MutableLiveData<List<Condition>>(emptyList())
+    val listOfConditions = MutableLiveData<List<ConditionItem>>(emptyList())
 
     val isSaveAvailable = MediatorLiveData<Boolean>()
     val isAddConditionAvailable = MediatorLiveData<Boolean>()
+    val isFirstOpen = MutableLiveData(true)
 
     val filteredStudies =
         Transformations.map(originalStudies.combineLatest(query)) { (list, query) ->
@@ -75,6 +76,7 @@ class AddSignalViewModel(
     }
 
     fun onStudyApproved() {
+        selectedStudy.value?.let { chartIQ.removeStudy(it) }
         chartIQ.addSignalStudy(tempStudy.value!!.shortName) { study ->
             selectedStudy.value = study
         }
@@ -84,13 +86,22 @@ class AddSignalViewModel(
         query.postValue(value)
     }
 
-    fun addCondition(condition: Condition) {
-        listOfConditions.value = listOfConditions.value?.toMutableList()?.apply { add(condition) }
+    fun addCondition(condition: ConditionItem) {
+        if (listOfConditions.value?.firstOrNull { it.UUID == condition.UUID } != null) {
+            listOfConditions.value = listOfConditions.value?.toMutableList()?.apply {
+                this[this.indexOfFirst { it.UUID == condition.UUID }] = condition
+            }
+        } else {
+            listOfConditions.value = listOfConditions.value?.toMutableList()?.apply {
+                add(condition)
+            }
+        }
+        listOfConditions.value = listOfConditions.value?.sortedBy { it.title }
     }
 
     fun deleteCondition(condition: Condition) {
         listOfConditions.value = listOfConditions.value?.toMutableList()?.apply {
-            remove(condition)
+            remove(this.firstOrNull { it.condition == condition })
         }
     }
 
@@ -99,7 +110,9 @@ class AddSignalViewModel(
     }
 
     fun onNameChanged(name: String) {
-        this.name.value = name
+        if (this.name.value != name) {
+            this.name.value = name
+        }
     }
 
     fun onClearStudy() {
@@ -107,26 +120,32 @@ class AddSignalViewModel(
     }
 
     fun saveSignal() {
-        chartIQ.addSignal(
-            selectedStudy.value?.shortName ?: "",
-            SignalTemp(
+        chartIQ.saveSignal(
+            Signal(
+                uniqueId = "",
                 name = name.value!!,
-                conditions = listOfConditions.value ?: emptyList(),
-                signalJoiner = signalJoiner.value ?: SignalJoiner.OR,
+                conditions = listOfConditions.value?.map { it.condition } ?: emptyList(),
+                joiner = signalJoiner.value ?: SignalJoiner.OR,
                 description = description.value ?: "",
-                shape = SignalShape.CIRCLE,
-                size = SignalSize.M,
-                label = ""
+                study = selectedStudy.value!!,
+                disabled = false
             ),
-            false
+            when (editType.value) {
+                SignalEditType.NEW_SIGNAL -> false
+                SignalEditType.EDIT_SIGNAL -> true
+                null -> false
+            }
         )
+        clearViewModel()
     }
 
     fun onDescriptionChanged(desc: String) {
-        description.value = desc
+        if (description.value != desc) {
+            description.value = desc
+        }
     }
 
-    fun clearViewModel() {
+    private fun clearViewModel() {
         listOfConditions.value = emptyList()
         query.value = ""
         tempStudy.value = null
@@ -134,11 +153,64 @@ class AddSignalViewModel(
         signalJoiner.value = SignalJoiner.OR
         name.value = ""
         description.value = ""
+        editType.value = SignalEditType.NEW_SIGNAL
     }
 
     fun onBackPressed() {
-        selectedStudy.value?.let { chartIQ.removeStudy(it) }
-        clearViewModel()
+        when (editType.value) {
+            SignalEditType.NEW_SIGNAL -> {
+                selectedStudy.value?.let { chartIQ.removeStudy(it) }
+                clearViewModel()
+            }
+            SignalEditType.EDIT_SIGNAL -> {
+                editType.value = SignalEditType.NEW_SIGNAL
+            }
+            null -> {}
+        }
+        isFirstOpen.value = true
+    }
+
+    fun setSignal(signal: Signal) {
+        if (isFirstOpen.value == true) {
+            isFirstOpen.value = false
+            editType.value = SignalEditType.EDIT_SIGNAL
+            selectedStudy.value = signal.study
+            name.value = signal.name
+            description.value = signal.description
+            signalJoiner.value = signal.joiner
+            listOfConditions.value = signal.conditions.map {
+                ConditionItem(
+                    condition = it,
+                    title = "",
+                    description = ""
+                )
+            }
+            isSaveAvailable.value = true
+        }
+    }
+
+    fun onStudyEdited(study: StudySimplified?) {
+        study?.let { studySimplified ->
+            listOfConditions.value = listOfConditions.value?.map { item ->
+                item.copy(
+                    condition = item.condition.copy(
+                        leftIndicator = item.condition.leftIndicator.replace(
+                            selectedStudy.value!!.shortName,
+                            studySimplified.studyName
+                        ),
+                        rightIndicator = item.condition.rightIndicator?.replace(
+                            selectedStudy.value!!.shortName,
+                            studySimplified.studyName
+                        )
+                    )
+                )
+            }
+            selectedStudy.value = selectedStudy.value!!.copy(
+                name = studySimplified.studyName,
+                shortName = studySimplified.studyName,
+                outputs = studySimplified.outputs
+            )
+        }
     }
 
     class ViewModelFactory(

@@ -81,7 +81,6 @@
         android:name="com.chartiq.demo.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
-
     <fragment
         android:id="@+id/customIntervalFragment"
         android:name="com.chartiq.demo.ui.chart.interval.CustomIntervalFragment"
@@ -179,6 +178,10 @@
         android:name="com.chartiq.demo.ui.signal.addsignal.AddSignalFragment"
         android:label="AddSignalFragment"
         tools:layout="@layout/fragment_add_signal">
+        <argument
+            android:name="signal"
+            app:argType="com.chartiq.sdk.model.signal.Signal"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addSignalFragment_to_selectStudyForSignalFragment"
             app:destination="@id/selectStudyForSignalFragment" />
@@ -197,6 +200,11 @@
         android:id="@+id/AddConditionSignalFragment"
         android:name="com.chartiq.demo.ui.signal.addsignal.add_condition.AddConditionFragment"
         android:label="AddConditionFragment"
-        tools:layout="@layout/fragment_add_condition" />
+        tools:layout="@layout/fragment_add_condition">
 
+        <argument
+            android:name="conditionItem"
+            app:argType="com.chartiq.demo.ui.signal.addsignal.ConditionItem"
+            app:nullable="true" />
+    </fragment>
 </navigation>

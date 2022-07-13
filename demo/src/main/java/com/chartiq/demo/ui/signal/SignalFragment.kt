@@ -57,14 +57,14 @@ class SignalFragment : Fragment() {
     ): View {
         binding = FragmentSignalBinding.inflate(inflater, container, false)
         setupViews()
-        mainViewModel.fetchSignalData()
+        mainViewModel.fetchActiveSignalData()
         return binding.root
     }
 
     private fun setupViews() {
         with(binding) {
             toolbar.menu.findItem(R.id.add_signal).setOnMenuItemClickListener {
-                navigateToStudyList()
+                navigateToAddSignal()
                 true
             }
             toolbar.navigationIcon =
@@ -82,7 +82,16 @@ class SignalFragment : Fragment() {
                 signalsAdapter.localizationManager = this@SignalFragment.localizationManager
                 signalsAdapter.listener = object : SignalsAdapter.SignalListener {
                     override fun onSignalClick(signal: Signal) {
-                        //todo
+                        findNavController().navigate(
+                            SignalFragmentDirections.actionSignalFragmentToAddSignalFragment(
+                                signal
+                            )
+                        )
+                    }
+
+                    override fun onSignalToggled(signal: Signal, isChecked: Boolean) {
+                        signalViewModel.toggledSignal(signal, isChecked)
+                        mainViewModel.fetchActiveSignalData()
                     }
 
                 }
@@ -95,6 +104,7 @@ class SignalFragment : Fragment() {
                             val position = viewHolder.adapterPosition
                             val signalToDelete = signalsAdapter.items[position]
                             signalViewModel.deleteSignal(signalToDelete)
+                            mainViewModel.fetchActiveSignalData()
                         }
                     }
                 )
@@ -102,10 +112,10 @@ class SignalFragment : Fragment() {
             }
 
             addSignalButton.setOnClickListener {
-                navigateToStudyList()
+                navigateToAddSignal()
             }
         }
-        mainViewModel.signals.observe(viewLifecycleOwner) { signals ->
+        mainViewModel.activeSignals.observe(viewLifecycleOwner) { signals ->
             binding.progressBar.isVisible = false
             signalsAdapter.items = signals
             binding.noActiveSignalsPlaceholder.root.isVisible = signals.isEmpty()
@@ -115,11 +125,12 @@ class SignalFragment : Fragment() {
         }
     }
 
-    private fun navigateToStudyList() {
-        findNavController().navigate(SignalFragmentDirections.actionSignalFragmentToAddSignalFragment())
+    private fun navigateToAddSignal() {
+        findNavController().navigate(
+            SignalFragmentDirections.actionSignalFragmentToAddSignalFragment(
+                null
+            )
+        )
     }
 
-    companion object {
-        private const val REQUEST_CODE = 101
-    }
 }

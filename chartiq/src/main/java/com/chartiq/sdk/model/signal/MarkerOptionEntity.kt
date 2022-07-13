@@ -14,8 +14,31 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MarkerOptionEntity(
+    val type: String,
     val shape: String,
     val size: String,
     val label: String,
     val position: String,
 ) : Parcelable
+
+fun MarkerOptionEntity.toMarkerOption(color: String?): MarkerOption {
+    return MarkerOption(
+        type = SignalMarkerType.from(type),
+        signalShape = SignalShape.from(shape),
+        signalSize = SignalSize.from(size),
+        label = label,
+        signalPosition = SignalPosition.from(position),
+        color = color
+    )
+}
+
+fun markerOptionOnlyWithColor(color: String?): MarkerOption {
+    return MarkerOption(
+        type = SignalMarkerType.from(""),
+        signalShape = SignalShape.from(""),
+        signalSize = SignalSize.from(""),
+        label = "",
+        signalPosition = SignalPosition.from(""),
+        color = color
+    )
+}

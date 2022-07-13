@@ -10,17 +10,12 @@ import com.chartiq.sdk.model.study.Study
 
 class SignalViewModel(private val chartIQ: ChartIQ) : ViewModel() {
 
-
     fun deleteSignal(signalToDelete: Signal) {
         chartIQ.removeSignal(signalToDelete)
     }
 
-    /**
-     * In case we want to add a study selected from [ChartIQHandler.getActiveStudies] list
-     * `forClone = true`
-     */
-    fun cloneActiveStudy(study: Study) {
-        chartIQ.addStudy(study, true)
+    fun toggledSignal(signal: Signal, checked: Boolean) {
+        chartIQ.toggleSignal(signal)
     }
 
     class ViewModelFactory(private val chartIQ: ChartIQ) : ViewModelProvider.Factory {

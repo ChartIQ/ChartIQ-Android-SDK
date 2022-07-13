@@ -81,6 +81,10 @@ internal interface ScriptManager {
 
     fun getSetThemeScript(theme: ChartTheme): String
 
+    fun getGetStudyListScript(): String
+
+    fun getGetActiveStudiesScript(): String
+
     fun getGetActiveSignalsListScript(): String
 
     fun getAddStudyAsSignalScript(signalName: String): String
@@ -94,10 +98,6 @@ internal interface ScriptManager {
         signalParams: String,
         editMode: Boolean
     ): String
-
-    fun getGetStudyListScript(): String
-
-    fun getGetActiveStudiesScript(): String
 
     fun getSetAggregationTypeScript(aggregationType: String): String
 

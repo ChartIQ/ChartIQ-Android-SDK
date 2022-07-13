@@ -18,7 +18,7 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.1.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/develop/sample-template-native-sdk.html\""
         )
     }
     signingConfigs {
@@ -85,6 +85,7 @@ dependencies {
     implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")

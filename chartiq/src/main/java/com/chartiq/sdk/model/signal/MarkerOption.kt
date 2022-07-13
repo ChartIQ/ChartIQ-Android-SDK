@@ -14,14 +14,20 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MarkerOption(
+    val type: SignalMarkerType,
+    val color: String?,
     val signalShape: SignalShape,
     val signalSize: SignalSize,
     val label: String,
     val signalPosition: SignalPosition,
 ) : Parcelable
 
-fun MarkerOption.toData(): MarkerOptionEntity{
+fun MarkerOption.toData(): MarkerOptionEntity {
     return MarkerOptionEntity(
+        type = when (type) {
+            SignalMarkerType.MARKER -> "marker"
+            SignalMarkerType.PAINTBAR -> "paintbar"
+        },
         shape = when (signalShape) {
             SignalShape.CIRCLE -> "circle"
             SignalShape.SQUARE -> "square"
@@ -33,7 +39,7 @@ fun MarkerOption.toData(): MarkerOptionEntity{
             SignalSize.L -> "L"
         },
         label = label,
-        position = when(signalPosition){
+        position = when (signalPosition) {
             SignalPosition.ABOVE_CANDLE -> "above_candle"
             SignalPosition.BELOW_CANDLE -> "below_candle"
             SignalPosition.ON_CANDLE -> "on_candle"

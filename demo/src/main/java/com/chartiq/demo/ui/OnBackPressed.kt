@@ -1,4 +1,4 @@
-package com.chartiq.demo.ui.signal
+package com.chartiq.demo.ui
 
 interface OnBackPressed {
     fun onBackPressed()

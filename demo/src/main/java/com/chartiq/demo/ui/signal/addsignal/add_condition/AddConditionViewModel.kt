@@ -1,9 +1,11 @@
 package com.chartiq.demo.ui.signal.addsignal.add_condition
 
+import android.graphics.Color
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chartiq.demo.ui.signal.addsignal.ConditionItem
 import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.MarkerOption
 import com.chartiq.sdk.model.signal.SignalMarkerType
@@ -11,6 +13,8 @@ import com.chartiq.sdk.model.signal.SignalOperator
 import com.chartiq.sdk.model.signal.SignalPosition
 import com.chartiq.sdk.model.signal.SignalShape
 import com.chartiq.sdk.model.signal.SignalSize
+import com.chartiq.sdk.model.study.Study
+import java.util.*
 
 class AddConditionViewModel : ViewModel() {
 
@@ -60,56 +64,73 @@ class AddConditionViewModel : ViewModel() {
             SignalMarkerType.PAINTBAR
         )
     }
-    private val selectedMarker = MutableLiveData(SignalMarkerType.PAINTBAR)
-    private val selectedSignalShape = MutableLiveData(SignalShape.CIRCLE)
-    private val selectedValue = MutableLiveData<SignalOperator>()
-    private val selectedSignalSize = MutableLiveData(SignalSize.M)
-    private val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
-    private val selectedIndicator1 = MutableLiveData("")
-    private val selectedIndicator2 = MutableLiveData("")
-    private val selectedValue2 = MutableLiveData("")
-    val isShowIndicator2 = MutableLiveData(false)
-    val isShowIndicator2Value = MutableLiveData(false)
-    val isShowSaveSettings = MutableLiveData(true)
+    private val selectedStudy = MutableLiveData<Study>()
+    val selectedMarker = MutableLiveData(SignalMarkerType.MARKER)
+    val selectedSignalShape = MutableLiveData(SignalShape.CIRCLE)
+    val selectedOperator = MutableLiveData<SignalOperator>()
+    val selectedSignalSize = MutableLiveData(SignalSize.M)
+    val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
+    val selectedLeftIndicator = MutableLiveData("")
+    val selectedRightIndicator = MutableLiveData<String?>()
+    val selectedRightValue = MutableLiveData("")
+    val label = MutableLiveData("")
+    val isShowRightIndicator = MutableLiveData(false)
+    val isShowRightValue = MutableLiveData(false)
+
+    val isShowSaveSettings = MediatorLiveData<Boolean>().apply {
+        value = true
+    }
     val isSaveAvailable = MediatorLiveData<Boolean>().apply {
         value = false
     }
 
-    val currentColor = MutableLiveData(0xFFFFFF)
-    val condition = MutableLiveData<Condition>()
+    val currentColor = MutableLiveData(0xFF0000)
+    val conditionItem = MutableLiveData<ConditionItem>()
+    private val conditionUUID = MutableLiveData(UUID.randomUUID())
 
     init {
-        isSaveAvailable.addSource(selectedValue) {
+        isSaveAvailable.addSource(selectedOperator) {
             checkSaveAvailability()
         }
-        isSaveAvailable.addSource(selectedIndicator2) {
+        isSaveAvailable.addSource(selectedRightIndicator) {
             checkSaveAvailability()
         }
-        isSaveAvailable.addSource(selectedValue2) {
+        isSaveAvailable.addSource(selectedRightValue) {
             checkSaveAvailability()
         }
+        isShowSaveSettings.addSource(selectedMarker) { marker ->
+            isShowSaveSettings.value = when (marker) {
+                SignalMarkerType.MARKER -> true
+                SignalMarkerType.PAINTBAR -> false
+                else -> true
+            }
+        }
+    }
+
+    fun setStudy(study: Study) {
+        selectedStudy.value = study
     }
 
     private fun checkSaveAvailability() {
         isSaveAvailable.value =
-            if (selectedValue.value == SignalOperator.INCREASES
-                || selectedValue.value == SignalOperator.DECREASES
-                || selectedValue.value == SignalOperator.DOES_NOT_CHANGE
-                || selectedValue.value == SignalOperator.TURNS_UP
-                || selectedValue.value == SignalOperator.TURNS_DOWN
+            if (selectedOperator.value == SignalOperator.INCREASES
+                || selectedOperator.value == SignalOperator.DECREASES
+                || selectedOperator.value == SignalOperator.DOES_NOT_CHANGE
+                || selectedOperator.value == SignalOperator.TURNS_UP
+                || selectedOperator.value == SignalOperator.TURNS_DOWN
             ) {
                 true
             } else {
-                (selectedIndicator2.value != "" && selectedIndicator2.value != "Value") || (selectedIndicator2.value == "Value" && selectedValue2.value != "")
+                (selectedRightIndicator.value != "" && selectedRightIndicator.value != "Value") || (selectedRightIndicator.value == "Value" && selectedRightValue.value != "")
             }
     }
 
-    fun onSelectIndicator1(text: String) {
-        selectedIndicator1.value = text
+    fun onSelectLeftIndicator(text: String) {
+        selectedLeftIndicator.value = text
     }
 
-    fun onSelectIndicator2(text: String) {
-        selectedIndicator2.value = text
+    fun onSelectRightIndicator(text: String) {
+        selectedRightIndicator.value = text
     }
 
     fun onChooseColor(color: Int) {
@@ -118,13 +139,16 @@ class AddConditionViewModel : ViewModel() {
 
     fun onValueSelected(index: Int) {
         if (index > -1) {
-            selectedValue.value = listOfValues.value!![index]
-            isShowIndicator2.value =
-                !(selectedValue.value!! == SignalOperator.INCREASES
-                        || selectedValue.value!! == SignalOperator.DECREASES
-                        || selectedValue.value!! == SignalOperator.DOES_NOT_CHANGE
-                        || selectedValue.value!! == SignalOperator.TURNS_UP
-                        || selectedValue.value!! == SignalOperator.TURNS_DOWN)
+            selectedOperator.value = listOfValues.value!![index]
+            isShowRightIndicator.value =
+                !(selectedOperator.value!! == SignalOperator.INCREASES
+                        || selectedOperator.value!! == SignalOperator.DECREASES
+                        || selectedOperator.value!! == SignalOperator.DOES_NOT_CHANGE
+                        || selectedOperator.value!! == SignalOperator.TURNS_UP
+                        || selectedOperator.value!! == SignalOperator.TURNS_DOWN)
+            if (isShowRightIndicator.value == false) {
+                selectedRightIndicator.value = null
+            }
         }
     }
 
@@ -141,53 +165,88 @@ class AddConditionViewModel : ViewModel() {
     }
 
     fun onIndicator2ValueUnSelected() {
-        isShowIndicator2Value.value = false
+        isShowRightValue.value = false
     }
 
     fun onIndicator2ValueSelected() {
-        isShowIndicator2Value.value = true
+        isShowRightValue.value = true
     }
 
     fun onSaveCondition(label: String) {
-        if (isShowIndicator2Value.value == true) {
-            condition.value = Condition(
-                lhs = selectedIndicator1.value ?: "",
-                rhs = selectedValue2.value!!,
-                signalOperator = selectedValue.value!!,
-                color = String.format("#%06X", 0xFFFFFF and currentColor.value!!),
-                markerOption = MarkerOption(
-                    signalShape = selectedSignalShape.value!!,
-                    signalSize = selectedSignalSize.value!!,
-                    label = label,
-                    signalPosition = selectedSignalPosition.value!!,
-                )
-            )
+        val rightIndicator = if (isShowRightIndicator.value == true) {
+            if (isShowRightValue.value == true) {
+                selectedRightValue.value
+            } else {
+                selectedRightIndicator.value
+            }
         } else {
-            condition.value = Condition(
-                lhs = selectedIndicator1.value ?: "",
-                rhs = selectedIndicator2.value ?: "",
-                signalOperator = selectedValue.value!!,
-                color = String.format("#%06X", 0xFFFFFF and currentColor.value!!),
+            null
+        }
+        conditionItem.value = ConditionItem(
+            title = "",
+            description = "",
+            condition = Condition(
+                leftIndicator = selectedLeftIndicator.value ?: "",
+                rightIndicator = rightIndicator,
+                signalOperator = selectedOperator.value!!,
                 markerOption = MarkerOption(
+                    type = selectedMarker.value!!,
+                    color = String.format("#%06X", 0xFFFFFF and currentColor.value!!),
                     signalShape = selectedSignalShape.value!!,
                     signalSize = selectedSignalSize.value!!,
                     label = label,
                     signalPosition = selectedSignalPosition.value!!,
                 )
-            )
-        }
+            ),
+            UUID = conditionUUID.value!!
+        )
     }
 
-    fun onValue2Selected(value2: String) {
-        selectedValue2.value = value2
+    fun onRightValueSelected(value: String) {
+        selectedRightValue.value = value
     }
 
     fun onMarkerTypeSelected(index: Int) {
         selectedMarker.value = listOfMarkerTypes.value!![index]
-        isShowSaveSettings.value = when (selectedMarker.value) {
-            SignalMarkerType.MARKER -> true
-            SignalMarkerType.PAINTBAR -> false
-            else -> true
+    }
+
+    fun setCondition(conditionItem: ConditionItem?) {
+        conditionItem?.let { item ->
+            conditionUUID.value = item.UUID
+            selectedMarker.value = item.condition.markerOption.type
+            selectedSignalShape.value = item.condition.markerOption.signalShape
+            selectedOperator.value = item.condition.signalOperator
+            selectedSignalSize.value = item.condition.markerOption.signalSize
+            selectedSignalPosition.value = item.condition.markerOption.signalPosition
+            label.value = item.condition.markerOption.label
+            currentColor.value = Color.parseColor(item.condition.markerOption.color)
+            selectedLeftIndicator.value =
+                item.condition.leftIndicator.substringBefore(selectedStudy.value!!.shortName)
+            if (item.condition.rightIndicator != null) {
+                try {
+                    selectedRightValue.value =
+                        item.condition.rightIndicator?.toDouble().toString()
+                    selectedRightIndicator.value = "Value"
+                    isShowRightValue.value = true
+                } catch (e: Exception) {
+                    selectedRightIndicator.value =
+                        item.condition.rightIndicator?.substringBefore(selectedStudy.value!!.shortName)
+                }
+            }
+
+            isShowRightIndicator.value =
+                !(selectedOperator.value!! == SignalOperator.INCREASES
+                        || selectedOperator.value!! == SignalOperator.DECREASES
+                        || selectedOperator.value!! == SignalOperator.DOES_NOT_CHANGE
+                        || selectedOperator.value!! == SignalOperator.TURNS_UP
+                        || selectedOperator.value!! == SignalOperator.TURNS_DOWN)
+            isSaveAvailable.value = true
+        }
+    }
+
+    fun onLabelChanged(text: String) {
+        if (label.value != text) {
+            label.value = text
         }
     }
 

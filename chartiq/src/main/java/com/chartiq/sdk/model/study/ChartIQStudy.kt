@@ -1,8 +1,6 @@
 package com.chartiq.sdk.model.study
 
 import com.chartiq.sdk.OnReturnCallback
-import com.chartiq.sdk.model.signal.Signal
-import com.chartiq.sdk.model.signal.SignalTemp
 
 interface ChartIQStudy {
     /**
@@ -22,36 +20,6 @@ interface ChartIQStudy {
      * @param study A [Study] to be deleted
      */
     fun removeStudy(study: Study)
-
-    /**
-     * Toggle signal [Signal]
-     * @param signal A [Signal] to be toggled
-     */
-    fun toggleSignal(signal: Signal)
-
-    /**
-     * Gets a list of signals [Signal]
-     * @param callback A callback to subscribe to to get a list of signals
-     */
-    fun getSignals(callback: OnReturnCallback<List<Signal>>)
-
-    /**
-     * Removes a selected signal [Signal] from the list of active studies
-     * @param signal A [Signal] to be deleted
-     */
-    fun removeSignal(signal: Signal)
-
-    /**
-     * Add signal [Signal]  to a list of active signals
-     * @param signal A [Signal] to be added
-     */
-    fun addSignalStudy(name: String, callback: OnReturnCallback<Study>)
-
-    /**
-     * Add signal [Signal]  to a list of active signals
-     * @param signal A [Signal] to be added
-     */
-    fun addSignal(name: String, signalTemp: SignalTemp, editMode: Boolean)
 
     /**
      * Adds a study [Study] to a list of active studies
@@ -83,7 +51,11 @@ interface ChartIQStudy {
      * @param parameters A list of changed parameters [StudyParameterModel] that contains values for selected study to
      * be updated
      */
-    fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
+    fun setStudyParameters(
+        study: Study,
+        parameters: List<StudyParameterModel>,
+        callback: OnReturnCallback<StudySimplified>
+    )
 
     /**
      * Gets a list of parameters [StudyParameter] of a selected study [Study]

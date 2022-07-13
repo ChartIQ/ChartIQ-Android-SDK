@@ -11,16 +11,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentAddSignalBinding
-import com.chartiq.demo.ui.signal.OnBackPressed
+import com.chartiq.demo.ui.OnBackPressed
 import com.chartiq.demo.ui.signal.addsignal.add_condition.ConditionItemTouchCallBack
 import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
-import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.SignalJoiner
+import com.chartiq.sdk.model.study.StudySimplified
 import java.util.*
 
 class AddSignalFragment : Fragment(), OnBackPressed {
@@ -54,10 +55,24 @@ class AddSignalFragment : Fragment(), OnBackPressed {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupViews()
+        AddSignalFragmentArgs.fromBundle(requireArguments()).signal?.let {
+            addSignalViewModel.setSignal(it)
+        }
+        setFragmentResultListener(SETTINGS_KEY) { requestKey, bundle ->
+            val study = bundle.get(SETTINGS_STUDY_KEY) as? StudySimplified
+            addSignalViewModel.onStudyEdited(study)
+        }
     }
 
     private fun setupViewModel() {
         with(addSignalViewModel) {
+            editType.observe(viewLifecycleOwner) { type ->
+                val titleId = when (type) {
+                    SignalEditType.NEW_SIGNAL -> R.string.signal_title_add_signal
+                    SignalEditType.EDIT_SIGNAL -> R.string.signal_title_edit_signal
+                }
+                binding.toolbar.setTitle(titleId)
+            }
             selectedStudy.observe(viewLifecycleOwner) { study ->
                 if (study == null) {
                     binding.selectStudyLayout.isVisible = true
@@ -78,15 +93,30 @@ class AddSignalFragment : Fragment(), OnBackPressed {
             listOfConditions.observe(viewLifecycleOwner) { list ->
                 processConditionsList(list)
             }
+            name.observe(viewLifecycleOwner) {
+                binding.signalNameEditText.setText(it)
+            }
+            description.observe(viewLifecycleOwner) {
+                binding.signalDescriptionEditText.setText(it)
+            }
         }
     }
 
-    private fun processConditionsList(list: List<Condition>) {
-        conditionAdapter.items = list.mapIndexed { index, condition ->
+    private fun processConditionsList(list: List<ConditionItem>) {
+        conditionAdapter.items = list.mapIndexed { index, conditionItem ->
+            val description =
+                conditionItem.condition.leftIndicator.substringBefore(addSignalViewModel.selectedStudy.value!!.shortName) + localizationManager.getTranslationFromValue(
+                    conditionItem.condition.signalOperator.key,
+                    requireContext()
+                ) + " " + (conditionItem.condition.rightIndicator?.substringBefore(
+                    addSignalViewModel.selectedStudy.value!!.shortName
+                )
+                    ?: "")
             ConditionItem(
-                condition,
+                conditionItem.condition,
                 getString(R.string.signal_condition_n, index + 1),
-                "Jaw Alligator Crosses Above Teeth Alligator"
+                description,
+                conditionItem.UUID
             )
         }
     }
@@ -137,8 +167,12 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                 adapter = conditionAdapter.apply {
                     signalJoiner = addSignalViewModel.signalJoiner.value!!
                     listener = object : ConditionsClickListener {
-                        override fun onClick(condition: Condition) {
-
+                        override fun onClick(condition: ConditionItem) {
+                            findNavController().navigate(
+                                AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment(
+                                    condition
+                                )
+                            )
                         }
 
                         override fun onChangeJoiner(signalJoiner: SignalJoiner) {
@@ -178,7 +212,9 @@ class AddSignalFragment : Fragment(), OnBackPressed {
             }
             addConditionButton.setOnClickListener {
                 findNavController().navigate(
-                    AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment()
+                    AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment(
+                        null
+                    )
                 )
             }
             settingsButton.setOnClickListener {
@@ -189,7 +225,6 @@ class AddSignalFragment : Fragment(), OnBackPressed {
             }
             saveSignalButton.setOnClickListener {
                 addSignalViewModel.saveSignal()
-                addSignalViewModel.clearViewModel()
                 findNavController().navigateUp()
             }
         }
@@ -198,5 +233,10 @@ class AddSignalFragment : Fragment(), OnBackPressed {
     override fun onBackPressed() {
         addSignalViewModel.onBackPressed()
         findNavController().navigateUp()
+    }
+
+    companion object {
+        const val SETTINGS_KEY = "study settings"
+        const val SETTINGS_STUDY_KEY = "study key"
     }
 }

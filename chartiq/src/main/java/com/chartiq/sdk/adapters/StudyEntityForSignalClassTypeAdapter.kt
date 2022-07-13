@@ -10,7 +10,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-internal class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
+internal class StudyEntityForSignalClassTypeAdapter : JsonDeserializer<StudyEntity> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type?,
@@ -20,22 +20,15 @@ internal class StudyEntityClassTypeAdapter : JsonDeserializer<StudyEntity> {
         val gson = Gson()
         val studyEntity: StudyEntity = gson.fromJson(json, StudyEntity::class.java)
         val typeToken = object : TypeToken<Map<String, Object>>() {}.type
-        val outputs: Map<String, Object>
-        val inputs: Map<String, Object>
-        outputs = if (decodeObj["outputs"].isJsonArray) {
+        val inputs: Map<String, Object> = emptyMap()
+        val outputs: Map<String, Object> = if (decodeObj["outputs"].isJsonArray) {
             emptyMap()
         } else {
             val single: Map<String, Object> = gson.fromJson(decodeObj["outputs"], typeToken)
             single
         }
-        inputs = if (decodeObj["inputs"].isJsonArray) {
-            emptyMap()
-        } else {
-            val single: Map<String, Object> = gson.fromJson(decodeObj["inputs"], typeToken)
-            single
-        }
         studyEntity.parsed_outputs = listOf(outputs)
         studyEntity.parsed_inputs = listOf(inputs)
-        return studyEntity
+        return studyEntity.copy(name = decodeObj["studyName"].asString)
     }
 }
