@@ -31,4 +31,6 @@
     <color name="dialogBackgroundColor">@color/darkGunmetal</color>
     <color name="searchStudyInputBackgroundColor">@color/darkGunmetal</color>
     <color name="separatorColor">@color/outerSpace</color>
+    <color name="buttonsTextColor">@color/white</color>
+
 </resources>

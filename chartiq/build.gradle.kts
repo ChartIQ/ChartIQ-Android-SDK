@@ -50,6 +50,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.extra["kotlin_version"]}")
     implementation("com.google.code.gson:gson:2.8.6")
+    api("commons-lang:commons-lang:2.6")
 }
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {

@@ -37,6 +37,7 @@ class AddSignalViewModel(
 
     val isSaveAvailable = MediatorLiveData<Boolean>()
     val isAddConditionAvailable = MediatorLiveData<Boolean>()
+    val isSaveStudyAvailable = MutableLiveData(false)
     val isFirstOpen = MutableLiveData(true)
 
     val filteredStudies =
@@ -72,11 +73,14 @@ class AddSignalViewModel(
     }
 
     fun onStudySelect(study: Study) {
+        isSaveStudyAvailable.value = true
         tempStudy.value = study
     }
 
     fun onStudyApproved() {
         selectedStudy.value?.let { chartIQ.removeStudy(it) }
+        query.value = ""
+        listOfConditions.value = emptyList()
         chartIQ.addSignalStudy(tempStudy.value!!.shortName) { study ->
             selectedStudy.value = study
         }
@@ -116,6 +120,7 @@ class AddSignalViewModel(
     }
 
     fun onClearStudy() {
+        isSaveStudyAvailable.value = false
         tempStudy.value = null
     }
 
@@ -154,20 +159,20 @@ class AddSignalViewModel(
         name.value = ""
         description.value = ""
         editType.value = SignalEditType.NEW_SIGNAL
+        isFirstOpen.value = true
     }
 
     fun onBackPressed() {
         when (editType.value) {
             SignalEditType.NEW_SIGNAL -> {
                 selectedStudy.value?.let { chartIQ.removeStudy(it) }
-                clearViewModel()
             }
             SignalEditType.EDIT_SIGNAL -> {
                 editType.value = SignalEditType.NEW_SIGNAL
             }
             null -> {}
         }
-        isFirstOpen.value = true
+        clearViewModel()
     }
 
     fun setSignal(signal: Signal) {

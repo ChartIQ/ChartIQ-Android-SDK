@@ -132,6 +132,10 @@
         <argument
             android:name="study"
             app:argType="com.chartiq.sdk.model.study.Study" />
+
+        <argument
+            android:name="showSettings"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/selectParameterDialogFragment"
@@ -206,5 +210,9 @@
             android:name="conditionItem"
             app:argType="com.chartiq.demo.ui.signal.addsignal.ConditionItem"
             app:nullable="true" />
+
+        <argument
+            android:name="toolbarTitle"
+            app:argType="string" />
     </fragment>
 </navigation>

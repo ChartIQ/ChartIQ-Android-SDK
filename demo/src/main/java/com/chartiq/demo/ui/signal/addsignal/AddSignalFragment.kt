@@ -2,13 +2,12 @@ package com.chartiq.demo.ui.signal.addsignal
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -71,6 +70,9 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                     SignalEditType.NEW_SIGNAL -> R.string.signal_title_add_signal
                     SignalEditType.EDIT_SIGNAL -> R.string.signal_title_edit_signal
                 }
+                if (type == SignalEditType.EDIT_SIGNAL) {
+                    binding.editStudyButton.isVisible = false
+                }
                 binding.toolbar.setTitle(titleId)
             }
             selectedStudy.observe(viewLifecycleOwner) { study ->
@@ -88,7 +90,7 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                 binding.saveSignalButton.isEnabled = isAvailable
             }
             isAddConditionAvailable.observe(viewLifecycleOwner) { isAvailable ->
-                binding.addConditionButton.isEnabled = isAvailable
+                binding.addConditionButton.isVisible = isAvailable
             }
             listOfConditions.observe(viewLifecycleOwner) { list ->
                 processConditionsList(list)
@@ -123,45 +125,15 @@ class AddSignalFragment : Fragment(), OnBackPressed {
 
     private fun setupViews() {
         with(binding) {
-            signalNameEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
+            signalNameEditText.doOnTextChanged { text, start, before, count ->
+                addSignalViewModel.onNameChanged(text.toString())
+                text?.length?.let { signalNameEditText.setSelection(it) }
+            }
 
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    addSignalViewModel.onNameChanged(s.toString())
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-
-            signalDescriptionEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    addSignalViewModel.onDescriptionChanged(s.toString())
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
+            signalDescriptionEditText.doOnTextChanged { text, start, before, count ->
+                addSignalViewModel.onDescriptionChanged(text.toString())
+                text?.length?.let { signalDescriptionEditText.setSelection(it) }
+            }
             conditionsRecyclerView.apply {
                 isNestedScrollingEnabled = false
                 adapter = conditionAdapter.apply {
@@ -170,7 +142,7 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                         override fun onClick(condition: ConditionItem) {
                             findNavController().navigate(
                                 AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment(
-                                    condition
+                                    condition, condition.title
                                 )
                             )
                         }
@@ -213,13 +185,17 @@ class AddSignalFragment : Fragment(), OnBackPressed {
             addConditionButton.setOnClickListener {
                 findNavController().navigate(
                     AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment(
-                        null
+                        null,
+                        getString(
+                            R.string.signal_condition_n,
+                            (addSignalViewModel.listOfConditions.value ?: emptyList()).size + 1
+                        )
                     )
                 )
             }
             settingsButton.setOnClickListener {
                 val bundle =
-                    ActiveStudyDetailsFragmentArgs.Builder(addSignalViewModel.selectedStudy.value!!)
+                    ActiveStudyDetailsFragmentArgs.Builder(addSignalViewModel.selectedStudy.value!!, false)
                         .build().toBundle()
                 findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
             }

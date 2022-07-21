@@ -55,7 +55,11 @@ class SelectStudyFragment : Fragment() {
 
                 }
             }
-            toolbar.menu.findItem(R.id.action_done).setOnMenuItemClickListener {
+            val toolbarMenu = toolbar.menu.findItem(R.id.action_done)
+            selectStudiesViewModel.isSaveStudyAvailable.observe(viewLifecycleOwner) { isActive ->
+                toolbarMenu.isEnabled = isActive
+            }
+            toolbarMenu.setOnMenuItemClickListener {
                 selectStudiesViewModel.onStudyApproved()
                 progressBar.isVisible = true
                 hideKeyboard()

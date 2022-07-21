@@ -59,9 +59,10 @@ internal class SignalEntityClassTypeAdapter : JsonDeserializer<SignalEntity> {
             single
         }
 
+        val studyName = decodeObj["studyName"].asString
         return signalEntity.copy(
             conditions = conditionsList,
-            studyName = decodeObj["studyName"].asString,
+            studyName = studyName,
             studyEntity = StudyEntity(
                 attributes = emptyMap(),
                 centerLine = 0.0,
@@ -75,10 +76,14 @@ internal class SignalEntityClassTypeAdapter : JsonDeserializer<SignalEntity> {
                 parameters = emptyMap(),
                 range = "",
                 shortName = decodeObj["studyName"].asString,
-                type = "",
+                type = studyName.substringBeforeLast(ZERO_WIDTH_NON_JOINER),
                 underlay = false,
                 yAxis = emptyMap()
             )
         )
+    }
+
+    companion object {
+        private const val ZERO_WIDTH_NON_JOINER = '\u200C'
     }
 }

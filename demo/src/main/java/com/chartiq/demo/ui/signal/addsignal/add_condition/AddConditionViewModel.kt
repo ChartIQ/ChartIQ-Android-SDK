@@ -67,16 +67,18 @@ class AddConditionViewModel : ViewModel() {
     private val selectedStudy = MutableLiveData<Study>()
     val selectedMarker = MutableLiveData(SignalMarkerType.MARKER)
     val selectedSignalShape = MutableLiveData(SignalShape.CIRCLE)
-    val selectedOperator = MutableLiveData<SignalOperator>()
+    val selectedOperator = MutableLiveData<SignalOperator?>()
     val selectedSignalSize = MutableLiveData(SignalSize.M)
     val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
     val selectedLeftIndicator = MutableLiveData("")
     val selectedRightIndicator = MutableLiveData<String?>()
     val selectedRightValue = MutableLiveData("")
-    val label = MutableLiveData("")
+    val label = MutableLiveData("X")
     val isShowRightIndicator = MutableLiveData(false)
     val isShowRightValue = MutableLiveData(false)
-
+    val isShowAppearanceSettings = MediatorLiveData<Boolean>().apply {
+        value = false
+    }
     val isShowSaveSettings = MediatorLiveData<Boolean>().apply {
         value = true
     }
@@ -89,6 +91,9 @@ class AddConditionViewModel : ViewModel() {
     private val conditionUUID = MutableLiveData(UUID.randomUUID())
 
     init {
+        isShowAppearanceSettings.addSource(selectedOperator) {
+            isShowAppearanceSettings.value = true
+        }
         isSaveAvailable.addSource(selectedOperator) {
             checkSaveAvailability()
         }
@@ -121,7 +126,7 @@ class AddConditionViewModel : ViewModel() {
             ) {
                 true
             } else {
-                (selectedRightIndicator.value != "" && selectedRightIndicator.value != "Value") || (selectedRightIndicator.value == "Value" && selectedRightValue.value != "")
+                (selectedRightIndicator.value != null && selectedRightIndicator.value != "Value") || (selectedRightIndicator.value == "Value" && selectedRightValue.value != null)
             }
     }
 

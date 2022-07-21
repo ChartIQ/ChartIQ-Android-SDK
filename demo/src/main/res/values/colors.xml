@@ -54,4 +54,5 @@
     <color name="dialogBackgroundColor">@color/white</color>
     <color name="searchStudyInputBackgroundColor">@color/white</color>
     <color name="separatorColor">@color/brightGrey</color>
+    <color name="buttonsTextColor">@color/darkElectricBlue</color>
 </resources>

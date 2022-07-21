@@ -9,7 +9,12 @@ import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.network.model.SymbolResponse
 import com.chartiq.demo.ui.chart.searchsymbol.list.SearchResultItem
 import com.chartiq.demo.util.Event
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewModel() {
 

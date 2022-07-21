@@ -2,6 +2,7 @@ package com.chartiq.sdk.model.signal
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import org.apache.commons.lang.StringEscapeUtils
 
 @Parcelize
 enum class SignalOperator(val key: String) : Parcelable {
@@ -19,7 +20,7 @@ enum class SignalOperator(val key: String) : Parcelable {
 
     companion object {
         fun from(title: String): SignalOperator {
-            return when (title) {
+            return when (StringEscapeUtils.unescapeJava("\\" + title)) {
                 ">" -> GREATER_THAN
                 "<" -> LESS_THAN
                 "=" -> EQUAL_TO

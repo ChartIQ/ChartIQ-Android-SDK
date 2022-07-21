@@ -11,7 +11,12 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
-import com.chartiq.demo.databinding.*
+import com.chartiq.demo.databinding.ItemDrawingToolSettingChooseValueBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingColorBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingDeviationBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingLineTypeBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingStyleBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingSwitchBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.getLineTypeResource
 import com.chartiq.demo.ui.common.colorpicker.COLOR_AUTO

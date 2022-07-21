@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionMenuTextColor">@color/colorPrimary</item>
+        <item name="android:actionMenuTextColor">@color/menu_text_color</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:forceDarkAllowed">false</item>
@@ -43,7 +43,7 @@
 
     <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
-        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="android:textColor">@color/buttonsTextColor</item>
     </style>
 
     <style name="PlaceHolderHintTextStyle" parent="SecondaryTextAppearance">
@@ -94,7 +94,7 @@
 
     <style name="TabTextStyle" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
-        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="android:textColor">@color/buttonsTextColor</item>
     </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">

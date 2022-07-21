@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -52,19 +53,26 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
     private fun setupViews() {
         with(binding) {
             toolbar.apply {
-                title = localizationManager.getTranslationFromValue(study.type ?: "", requireContext())
-                menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
-                    viewModel.cloneStudy()
-                    findNavController().navigateUp()
-                    true
-                }
-                menu.findItem(R.id.action_reset_details).setOnMenuItemClickListener {
-                    showResetDialog()
-                    true
-                }
-                menu.findItem(R.id.action_delete_details).setOnMenuItemClickListener {
-                    showDeleteDialog()
-                    true
+                title =
+                    localizationManager.getTranslationFromValue(study.type ?: "", requireContext())
+                if (ActiveStudyDetailsFragmentArgs.fromBundle(requireArguments()).showSettings) {
+                    menu.findItem(R.id.action_clone_details).setOnMenuItemClickListener {
+                        viewModel.cloneStudy()
+                        findNavController().navigateUp()
+                        true
+                    }
+                    menu.findItem(R.id.action_reset_details).setOnMenuItemClickListener {
+                        showResetDialog()
+                        true
+                    }
+                    menu.findItem(R.id.action_delete_details).setOnMenuItemClickListener {
+                        showDeleteDialog()
+                        true
+                    }
+                } else {
+                    for (i in 0 until toolbar.menu.size) {
+                        menu.getItem(i).isVisible = false
+                    }
                 }
                 setNavigationOnClickListener {
                     findNavController().navigateUp()
@@ -74,17 +82,26 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
             detailsRecyclerView.apply {
                 adapter = studyDetailsAdapter.apply {
                     listener = object : StudyDetailsAdapter.StudyParameterListener {
-                        override fun onCheckboxParamChange(parameter: StudyParameter.Checkbox, isChecked: Boolean) {
+                        override fun onCheckboxParamChange(
+                            parameter: StudyParameter.Checkbox,
+                            isChecked: Boolean
+                        ) {
                             viewModel.onCheckboxParamChange(parameter, isChecked)
                         }
 
-                        override fun onTextParamChange(parameter: StudyParameter, newValue: String) {
+                        override fun onTextParamChange(
+                            parameter: StudyParameter,
+                            newValue: String
+                        ) {
                             viewModel.onTextParamChange(parameter, newValue)
                             Log.i(TAG, "onTextParamChange $newValue")
 
                         }
 
-                        override fun onNumberParamChange(parameter: StudyParameter.Number, newValue: Double?) {
+                        override fun onNumberParamChange(
+                            parameter: StudyParameter.Number,
+                            newValue: Double?
+                        ) {
                             viewModel.onNumberParamChange(parameter, newValue)
                             Log.i(TAG, "onNumberParamChange $newValue")
 
@@ -92,22 +109,43 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
 
                         override fun onColorParamChange(studyParameter: StudyParameter) {
                             if (studyParameter is StudyParameter.Color) {
-                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.value).apply {
-                                    setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_COLOR_PICKER)
+                                ChooseColorFragment.getInstance(
+                                    studyParameter.name,
+                                    studyParameter.value
+                                ).apply {
+                                    setTargetFragment(
+                                        this@ActiveStudyDetailsFragment,
+                                        REQUEST_CODE_SHOW_COLOR_PICKER
+                                    )
                                 }.show(parentFragmentManager, ChooseColorFragment::class.simpleName)
 
                             } else if (studyParameter is StudyParameter.TextColor) {
-                                ChooseColorFragment.getInstance(studyParameter.name, studyParameter.color ?: "").apply {
-                                    setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_COLOR_PICKER)
+                                ChooseColorFragment.getInstance(
+                                    studyParameter.name,
+                                    studyParameter.color ?: ""
+                                ).apply {
+                                    setTargetFragment(
+                                        this@ActiveStudyDetailsFragment,
+                                        REQUEST_CODE_SHOW_COLOR_PICKER
+                                    )
                                 }
-                                    .show(parentFragmentManager, ChooseColorFragment::class.simpleName)
+                                    .show(
+                                        parentFragmentManager,
+                                        ChooseColorFragment::class.simpleName
+                                    )
                             }
                         }
 
                         override fun onSelectParamChange(studyParameter: StudyParameter.Select) {
                             SelectParameterDialogFragment.getInstance(studyParameter).apply {
-                                setTargetFragment(this@ActiveStudyDetailsFragment, REQUEST_CODE_SHOW_OPTIONS_SELECTOR)
-                            }.show(parentFragmentManager, SelectParameterDialogFragment::class.java.simpleName)
+                                setTargetFragment(
+                                    this@ActiveStudyDetailsFragment,
+                                    REQUEST_CODE_SHOW_OPTIONS_SELECTOR
+                                )
+                            }.show(
+                                parentFragmentManager,
+                                SelectParameterDialogFragment::class.java.simpleName
+                            )
                         }
                     }
                 }

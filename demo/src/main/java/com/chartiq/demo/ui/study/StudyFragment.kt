@@ -145,7 +145,7 @@ class StudyFragment : Fragment(), ActiveStudyBottomSheetDialogFragment.DialogFra
     }
 
     override fun onSettings(study: Study) {
-        val bundle = ActiveStudyDetailsFragmentArgs.Builder(study).build().toBundle()
+        val bundle = ActiveStudyDetailsFragmentArgs.Builder(study, true).build().toBundle()
         findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
     }
 

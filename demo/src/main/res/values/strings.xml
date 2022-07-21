@@ -125,8 +125,23 @@
     <string name="study_done">Done</string>
     <string name="study_search">Search</string>
 
+    <!-- Study details -->
+    <string name="study_details_clone_study">Clone Study</string>
+    <string name="study_details_reset_to_defaults">Reset to Defaults</string>
+    <string name="study_details_delete_study">Delete Study</string>
+    <string name="study_details_save_study">Save</string>
+    <string name="study_details_remove_alert_title">Do You Want To Remove This Study?</string>
+    <string name="study_details_remove_alert_message">This study will be removed from the current chart.</string>
+    <string name="study_details_remove">Remove</string>
+    <string name="study_details_cancel">Cancel</string>
+    <string name="study_details_reset_alert_title">Do You Want To Reset This Study To Defaults?</string>
+    <string name="study_details_reset_alert_message">This study will be reset to default options.</string>
+    <string name="study_details_reset">Reset</string>
+    <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
+    <string name="study_details_select_parameter_title">Select Option</string>
+
     <!-- Signals -->
-    <string name="signal_add_signal">New Signal</string>
+    <string name="signal_add_signal">Add Signal</string>
     <string name="signal_empty_active_signal">No Signals to display yet</string>
     <string name="signal_delete">Delete</string>
     <string name="signal_title_add_signal">New Signal</string>
@@ -138,8 +153,8 @@
     <string name="signal_select_study">Select study</string>
     <string name="signal_edit_study">Change study</string>
     <string name="signal_add_condition">Add condition</string>
-    <string name="signal_title_hint">Test name</string>
-    <string name="signal_desc_hint">Test description</string>
+    <string name="signal_title_hint">Name</string>
+    <string name="signal_desc_hint">Description</string>
     <string name="signal_condition_settings">CONDITION SETTINGS</string>
     <string name="signal_appearance_settings">APPEARANCE SETTINGS</string>
     <string name="signal_condition_n">%1$d Condition</string>
@@ -153,9 +168,9 @@
     <string name="circle">Circle</string>
     <string name="square">Square</string>
     <string name="diamond">Diamond</string>
-    <string name="above_candle">Above candle</string>
-    <string name="below_candle">Below candle</string>
-    <string name="on_candle">On candle</string>
+    <string name="above_candle">Above Line</string>
+    <string name="below_candle">Below Line</string>
+    <string name="on_candle">On Line</string>
     <string name="greater_than">Is Greater Than</string>
     <string name="less_than">Is Less Than</string>
     <string name="equal_to">Is Equal To</string>
@@ -173,13 +188,14 @@
     <!-- Signals conditions -->
     <string name="signal_indicator_1">Indicator 1</string>
     <string name="signal_indicator_2">Indicator 2</string>
+    <string name="condition">Condition</string>
     <string name="value">Value</string>
-    <string name="signal_mark">Tag mark</string>
+    <string name="signal_mark">Label</string>
     <string name="signal_shape">Shape</string>
     <string name="signal_size">Size</string>
     <string name="signal_position">Position</string>
     <string name="signal_color">Color</string>
-    <string name="signal_marker_type">Color</string>
+    <string name="signal_marker_type">Marker type</string>
     <string name="signal_save_condition">Save condition</string>
 
     <array name="hardcoded_values">
@@ -189,21 +205,6 @@
         <item>Low</item>
         <item>Close</item>
     </array>
-
-    <!-- Study details -->
-    <string name="study_details_clone_study">Clone Study</string>
-    <string name="study_details_reset_to_defaults">Reset to Defaults</string>
-    <string name="study_details_delete_study">Delete Study</string>
-    <string name="study_details_save_study">Save</string>
-    <string name="study_details_remove_alert_title">Do You Want To Remove This Study?</string>
-    <string name="study_details_remove_alert_message">This study will be removed from the current chart.</string>
-    <string name="study_details_remove">Remove</string>
-    <string name="study_details_cancel">Cancel</string>
-    <string name="study_details_reset_alert_title">Do You Want To Reset This Study To Defaults?</string>
-    <string name="study_details_reset_alert_message">This study will be reset to default options.</string>
-    <string name="study_details_reset">Reset</string>
-    <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
-    <string name="study_details_select_parameter_title">Select Option</string>
 
     <!-- Settings -->
     <string name="settings_chart_config">Chart Config</string>

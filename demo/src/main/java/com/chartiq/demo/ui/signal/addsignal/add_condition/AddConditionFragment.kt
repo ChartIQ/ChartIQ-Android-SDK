@@ -48,6 +48,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         hardcodedArray = resources.getStringArray(R.array.hardcoded_values)
         addSignalViewModel.selectedStudy.value?.let { addConditionViewModel.setStudy(it) }
         addConditionViewModel.setCondition(AddConditionFragmentArgs.fromBundle(requireArguments()).conditionItem)
+        binding.toolbar.title = AddConditionFragmentArgs.fromBundle(requireArguments()).toolbarTitle
         setupViewsData()
         setupViews()
         setupViewModel()
@@ -56,6 +57,9 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
 
     private fun setupViewModel() {
         with(addConditionViewModel) {
+            isShowAppearanceSettings.observe(viewLifecycleOwner) { isShow ->
+                binding.appearanceSettings.isVisible = isShow
+            }
             label.observe(viewLifecycleOwner) {
                 binding.tagMarkEditText.setText(it)
             }
@@ -89,6 +93,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         with(binding) {
             tagMarkEditText.doOnTextChanged { text, start, before, count ->
                 addConditionViewModel.onLabelChanged(text.toString())
+                text?.length?.let { tagMarkEditText.setSelection(it) }
             }
             toolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
@@ -263,6 +268,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                     addConditionViewModel.onIndicator2ValueUnSelected()
                 }
             }
+            setText(list?.get(0) ?: "", false)
         }
     }
 

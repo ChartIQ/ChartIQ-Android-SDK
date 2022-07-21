@@ -352,6 +352,7 @@ class ChartIQHandler(
                     StudyEntity::class.java,
                     StudyEntityForSignalClassTypeAdapter()
                 )
+                .disableHtmlEscaping()
                 .create()
             val response: List<SignalEntity> = gson.fromJson(result, typeToken)
             val signalList = response.map { signalEntity ->
@@ -392,6 +393,7 @@ class ChartIQHandler(
         val gson =
             GsonBuilder()
                 .registerTypeAdapter(ConditionEntity::class.java, conditionsListSerializer)
+                .disableHtmlEscaping()
                 .create()
         val signalEntity = signal.toData()
         var signalParams = gson.toJson(signalEntity)
