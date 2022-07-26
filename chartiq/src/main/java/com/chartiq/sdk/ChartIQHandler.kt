@@ -29,6 +29,7 @@ import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingParameterType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.signal.ConditionEntity
+import com.chartiq.sdk.model.signal.MarkerOptionEntity
 import com.chartiq.sdk.model.signal.Signal
 import com.chartiq.sdk.model.signal.SignalEntity
 import com.chartiq.sdk.model.signal.toData
@@ -79,8 +80,17 @@ class ChartIQHandler(
                 add(condition.rightIndicator)
                 add(condition.color)
                 if (condition.markerOption?.type == "paintbar") {
-                    val str: String? = null
-                    add(str)
+                    add(
+                        Gson().toJson(
+                            MarkerOptionEntity(
+                                type = "paintbar",
+                                shape = "",
+                                size = "",
+                                label = "",
+                                position = ""
+                            )
+                        )
+                    )
                 } else {
                     add(Gson().toJson(condition.markerOption))
                 }
@@ -399,6 +409,7 @@ class ChartIQHandler(
         var signalParams = gson.toJson(signalEntity)
         signalParams = signalParams.replace("\"{", "{")
         signalParams = signalParams.replace("}\"", "}")
+        signalParams = signalParams.replace("\\n", "\\\n")
         val script =
             scriptManager.getSaveSignalScript(
                 signalEntity.studyName,

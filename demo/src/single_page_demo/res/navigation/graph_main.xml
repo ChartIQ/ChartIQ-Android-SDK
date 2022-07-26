@@ -212,5 +212,8 @@
         <argument
             android:name="toolbarTitle"
             app:argType="string" />
+        <argument
+            android:name="shouldShowSettings"
+            app:argType="boolean" />
     </fragment>
 </navigation>

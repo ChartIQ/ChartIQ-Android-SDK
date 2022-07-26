@@ -46,12 +46,9 @@ class SignalsAdapter : RecyclerView.Adapter<SignalsAdapter.StudyViewHolder>() {
                 signalNameTextView.text = item.name
                 signalToggle.isChecked = !item.disabled
 
-                signalToggle.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (item.disabled != isChecked) {
-                        listener?.onSignalToggled(item, isChecked)
-                    }
+                signalToggle.setOnClickListener {
+                    listener?.onSignalToggled(item, !item.disabled)
                 }
-
             }
         }
     }

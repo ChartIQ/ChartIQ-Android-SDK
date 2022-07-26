@@ -85,6 +85,7 @@ class AddConditionViewModel(
     val isShowAppearanceSettings = MediatorLiveData<Boolean>().apply {
         value = false
     }
+    val shouldShowSettings = MutableLiveData<Boolean>()
     val isShowSaveSettings = MediatorLiveData<Boolean>().apply {
         value = true
     }
@@ -98,7 +99,7 @@ class AddConditionViewModel(
 
     init {
         isShowAppearanceSettings.addSource(selectedOperator) {
-            isShowAppearanceSettings.value = true
+            isShowAppearanceSettings.value = true && shouldShowSettings.value ?: true
         }
         isSaveAvailable.addSource(selectedOperator) {
             checkSaveAvailability()
@@ -200,7 +201,7 @@ class AddConditionViewModel(
     fun onSaveCondition(label: String) {
         val rightIndicator = if (isShowRightIndicator.value == true) {
             if (isShowRightValue.value == true) {
-                selectedRightValue.value
+                selectedRightValue.value.toString()
             } else {
                 selectedRightIndicator.value
             }
@@ -212,7 +213,7 @@ class AddConditionViewModel(
             description = "",
             condition = Condition(
                 leftIndicator = selectedLeftIndicator.value ?: "",
-                rightIndicator = rightIndicator.toString(),
+                rightIndicator = rightIndicator,
                 signalOperator = selectedOperator.value!!,
                 markerOption = MarkerOption(
                     type = selectedMarker.value!!,
@@ -275,6 +276,10 @@ class AddConditionViewModel(
 
     fun setColor(color: Int?) {
         color?.let { currentColor.value = it }
+    }
+
+    fun setSettingsVisibility(shouldShowSettings: Boolean) {
+        this.shouldShowSettings.value = shouldShowSettings
     }
 
 

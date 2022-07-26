@@ -20,7 +20,12 @@ enum class SignalOperator(val key: String) : Parcelable {
 
     companion object {
         fun from(title: String): SignalOperator {
-            return when (StringEscapeUtils.unescapeJava("\\" + title)) {
+            val operator = if (title.startsWith("u")) {
+                StringEscapeUtils.unescapeJava("\\" + title)
+            } else {
+                title
+            }
+            return when (operator) {
                 ">" -> GREATER_THAN
                 "<" -> LESS_THAN
                 "=" -> EQUAL_TO

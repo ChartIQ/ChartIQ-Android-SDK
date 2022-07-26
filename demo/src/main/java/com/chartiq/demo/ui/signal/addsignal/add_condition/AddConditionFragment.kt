@@ -58,6 +58,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         setupViewModel()
         addConditionViewModel.setColor(addSignalViewModel.defaultColor.value)
         addConditionViewModel.setCondition(args.conditionItem)
+        addConditionViewModel.setSettingsVisibility(args.shouldShowSettings)
         setupViewsData()
     }
 
@@ -75,6 +76,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             isShowRightIndicator.observe(viewLifecycleOwner) {
                 binding.indicator2TextInputLayout.isVisible = it
                 binding.value2TextInputLayout.isVisible = false
+                addConditionViewModel.onSelectRightIndicator(binding.indicator2AutoCompleteTextView.text.toString())
             }
             isShowRightValue.observe(viewLifecycleOwner) {
                 binding.value2TextInputLayout.isVisible = it
@@ -320,7 +322,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                ), false
+                )
             )
             sizeAutoCompleteTextView.setText(
                 getString(
@@ -329,7 +331,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                ), false
+                )
             )
             positionAutoCompleteTextView.setText(
                 getString(
@@ -338,7 +340,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                ), false
+                )
             )
             shapeAutoCompleteTextView.setText(
                 getString(
@@ -347,7 +349,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                ), false
+                )
             )
         }
     }

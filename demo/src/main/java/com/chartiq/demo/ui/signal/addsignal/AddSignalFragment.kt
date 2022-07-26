@@ -65,9 +65,6 @@ class AddSignalFragment : Fragment(), OnBackPressed {
 
     private fun setupViewModel() {
         with(addSignalViewModel) {
-            signalJoiner.observe(viewLifecycleOwner) { joiner ->
-                conditionAdapter.signalJoiner = joiner
-            }
             editType.observe(viewLifecycleOwner) { type ->
                 val titleId = when (type) {
                     SignalEditType.NEW_SIGNAL -> R.string.signal_title_add_signal
@@ -116,10 +113,9 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                         "string",
                         requireContext().packageName
                     )
-                ) + " " + (conditionItem.condition.rightIndicator?.substringBefore(
+                ) + " " + (conditionItem.condition.rightIndicator ?: "").substringBefore(
                     addSignalViewModel.selectedStudy.value!!.shortName
                 )
-                    ?: "")
             ConditionItem(
                 conditionItem.condition,
                 getString(R.string.signal_condition_n, index + 1),
@@ -145,10 +141,16 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                 adapter = conditionAdapter.apply {
                     signalJoiner = addSignalViewModel.signalJoiner.value!!
                     listener = object : ConditionsClickListener {
-                        override fun onClick(condition: ConditionItem) {
+                        override fun onClick(
+                            condition: ConditionItem,
+                            signalJoiner: SignalJoiner,
+                            isFirstItem: Boolean
+                        ) {
                             findNavController().navigate(
                                 AddSignalFragmentDirections.actionAddSignalFragmentToAddConditionSignalFragment(
-                                    condition, condition.title
+                                    condition,
+                                    condition.title,
+                                    signalJoiner == SignalJoiner.OR || isFirstItem
                                 )
                             )
                         }
@@ -195,7 +197,10 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                         getString(
                             R.string.signal_condition_n,
                             (addSignalViewModel.listOfConditions.value ?: emptyList()).size + 1
-                        )
+                        ),
+                        addSignalViewModel.signalJoiner.value == SignalJoiner.OR
+                                || (addSignalViewModel.listOfConditions.value
+                            ?: emptyList()).isEmpty()
                     )
                 )
             }

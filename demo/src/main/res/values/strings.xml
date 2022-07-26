@@ -96,6 +96,7 @@
     <string name="drawing_tool_tirone_levels">Tirone Levels</string>
     <string name="drawing_tool_trend_line">Trend Line</string>
     <string name="drawing_tool_vertical_line">Vertical Line</string>
+    <string name="drawing_tool_volume_profile">Volume Profile</string>
     <string name="drawing_tool_restore_default_parameters">Restore Default Parameters</string>
     <string name="drawing_tool_clear_existing_drawings">Clear Existing Drawings</string>
     <string name="drawing_tool_category_all">ALL</string>
@@ -257,6 +258,7 @@
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
     <string name="drawing_tool_settings_add">Add</string>
+    <string name="drawing_tool_price_buckets">Price Buckets</string>
     <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
 
     <string name="chart_type_heikinashi">Heikin Ashi</string>

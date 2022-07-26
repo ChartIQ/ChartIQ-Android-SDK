@@ -58,6 +58,9 @@ class DrawingToolSettingsViewModel(
             if (isSupportingElliottWave(tool)) {
                 list.addElliotWaveModels(params)
             }
+            if (isSupportingVolumeProfile(tool)) {
+                list.addVolumeProfileModels(params)
+            }
         }
 
         if (isNestedSettings) {
@@ -283,22 +286,40 @@ class DrawingToolSettingsViewModel(
             )
         }
 
-        addBooleanModel(DrawingParameterType.ACTIVE_1, R.string.drawing_tool_settings_title_show_line_1)
-        addColorModel(DrawingParameterType.COLOR_1, R.string.drawing_tool_settings_title_line_1_color)
+        addBooleanModel(
+            DrawingParameterType.ACTIVE_1,
+            R.string.drawing_tool_settings_title_show_line_1
+        )
+        addColorModel(
+            DrawingParameterType.COLOR_1,
+            R.string.drawing_tool_settings_title_line_1_color
+        )
         addLineModel(
             DrawingParameterType.PATTERN_1,
             DrawingParameterType.LINE_WIDTH_1,
             R.string.drawing_tool_settings_title_show_line_1
         )
-        addBooleanModel(DrawingParameterType.ACTIVE_2, R.string.drawing_tool_settings_title_show_line_2)
-        addColorModel(DrawingParameterType.COLOR_2, R.string.drawing_tool_settings_title_line_2_color)
+        addBooleanModel(
+            DrawingParameterType.ACTIVE_2,
+            R.string.drawing_tool_settings_title_show_line_2
+        )
+        addColorModel(
+            DrawingParameterType.COLOR_2,
+            R.string.drawing_tool_settings_title_line_2_color
+        )
         addLineModel(
             DrawingParameterType.PATTERN_2,
             DrawingParameterType.LINE_WIDTH_2,
             R.string.drawing_tool_settings_title_line_2_type
         )
-        addBooleanModel(DrawingParameterType.ACTIVE_3, R.string.drawing_tool_settings_title_show_line_3)
-        addColorModel(DrawingParameterType.COLOR_3, R.string.drawing_tool_settings_title_line_3_color)
+        addBooleanModel(
+            DrawingParameterType.ACTIVE_3,
+            R.string.drawing_tool_settings_title_show_line_3
+        )
+        addColorModel(
+            DrawingParameterType.COLOR_3,
+            R.string.drawing_tool_settings_title_line_3_color
+        )
         addLineModel(
             DrawingParameterType.PATTERN_3,
             DrawingParameterType.LINE_WIDTH_3,
@@ -315,7 +336,8 @@ class DrawingToolSettingsViewModel(
     private fun MutableList<DrawingToolSettingsItem>.addFibonacciModels(params: Map<String, Any>) {
         val fibsParam = DrawingParameterType.FIBS.value
         if (params[fibsParam].toString() != "null") {
-            val values = Gson().fromJson(params[fibsParam].toString(), Array<Fib>::class.java).toList()
+            val values =
+                Gson().fromJson(params[fibsParam].toString(), Array<Fib>::class.java).toList()
             add(
                 DrawingToolSettingsItem.ChooseValue(
                     R.string.drawing_tool_settings_title_config,
@@ -384,6 +406,16 @@ class DrawingToolSettingsViewModel(
         )
     }
 
+    private fun MutableList<DrawingToolSettingsItem>.addVolumeProfileModels(params: Map<String, Any>) {
+        val volumeParameters = params[KEY_VOLUME_PROFILE] as Map<String, Any>
+        add(
+            DrawingToolSettingsItem.Number(
+                R.string.drawing_tool_volume_profile,
+                volumeParameters[DrawingParameterType.PRICE_BUCKETS.value].toString().toDouble().toInt()
+            )
+        )
+    }
+
     companion object {
         private const val KEY_FONT = "font"
         private const val KEY_NORMAL = "normal"
@@ -394,6 +426,7 @@ class DrawingToolSettingsViewModel(
         private const val KEY_WAVE_PARAMETERS = "waveParameters"
         private const val KEY_LEVEL = "level"
         private const val KEY_DISPLAY = "display"
+        private const val KEY_VOLUME_PROFILE = "volumeProfile"
     }
 
     class ViewModelFactory(

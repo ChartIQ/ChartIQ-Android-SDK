@@ -61,9 +61,16 @@ interface DrawingManager {
     fun isSupportingFibonacci(drawingTool: DrawingTool): Boolean
 
     /**
-     * Checks if a drawing tool supports `Elliot wave` parameters
+     * Checks if a drawing tool supports `VolumeProfile` settings
      * @param drawingTool A [DrawingTool] to be checked for the support
      * @return true if the drawing tool supports the setting, false if not
      */
     fun isSupportingElliottWave(drawingTool: DrawingTool): Boolean
+
+    /**
+     * Checks if a drawing tool supports `Elliot wave` parameters
+     * @param drawingTool A [DrawingTool] to be checked for the support
+     * @return true if the drawing tool supports the setting, false if not
+     */
+    fun isSupportingVolumeProfile(drawingTool: DrawingTool): Boolean
 }

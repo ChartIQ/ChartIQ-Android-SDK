@@ -42,6 +42,7 @@ class DrawingToolSettingsFragment : Fragment(),
             is DrawingToolSettingsItem.Style -> settingsViewModel.updateAnnotationParameters(item)
             is DrawingToolSettingsItem.ChooseValue -> navigateToChooseValueFromList(item)
             is DrawingToolSettingsItem.Line -> navigateToChooseLine(item)
+            is DrawingToolSettingsItem.Number -> settingsViewModel.updateParameter(item.param, item.number.toString())
         }
     }
 

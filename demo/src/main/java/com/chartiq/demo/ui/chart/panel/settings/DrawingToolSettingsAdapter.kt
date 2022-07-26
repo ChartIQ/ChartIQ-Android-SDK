@@ -2,6 +2,8 @@ package com.chartiq.demo.ui.chart.panel.settings
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +17,13 @@ import com.chartiq.demo.databinding.ItemDrawingToolSettingChooseValueBinding
 import com.chartiq.demo.databinding.ItemDrawingToolSettingColorBinding
 import com.chartiq.demo.databinding.ItemDrawingToolSettingDeviationBinding
 import com.chartiq.demo.databinding.ItemDrawingToolSettingLineTypeBinding
+import com.chartiq.demo.databinding.ItemDrawingToolSettingNumberBinding
 import com.chartiq.demo.databinding.ItemDrawingToolSettingStyleBinding
 import com.chartiq.demo.databinding.ItemDrawingToolSettingSwitchBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.chart.panel.getLineTypeResource
 import com.chartiq.demo.ui.common.colorpicker.COLOR_AUTO
+
 
 class DrawingToolSettingsAdapter :
     RecyclerView.Adapter<DrawingToolSettingsAdapter.SettingViewHolder>() {
@@ -40,6 +44,7 @@ class DrawingToolSettingsAdapter :
             is DrawingToolSettingsItem.Style -> VIEW_TYPE_STYLE
             is DrawingToolSettingsItem.Switch -> VIEW_TYPE_SWITCH
             is DrawingToolSettingsItem.Deviation -> VIEW_TYPE_DEVIATION
+            is DrawingToolSettingsItem.Number -> VIEW_TYPE_NUMBER
         }
     }
 
@@ -63,6 +68,9 @@ class DrawingToolSettingsAdapter :
             )
             VIEW_TYPE_DEVIATION -> DeviationViewHolder(
                 ItemDrawingToolSettingDeviationBinding.inflate(inflater, parent, false)
+            )
+            VIEW_TYPE_NUMBER -> NumberViewHolder(
+                ItemDrawingToolSettingNumberBinding.inflate(inflater, parent, false)
             )
             else -> throw IllegalStateException()
         }
@@ -105,7 +113,11 @@ class DrawingToolSettingsAdapter :
             item as DrawingToolSettingsItem.Color
             with(binding) {
                 val color = if (item.color.isEmpty() || item.color == COLOR_AUTO) {
-                    ResourcesCompat.getColor(binding.root.resources, R.color.studyParameterAutoColor, null)
+                    ResourcesCompat.getColor(
+                        binding.root.resources,
+                        R.color.studyParameterAutoColor,
+                        null
+                    )
                 } else {
                     Color.parseColor(item.color)
                 }
@@ -206,6 +218,46 @@ class DrawingToolSettingsAdapter :
         }
     }
 
+    inner class NumberViewHolder(private val binding: ItemDrawingToolSettingNumberBinding) :
+        SettingViewHolder(binding.root) {
+
+        override fun bind(item: DrawingToolSettingsItem) {
+            val numberItem = item as DrawingToolSettingsItem.Number
+            with(binding) {
+                priceBucketsEditText.requestFocus()
+                priceBucketsTextInputLayout.hint = root.resources.getString(numberItem.title)
+                priceBucketsEditText.setText(numberItem.number.toString())
+                priceBucketsEditText.text?.length?.let { priceBucketsEditText.setSelection(it) }
+                priceBucketsEditText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        if (text.toString() != item.number.toString() && text?.isNotEmpty() == true) {
+                            listener?.onSelected(numberItem.copy(number = text.toString().toInt()))
+                        }
+                        priceBucketsEditText.removeTextChangedListener(this)
+                    }
+                })
+            }
+        }
+    }
+
     companion object {
         private const val VIEW_TYPE_CHOOSE_VALUE = 0
         private const val VIEW_TYPE_LINE = 1
@@ -213,5 +265,6 @@ class DrawingToolSettingsAdapter :
         private const val VIEW_TYPE_COLOR = 3
         private const val VIEW_TYPE_STYLE = 4
         private const val VIEW_TYPE_DEVIATION = 5
+        private const val VIEW_TYPE_NUMBER = 6
     }
 }

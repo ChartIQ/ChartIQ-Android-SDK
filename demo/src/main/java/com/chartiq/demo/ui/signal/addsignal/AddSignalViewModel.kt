@@ -100,6 +100,7 @@ class AddSignalViewModel(
         chartIQ.addSignalStudy(tempStudy.value!!.shortName) { study ->
             selectedStudy.value = study
         }
+        onClearStudy()
     }
 
     fun onNewQuery(value: String) {

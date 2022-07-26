@@ -104,12 +104,13 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
                     )?.apply {
                         setTint(backgroundColor)
                     }
-                    isVisible = signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0)
+                    isVisible =
+                        signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0)
                 }
                 binding.titleConditionTextView.text = item.title
                 binding.conditionsTextView.text = item.description
                 binding.root.setOnClickListener {
-                    listener?.onClick(item)
+                    listener?.onClick(item, signalJoiner, position == 0)
                 }
             }
         }
@@ -160,6 +161,6 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 }
 
 interface ConditionsClickListener {
-    fun onClick(condition: ConditionItem)
+    fun onClick(condition: ConditionItem, signalJoiner: SignalJoiner, isFirstItem: Boolean)
     fun onChangeJoiner(signalJoiner: SignalJoiner)
 }
