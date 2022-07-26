@@ -241,9 +241,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartPropertyScript(property: String, value: Any): String {
         val safeProperty = property.asSafeScriptParameter
         return if (value is String) {
-            MOBILE_BRIDGE_NAME_SPACE + "setChartProperty(\"${safeProperty}\", \"${value.asSafeScriptParameter}\");"
+            CHART_IQ_JS_OBJECT + "chart.${safeProperty} = \"${value.asSafeScriptParameter}\";"
         } else {
-            MOBILE_BRIDGE_NAME_SPACE + "setChartProperty(\"${safeProperty}\", $value);"
+            CHART_IQ_JS_OBJECT + "chart.${safeProperty} = ${value};"
         }
     }
 
@@ -254,9 +254,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetEnginePropertyScript(property: String, value: Any): String {
         val safeProperty = property.asSafeScriptParameter
         return if (value is String) {
-            MOBILE_BRIDGE_NAME_SPACE + "setEngineProperty(\"${safeProperty}\", \"${value.asSafeScriptParameter}\");"
+            CHART_IQ_JS_OBJECT + "${safeProperty} = \"${value.asSafeScriptParameter}\";"
         } else {
-            MOBILE_BRIDGE_NAME_SPACE + "setEngineProperty(\"${safeProperty}\", $value);"
+            CHART_IQ_JS_OBJECT + "${safeProperty} = ${value};"
         }
     }
 
