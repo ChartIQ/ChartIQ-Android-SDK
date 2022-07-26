@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.DividerAndBinding
@@ -96,15 +97,14 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
                     setTextColor(defineTextColor(backgroundColor))
 
                 }
-                binding.previewContainer.background = AppCompatResources.getDrawable(
-                    binding.root.context,
-                    R.drawable.item_background
-                )?.apply {
-                    setTint(backgroundColor)
-                    setVisible(
-                        signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0),
-                        true
-                    )
+                binding.previewContainer.apply {
+                    background = AppCompatResources.getDrawable(
+                        binding.root.context,
+                        R.drawable.item_background
+                    )?.apply {
+                        setTint(backgroundColor)
+                    }
+                    isVisible = signalJoiner == SignalJoiner.OR || (signalJoiner == SignalJoiner.AND && position == 0)
                 }
                 binding.titleConditionTextView.text = item.title
                 binding.conditionsTextView.text = item.description

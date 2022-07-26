@@ -205,12 +205,10 @@
         android:name="com.chartiq.demo.ui.signal.addsignal.add_condition.AddConditionFragment"
         android:label="AddConditionFragment"
         tools:layout="@layout/fragment_add_condition">
-
         <argument
             android:name="conditionItem"
             app:argType="com.chartiq.demo.ui.signal.addsignal.ConditionItem"
             app:nullable="true" />
-
         <argument
             android:name="toolbarTitle"
             app:argType="string" />

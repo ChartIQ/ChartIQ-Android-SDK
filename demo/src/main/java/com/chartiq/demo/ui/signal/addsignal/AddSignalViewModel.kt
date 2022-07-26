@@ -1,6 +1,7 @@
 package com.chartiq.demo.ui.signal.addsignal
 
 import android.content.Context
+import android.graphics.Color
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -13,6 +14,8 @@ import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.Signal
 import com.chartiq.sdk.model.signal.SignalJoiner
 import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterType
 import com.chartiq.sdk.model.study.StudySimplified
 import java.util.*
 
@@ -26,19 +29,22 @@ class AddSignalViewModel(
 
     private val query = MutableLiveData("")
 
-    val tempStudy = MutableLiveData<Study?>()
+    private val tempStudy = MutableLiveData<Study?>()
     val selectedStudy = MutableLiveData<Study?>()
     val signalJoiner = MutableLiveData(SignalJoiner.OR)
     val name = MutableLiveData("")
     val description = MutableLiveData("")
     val editType = MutableLiveData(SignalEditType.NEW_SIGNAL)
 
+    val defaultColor = MediatorLiveData<Int>().apply {
+        value = 0x000000
+    }
     val listOfConditions = MutableLiveData<List<ConditionItem>>(emptyList())
 
     val isSaveAvailable = MediatorLiveData<Boolean>()
     val isAddConditionAvailable = MediatorLiveData<Boolean>()
     val isSaveStudyAvailable = MutableLiveData(false)
-    val isFirstOpen = MutableLiveData(true)
+    private val isFirstOpen = MutableLiveData(true)
 
     val filteredStudies =
         Transformations.map(originalStudies.combineLatest(query)) { (list, query) ->
@@ -54,11 +60,21 @@ class AddSignalViewModel(
     init {
         isAddConditionAvailable.addSource(selectedStudy) { study ->
             isAddConditionAvailable.value = study != null
+            if (study != null) {
+                chartIQ.getStudyParameters(study, StudyParameterType.Outputs) {
+                    (it.firstOrNull() as? StudyParameter.Color)?.value?.let { color ->
+                        defaultColor.value = Color.parseColor(color)
+                    }
+                }
+            }
         }
         isSaveAvailable.addSource(listOfConditions) {
             checkIsSaveAvailable()
         }
         isSaveAvailable.addSource(name) {
+            checkIsSaveAvailable()
+        }
+        isSaveAvailable.addSource(isAddConditionAvailable) {
             checkIsSaveAvailable()
         }
         selectedStudy.value = null

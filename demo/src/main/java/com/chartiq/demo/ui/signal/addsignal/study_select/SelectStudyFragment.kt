@@ -14,10 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentSelectStudyBinding
+import com.chartiq.demo.ui.OnBackPressed
 import com.chartiq.demo.ui.signal.addsignal.AddSignalViewModel
 import com.chartiq.sdk.model.study.Study
 
-class SelectStudyFragment : Fragment() {
+class SelectStudyFragment : Fragment(), OnBackPressed {
     private val chartIQ by lazy {
         (requireActivity().application as ChartIQApplication).chartIQ
     }
@@ -90,5 +91,9 @@ class SelectStudyFragment : Fragment() {
     private fun hideKeyboard() {
         (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    override fun onBackPressed() {
+        selectStudiesViewModel.onClearStudy()
     }
 }

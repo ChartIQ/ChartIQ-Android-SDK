@@ -32,7 +32,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
     })
 
     private val addConditionViewModel by viewModels<AddConditionViewModel>(factoryProducer = {
-        AddConditionViewModel.ViewModelFactory()
+        AddConditionViewModel.ViewModelFactory(localizationManager, requireContext())
     })
 
     private lateinit var hardcodedArray: Array<String>
@@ -45,14 +45,20 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentAddConditionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         hardcodedArray = resources.getStringArray(R.array.hardcoded_values)
         addSignalViewModel.selectedStudy.value?.let { addConditionViewModel.setStudy(it) }
-        addConditionViewModel.setCondition(AddConditionFragmentArgs.fromBundle(requireArguments()).conditionItem)
-        binding.toolbar.title = AddConditionFragmentArgs.fromBundle(requireArguments()).toolbarTitle
-        setupViewsData()
+        val args = AddConditionFragmentArgs.fromBundle(requireArguments())
+        binding.toolbar.title = args.toolbarTitle
         setupViews()
         setupViewModel()
-        return binding.root
+        addConditionViewModel.setColor(addSignalViewModel.defaultColor.value)
+        addConditionViewModel.setCondition(args.conditionItem)
+        setupViewsData()
     }
 
     private fun setupViewModel() {
@@ -116,7 +122,6 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         it[0]
                     )
                 }
-                setText(list?.get(0) ?: "")
                 setAdapter(
                     ArrayAdapter(
                         requireContext(),
@@ -130,10 +135,13 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                 }
             }
             valueAutoCompleteTextView.apply {
-                val list = addConditionViewModel.listOfValues.value!!.map {
-                    localizationManager.getTranslationFromValue(
-                        it.key,
-                        requireContext()
+                val list = addConditionViewModel.listOfValues.value!!.map { operator ->
+                    getString(
+                        context.resources.getIdentifier(
+                            operator.key,
+                            "string",
+                            requireContext().packageName
+                        )
                     )
                 }
                 setAdapter(
@@ -163,10 +171,13 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             }
 
             markerTypeAutoCompleteTextView.apply {
-                val list = addConditionViewModel.listOfMarkerTypes.value!!.map { shape ->
-                    localizationManager.getTranslationFromValue(
-                        shape.key,
-                        requireContext()
+                val list = addConditionViewModel.listOfMarkerTypes.value!!.map { marker ->
+                    getString(
+                        context.resources.getIdentifier(
+                            marker.key,
+                            "string",
+                            requireContext().packageName
+                        )
                     )
                 }
                 setAdapter(
@@ -183,9 +194,12 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
 
             shapeAutoCompleteTextView.apply {
                 val list = addConditionViewModel.listOfShapes.value!!.map { shape ->
-                    localizationManager.getTranslationFromValue(
-                        shape.key,
-                        requireContext()
+                    getString(
+                        context.resources.getIdentifier(
+                            shape.key,
+                            "string",
+                            requireContext().packageName
+                        )
                     )
                 }
                 setAdapter(
@@ -201,9 +215,12 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             }
             sizeAutoCompleteTextView.apply {
                 val list = addConditionViewModel.listOfSizes.value!!.map { size ->
-                    localizationManager.getTranslationFromValue(
-                        size.key,
-                        requireContext()
+                    getString(
+                        context.resources.getIdentifier(
+                            size.key,
+                            "string",
+                            requireContext().packageName
+                        )
                     )
                 }
                 setAdapter(
@@ -218,10 +235,13 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                 }
             }
             positionAutoCompleteTextView.apply {
-                val list = addConditionViewModel.listOfPositions.value!!.map { size ->
-                    localizationManager.getTranslationFromValue(
-                        size.key,
-                        requireContext()
+                val list = addConditionViewModel.listOfPositions.value!!.map { position ->
+                    getString(
+                        context.resources.getIdentifier(
+                            position.key,
+                            "string",
+                            requireContext().packageName
+                        )
                     )
                 }
                 setAdapter(
@@ -258,11 +278,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             )
             doOnTextChanged { text, start, before, count ->
                 addConditionViewModel.onSelectRightIndicator(text.toString())
-                if (text.toString() == localizationManager.getTranslationFromValue(
-                        getString(R.string.value),
-                        requireContext()
-                    )
-                ) {
+                if (text.toString() == getString(R.string.value)) {
                     addConditionViewModel.onIndicator2ValueSelected()
                 } else {
                     addConditionViewModel.onIndicator2ValueUnSelected()
@@ -280,9 +296,10 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             }
             addConditionViewModel.selectedOperator.value?.let {
                 valueAutoCompleteTextView.setText(
-                    localizationManager.getTranslationFromValue(
-                        it.key,
-                        requireContext()
+                    getString(
+                        requireContext().resources.getIdentifier(
+                            it.key, "string", requireContext().packageName
+                        )
                     ), false
                 )
             }
@@ -293,34 +310,45 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             }
 
             addConditionViewModel.selectedRightValue.value?.let {
-                value2EditText.setText(it)
+                value2EditText.setText(it.toString())
             }
 
             markerTypeAutoCompleteTextView.setText(
-                localizationManager.getTranslationFromValue(
-                    addConditionViewModel.selectedMarker.value?.key ?: "",
-                    requireContext()
-                )
+                getString(
+                    requireContext().resources.getIdentifier(
+                        addConditionViewModel.selectedMarker.value?.key ?: "",
+                        "string",
+                        requireContext().packageName
+                    )
+                ), false
             )
             sizeAutoCompleteTextView.setText(
-                localizationManager.getTranslationFromValue(
-                    addConditionViewModel.selectedSignalSize.value?.key ?: "",
-                    requireContext()
-                )
+                getString(
+                    requireContext().resources.getIdentifier(
+                        addConditionViewModel.selectedSignalSize.value?.key ?: "",
+                        "string",
+                        requireContext().packageName
+                    )
+                ), false
             )
             positionAutoCompleteTextView.setText(
-                localizationManager.getTranslationFromValue(
-                    addConditionViewModel.selectedSignalPosition.value?.key ?: "",
-                    requireContext()
-                )
+                getString(
+                    requireContext().resources.getIdentifier(
+                        addConditionViewModel.selectedSignalPosition.value?.key ?: "",
+                        "string",
+                        requireContext().packageName
+                    )
+                ), false
             )
             shapeAutoCompleteTextView.setText(
-                localizationManager.getTranslationFromValue(
-                    addConditionViewModel.selectedSignalShape.value?.key ?: "",
-                    requireContext()
-                )
+                getString(
+                    requireContext().resources.getIdentifier(
+                        addConditionViewModel.selectedSignalShape.value?.key ?: "",
+                        "string",
+                        requireContext().packageName
+                    )
+                ), false
             )
-
         }
     }
 

@@ -107,9 +107,12 @@ class AddSignalFragment : Fragment(), OnBackPressed {
     private fun processConditionsList(list: List<ConditionItem>) {
         conditionAdapter.items = list.mapIndexed { index, conditionItem ->
             val description =
-                conditionItem.condition.leftIndicator.substringBefore(addSignalViewModel.selectedStudy.value!!.shortName) + localizationManager.getTranslationFromValue(
-                    conditionItem.condition.signalOperator.key,
-                    requireContext()
+                conditionItem.condition.leftIndicator.substringBefore(addSignalViewModel.selectedStudy.value!!.shortName) + getString(
+                    requireContext().resources.getIdentifier(
+                        conditionItem.condition.signalOperator.key,
+                        "string",
+                        requireContext().packageName
+                    )
                 ) + " " + (conditionItem.condition.rightIndicator?.substringBefore(
                     addSignalViewModel.selectedStudy.value!!.shortName
                 )
@@ -195,7 +198,10 @@ class AddSignalFragment : Fragment(), OnBackPressed {
             }
             settingsButton.setOnClickListener {
                 val bundle =
-                    ActiveStudyDetailsFragmentArgs.Builder(addSignalViewModel.selectedStudy.value!!, false)
+                    ActiveStudyDetailsFragmentArgs.Builder(
+                        addSignalViewModel.selectedStudy.value!!,
+                        false
+                    )
                         .build().toBundle()
                 findNavController().navigate(R.id.activeStudyDetailsFragment, bundle)
             }

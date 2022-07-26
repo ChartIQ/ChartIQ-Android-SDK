@@ -8,14 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentStudyDetailsBinding
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
+import com.chartiq.demo.ui.signal.addsignal.AddSignalFragment.Companion.SETTINGS_KEY
+import com.chartiq.demo.ui.signal.addsignal.AddSignalFragment.Companion.SETTINGS_STUDY_KEY
 import com.chartiq.demo.ui.study.parameterselect.SelectParameterDialogFragment
 import com.chartiq.sdk.model.study.Study
 import com.chartiq.sdk.model.study.StudyParameter
@@ -157,8 +161,9 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
             studyDetailsAdapter.items = it
         }
         viewModel.successUpdateEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
+            event.getContentIfNotHandled()?.let { study ->
                 hideKeyboard()
+                setFragmentResult(SETTINGS_KEY, bundleOf(SETTINGS_STUDY_KEY to study))
                 findNavController().navigateUp()
             }
         }

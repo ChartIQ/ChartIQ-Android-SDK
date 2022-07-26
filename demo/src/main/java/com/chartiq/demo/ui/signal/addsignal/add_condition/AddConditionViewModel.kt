@@ -1,10 +1,13 @@
 package com.chartiq.demo.ui.signal.addsignal.add_condition
 
+import android.content.Context
 import android.graphics.Color
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chartiq.demo.R
+import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.ui.signal.addsignal.ConditionItem
 import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.MarkerOption
@@ -16,7 +19,10 @@ import com.chartiq.sdk.model.signal.SignalSize
 import com.chartiq.sdk.model.study.Study
 import java.util.*
 
-class AddConditionViewModel : ViewModel() {
+class AddConditionViewModel(
+    private val localizationManager: LocalizationManager,
+    private val context: Context
+) : ViewModel() {
 
     val listOfValues = MutableLiveData<List<SignalOperator>>().apply {
         value = listOf(
@@ -72,7 +78,7 @@ class AddConditionViewModel : ViewModel() {
     val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
     val selectedLeftIndicator = MutableLiveData("")
     val selectedRightIndicator = MutableLiveData<String?>()
-    val selectedRightValue = MutableLiveData("")
+    val selectedRightValue = MutableLiveData(0.0)
     val label = MutableLiveData("X")
     val isShowRightIndicator = MutableLiveData(false)
     val isShowRightValue = MutableLiveData(false)
@@ -126,7 +132,11 @@ class AddConditionViewModel : ViewModel() {
             ) {
                 true
             } else {
-                (selectedRightIndicator.value != null && selectedRightIndicator.value != "Value") || (selectedRightIndicator.value == "Value" && selectedRightValue.value != null)
+                selectedOperator.value != null
+                        && (
+                        (selectedRightIndicator.value != null && selectedRightIndicator.value != "Value")
+                                || (selectedRightIndicator.value == "Value" && selectedRightValue.value != null)
+                        )
             }
     }
 
@@ -153,6 +163,14 @@ class AddConditionViewModel : ViewModel() {
                         || selectedOperator.value!! == SignalOperator.TURNS_DOWN)
             if (isShowRightIndicator.value == false) {
                 selectedRightIndicator.value = null
+            } else {
+                if (localizationManager.getTranslationFromValue(
+                        context.getString(R.string.value),
+                        context
+                    ) == selectedRightIndicator.value
+                ) {
+                    isShowRightValue.value = true
+                }
             }
         }
     }
@@ -174,7 +192,9 @@ class AddConditionViewModel : ViewModel() {
     }
 
     fun onIndicator2ValueSelected() {
-        isShowRightValue.value = true
+        if (selectedOperator.value != null) {
+            isShowRightValue.value = true
+        }
     }
 
     fun onSaveCondition(label: String) {
@@ -192,7 +212,7 @@ class AddConditionViewModel : ViewModel() {
             description = "",
             condition = Condition(
                 leftIndicator = selectedLeftIndicator.value ?: "",
-                rightIndicator = rightIndicator,
+                rightIndicator = rightIndicator.toString(),
                 signalOperator = selectedOperator.value!!,
                 markerOption = MarkerOption(
                     type = selectedMarker.value!!,
@@ -208,7 +228,7 @@ class AddConditionViewModel : ViewModel() {
     }
 
     fun onRightValueSelected(value: String) {
-        selectedRightValue.value = value
+        selectedRightValue.value = value.toDoubleOrNull() ?: 0.0
     }
 
     fun onMarkerTypeSelected(index: Int) {
@@ -225,17 +245,15 @@ class AddConditionViewModel : ViewModel() {
             selectedSignalPosition.value = item.condition.markerOption.signalPosition
             label.value = item.condition.markerOption.label
             currentColor.value = Color.parseColor(item.condition.markerOption.color)
-            selectedLeftIndicator.value =
-                item.condition.leftIndicator.substringBefore(selectedStudy.value!!.shortName)
+            selectedLeftIndicator.value = item.condition.leftIndicator
             if (item.condition.rightIndicator != null) {
                 try {
                     selectedRightValue.value =
-                        item.condition.rightIndicator?.toDouble().toString()
+                        item.condition.rightIndicator?.toDouble()
                     selectedRightIndicator.value = "Value"
                     isShowRightValue.value = true
                 } catch (e: Exception) {
-                    selectedRightIndicator.value =
-                        item.condition.rightIndicator?.substringBefore(selectedStudy.value!!.shortName)
+                    selectedRightIndicator.value = item.condition.rightIndicator
                 }
             }
 
@@ -255,11 +273,22 @@ class AddConditionViewModel : ViewModel() {
         }
     }
 
-    class ViewModelFactory : ViewModelProvider.Factory {
+    fun setColor(color: Int?) {
+        color?.let { currentColor.value = it }
+    }
+
+
+    class ViewModelFactory(
+        private val localizationManager: LocalizationManager,
+        private val context: Context
+    ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor()
-                .newInstance()
+                .getConstructor(
+                    LocalizationManager::class.java,
+                    Context::class.java
+                )
+                .newInstance(localizationManager, context)
         }
     }
 }
