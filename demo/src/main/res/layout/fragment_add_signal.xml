@@ -115,11 +115,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signalDescriptionTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:hint="@string/signal_desc_hint"
+                app:expandedHintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -129,6 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top|start"
+                    android:hint="@string/signal_description"
                     android:imeOptions="actionDone"
                     android:inputType="text|textMultiLine"
                     android:maxLines="5"
@@ -138,11 +140,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signalNameTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_medium"
                 android:hint="@string/signal_title_hint"
+                app:expandedHintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -151,6 +154,7 @@
                     android:id="@+id/signalNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:hint="@string/signal_name"
                     android:imeOptions="actionDone"
                     android:inputType="text" />
 

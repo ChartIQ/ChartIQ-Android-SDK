@@ -160,6 +160,8 @@
     <string name="signal_condition_n">%1$d Condition</string>
     <string name="signal_and">And</string>
     <string name="signal_or">Or</string>
+    <string name="signal_description">Description will appear in an infobox when the signal is clicked.</string>
+    <string name="signal_name">Enter a Name</string>
 
     <!-- Signals values-->
     <string name="small">Small</string>

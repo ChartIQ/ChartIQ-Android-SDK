@@ -65,6 +65,9 @@ class AddSignalFragment : Fragment(), OnBackPressed {
 
     private fun setupViewModel() {
         with(addSignalViewModel) {
+            signalJoiner.observe(viewLifecycleOwner) { joiner ->
+                conditionAdapter.signalJoiner = joiner
+            }
             editType.observe(viewLifecycleOwner) { type ->
                 val titleId = when (type) {
                     SignalEditType.NEW_SIGNAL -> R.string.signal_title_add_signal
