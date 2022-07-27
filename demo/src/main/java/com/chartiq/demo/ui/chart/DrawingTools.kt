@@ -277,7 +277,7 @@ enum class DrawingTools(
     ),
     VOLUME_PROFILE(
         DrawingTool.VOLUME_PROFILE,
-        R.drawable.ic_drawing_tool_vertical_line,
+        R.drawable.ic_drawing_tool_volume_profile,
         R.string.drawing_tool_volume_profile,
         DrawingToolCategory.LINES,
         DrawingToolSection.MAIN
