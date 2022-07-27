@@ -14,7 +14,7 @@
         app:navigationIcon="@drawable/ic_nav_back"
         app:title="@string/signal_title_add_signal" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
@@ -95,7 +95,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/conditionsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -129,7 +129,6 @@
                     android:id="@+id/signalDescriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
                     android:gravity="top|start"
                     android:hint="@string/signal_description"
                     android:imeOptions="actionDone"
@@ -155,7 +154,6 @@
                     android:id="@+id/signalNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
                     android:hint="@string/signal_name"
                     android:imeOptions="actionDone"
                     android:inputType="text" />
@@ -173,5 +171,5 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
