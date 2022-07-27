@@ -322,7 +322,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                )
+                ), false
             )
             sizeAutoCompleteTextView.setText(
                 getString(
@@ -331,7 +331,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                )
+                ), false
             )
             positionAutoCompleteTextView.setText(
                 getString(
@@ -340,7 +340,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                )
+                ), false
             )
             shapeAutoCompleteTextView.setText(
                 getString(
@@ -349,7 +349,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                         "string",
                         requireContext().packageName
                     )
-                )
+                ), false
             )
         }
     }
