@@ -286,7 +286,9 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
                     addConditionViewModel.onIndicator2ValueUnSelected()
                 }
             }
-            setText(list?.get(0) ?: "", false)
+            if (addConditionViewModel.isEditing.value == false) {
+                setText(list?.get(0) ?: "", false)
+            }
         }
     }
 

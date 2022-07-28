@@ -2,8 +2,6 @@ package com.chartiq.demo.ui.chart.panel.settings
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.chartiq.demo.R
 import com.chartiq.demo.databinding.ItemDrawingToolSettingChooseValueBinding
@@ -224,36 +223,14 @@ class DrawingToolSettingsAdapter :
         override fun bind(item: DrawingToolSettingsItem) {
             val numberItem = item as DrawingToolSettingsItem.Number
             with(binding) {
-                priceBucketsEditText.requestFocus()
                 priceBucketsTextInputLayout.hint = root.resources.getString(numberItem.title)
                 priceBucketsEditText.setText(numberItem.number.toString())
                 priceBucketsEditText.text?.length?.let { priceBucketsEditText.setSelection(it) }
-                priceBucketsEditText.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-
+                priceBucketsEditText.doOnTextChanged { text, start, before, count ->
+                    if (text?.isNotEmpty() == true) {
+                        listener?.onSelected(numberItem.copy(number = text.toString().toInt()))
                     }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-
-                    }
-
-                    override fun afterTextChanged(text: Editable?) {
-                        if (text.toString() != item.number.toString() && text?.isNotEmpty() == true) {
-                            listener?.onSelected(numberItem.copy(number = text.toString().toInt()))
-                        }
-                        priceBucketsEditText.removeTextChangedListener(this)
-                    }
-                })
+                }
             }
         }
     }

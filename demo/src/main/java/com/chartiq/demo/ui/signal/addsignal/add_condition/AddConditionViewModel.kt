@@ -17,6 +17,7 @@ import com.chartiq.sdk.model.signal.SignalPosition
 import com.chartiq.sdk.model.signal.SignalShape
 import com.chartiq.sdk.model.signal.SignalSize
 import com.chartiq.sdk.model.study.Study
+import java.math.BigDecimal
 import java.util.*
 
 class AddConditionViewModel(
@@ -78,20 +79,21 @@ class AddConditionViewModel(
     val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
     val selectedLeftIndicator = MutableLiveData("")
     val selectedRightIndicator = MutableLiveData<String?>()
-    val selectedRightValue = MutableLiveData(0.0)
+    val selectedRightValue = MutableLiveData("")
     val label = MutableLiveData("X")
     val isShowRightIndicator = MutableLiveData(false)
     val isShowRightValue = MutableLiveData(false)
     val isShowAppearanceSettings = MediatorLiveData<Boolean>().apply {
         value = false
     }
-    val shouldShowSettings = MutableLiveData<Boolean>()
+    private val shouldShowSettings = MutableLiveData<Boolean>()
     val isShowSaveSettings = MediatorLiveData<Boolean>().apply {
         value = true
     }
     val isSaveAvailable = MediatorLiveData<Boolean>().apply {
         value = false
     }
+    val isEditing = MutableLiveData(false)
 
     val currentColor = MutableLiveData(0xFF0000)
     val conditionItem = MutableLiveData<ConditionItem>()
@@ -136,7 +138,7 @@ class AddConditionViewModel(
                 selectedOperator.value != null
                         && (
                         (selectedRightIndicator.value != null && selectedRightIndicator.value != "Value")
-                                || (selectedRightIndicator.value == "Value" && selectedRightValue.value != null)
+                                || (selectedRightIndicator.value == "Value" && selectedRightValue.value?.isNotEmpty() == true)
                         )
             }
     }
@@ -229,7 +231,7 @@ class AddConditionViewModel(
     }
 
     fun onRightValueSelected(value: String) {
-        selectedRightValue.value = value.toDoubleOrNull() ?: 0.0
+        selectedRightValue.value = value//.toDoubleOrNull() ?: 0.0
     }
 
     fun onMarkerTypeSelected(index: Int) {
@@ -238,23 +240,29 @@ class AddConditionViewModel(
 
     fun setCondition(conditionItem: ConditionItem?) {
         conditionItem?.let { item ->
+            isEditing.value = true
             conditionUUID.value = item.UUID
             selectedMarker.value = item.condition.markerOption.type
             selectedSignalShape.value = item.condition.markerOption.signalShape
             selectedOperator.value = item.condition.signalOperator
             selectedSignalSize.value = item.condition.markerOption.signalSize
             selectedSignalPosition.value = item.condition.markerOption.signalPosition
-            label.value = item.condition.markerOption.label
+            label.value = if (item.condition.markerOption.type == SignalMarkerType.MARKER) {
+                item.condition.markerOption.label
+            } else {
+                "X"
+            }
             currentColor.value = Color.parseColor(item.condition.markerOption.color)
             selectedLeftIndicator.value = item.condition.leftIndicator
             if (item.condition.rightIndicator != null) {
                 try {
                     selectedRightValue.value =
-                        item.condition.rightIndicator?.toDouble()
+                        BigDecimal(item.condition.rightIndicator).toString()
                     selectedRightIndicator.value = "Value"
                     isShowRightValue.value = true
                 } catch (e: Exception) {
                     selectedRightIndicator.value = item.condition.rightIndicator
+                    isShowRightValue.value = false
                 }
             }
 

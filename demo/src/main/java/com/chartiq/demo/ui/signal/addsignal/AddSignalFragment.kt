@@ -21,6 +21,7 @@ import com.chartiq.demo.ui.signal.addsignal.add_condition.ConditionItemTouchCall
 import com.chartiq.demo.ui.study.studydetails.ActiveStudyDetailsFragmentArgs
 import com.chartiq.sdk.model.signal.SignalJoiner
 import com.chartiq.sdk.model.study.StudySimplified
+import java.math.BigDecimal
 import java.util.*
 
 class AddSignalFragment : Fragment(), OnBackPressed {
@@ -65,6 +66,9 @@ class AddSignalFragment : Fragment(), OnBackPressed {
 
     private fun setupViewModel() {
         with(addSignalViewModel) {
+            signalJoiner.observe(viewLifecycleOwner) { joiner ->
+                conditionAdapter.signalJoiner = joiner
+            }
             editType.observe(viewLifecycleOwner) { type ->
                 val titleId = when (type) {
                     SignalEditType.NEW_SIGNAL -> R.string.signal_title_add_signal
@@ -106,6 +110,14 @@ class AddSignalFragment : Fragment(), OnBackPressed {
 
     private fun processConditionsList(list: List<ConditionItem>) {
         conditionAdapter.items = list.mapIndexed { index, conditionItem ->
+            val rightIndicator = try {
+                val number = BigDecimal(conditionItem.condition.rightIndicator ?: "")
+                number.toPlainString()
+            } catch (e: Exception) {
+                (conditionItem.condition.rightIndicator ?: "").substringBefore(
+                    addSignalViewModel.selectedStudy.value!!.shortName
+                )
+            }
             val description =
                 conditionItem.condition.leftIndicator.substringBefore(addSignalViewModel.selectedStudy.value!!.shortName) + getString(
                     requireContext().resources.getIdentifier(
@@ -113,9 +125,7 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                         "string",
                         requireContext().packageName
                     )
-                ) + " " + (conditionItem.condition.rightIndicator ?: "").substringBefore(
-                    addSignalViewModel.selectedStudy.value!!.shortName
-                )
+                ) + " " + rightIndicator
             ConditionItem(
                 conditionItem.condition,
                 getString(R.string.signal_condition_n, index + 1),

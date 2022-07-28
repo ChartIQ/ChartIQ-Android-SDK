@@ -42,7 +42,10 @@ class DrawingToolSettingsFragment : Fragment(),
             is DrawingToolSettingsItem.Style -> settingsViewModel.updateAnnotationParameters(item)
             is DrawingToolSettingsItem.ChooseValue -> navigateToChooseValueFromList(item)
             is DrawingToolSettingsItem.Line -> navigateToChooseLine(item)
-            is DrawingToolSettingsItem.Number -> settingsViewModel.updateParameter(item.param, item.number.toString())
+            is DrawingToolSettingsItem.Number -> settingsViewModel.updateParameterWithoutRefreshing(
+                item.param,
+                item.number.toString()
+            )
         }
     }
 
@@ -93,7 +96,8 @@ class DrawingToolSettingsFragment : Fragment(),
     }
 
     private fun setupViews() {
-        val isDeviation = DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
+        val isDeviation =
+            DrawingToolSettingsFragmentArgs.fromBundle(requireArguments()).argDeviation != null
         with(binding) {
             settingsToolbar.apply {
                 setNavigationOnClickListener {

@@ -100,6 +100,11 @@ class DrawingToolSettingsViewModel(
         chartIQHandler.setDrawingParameter(parameter, value.toString())
     }
 
+    fun updateParameterWithoutRefreshing(parameter: String, value: String) {
+        // No refresh
+        chartIQHandler.setDrawingParameter(parameter, value.toString())
+    }
+
     fun updateParameter(parameter: String, value: String) {
         chartIQHandler.setDrawingParameter(parameter, value)
         refreshDrawingParameters()
