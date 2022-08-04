@@ -91,7 +91,7 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
 
         override fun bind(conditionItem: ConditionItem?, position: Int) {
             conditionItem?.let { item ->
-                val backgroundColor = Color.parseColor(conditionItem.condition.markerOption.color)
+                val backgroundColor = Color.parseColor(conditionItem.displayedColor)
                 binding.previewTextView.apply {
                     text = conditionItem.condition.markerOption.label
                     setTextColor(defineTextColor(backgroundColor))

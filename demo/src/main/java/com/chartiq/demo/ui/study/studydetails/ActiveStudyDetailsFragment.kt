@@ -54,6 +54,11 @@ class ActiveStudyDetailsFragment : Fragment(), SelectParameterDialogFragment.Dia
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkOutputs()
+    }
+
     private fun setupViews() {
         with(binding) {
             toolbar.apply {

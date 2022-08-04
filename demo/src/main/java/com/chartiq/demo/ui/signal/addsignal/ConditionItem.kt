@@ -9,5 +9,6 @@ data class ConditionItem(
     val condition: Condition,
     val title: String,
     val description: String,
+    val displayedColor: String,
     val UUID: java.util.UUID = java.util.UUID.randomUUID()
 ) : Parcelable

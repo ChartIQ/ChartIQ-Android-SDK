@@ -32,7 +32,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
     })
 
     private val addConditionViewModel by viewModels<AddConditionViewModel>(factoryProducer = {
-        AddConditionViewModel.ViewModelFactory(localizationManager, requireContext())
+        AddConditionViewModel.ViewModelFactory(chartIQ, localizationManager, requireContext())
     })
 
     private lateinit var hardcodedArray: Array<String>
@@ -62,6 +62,11 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         setupViewsData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        addConditionViewModel.checkColor()
+    }
+
     private fun setupViewModel() {
         with(addConditionViewModel) {
             isShowAppearanceSettings.observe(viewLifecycleOwner) { isShow ->
@@ -70,7 +75,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             label.observe(viewLifecycleOwner) {
                 binding.tagMarkEditText.setText(it)
             }
-            currentColor.observe(viewLifecycleOwner) {
+            this.currentColor.observe(viewLifecycleOwner) {
                 (binding.colorImageView.background as GradientDrawable).setColor(it)
             }
             isShowRightIndicator.observe(viewLifecycleOwner) {
@@ -163,7 +168,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             colorLayout.setOnClickListener {
                 ChooseColorFragment.getInstance(
                     "",
-                    String.format("#%06X", 0xFFFFFF and addConditionViewModel.currentColor.value!!)
+                    String.format("#%06X", FORMAT_COLOR and addConditionViewModel.currentColor.value!!)
                 ).apply {
                     setTargetFragment(
                         this@AddConditionFragment,
@@ -314,7 +319,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             }
 
             addConditionViewModel.selectedRightValue.value?.let {
-                value2EditText.setText(it.toString())
+                value2EditText.setText(it)
             }
 
             markerTypeAutoCompleteTextView.setText(
@@ -362,5 +367,6 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
 
     companion object {
         private const val REQUEST_CODE_SHOW_COLOR_PICKER = 1001
+        private const val FORMAT_COLOR = 0xFFFFFF
     }
 }

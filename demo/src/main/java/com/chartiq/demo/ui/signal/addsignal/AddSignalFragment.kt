@@ -64,6 +64,11 @@ class AddSignalFragment : Fragment(), OnBackPressed {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        addSignalViewModel.checkColor()
+    }
+
     private fun setupViewModel() {
         with(addSignalViewModel) {
             signalJoiner.observe(viewLifecycleOwner) { joiner ->
@@ -127,10 +132,11 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                     )
                 ) + " " + rightIndicator
             ConditionItem(
-                conditionItem.condition,
-                getString(R.string.signal_condition_n, index + 1),
-                description,
-                conditionItem.UUID
+                condition = conditionItem.condition,
+                title = getString(R.string.signal_condition_n, index + 1),
+                description = description,
+                displayedColor = conditionItem.displayedColor,
+                UUID = conditionItem.UUID
             )
         }
     }

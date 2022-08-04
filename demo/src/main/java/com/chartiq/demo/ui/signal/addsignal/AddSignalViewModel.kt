@@ -37,7 +37,7 @@ class AddSignalViewModel(
     val editType = MutableLiveData(SignalEditType.NEW_SIGNAL)
 
     val defaultColor = MediatorLiveData<Int>().apply {
-        value = 0x000000
+        value = DEF_COLOR
     }
     val listOfConditions = MutableLiveData<List<ConditionItem>>(emptyList())
 
@@ -195,19 +195,27 @@ class AddSignalViewModel(
     fun setSignal(signal: Signal) {
         if (isFirstOpen.value == true) {
             isFirstOpen.value = false
-            editType.value = SignalEditType.EDIT_SIGNAL
-            selectedStudy.value = signal.study
-            name.value = signal.name
-            description.value = signal.description
-            signalJoiner.value = signal.joiner
-            listOfConditions.value = signal.conditions.map {
-                ConditionItem(
-                    condition = it,
-                    title = "",
-                    description = ""
-                )
+            chartIQ.getStudyParameters(signal.study, StudyParameterType.Outputs) { list ->
+                editType.value = SignalEditType.EDIT_SIGNAL
+                selectedStudy.value = signal.study
+                name.value = signal.name
+                description.value = signal.description
+                signalJoiner.value = signal.joiner
+                listOfConditions.value = signal.conditions.map { condition ->
+                    val color = if (condition.markerOption.color != null) {
+                        condition.markerOption.color!!
+                    } else {
+                        (list.firstOrNull() as? StudyParameter.Color)?.value ?: ""
+                    }
+                    ConditionItem(
+                        condition = condition,
+                        title = "",
+                        description = "",
+                        displayedColor = color
+                    )
+                }
+                isSaveAvailable.value = true
             }
-            isSaveAvailable.value = true
         }
     }
 
@@ -233,6 +241,29 @@ class AddSignalViewModel(
                 outputs = studySimplified.outputs
             )
         }
+    }
+
+    fun checkColor() {
+        selectedStudy.value?.let { study ->
+            chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
+                listOfConditions.value = listOfConditions.value?.map { item ->
+                    if (item.condition.markerOption.color != null) {
+                        item
+                    } else {
+                        val color = (list.firstOrNull() as? StudyParameter.Color)?.value
+                        item.copy(
+                            displayedColor = color
+                                ?: ""
+                        )
+                    }
+
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val DEF_COLOR = 0xFF0000
     }
 
     class ViewModelFactory(

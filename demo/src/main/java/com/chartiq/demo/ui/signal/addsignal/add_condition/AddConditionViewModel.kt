@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.R
 import com.chartiq.demo.localization.LocalizationManager
 import com.chartiq.demo.ui.signal.addsignal.ConditionItem
+import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.MarkerOption
 import com.chartiq.sdk.model.signal.SignalMarkerType
@@ -17,10 +18,13 @@ import com.chartiq.sdk.model.signal.SignalPosition
 import com.chartiq.sdk.model.signal.SignalShape
 import com.chartiq.sdk.model.signal.SignalSize
 import com.chartiq.sdk.model.study.Study
+import com.chartiq.sdk.model.study.StudyParameter
+import com.chartiq.sdk.model.study.StudyParameterType
 import java.math.BigDecimal
 import java.util.*
 
 class AddConditionViewModel(
+    private val chartIQ: ChartIQ,
     private val localizationManager: LocalizationManager,
     private val context: Context
 ) : ViewModel() {
@@ -95,7 +99,10 @@ class AddConditionViewModel(
     }
     val isEditing = MutableLiveData(false)
 
-    val currentColor = MutableLiveData(0xFF0000)
+    val currentColor = MediatorLiveData<Int>().apply {
+        value = DEF_COLOR
+    } // color for UI
+    private val selectedColor = MutableLiveData<Int>() // real selected color for js
     val conditionItem = MutableLiveData<ConditionItem>()
     private val conditionUUID = MutableLiveData(UUID.randomUUID())
 
@@ -118,6 +125,9 @@ class AddConditionViewModel(
                 SignalMarkerType.PAINTBAR -> false
                 else -> true
             }
+        }
+        currentColor.addSource(selectedColor) { color ->
+            currentColor.value = color
         }
     }
 
@@ -152,7 +162,7 @@ class AddConditionViewModel(
     }
 
     fun onChooseColor(color: Int) {
-        currentColor.value = color
+        this.selectedColor.value = color
     }
 
     fun onValueSelected(index: Int) {
@@ -219,13 +229,18 @@ class AddConditionViewModel(
                 signalOperator = selectedOperator.value!!,
                 markerOption = MarkerOption(
                     type = selectedMarker.value!!,
-                    color = String.format("#%06X", 0xFFFFFF and currentColor.value!!),
+                    color = if (selectedColor.value != null) {
+                        String.format("#%06X", FORMAT_COLOR and selectedColor.value!!)
+                    } else {
+                        null
+                    },
                     signalShape = selectedSignalShape.value!!,
                     signalSize = selectedSignalSize.value!!,
                     label = label,
                     signalPosition = selectedSignalPosition.value!!,
                 )
             ),
+            displayedColor = String.format("#%06X", FORMAT_COLOR and currentColor.value!!),
             UUID = conditionUUID.value!!
         )
     }
@@ -252,7 +267,11 @@ class AddConditionViewModel(
             } else {
                 "X"
             }
-            currentColor.value = Color.parseColor(item.condition.markerOption.color)
+            if (item.condition.markerOption.color == null) {
+                currentColor.value = Color.parseColor(item.displayedColor)
+            } else {
+                selectedColor.value = Color.parseColor(item.condition.markerOption.color)
+            }
             selectedLeftIndicator.value = item.condition.leftIndicator
             if (item.condition.rightIndicator != null) {
                 try {
@@ -283,25 +302,44 @@ class AddConditionViewModel(
     }
 
     fun setColor(color: Int?) {
-        color?.let { currentColor.value = it }
+        color?.let { this.currentColor.value = it }
     }
 
     fun setSettingsVisibility(shouldShowSettings: Boolean) {
         this.shouldShowSettings.value = shouldShowSettings
     }
 
+    fun checkColor() {
+        if (selectedColor.value == null) {
+            selectedStudy.value?.let { study ->
+                chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
+                    (list.firstOrNull() as? StudyParameter.Color)?.value?.let { color ->
+                        currentColor.value = Color.parseColor(color)
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val DEF_COLOR = 0xFF0000
+        private const val FORMAT_COLOR = 0xFFFFFF
+    }
+
 
     class ViewModelFactory(
+        private val chartIQ: ChartIQ,
         private val localizationManager: LocalizationManager,
         private val context: Context
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
+                    ChartIQ::class.java,
                     LocalizationManager::class.java,
                     Context::class.java
                 )
-                .newInstance(localizationManager, context)
+                .newInstance(chartIQ, localizationManager, context)
         }
     }
 }

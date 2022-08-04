@@ -41,12 +41,17 @@ internal class SignalEntityClassTypeAdapter : JsonDeserializer<SignalEntity> {
             } catch (e: Exception) {
                 null
             }
+            val color = if (array[3].isJsonNull) {
+                null
+            } else {
+                array[3].asString
+            }
             conditionsList.add(
                 ConditionEntity(
                     leftIndicator = array[0].asString,
                     signalOperator = array[1].asString,
                     rightIndicator = rightIndicator,
-                    color = array[3].asString,
+                    color = color,
                     markerOption = markerOption
                 )
             )
