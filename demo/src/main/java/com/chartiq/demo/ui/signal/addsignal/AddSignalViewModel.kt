@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.localization.LocalizationManager
+import com.chartiq.demo.util.Event
 import com.chartiq.demo.util.combineLatest
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.model.signal.Condition
@@ -28,6 +29,7 @@ class AddSignalViewModel(
     private val originalStudies = MutableLiveData<List<Study>>(emptyList())
 
     private val query = MutableLiveData("")
+    val backEvent = MutableLiveData<Event<Unit>>()
 
     private val tempStudy = MutableLiveData<Study?>()
     val selectedStudy = MutableLiveData<Study?>()
@@ -99,6 +101,7 @@ class AddSignalViewModel(
         listOfConditions.value = emptyList()
         chartIQ.addSignalStudy(tempStudy.value!!.shortName) { study ->
             selectedStudy.value = study
+            backEvent.value = Event(Unit)
         }
         onClearStudy()
     }
@@ -195,7 +198,10 @@ class AddSignalViewModel(
     fun setSignal(signal: Signal) {
         if (isFirstOpen.value == true) {
             isFirstOpen.value = false
-            chartIQ.getStudyParameters(signal.study, StudyParameterType.Outputs) { list ->
+            chartIQ.getStudyParameters(
+                signal.study,
+                StudyParameterType.Outputs
+            ) { list: List<StudyParameter> ->
                 editType.value = SignalEditType.EDIT_SIGNAL
                 selectedStudy.value = signal.study
                 name.value = signal.name
@@ -205,13 +211,17 @@ class AddSignalViewModel(
                     val color = if (condition.markerOption.color != null) {
                         condition.markerOption.color!!
                     } else {
-                        (list.firstOrNull() as? StudyParameter.Color)?.value ?: ""
+                        val name =
+                            condition.leftIndicator.substringBefore(ZERO_WIDTH_NON_JOINER).trim()
+                        (list.firstOrNull {
+                            (it as? StudyParameter.Color)?.name == name
+                        } as? StudyParameter.Color)?.value
                     }
                     ConditionItem(
                         condition = condition,
                         title = "",
                         description = "",
-                        displayedColor = color
+                        displayedColor = color ?: ""
                     )
                 }
                 isSaveAvailable.value = true
@@ -250,7 +260,11 @@ class AddSignalViewModel(
                     if (item.condition.markerOption.color != null) {
                         item
                     } else {
-                        val color = (list.firstOrNull() as? StudyParameter.Color)?.value
+                        val name =
+                            item.condition.leftIndicator.substringBefore(ZERO_WIDTH_NON_JOINER)
+                                .trim()
+                        val color =
+                            (list.firstOrNull { (it as? StudyParameter.Color)?.name == name } as? StudyParameter.Color)?.value
                         item.copy(
                             displayedColor = color
                                 ?: ""
@@ -264,6 +278,7 @@ class AddSignalViewModel(
 
     companion object {
         private const val DEF_COLOR = 0xFF0000
+        private const val ZERO_WIDTH_NON_JOINER = '\u200C'
     }
 
     class ViewModelFactory(

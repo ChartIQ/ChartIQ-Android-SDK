@@ -63,8 +63,7 @@ class SelectStudyFragment : Fragment(), OnBackPressed {
             toolbarMenu.setOnMenuItemClickListener {
                 selectStudiesViewModel.onStudyApproved()
                 progressBar.isVisible = true
-                hideKeyboard()
-                findNavController().navigateUp()
+                true
             }
 
             toolbar.setNavigationOnClickListener {
@@ -83,6 +82,12 @@ class SelectStudyFragment : Fragment(), OnBackPressed {
             studiesAdapter.apply {
                 items = studies
                 selectedItem = selectStudiesViewModel.selectedStudy.value
+            }
+        }
+        selectStudiesViewModel.backEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                hideKeyboard()
+                findNavController().navigateUp()
             }
         }
 

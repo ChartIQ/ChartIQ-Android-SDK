@@ -1,7 +1,9 @@
 package com.chartiq.demo.ui.signal.addsignal.add_condition
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +17,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chartiq.demo.ChartIQApplication
 import com.chartiq.demo.R
+import com.chartiq.demo.ServiceLocator
 import com.chartiq.demo.databinding.FragmentAddConditionBinding
+import com.chartiq.demo.network.ChartIQNetworkManager
+import com.chartiq.demo.ui.MainViewModel
 import com.chartiq.demo.ui.chart.panel.settings.color.ChooseColorFragment
 import com.chartiq.demo.ui.signal.addsignal.AddSignalViewModel
 
@@ -33,6 +38,15 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
 
     private val addConditionViewModel by viewModels<AddConditionViewModel>(factoryProducer = {
         AddConditionViewModel.ViewModelFactory(chartIQ, localizationManager, requireContext())
+    })
+
+    private val mainViewModel by activityViewModels<MainViewModel>(factoryProducer = {
+        MainViewModel.ViewModelFactory(
+            ChartIQNetworkManager(),
+            (requireActivity().application as ServiceLocator).applicationPreferences,
+            chartIQ,
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        )
     })
 
     private lateinit var hardcodedArray: Array<String>
@@ -60,6 +74,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         addConditionViewModel.setCondition(args.conditionItem)
         addConditionViewModel.setSettingsVisibility(args.shouldShowSettings)
         setupViewsData()
+        addConditionViewModel.setChartStyle(mainViewModel.chartStyle.value)
     }
 
     override fun onResume() {
@@ -69,6 +84,9 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
 
     private fun setupViewModel() {
         with(addConditionViewModel) {
+            isAttentionVisible.observe(viewLifecycleOwner) { isShow ->
+                binding.attentionLayout.isVisible = isShow
+            }
             isShowAppearanceSettings.observe(viewLifecycleOwner) { isShow ->
                 binding.appearanceSettings.isVisible = isShow
             }
@@ -168,7 +186,10 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
             colorLayout.setOnClickListener {
                 ChooseColorFragment.getInstance(
                     "",
-                    String.format("#%06X", FORMAT_COLOR and addConditionViewModel.currentColor.value!!)
+                    String.format(
+                        "#%06X",
+                        FORMAT_COLOR and addConditionViewModel.currentColor.value!!
+                    )
                 ).apply {
                     setTargetFragment(
                         this@AddConditionFragment,

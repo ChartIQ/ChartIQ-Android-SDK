@@ -209,6 +209,8 @@
         <item>Close</item>
     </array>
 
+    <string name="condition_attention">Attention, Paintbar doesn’t work with this chart type.</string>
+
     <!-- Settings -->
     <string name="settings_chart_config">Chart Config</string>
     <string name="settings_chart_preferences">Chart Preferences</string>

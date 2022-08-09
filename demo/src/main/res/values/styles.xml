@@ -155,6 +155,11 @@
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
     </style>
 
+    <style name="TextAttentionStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/coralRed</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    </style>
+
     <style name="FullScreenDialog" parent="AppTheme">
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>

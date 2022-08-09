@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.chartiq.demo.R
 import com.chartiq.demo.localization.LocalizationManager
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
 import com.chartiq.demo.ui.signal.addsignal.ConditionItem
 import com.chartiq.sdk.ChartIQ
+import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.signal.Condition
 import com.chartiq.sdk.model.signal.MarkerOption
 import com.chartiq.sdk.model.signal.SignalMarkerType
@@ -83,7 +85,7 @@ class AddConditionViewModel(
     val selectedSignalPosition = MutableLiveData(SignalPosition.ABOVE_CANDLE)
     val selectedLeftIndicator = MutableLiveData("")
     val selectedRightIndicator = MutableLiveData<String?>()
-    val selectedRightValue = MutableLiveData("")
+    val selectedRightValue = MutableLiveData("0.0")
     val label = MutableLiveData("X")
     val isShowRightIndicator = MutableLiveData(false)
     val isShowRightValue = MutableLiveData(false)
@@ -98,6 +100,7 @@ class AddConditionViewModel(
         value = false
     }
     val isEditing = MutableLiveData(false)
+    val isAttentionVisible = MediatorLiveData<Boolean>()
 
     val currentColor = MediatorLiveData<Int>().apply {
         value = DEF_COLOR
@@ -105,6 +108,7 @@ class AddConditionViewModel(
     private val selectedColor = MutableLiveData<Int>() // real selected color for js
     val conditionItem = MutableLiveData<ConditionItem>()
     private val conditionUUID = MutableLiveData(UUID.randomUUID())
+    val chartStyle = MutableLiveData<ChartTypeItem>()
 
     init {
         isShowAppearanceSettings.addSource(selectedOperator) {
@@ -128,6 +132,12 @@ class AddConditionViewModel(
         }
         currentColor.addSource(selectedColor) { color ->
             currentColor.value = color
+        }
+        isAttentionVisible.addSource(selectedMarker) { markerType ->
+            chartStyle.value?.name?.let { name ->
+                isAttentionVisible.value =
+                    markerType == SignalMarkerType.PAINTBAR && (name == ChartAggregationType.KAGI.name || name == ChartAggregationType.PANDF.name)
+            }
         }
     }
 
@@ -155,6 +165,19 @@ class AddConditionViewModel(
 
     fun onSelectLeftIndicator(text: String) {
         selectedLeftIndicator.value = text
+        if (selectedColor.value == null) {
+            selectedStudy.value?.let { study ->
+                chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
+                    val name = text.substringBefore(ZERO_WIDTH_NON_JOINER).trim()
+                    val color =
+                        (list.firstOrNull { (it as? StudyParameter.Color)?.name == name } as? StudyParameter.Color)?.value
+                    if (color != null) {
+                        currentColor.value =
+                            Color.parseColor(color)
+                    }
+                }
+            }
+        }
     }
 
     fun onSelectRightIndicator(text: String) {
@@ -246,7 +269,7 @@ class AddConditionViewModel(
     }
 
     fun onRightValueSelected(value: String) {
-        selectedRightValue.value = value//.toDoubleOrNull() ?: 0.0
+        selectedRightValue.value = value
     }
 
     fun onMarkerTypeSelected(index: Int) {
@@ -313,17 +336,30 @@ class AddConditionViewModel(
         if (selectedColor.value == null) {
             selectedStudy.value?.let { study ->
                 chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
-                    (list.firstOrNull() as? StudyParameter.Color)?.value?.let { color ->
-                        currentColor.value = Color.parseColor(color)
+                    val color =
+                        (list.firstOrNull {
+                            (it as? StudyParameter.Color)?.name == (selectedLeftIndicator.value
+                                ?: "")
+                        } as? StudyParameter.Color)?.value
+                    if (color != null) {
+                        currentColor.value =
+                            Color.parseColor(color)
                     }
                 }
             }
         }
     }
 
+    fun setChartStyle(chartStyle: ChartTypeItem?) {
+        chartStyle?.let {
+            this.chartStyle.value = it
+        }
+    }
+
     companion object {
         private const val DEF_COLOR = 0xFF0000
         private const val FORMAT_COLOR = 0xFFFFFF
+        private const val ZERO_WIDTH_NON_JOINER = '\u200C'
     }
 
 
