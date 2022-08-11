@@ -99,7 +99,6 @@ class AddConditionViewModel(
     val isSaveAvailable = MediatorLiveData<Boolean>().apply {
         value = false
     }
-    val isEditing = MutableLiveData(false)
     val isAttentionVisible = MediatorLiveData<Boolean>()
 
     val currentColor = MediatorLiveData<Int>().apply {
@@ -171,7 +170,7 @@ class AddConditionViewModel(
                     val name = text.substringBefore(ZERO_WIDTH_NON_JOINER).trim()
                     val color =
                         (list.firstOrNull { (it as? StudyParameter.Color)?.name == name } as? StudyParameter.Color)?.value
-                    if (color != null) {
+                    if (color != null && selectedColor.value == null) {
                         currentColor.value =
                             Color.parseColor(color)
                     }
@@ -181,7 +180,9 @@ class AddConditionViewModel(
     }
 
     fun onSelectRightIndicator(text: String) {
-        selectedRightIndicator.value = text
+        if (text != selectedRightIndicator.value) {
+            selectedRightIndicator.value = text
+        }
     }
 
     fun onChooseColor(color: Int) {
@@ -278,7 +279,6 @@ class AddConditionViewModel(
 
     fun setCondition(conditionItem: ConditionItem?) {
         conditionItem?.let { item ->
-            isEditing.value = true
             conditionUUID.value = item.UUID
             selectedMarker.value = item.condition.markerOption.type
             selectedSignalShape.value = item.condition.markerOption.signalShape
