@@ -229,7 +229,7 @@ class AddConditionViewModel(
     }
 
     fun onIndicator2ValueSelected() {
-        if (selectedOperator.value != null) {
+        if (selectedOperator.value != null && selectedRightIndicator.value != null) {
             isShowRightValue.value = true
         }
     }
@@ -306,6 +306,9 @@ class AddConditionViewModel(
                     selectedRightIndicator.value = item.condition.rightIndicator
                     isShowRightValue.value = false
                 }
+            } else {
+                selectedRightIndicator.value = null
+                isShowRightValue.value = false
             }
 
             isShowRightIndicator.value =

@@ -120,10 +120,10 @@ class ConditionsAdapter : RecyclerView.Adapter<ConditionsAdapter.ViewHolder>() {
             val green = Color.green(backgroundColor)
             val blue = Color.blue(backgroundColor)
             return Color.parseColor(
-                if (red * 0.299 + green * 0.587 + blue * 0.114 > 186) {
-                    "#000000"
-                } else {
+                if (red * 0.2126 + green * 0.7152 + blue * 0.0722 < 100) {
                     "#ffffff"
+                } else {
+                    "#000000"
                 }
             )
         }

@@ -114,7 +114,7 @@ class AddSignalFragment : Fragment(), OnBackPressed {
     }
 
     private fun processConditionsList(list: List<ConditionItem>) {
-        conditionAdapter.items = list.mapIndexed { index, conditionItem ->
+       val list = list.mapIndexed { index, conditionItem ->
             val rightIndicator = try {
                 val number = BigDecimal(conditionItem.condition.rightIndicator ?: "")
                 number.toPlainString()
@@ -139,6 +139,7 @@ class AddSignalFragment : Fragment(), OnBackPressed {
                 UUID = conditionItem.UUID
             )
         }
+        conditionAdapter.items = list
     }
 
     private fun setupViews() {
