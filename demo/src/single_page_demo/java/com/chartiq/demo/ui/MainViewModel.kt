@@ -215,9 +215,9 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             applicationPrefs.languageState.collect {
                 withContext(Dispatchers.Main) {
-                    val locale = Locale(it.name.toLowerCase(Locale.ENGLISH))
-                    chartIQ.setLanguage(it.name.toLowerCase(Locale.ENGLISH))
-                    chartIQ.getTranslations(it.name.toLowerCase(Locale.ENGLISH)) { translationsMap ->
+                    val locale = Locale(it.code)
+                    chartIQ.setLanguage(it.code)
+                    chartIQ.getTranslations(it.code) { translationsMap ->
                         currentLocaleEvent.postValue(
                             Event(
                                 RemoteTranslations(

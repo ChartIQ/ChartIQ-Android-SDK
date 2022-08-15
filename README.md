@@ -16,9 +16,9 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 - Android 8.1 Oreo (API level 27) or later
 
-## Sample app
+## App
 
-The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder of this repository contains a sample app that was built using the SDK. Customize the app to quickly create your own Android charting application.
+The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder of this repository contains an app that was built using the SDK. Customize the app to quickly create your own Android charting application.
 
 The app is also available on Google Play.
 
