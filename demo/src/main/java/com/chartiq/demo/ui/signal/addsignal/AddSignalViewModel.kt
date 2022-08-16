@@ -215,7 +215,7 @@ class AddSignalViewModel(
                             condition.leftIndicator.substringBefore(ZERO_WIDTH_NON_JOINER).trim()
                         (list.firstOrNull {
                             (it as? StudyParameter.Color)?.name == name
-                        } as? StudyParameter.Color)?.value
+                        } as? StudyParameter.Color)?.value ?: (list.firstOrNull() as? StudyParameter.Color)?.value
                     }
                     ConditionItem(
                         condition = condition,
