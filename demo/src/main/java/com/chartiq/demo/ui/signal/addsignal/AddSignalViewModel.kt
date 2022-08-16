@@ -265,9 +265,10 @@ class AddSignalViewModel(
                                 .trim()
                         val color =
                             (list.firstOrNull { (it as? StudyParameter.Color)?.name == name } as? StudyParameter.Color)?.value
+                                ?: (list.firstOrNull() as? StudyParameter.Color)?.value
                         item.copy(
                             displayedColor = color
-                                ?: ""
+                                ?: DEF_COLOR_STRING
                         )
                     }
 
@@ -277,6 +278,7 @@ class AddSignalViewModel(
     }
 
     companion object {
+        private const val DEF_COLOR_STRING = "#FF0000"
         private const val DEF_COLOR = 0xFF0000
         private const val ZERO_WIDTH_NON_JOINER = '\u200C'
     }

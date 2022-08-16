@@ -340,10 +340,8 @@ class AddConditionViewModel(
             selectedStudy.value?.let { study ->
                 chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
                     val color =
-                        (list.firstOrNull {
-                            (it as? StudyParameter.Color)?.name == (selectedLeftIndicator.value
-                                ?: "")
-                        } as? StudyParameter.Color)?.value
+                        (list.firstOrNull { (it as? StudyParameter.Color)?.name == selectedLeftIndicator.value } as? StudyParameter.Color)?.value
+                            ?: (list.firstOrNull() as? StudyParameter.Color)?.value
                     if (color != null) {
                         currentColor.value =
                             Color.parseColor(color)
