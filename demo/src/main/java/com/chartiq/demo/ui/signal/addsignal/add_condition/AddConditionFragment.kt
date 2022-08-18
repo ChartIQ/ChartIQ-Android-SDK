@@ -75,6 +75,7 @@ class AddConditionFragment : Fragment(), ChooseColorFragment.DialogFragmentListe
         addConditionViewModel.setSettingsVisibility(args.shouldShowSettings)
         setupViewsData()
         addConditionViewModel.setChartStyle(mainViewModel.chartStyle.value)
+        addConditionViewModel.onSettingFinished()
     }
 
     override fun onResume() {

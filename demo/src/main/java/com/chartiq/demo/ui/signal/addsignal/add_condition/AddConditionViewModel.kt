@@ -100,6 +100,7 @@ class AddConditionViewModel(
         value = false
     }
     val isAttentionVisible = MediatorLiveData<Boolean>()
+    private val isConditionSet = MutableLiveData(false)
 
     val currentColor = MediatorLiveData<Int>().apply {
         value = DEF_COLOR
@@ -180,7 +181,7 @@ class AddConditionViewModel(
     }
 
     fun onSelectRightIndicator(text: String) {
-        if (text != selectedRightIndicator.value) {
+        if (text != selectedRightIndicator.value && isConditionSet.value == true) {
             selectedRightIndicator.value = text
         }
     }
@@ -229,7 +230,7 @@ class AddConditionViewModel(
     }
 
     fun onIndicator2ValueSelected() {
-        if (selectedOperator.value != null && selectedRightIndicator.value != null) {
+        if (selectedOperator.value != null && selectedRightIndicator.value != null && isShowRightIndicator.value == true) {
             isShowRightValue.value = true
         }
     }
@@ -340,7 +341,11 @@ class AddConditionViewModel(
             selectedStudy.value?.let { study ->
                 chartIQ.getStudyParameters(study, StudyParameterType.Outputs) { list ->
                     val color =
-                        (list.firstOrNull { (it as? StudyParameter.Color)?.name == selectedLeftIndicator.value } as? StudyParameter.Color)?.value
+                        (list.firstOrNull {
+                            (it as? StudyParameter.Color)?.name == selectedLeftIndicator.value?.substringBefore(
+                                ZERO_WIDTH_NON_JOINER
+                            )?.trim()
+                        } as? StudyParameter.Color)?.value
                             ?: (list.firstOrNull() as? StudyParameter.Color)?.value
                     if (color != null) {
                         currentColor.value =
@@ -349,6 +354,10 @@ class AddConditionViewModel(
                 }
             }
         }
+    }
+
+    fun onSettingFinished() {
+        isConditionSet.value = true
     }
 
     fun setChartStyle(chartStyle: ChartTypeItem?) {
