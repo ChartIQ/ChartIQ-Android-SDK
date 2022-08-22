@@ -521,7 +521,15 @@ class ChartIQHandler(
         } else {
             study.shortName
         }
-        val scripts = scriptManager.getAddStudyScript(key)
+
+        var inputs = ""
+        var outputs = ""
+        var parameters = ""
+
+        if(!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
+        if(!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
+        if(!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
+        val scripts = scriptManager.getAddStudyScript(key, inputs, outputs, parameters)
         executeJavascript(scripts)
     }
 
