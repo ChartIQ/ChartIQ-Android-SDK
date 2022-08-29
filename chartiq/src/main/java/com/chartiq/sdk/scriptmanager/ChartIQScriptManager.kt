@@ -151,7 +151,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetThemeScript(theme: ChartTheme): String =
         MOBILE_BRIDGE_NAME_SPACE + ".setTheme(\"${theme.value}\");"
 
-    override fun getGetStudyListScript(): String = "JSON.stringify(CIQ.Studies.studyLibrary);"
+    override fun getGetStudyListScript(): String = MOBILE_BRIDGE_NAME_SPACE + ".getStudyList();"
 
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + ".getActiveStudies();"

@@ -83,7 +83,8 @@ internal class SignalEntityClassTypeAdapter : JsonDeserializer<SignalEntity> {
                 shortName = decodeObj["studyName"].asString,
                 type = studyName.substringBeforeLast(ZERO_WIDTH_NON_JOINER),
                 underlay = false,
-                yAxis = emptyMap()
+                yAxis = emptyMap(),
+                signalIQExclude = false
             )
         )
     }

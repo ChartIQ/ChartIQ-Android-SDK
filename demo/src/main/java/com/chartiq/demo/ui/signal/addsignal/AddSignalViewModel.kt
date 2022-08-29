@@ -81,7 +81,10 @@ class AddSignalViewModel(
         }
         selectedStudy.value = null
         chartIQ.getStudyList { list ->
-            originalStudies.postValue(list.sortedBy { it.name })
+            val studies = list.filter { study ->
+                !study.signalIQExclude
+            }
+            originalStudies.postValue(studies.sortedBy { it.name })
         }
     }
 

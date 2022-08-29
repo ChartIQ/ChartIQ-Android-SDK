@@ -17,7 +17,8 @@ data class StudyEntity(
     val shortName: String?,
     val type: String?,
     val underlay: Boolean,
-    val yAxis: Map<String, Object>?
+    val yAxis: Map<String, Object>?,
+    val signalIQExclude: Boolean
 ) : Serializable
 
 
@@ -37,6 +38,7 @@ internal fun StudyEntity.toStudy(): Study {
         shortName = shortName ?: name,
         type = type ?: "",
         underlay = underlay,
-        yAxis = yAxis ?: emptyMap()
+        yAxis = yAxis ?: emptyMap(),
+        signalIQExclude = signalIQExclude
     )
 }

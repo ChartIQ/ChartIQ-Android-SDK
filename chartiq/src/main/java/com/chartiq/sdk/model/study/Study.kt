@@ -19,8 +19,9 @@ import kotlinx.android.parcel.RawValue
  * @property range A range of the study
  * @property shortName A shortName of the study
  * @property type The type of study, which can be used as a look up in the StudyLibrary
- * @property underlay An underlay value of the study
+ * @property underlay Determines whether the study is an underlay or overlay
  * @property yAxis Y-Axis value of the study
+ * @property signalIQExclude Determines whether the study should be excluded from SignalIQ
  */
 @Parcelize
 data class Study(
@@ -38,5 +39,6 @@ data class Study(
     val shortName: String,
     val type: String?,
     val underlay: Boolean,
-    val yAxis: @RawValue Map<String, Any>?
+    val yAxis: @RawValue Map<String, Any>?,
+    val signalIQExclude: Boolean
 ) : Parcelable
