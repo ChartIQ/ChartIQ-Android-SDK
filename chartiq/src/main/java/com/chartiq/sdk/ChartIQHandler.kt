@@ -101,7 +101,7 @@ class ChartIQHandler(
         dataSource?.pullInitialData(quoteFeedParams) { data ->
             callbackId?.let {
                 // set moreAvailable to true as you want to see if there is more historical data after the initial pull
-                invokePullCallback(callbackId, data, true)
+                invokePullCallback(callbackId, data, true, true)
             }
         }
     }
@@ -120,7 +120,7 @@ class ChartIQHandler(
         dataSource?.pullUpdateData(quoteFeedParams) { data ->
             callbackId?.let {
                 // just an update, no need to see if there is more historical data available
-                invokePullCallback(callbackId, data, false)
+                invokePullCallback(callbackId, data, false, true)
             }
         }
     }
@@ -145,9 +145,17 @@ class ChartIQHandler(
                 // If you have spotty data then another idea might be to check the last historical date, this would require you knowing what date to stop at though.
                 var moreAvailable = true
                 if (data.size < 1) moreAvailable = false
-                invokePullCallback(callbackId, data, moreAvailable)
+                invokePullCallback(callbackId, data, moreAvailable, true)
             }
         }
+    }
+
+    override fun push(symbol: String, data: List<OHLCParams>) {
+        executeJavascript(scriptManager.getPushDataScript(symbol, data))
+    }
+
+    override fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean) {
+        executeJavascript(scriptManager.getPushUpdateScript(data, useAsLastSale))
     }
 
     override fun getSymbol(callback: OnReturnCallback<String>) {
@@ -552,9 +560,10 @@ class ChartIQHandler(
     private fun invokePullCallback(
         callbackId: String,
         data: List<OHLCParams>,
-        moreAvailable: Boolean
+        moreAvailable: Boolean,
+        upToDate: Boolean
     ) {
-        executeJavascript(scriptManager.getParseDataScript(data, callbackId, moreAvailable))
+        executeJavascript(scriptManager.getParseDataScript(data, callbackId, moreAvailable, upToDate))
     }
 
     override fun getActiveSeries(callback: OnReturnCallback<List<Series>>) {

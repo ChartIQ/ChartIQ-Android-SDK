@@ -41,7 +41,7 @@ internal interface ScriptManager {
 
     fun getPushDataScript(symbol: String, data: List<OHLCParams>): String
 
-    fun getPushUpdateScript(data: List<OHLCParams>): String
+    fun getPushUpdateScript(data: List<OHLCParams>, useAsLastSale: Boolean): String
 
     fun getSetChartTypeScript(chartType: String): String
 
@@ -112,7 +112,8 @@ internal interface ScriptManager {
     fun getParseDataScript(
         data: List<OHLCParams>,
         callbackId: String,
-        moreAvailable: Boolean
+        moreAvailable: Boolean,
+        upToDate: Boolean
     ): String
 
     fun getInvertYAxisScript(): String
