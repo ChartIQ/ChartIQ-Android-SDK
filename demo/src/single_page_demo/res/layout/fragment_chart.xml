@@ -95,6 +95,12 @@
         tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/signalCheckBox"
+            style="@style/ChartCheckBoxStyle"
+            android:layout_marginEnd="@dimen/margin_medium_small"
+            android:button="@drawable/ic_nav_signal" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/compareCheckBox"
             style="@style/ChartCheckBoxStyle"
             android:layout_marginEnd="@dimen/margin_medium_small"

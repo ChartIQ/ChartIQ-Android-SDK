@@ -29,7 +29,8 @@ class CompareAdapter : RecyclerView.Adapter<CompareAdapter.CompareViewHolder>() 
 
     override fun getItemCount(): Int = items.size
 
-    inner class CompareViewHolder(private val binding: ItemCompareBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CompareViewHolder(private val binding: ItemCompareBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Series) {
             with(binding) {

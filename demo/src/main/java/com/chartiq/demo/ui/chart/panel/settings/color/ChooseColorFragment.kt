@@ -10,7 +10,11 @@ import com.chartiq.demo.R
 import com.chartiq.demo.databinding.FragmentChooseColorBinding
 import com.chartiq.demo.ui.chart.panel.OnSelectItemListener
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
-import com.chartiq.demo.ui.common.colorpicker.*
+import com.chartiq.demo.ui.common.colorpicker.ColorItem
+import com.chartiq.demo.ui.common.colorpicker.ColorViewHolderConfiguration
+import com.chartiq.demo.ui.common.colorpicker.ColorsAdapter
+import com.chartiq.demo.ui.common.colorpicker.convertStringColorToInt
+import com.chartiq.demo.ui.common.colorpicker.findColorIndex
 
 class ChooseColorFragment : FullscreenDialogFragment() {
 

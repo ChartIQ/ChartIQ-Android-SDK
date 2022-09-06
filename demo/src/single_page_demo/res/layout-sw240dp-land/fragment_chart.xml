@@ -63,8 +63,16 @@
                 style="@style/ChartCheckBoxStyle"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium_small"
-                android:layout_toStartOf="@+id/compareCheckBox"
+                android:layout_toStartOf="@+id/signalCheckBox"
                 android:button="@drawable/ic_nav_study" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/signalCheckBox"
+                style="@style/ChartCheckBoxStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_medium_small"
+                android:layout_toStartOf="@+id/compareCheckBox"
+                android:button="@drawable/ic_nav_signal" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/compareCheckBox"

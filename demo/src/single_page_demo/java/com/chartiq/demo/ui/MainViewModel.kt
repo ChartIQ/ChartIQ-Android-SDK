@@ -25,6 +25,7 @@ import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.signal.Signal
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -41,6 +42,8 @@ class MainViewModel(
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
+
+    val activeSignals = MutableLiveData<List<Signal>>()
 
     val errorLiveData = MutableLiveData<Unit>()
 
@@ -97,6 +100,12 @@ class MainViewModel(
     fun fetchActiveStudyData() {
         chartIQ.getActiveStudies { result ->
             activeStudies.value = result
+        }
+    }
+
+    fun fetchActiveSignalData() {
+        chartIQ.getActiveSignals { result ->
+            activeSignals.value = result
         }
     }
 

@@ -85,6 +85,20 @@ internal interface ScriptManager {
 
     fun getGetActiveStudiesScript(): String
 
+    fun getGetActiveSignalsListScript(): String
+
+    fun getAddStudyAsSignalScript(signalName: String): String
+
+    fun getRemoveSignalScript(signalName: String): String
+
+    fun getToggleSignalScript(signalName: String): String
+
+    fun getSaveSignalScript(
+        studyName: String,
+        signalParams: String,
+        editMode: Boolean
+    ): String
+
     fun getSetAggregationTypeScript(aggregationType: String): String
 
     fun getStudyInputParametersScript(studyName: String): String

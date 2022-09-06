@@ -24,7 +24,7 @@ class ChartIQLocalizationManager : LocalizationManager {
 
     override fun getTranslationFromValue(value: String, context: Context): String {
         val identifier = value
-            .toLowerCase(Locale.ENGLISH)
+            .lowercase(Locale.ENGLISH)
             .replace(ORIGINAL_STRING_DELIMITER, NEW_STRING_DELIMITER)
         return if (context.resources.getIdentifier(identifier, "string", context.packageName) != 0) {
             context.resources.getString(context.resources.getIdentifier(identifier, "string", null))
@@ -46,7 +46,8 @@ class ChartIQLocalizationManager : LocalizationManager {
 
         val newExtraTranslations = extraStrings.map { (key, value) ->
             ResourceTranslationItem(
-                key.toLowerCase(Locale.ENGLISH).replace(ORIGINAL_STRING_DELIMITER, NEW_STRING_DELIMITER),
+                key.lowercase(Locale.ENGLISH)
+                    .replace(ORIGINAL_STRING_DELIMITER, NEW_STRING_DELIMITER),
                 value
             )
         }

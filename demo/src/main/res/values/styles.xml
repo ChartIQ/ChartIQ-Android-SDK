@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionMenuTextColor">@color/colorPrimary</item>
+        <item name="android:actionMenuTextColor">@color/menu_text_color</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:forceDarkAllowed">false</item>
@@ -43,12 +43,18 @@
 
     <style name="SecondaryMenuTextStyle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/text_size_secondary_text</item>
-        <item name="android:textColor">@color/darkElectricBlue</item>
+        <item name="android:textColor">@color/buttonsTextColor</item>
     </style>
 
     <style name="PlaceHolderHintTextStyle" parent="SecondaryTextAppearance">
         <item name="android:textColor">@color/cadetBlue</item>
         <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleTextStyle" parent="SecondaryTextAppearance">
+        <item name="android:textColor">@color/cadetBlue</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -73,6 +79,22 @@
         <item name="android:textColor">@color/white</item>
         <item name="backgroundTint">@drawable/selector_button_primary</item>
         <item name="android:padding">@dimen/padding_medium_extra</item>
+    </style>
+
+    <style name="AdditionalButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:layout_margin">@dimen/margin_medium</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@drawable/selector_button_primary</item>
+        <item name="strokeColor">@drawable/selector_button_primary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="elevation">0dp</item>
+        <item name="android:padding">@dimen/padding_medium_extra</item>
+    </style>
+
+    <style name="TabTextStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/buttonsTextColor</item>
     </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
@@ -133,9 +155,18 @@
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
     </style>
 
+    <style name="TextAttentionStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/coralRed</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    </style>
+
     <style name="FullScreenDialog" parent="AppTheme">
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@color/ghostWhite</item>
+    </style>
+
+    <style name="DropDownListViewStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:background">@color/drawActionBackgroundColor</item>
     </style>
 </resources>

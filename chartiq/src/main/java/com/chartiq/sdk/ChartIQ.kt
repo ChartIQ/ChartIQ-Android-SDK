@@ -6,9 +6,10 @@ import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.ChartIQDrawingTool
+import com.chartiq.sdk.model.signal.ChartIQSignal
 import com.chartiq.sdk.model.study.ChartIQStudy
 
-interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
+interface ChartIQ : ChartIQDrawingTool, ChartIQStudy, ChartIQSignal {
     /**
      * A ChartIQ [View] that represents a ChartIQ UI
      */

@@ -7,7 +7,6 @@ import com.chartiq.sdk.model.drawingtool.DrawingTool
 import com.chartiq.sdk.model.study.StudyParameterModel
 import com.google.gson.Gson
 
-
 internal class ChartIQScriptManager : ScriptManager {
 
     override fun getDetermineOSScript(): String =
@@ -91,6 +90,25 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getRemoveAllStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + ".removeAllStudies();"
 
+    override fun getRemoveSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".removeSignal(\"$signalName\");"
+
+    override fun getGetActiveSignalsListScript(): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".getActiveSignals();"
+
+    override fun getAddStudyAsSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".addStudyAsSignal(\"$signalName\");"
+
+    override fun getToggleSignalScript(signalName: String): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".toggleSignalStudy(\"$signalName\");"
+
+    override fun getSaveSignalScript(
+        studyName: String,
+        signalParams: String,
+        editMode: Boolean
+    ): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".saveSignal(\"$studyName\", \'$signalParams\', \"$editMode\");"
+
     override fun getEnableCrosshairScript(value: Boolean): String =
         MOBILE_BRIDGE_NAME_SPACE + ".enableCrosshairs($value);"
 
@@ -130,7 +148,7 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetThemeScript(theme: ChartTheme): String =
         MOBILE_BRIDGE_NAME_SPACE + ".setTheme(\"${theme.value}\");"
 
-    override fun getGetStudyListScript(): String = "JSON.stringify(CIQ.Studies.studyLibrary);"
+    override fun getGetStudyListScript(): String = MOBILE_BRIDGE_NAME_SPACE + ".getStudyList();"
 
     override fun getGetActiveStudiesScript(): String =
         MOBILE_BRIDGE_NAME_SPACE + ".getActiveStudies();"
@@ -175,7 +193,8 @@ internal class ChartIQScriptManager : ScriptManager {
                 "});\n" +
                 "console.log(JSON.stringify(newInputParameters));\n" +
                 "console.log(JSON.stringify(newOutputParameters));\n" +
-                "console.log(JSON.stringify(newParameters));"
+                "console.log(JSON.stringify(newParameters));" +
+                "CIQ.MobileBridge.getSlimSd(helper.sd.name);"
     }
 
     private fun getStudyDescriptorScript(name: String): String {

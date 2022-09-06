@@ -12,6 +12,7 @@ import com.chartiq.demo.databinding.FragmentChooseCustomIntervalBinding
 import com.chartiq.demo.ui.chart.interval.list.IntervalItem
 import com.chartiq.demo.ui.common.FullscreenDialogFragment
 import com.chartiq.sdk.model.TimeUnit
+import java.util.*
 
 class CustomIntervalFragment : FullscreenDialogFragment() {
 
@@ -57,7 +58,7 @@ class CustomIntervalFragment : FullscreenDialogFragment() {
                     .map { timeUnit ->
                         timeUnit
                             .toString()
-                            .toLowerCase()
+                            .lowercase(Locale.getDefault())
                             .capitalize()
                     }
                 setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, items))
@@ -72,7 +73,7 @@ class CustomIntervalFragment : FullscreenDialogFragment() {
                 val unit = TimeUnit.valueOf(
                     selectMeasurementAutoCompleteTextView.text
                         .toString()
-                        .toUpperCase()
+                        .uppercase(Locale.getDefault())
                 )
                 val item = IntervalItem(1, interval, unit, true)
                 viewModel.onIntervalSelect(item)

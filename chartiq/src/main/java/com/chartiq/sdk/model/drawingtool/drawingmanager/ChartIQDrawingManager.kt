@@ -102,4 +102,11 @@ class ChartIQDrawingManager : DrawingManager {
             else -> false
         }
     }
+
+    override fun isSupportingVolumeProfile(drawingTool: DrawingTool): Boolean {
+        return when (drawingTool) {
+            DrawingTool.VOLUME_PROFILE -> true
+            else -> false
+        }
+    }
 }
