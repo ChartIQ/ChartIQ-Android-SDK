@@ -10,7 +10,7 @@ abstract class ViewOnSwipeTouchListener(context: Context) : View.OnTouchListener
 
     private val gestureDetector = GestureDetector(context, GestureListener())
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+    override fun onTouch(v: View?, event: MotionEvent): Boolean {
         return gestureDetector.onTouchEvent(event)
     }
 
