@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/orButton"
+        style="@style/TabTextStyle"
+        android:layout_width="73dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/selector_button_tabs"
+        android:gravity="center"
+        android:text="@string/signal_or" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/andButton"
+        style="@style/TabTextStyle"
+        android:layout_width="73dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_medium_small"
+        android:background="@drawable/selector_button_tabs"
+        android:gravity="center"
+        android:text="@string/signal_and"
+        tools:enabled="false" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -6,19 +6,20 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 android {
-    compileSdk = 30
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.chartiq.demo"
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 33
         versionCode = 8
         versionName = "3.1.0"
 
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.1.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.2.0/sample-template-native-sdk.html\""
+
         )
     }
     signingConfigs {
@@ -85,6 +86,7 @@ dependencies {
     implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")

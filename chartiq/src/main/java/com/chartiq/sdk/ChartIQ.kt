@@ -6,9 +6,10 @@ import com.chartiq.sdk.model.*
 import com.chartiq.sdk.model.charttype.ChartAggregationType
 import com.chartiq.sdk.model.charttype.ChartType
 import com.chartiq.sdk.model.drawingtool.ChartIQDrawingTool
+import com.chartiq.sdk.model.signal.ChartIQSignal
 import com.chartiq.sdk.model.study.ChartIQStudy
 
-interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
+interface ChartIQ : ChartIQDrawingTool, ChartIQStudy, ChartIQSignal {
     /**
      * A ChartIQ [View] that represents a ChartIQ UI
      */
@@ -236,7 +237,7 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
 
     /**
      * Removes a selected symbol from the chart's series.
-     * @param symbolName The symbol to remove OR the series ojbect itself.
+     * @param symbolName The symbol to remove OR the series object itself.
      */
     fun removeSeries(symbolName: String)
 
@@ -247,6 +248,20 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy {
      * @param value The value to change to property to.
      */
     fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
+
+    /**
+     * Modifies a property of an existing series.
+     * @param symbol The string symbol you want to display on the chart.
+     * @param data An array of properly formatted OHLC quote objects to load into the chart.
+     */
+    fun push(symbol: String, data: List<OHLCParams>)
+
+    /**
+     * Modifies a property of an existing series.
+     * @param data An array of properly formatted OHLC quote objects to load into the chart.
+     * @param useAsLastSale A boolean value that forces the data sent to be used as the last sale price.
+     */
+    fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean)
 
     /**
      * @suppress

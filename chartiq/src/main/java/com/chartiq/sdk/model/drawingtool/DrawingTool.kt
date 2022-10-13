@@ -47,5 +47,6 @@ enum class DrawingTool(
     TIRONE_LEVELS("tirone"),
     TREND_LINE("trendline"),
     VERTICAL_LINE("vertical"),
+    VOLUME_PROFILE("volumeprofile"),
     NONE(null)
 }

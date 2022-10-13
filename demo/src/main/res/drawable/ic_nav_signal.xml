@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <path
+        android:fillColor="@color/checkboxButtonColor"
+        android:fillType="evenOdd"
+        android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="evenOdd"
+        android:pathData="M16.014,5.828 L26.62,16.435 16.014,27.042 5.407,16.435 16.014,5.828zM16.079,19.5c-0.623,0 -1.106,0.207 -1.464,0.59 -0.352,0.378 -0.536,0.851 -0.536,1.427 0,0.558 0.179,1.022 0.523,1.396 0.347,0.378 0.833,0.587 1.477,0.587 0.643,0 1.129,-0.21 1.476,-0.587 0.345,-0.374 0.524,-0.838 0.524,-1.396 0,-0.576 -0.185,-1.05 -0.537,-1.427 -0.357,-0.383 -0.84,-0.59 -1.463,-0.59zM18.103,10.5h-4.047l0.314,7h3.405l0.328,-7z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/icPrimaryColor" />
+</vector>

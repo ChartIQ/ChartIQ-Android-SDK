@@ -125,4 +125,11 @@ class MainActivity : AppCompatActivity() {
             fragment
         }
     }
+
+    override fun onBackPressed() {
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        (fragment?.childFragmentManager?.fragments?.get(0) as? OnBackPressed)?.onBackPressed()
+        super.onBackPressed()
+    }
 }

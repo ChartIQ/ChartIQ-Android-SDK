@@ -51,7 +51,11 @@ interface ChartIQStudy {
      * @param parameters A list of changed parameters [StudyParameterModel] that contains values for selected study to
      * be updated
      */
-    fun setStudyParameters(study: Study, parameters: List<StudyParameterModel>)
+    fun setStudyParameters(
+        study: Study,
+        parameters: List<StudyParameterModel>,
+        callback: OnReturnCallback<StudySimplified>
+    )
 
     /**
      * Gets a list of parameters [StudyParameter] of a selected study [Study]

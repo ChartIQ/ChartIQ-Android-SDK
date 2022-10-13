@@ -63,4 +63,12 @@ sealed class DrawingToolSettingsItem : Parcelable {
         val title: Int,
         val settings: List<DrawingToolSettingsItem>
     ) : DrawingToolSettingsItem()
+
+    @Parcelize
+    data class Number(
+        @StringRes
+        val title: Int,
+        val number: Int,
+        val param: String = DrawingParameterType.PRICE_BUCKETS.value
+    ) : DrawingToolSettingsItem()
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/previewContainer"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:background="@drawable/item_background">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/previewTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="-2dp"
+            android:textAlignment="center"
+            android:textColor="@color/ghostWhite"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            app:fontFamily="sans-serif"
+            tools:text="!" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_weight="1"
+        android:gravity="center|start"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleConditionTextView"
+            style="@style/SubtitleTextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1 Condition" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/conditionsTextView"
+            style="@style/SecondaryTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Jaw Alligator Crosses Above Teeth Ali…" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:src="@drawable/ic_right" />
+
+</LinearLayout>

@@ -41,7 +41,7 @@ internal interface ScriptManager {
 
     fun getPushDataScript(symbol: String, data: List<OHLCParams>): String
 
-    fun getPushUpdateScript(data: List<OHLCParams>): String
+    fun getPushUpdateScript(data: List<OHLCParams>, useAsLastSale: Boolean): String
 
     fun getSetChartTypeScript(chartType: String): String
 
@@ -85,6 +85,20 @@ internal interface ScriptManager {
 
     fun getGetActiveStudiesScript(): String
 
+    fun getGetActiveSignalsListScript(): String
+
+    fun getAddStudyAsSignalScript(signalName: String): String
+
+    fun getRemoveSignalScript(signalName: String): String
+
+    fun getToggleSignalScript(signalName: String): String
+
+    fun getSaveSignalScript(
+        studyName: String,
+        signalParams: String,
+        editMode: Boolean
+    ): String
+
     fun getSetAggregationTypeScript(aggregationType: String): String
 
     fun getStudyInputParametersScript(studyName: String): String
@@ -112,7 +126,8 @@ internal interface ScriptManager {
     fun getParseDataScript(
         data: List<OHLCParams>,
         callbackId: String,
-        moreAvailable: Boolean
+        moreAvailable: Boolean,
+        upToDate: Boolean
     ): String
 
     fun getInvertYAxisScript(): String

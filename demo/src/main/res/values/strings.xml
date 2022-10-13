@@ -3,6 +3,7 @@
 
     <string name="title_chart">Chart</string>
     <string name="title_study">Studies</string>
+    <string name="title_signal">SignalIQ</string>
     <string name="title_active_studies">Active Studies</string>
     <string name="title_settings">Settings</string>
 
@@ -95,6 +96,7 @@
     <string name="drawing_tool_tirone_levels">Tirone Levels</string>
     <string name="drawing_tool_trend_line">Trend Line</string>
     <string name="drawing_tool_vertical_line">Vertical Line</string>
+    <string name="drawing_tool_volume_profile">Volume Profile</string>
     <string name="drawing_tool_restore_default_parameters">Restore Default Parameters</string>
     <string name="drawing_tool_clear_existing_drawings">Clear Existing Drawings</string>
     <string name="drawing_tool_category_all">ALL</string>
@@ -138,6 +140,76 @@
     <string name="study_details_reset">Reset</string>
     <string name="study_details_validation_error_empty_value">Value can\'t be empty</string>
     <string name="study_details_select_parameter_title">Select Option</string>
+
+    <!-- Signals -->
+    <string name="signal_add_signal">Add Signal</string>
+    <string name="signal_empty_active_signal">No Signals to display yet</string>
+    <string name="signal_delete">Delete</string>
+    <string name="signal_title_add_signal">New Signal</string>
+    <string name="signal_title_edit_signal">Edit Signal</string>
+    <string name="signal_settings">Settings</string>
+    <string name="signal_clone">Clone</string>
+    <string name="signal_done">Done</string>
+    <string name="signal_search">Search</string>
+    <string name="signal_select_study">Select study</string>
+    <string name="signal_edit_study">Change study</string>
+    <string name="signal_add_condition">Add condition</string>
+    <string name="signal_title_hint">Name</string>
+    <string name="signal_desc_hint">Description</string>
+    <string name="signal_condition_settings">CONDITION SETTINGS</string>
+    <string name="signal_appearance_settings">APPEARANCE SETTINGS</string>
+    <string name="signal_condition_n">%1$d Condition</string>
+    <string name="signal_and">And</string>
+    <string name="signal_or">Or</string>
+    <string name="signal_description">Description will appear in an infobox when the signal is clicked.</string>
+    <string name="signal_name">Enter a Name</string>
+
+    <!-- Signals values-->
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="circle">Circle</string>
+    <string name="square">Square</string>
+    <string name="diamond">Diamond</string>
+    <string name="above_candle">Above Line</string>
+    <string name="below_candle">Below Line</string>
+    <string name="on_candle">On Line</string>
+    <string name="greater_than">Is Greater Than</string>
+    <string name="less_than">Is Less Than</string>
+    <string name="equal_to">Is Equal To</string>
+    <string name="crosses">Crosses</string>
+    <string name="crosses_above">Crosses Above</string>
+    <string name="crosses_below">Crosses Below</string>
+    <string name="increases">Increases</string>
+    <string name="decreases">Decreases</string>
+    <string name="does_not_change">Does Not Change</string>
+    <string name="turns_up">Turns up</string>
+    <string name="turns_down">Turns down</string>
+    <string name="marker">Chart marker</string>
+    <string name="paintbar">Paintbar</string>
+
+    <!-- Signals conditions -->
+    <string name="signal_indicator_1">Indicator 1</string>
+    <string name="signal_indicator_2">Indicator 2</string>
+    <string name="condition">Condition</string>
+    <string name="value">Value</string>
+    <string name="signal_mark">Label</string>
+    <string name="signal_shape">Shape</string>
+    <string name="signal_size">Size</string>
+    <string name="signal_position">Position</string>
+    <string name="signal_color">Color</string>
+    <string name="signal_marker_type">Marker type</string>
+    <string name="signal_save_condition">Save condition</string>
+
+    <array name="hardcoded_values">
+        <item>Value</item>
+        <item>Open</item>
+        <item>High</item>
+        <item>Low</item>
+        <item>Close</item>
+    </array>
+
+    <string name="condition_attention">Paintbar doesn’t work with this chart type.</string>
 
     <!-- Settings -->
     <string name="settings_chart_config">Chart Config</string>
@@ -188,6 +260,7 @@
     <string name="drawing_tool_settings_menu_save">Save as Template</string>
     <string name="drawing_tool_settings_menu_restore">Restore Config</string>
     <string name="drawing_tool_settings_add">Add</string>
+    <string name="drawing_tool_price_buckets">Price Buckets</string>
     <string name="drawing_tool_settings_hint_custom_percentage">Custom %</string>
 
     <string name="chart_type_heikinashi">Heikin Ashi</string>
