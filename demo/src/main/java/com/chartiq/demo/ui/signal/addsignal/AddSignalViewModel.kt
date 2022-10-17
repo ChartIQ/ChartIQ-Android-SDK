@@ -29,7 +29,7 @@ class AddSignalViewModel(
     private val originalStudies = MutableLiveData<List<Study>>(emptyList())
 
     private val query = MutableLiveData("")
-    val backEvent = MutableLiveData<Event<Unit>>()
+    val backEvent = MutableLiveData<Event<Unit>?>()
 
     private val tempStudy = MutableLiveData<Study?>()
     val selectedStudy = MutableLiveData<Study?>()

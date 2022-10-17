@@ -30,7 +30,7 @@ class ChartViewModel(
 
     private val chartScope = CoroutineScope(job + Dispatchers.IO)
 
-    val chartViewState = MutableLiveData<ChartViewState>()
+    val chartViewState = MutableLiveData<ChartViewState?>()
 
     val crosshairsHUD = MutableLiveData<CrosshairHUD>()
 
@@ -43,6 +43,7 @@ class ChartViewModel(
             is ChartViewState.FullView -> false
             ChartViewState.Simple.Landscape -> false
             is ChartViewState.Simple.Portrait -> it.menuExpanded
+            null -> false
         }
     }
 

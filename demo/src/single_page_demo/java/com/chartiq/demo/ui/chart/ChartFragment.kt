@@ -274,7 +274,7 @@ class ChartFragment : Fragment(),
                 toggleDrawingToolViews(panelTools.drawingTool != DrawingTool.NONE)
             }
             menuExpanded.observe(viewLifecycleOwner) { menuExpanded ->
-                expandedChartMenuLinearLayout?.isVisible = menuExpanded
+                expandedChartMenuLinearLayout?.isVisible = menuExpanded as Boolean
                 if (expandCheckBox?.isChecked != menuExpanded) {
                     expandCheckBox?.isChecked = menuExpanded
                 }

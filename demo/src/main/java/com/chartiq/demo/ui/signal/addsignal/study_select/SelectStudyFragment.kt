@@ -85,9 +85,11 @@ class SelectStudyFragment : Fragment(), OnBackPressed {
             }
         }
         selectStudiesViewModel.backEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                hideKeyboard()
-                findNavController().navigateUp()
+            if (event != null) {
+                event.getContentIfNotHandled()?.let {
+                    hideKeyboard()
+                    findNavController().navigateUp()
+                }
             }
         }
 
