@@ -12,7 +12,7 @@ android {
         applicationId = "com.chartiq.demo"
         minSdk = 21
         targetSdk = 33
-        versionCode = 8
+        versionCode = 10
         versionName = "3.2.0"
 
         buildConfigField(
