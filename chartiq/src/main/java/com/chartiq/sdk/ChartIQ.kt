@@ -108,6 +108,13 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy, ChartIQSignal {
     fun setChartType(chartType: ChartType)
 
     /**
+     * Sets ChartIQ refresh Interval.
+     * @param refreshInterval The ChartIQ refresh Interval in seconds.
+     */
+    fun setRefreshInterval(refreshInterval: Int)
+
+
+    /**
      * Gets a selected chart type
      * @param callback A callback to subscribe to to get a chart type
      */
