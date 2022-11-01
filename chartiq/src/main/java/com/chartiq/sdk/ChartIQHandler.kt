@@ -534,9 +534,9 @@ class ChartIQHandler(
         var outputs = ""
         var parameters = ""
 
-        if(!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
-        if(!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
-        if(!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
+        if(!study.inputs.isNullOrEmpty() && !forClone) inputs = Gson().toJson(study.inputs)
+        if(!study.outputs.isNullOrEmpty() && !forClone) outputs = Gson().toJson(study.outputs)
+        if(!study.parameters.isNullOrEmpty() && !forClone) parameters = Gson().toJson(study.parameters)
         val scripts = scriptManager.getAddStudyScript(key, inputs, outputs, parameters)
         executeJavascript(scripts)
     }
