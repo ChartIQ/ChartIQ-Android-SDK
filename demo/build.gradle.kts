@@ -49,11 +49,11 @@ android {
             buildConfigField("boolean", "NEEDS_CHAR_STYLE_OPTION", "false")
 
         }
-        /*create("tabs_demo") {
+        create("tabs_demo") {
             dimension = "version"
             buildConfigField("boolean", "NEEDS_BACK_NAVIGATION", "false")
             buildConfigField("boolean", "NEEDS_CHAR_STYLE_OPTION", "true")
-        }*/
+        }
     }
 
     compileOptions {

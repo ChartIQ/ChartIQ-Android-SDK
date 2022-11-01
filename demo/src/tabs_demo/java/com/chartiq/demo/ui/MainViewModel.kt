@@ -12,6 +12,8 @@ import com.chartiq.demo.network.NetworkResult
 import com.chartiq.demo.ui.chart.ChartViewState
 import com.chartiq.demo.ui.chart.interval.model.Interval
 import com.chartiq.demo.ui.chart.searchsymbol.Symbol
+import com.chartiq.demo.ui.settings.chartstyle.ChartTypeItem
+import com.chartiq.demo.ui.settings.chartstyle.toModel
 import com.chartiq.demo.util.Event
 import com.chartiq.sdk.ChartIQ
 import com.chartiq.sdk.DataSource
@@ -19,13 +21,13 @@ import com.chartiq.sdk.DataSourceCallback
 import com.chartiq.sdk.model.ChartTheme
 import com.chartiq.sdk.model.QuoteFeedParams
 import com.chartiq.sdk.model.drawingtool.DrawingTool
+import com.chartiq.sdk.model.signal.Signal
 import com.chartiq.sdk.model.study.Study
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
-
 
 class MainViewModel(
     private val networkManager: NetworkManager,
@@ -35,6 +37,8 @@ class MainViewModel(
 ) : ViewModel() {
 
     val activeStudies = MutableLiveData<List<Study>>()
+
+    val activeSignals = MutableLiveData<List<Signal>>()
 
     val errorLiveData = MutableLiveData<Unit>()
 
@@ -49,6 +53,8 @@ class MainViewModel(
     val symbol = MutableLiveData<Symbol>()
 
     val interval = MutableLiveData<Interval>()
+
+    val chartStyle = MutableLiveData<ChartTypeItem>()
 
     init {
         prepareSession()
@@ -82,13 +88,21 @@ class MainViewModel(
                 val theme = chartTheme.value?.peekContent() ?: ChartTheme.DAY
                 chartIQ.setTheme(theme)
                 setupChart()
+                getChartStyle()
             }
         }
     }
 
+
     fun fetchActiveStudyData() {
         chartIQ.getActiveStudies { result ->
             activeStudies.value = result
+        }
+    }
+
+    fun fetchActiveSignalData() {
+        chartIQ.getActiveSignals { result ->
+            activeSignals.value = result
         }
     }
 
@@ -208,6 +222,18 @@ class MainViewModel(
                             )
                         )
                     }
+                }
+            }
+        }
+    }
+
+    private fun getChartStyle() {
+        chartIQ.getChartAggregationType { aggregationChartType ->
+            if (aggregationChartType != null) {
+                chartStyle.postValue(aggregationChartType.toModel())
+            } else {
+                chartIQ.getChartType { chartType ->
+                    chartType?.let { chartStyle.postValue(it.toModel()) }
                 }
             }
         }
