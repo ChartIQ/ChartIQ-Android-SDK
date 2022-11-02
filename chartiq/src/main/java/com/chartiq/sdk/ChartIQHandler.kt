@@ -525,6 +525,11 @@ class ChartIQHandler(
 
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
+            if(!study.inputs.isNullOrEmpty()) {
+                val studyMap = study.inputs?.toMutableMap()
+                studyMap?.put("id", "") // change the id so the study can be cloned and not just updated
+                study.inputs = studyMap
+            }
             study.type!!
         } else {
             study.shortName
@@ -534,9 +539,9 @@ class ChartIQHandler(
         var outputs = ""
         var parameters = ""
 
-        if(!study.inputs.isNullOrEmpty() && !forClone) inputs = Gson().toJson(study.inputs)
-        if(!study.outputs.isNullOrEmpty() && !forClone) outputs = Gson().toJson(study.outputs)
-        if(!study.parameters.isNullOrEmpty() && !forClone) parameters = Gson().toJson(study.parameters)
+        if(!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
+        if(!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
+        if(!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
         val scripts = scriptManager.getAddStudyScript(key, inputs, outputs, parameters)
         executeJavascript(scripts)
     }
