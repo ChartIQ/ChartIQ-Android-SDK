@@ -529,6 +529,11 @@ class ChartIQHandler(
 
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
+            if(!study.inputs.isNullOrEmpty()) {
+                val studyMap = study.inputs?.toMutableMap()
+                studyMap?.put("id", "") // change the id so the study can be cloned and not just updated
+                study.inputs = studyMap
+            }
             study.type!!
         } else {
             study.shortName
