@@ -436,6 +436,10 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.lowercase(Locale.ENGLISH)))
     }
 
+    override fun setRefreshInterval(refreshInterval: Int) {
+        executeJavascript(scriptManager.getSetRefreshIntervalScript(refreshInterval))
+    }
+
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
