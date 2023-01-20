@@ -45,6 +45,8 @@ internal interface ScriptManager {
 
     fun getSetChartTypeScript(chartType: String): String
 
+    fun getSetRefreshIntervalScript(refreshInterval: Int): String
+
     fun getChartTypeScript(): String
 
     fun getAggregationTypeScript(): String

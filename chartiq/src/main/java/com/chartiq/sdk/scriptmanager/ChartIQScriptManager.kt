@@ -63,6 +63,9 @@ internal class ChartIQScriptManager : ScriptManager {
     override fun getSetChartTypeScript(chartType: String): String =
         MOBILE_BRIDGE_NAME_SPACE + ".setChartType(\"$chartType\");"
 
+    override fun getSetRefreshIntervalScript(refreshInterval: Int): String =
+        MOBILE_BRIDGE_NAME_SPACE + ".setRefreshInterval($refreshInterval);"
+
     override fun getSetAggregationTypeScript(aggregationType: String): String =
         CHART_IQ_JS_OBJECT + ".setAggregationType(\"$aggregationType\");"
 

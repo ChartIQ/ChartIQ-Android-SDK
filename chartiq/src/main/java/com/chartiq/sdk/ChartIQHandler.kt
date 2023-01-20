@@ -436,6 +436,10 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.lowercase(Locale.ENGLISH)))
     }
 
+    override fun setRefreshInterval(refreshInterval: Int) {
+        executeJavascript(scriptManager.getSetRefreshIntervalScript(refreshInterval))
+    }
+
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
@@ -525,6 +529,11 @@ class ChartIQHandler(
 
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
+            if(!study.inputs.isNullOrEmpty()) {
+                val studyMap = study.inputs?.toMutableMap()
+                studyMap?.put("id", "") // change the id so the study can be cloned and not just updated
+                study.inputs = studyMap
+            }
             study.type!!
         } else {
             study.shortName
