@@ -9,11 +9,11 @@ plugins {
 extra.set("version_name", "4.0.0")
 
 android {
-    compileSdk = 30
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 33
     }
     buildTypes {
         getByName("release") {

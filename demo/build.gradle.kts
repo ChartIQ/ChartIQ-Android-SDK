@@ -11,14 +11,14 @@ android {
     defaultConfig {
         applicationId = "com.chartiq.demo"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 10
-        versionName = "3.2.0"
+        targetSdk = 32
+        versionCode = 11
+        versionName = "3.3.0"
 
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.2.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.3.0/sample-template-native-sdk.html\""
 
         )
     }
