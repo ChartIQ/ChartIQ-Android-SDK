@@ -22,14 +22,14 @@ android {
 
         )
     }
-    signingConfigs {
+    /*signingConfigs {
         create("release") {
             storeFile = file("path to keystore")
             storePassword = ""
             keyAlias = ""
             keyPassword = ""
         }
-    }
+    }*/
 
     buildTypes {
         getByName("release") {

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ChartIQHandler</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>ChartIQ SDK</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":chartiq:dokkaHtml/release">androidJvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="ChartIQ SDK::com.chartiq.sdk/ChartIQHandler///PointingToDeclaration//51397222">
+  <div class="breadcrumbs"><a href="../../../index.html">ChartIQ SDK</a><span class="delimiter">/</span><a href="../index.html">com.chartiq.sdk</a><span class="delimiter">/</span><span class="current">ChartIQHandler</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Chart</span><wbr></wbr><span><span>IQHandler</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">ChartIQHandler</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">chartIQUrl<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><span data-unresolved-link="android.content/Context///PointingToDeclaration/">Context</span></span></span><span class="token punctuation">)</span> : <a href="../-chart-i-q/index.html">ChartIQ</a>, <a href="../../com.chartiq.sdk.model.study/-chart-i-q-study/index.html">ChartIQStudy</a>, <span data-unresolved-link="com.chartiq.sdk/JavaScriptHandler///PointingToDeclaration/">JavaScriptHandler</span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="332438612%2FConstructors%2F51397222" anchor-label="ChartIQHandler" id="332438612%2FConstructors%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chart-i-q-handler.html"><span>Chart</span><wbr></wbr><span><span>IQHandler</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="332438612%2FConstructors%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">chartIQUrl<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><span data-unresolved-link="android.content/Context///PointingToDeclaration/">Context</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="695892923%2FProperties%2F51397222" anchor-label="chartView" id="695892923%2FProperties%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chart-view.html"><span>chart</span><wbr></wbr><span><span>View</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="695892923%2FProperties%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="chart-view.html">chartView</a><span class="token operator">: </span><span data-unresolved-link="android.view/View///PointingToDeclaration/">View</span></div><div class="brief "><p class="paragraph">A ChartIQ <span data-unresolved-link="android.view/View///PointingToDeclaration/">View</span> that represents a ChartIQ UI</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1388919429%2FFunctions%2F51397222" anchor-label="addChartAvailableListener" id="1388919429%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-chart-available-listener.html"><span>add</span><wbr></wbr><span>Chart</span><wbr></wbr><span>Available</span><wbr></wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1388919429%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-chart-available-listener.html"><span class="token function">addChartAvailableListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">chartAvailableCallback<span class="token operator">: </span><a href="../-chart-available-callback/index.html">ChartAvailableCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds a measure listener</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1782666595%2FFunctions%2F51397222" anchor-label="addMeasureListener" id="-1782666595%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-measure-listener.html"><span>add</span><wbr></wbr><span>Measure</span><wbr></wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1782666595%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-measure-listener.html"><span class="token function">addMeasureListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">measureCallback<span class="token operator">: </span><a href="../-measure-callback/index.html">MeasureCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds a measure listener</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1823067293%2FFunctions%2F51397222" anchor-label="addSeries" id="-1823067293%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-series.html"><span>add</span><wbr></wbr><span><span>Series</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1823067293%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-series.html"><span class="token function">addSeries</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">series<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-series/index.html">Series</a><span class="token punctuation">, </span></span><span class="parameter ">isComparison<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds the symbol from the series to the chart with its color.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-869730490%2FFunctions%2F51397222" anchor-label="addSignalStudy" id="-869730490%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-signal-study.html"><span>add</span><wbr></wbr><span>Signal</span><wbr></wbr><span><span>Study</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-869730490%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-signal-study.html"><span class="token function">addSignalStudy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Add signal <a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a>  to a list of active signals</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1038747820%2FFunctions%2F51397222" anchor-label="addStudy" id="1038747820%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-study.html"><span>add</span><wbr></wbr><span><span>Study</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1038747820%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="add-study.html"><span class="token function">addStudy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">study<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token punctuation">, </span></span><span class="parameter ">forClone<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds a study <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a> to a list of active studies</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2100966275%2FFunctions%2F51397222" anchor-label="chartAvailableChange" id="2100966275%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chart-available-change.html"><span>chart</span><wbr></wbr><span>Available</span><wbr></wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2100966275%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="chart-available-change.html"><span class="token function">chartAvailableChange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">json<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-304951829%2FFunctions%2F51397222" anchor-label="clearDrawing" id="-304951829%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-drawing.html"><span>clear</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-304951829%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="clear-drawing.html"><span class="token function">clearDrawing</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clears all the drawings from the chart canvas</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1460488965%2FFunctions%2F51397222" anchor-label="cloneDrawing" id="-1460488965%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clone-drawing.html"><span>clone</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1460488965%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="clone-drawing.html"><span class="token function">cloneDrawing</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clones the drawing that is selected on the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1661875435%2FFunctions%2F51397222" anchor-label="deleteDrawing" id="1661875435%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-drawing.html"><span>delete</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1661875435%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="delete-drawing.html"><span class="token function">deleteDrawing</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Deletes the drawing that is selected on the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1249130107%2FFunctions%2F51397222" anchor-label="disableCrosshairs" id="-1249130107%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disable-crosshairs.html"><span>disable</span><wbr></wbr><span><span>Crosshairs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1249130107%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="disable-crosshairs.html"><span class="token function">disableCrosshairs</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Disables crosshairs</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="682361542%2FFunctions%2F51397222" anchor-label="disableDrawing" id="682361542%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disable-drawing.html"><span>disable</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="682361542%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="disable-drawing.html"><span class="token function">disableDrawing</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Deactivates drawing mode</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="440009524%2FFunctions%2F51397222" anchor-label="drawingChange" id="440009524%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="drawing-change.html"><span>drawing</span><wbr></wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="440009524%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="drawing-change.html"><span class="token function">drawingChange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">json<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="388086376%2FFunctions%2F51397222" anchor-label="enableCrosshairs" id="388086376%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="enable-crosshairs.html"><span>enable</span><wbr></wbr><span><span>Crosshairs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="388086376%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="enable-crosshairs.html"><span class="token function">enableCrosshairs</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Enables crosshairs</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-904381393%2FFunctions%2F51397222" anchor-label="enableDrawing" id="-904381393%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="enable-drawing.html"><span>enable</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-904381393%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="enable-drawing.html"><span class="token function">enableDrawing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">type<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.drawingtool/-drawing-tool/index.html">DrawingTool</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Activates a selected drawing <a href="../../com.chartiq.sdk.model.drawingtool/-drawing-tool/index.html">DrawingTool</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="775563485%2FFunctions%2F51397222" anchor-label="getActiveSeries" id="775563485%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-active-series.html"><span>get</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Series</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="775563485%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-active-series.html"><span class="token function">getActiveSeries</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model/-series/index.html">Series</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets all active series on the chart.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1289697890%2FFunctions%2F51397222" anchor-label="getActiveSignals" id="1289697890%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-active-signals.html"><span>get</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Signals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1289697890%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-active-signals.html"><span class="token function">getActiveSignals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a list of signals <a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1387168112%2FFunctions%2F51397222" anchor-label="getActiveStudies" id="-1387168112%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-active-studies.html"><span>get</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Studies</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1387168112%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-active-studies.html"><span class="token function">getActiveStudies</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a list of active/selected studies <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1560201382%2FFunctions%2F51397222" anchor-label="getChartAggregationType" id="-1560201382%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-chart-aggregation-type.html"><span>get</span><wbr></wbr><span>Chart</span><wbr></wbr><span>Aggregation</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1560201382%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-chart-aggregation-type.html"><span class="token function">getChartAggregationType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.charttype/-chart-aggregation-type/index.html">ChartAggregationType</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a selected aggregation chart type</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1269524661%2FFunctions%2F51397222" anchor-label="getChartProperty" id="-1269524661%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-chart-property.html"><span>get</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1269524661%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-chart-property.html"><span class="token function">getChartProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a property off the chart object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="580802199%2FFunctions%2F51397222" anchor-label="getChartScale" id="580802199%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-chart-scale.html"><span>get</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Scale</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="580802199%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-chart-scale.html"><span class="token function">getChartScale</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model/-chart-scale/index.html">ChartScale</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a selected chart scale</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1064989510%2FFunctions%2F51397222" anchor-label="getChartType" id="1064989510%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-chart-type.html"><span>get</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1064989510%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-chart-type.html"><span class="token function">getChartType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.charttype/-chart-type/index.html">ChartType</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a selected chart type</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1636365213%2FFunctions%2F51397222" anchor-label="getDrawingParameters" id="-1636365213%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-drawing-parameters.html"><span>get</span><wbr></wbr><span>Drawing</span><wbr></wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1636365213%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-drawing-parameters.html"><span class="token function">getDrawingParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tool<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.drawingtool/-drawing-tool/index.html">DrawingTool</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Get a map of current parameters and settings for the requested drawing tool <a href="get-drawing-parameters.html">tool</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="873230073%2FFunctions%2F51397222" anchor-label="getEngineProperty" id="873230073%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-engine-property.html"><span>get</span><wbr></wbr><span>Engine</span><wbr></wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="873230073%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-engine-property.html"><span class="token function">getEngineProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a property off the chart engine object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1081101921%2FFunctions%2F51397222" anchor-label="getHUDDetails" id="1081101921%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-h-u-d-details.html"><span>get</span><wbr></wbr><span><span>HUDDetails</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1081101921%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-h-u-d-details.html"><span class="token function">getHUDDetails</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model/-crosshair-h-u-d/index.html">CrosshairHUD</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Get HUD details</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1385975010%2FFunctions%2F51397222" anchor-label="getInterval" id="1385975010%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-interval.html"><span>get</span><wbr></wbr><span><span>Interval</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1385975010%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-interval.html"><span class="token function">getInterval</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets the chart's interval</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1317643902%2FFunctions%2F51397222" anchor-label="getIsExtendedHours" id="-1317643902%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-is-extended-hours.html"><span>get</span><wbr></wbr><span>Is</span><wbr></wbr><span>Extended</span><wbr></wbr><span><span>Hours</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1317643902%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-is-extended-hours.html"><span class="token function">getIsExtendedHours</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a selected extended-hours visualization</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1349746476%2FFunctions%2F51397222" anchor-label="getIsInvertYAxis" id="-1349746476%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-is-invert-y-axis.html"><span>get</span><wbr></wbr><span>Is</span><wbr></wbr><span>Invert</span><wbr></wbr><span><span>YAxis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1349746476%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-is-invert-y-axis.html"><span class="token function">getIsInvertYAxis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a selected chart Y axis invertion</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-276489662%2FFunctions%2F51397222" anchor-label="getPeriodicity" id="-276489662%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-periodicity.html"><span>get</span><wbr></wbr><span><span>Periodicity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-276489662%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-periodicity.html"><span class="token function">getPeriodicity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets the chart's periodicity</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1793326838%2FFunctions%2F51397222" anchor-label="getStudyList" id="-1793326838%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-study-list.html"><span>get</span><wbr></wbr><span>Study</span><wbr></wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1793326838%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-study-list.html"><span class="token function">getStudyList</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a list of available studies <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-320070592%2FFunctions%2F51397222" anchor-label="getStudyParameters" id="-320070592%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-study-parameters.html"><span>get</span><wbr></wbr><span>Study</span><wbr></wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-320070592%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-study-parameters.html"><span class="token function">getStudyParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">study<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study-parameter-type/index.html">StudyParameterType</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study-parameter/index.html">StudyParameter</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets a list of parameters <a href="../../com.chartiq.sdk.model.study/-study-parameter/index.html">StudyParameter</a> of a selected study <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2143022091%2FFunctions%2F51397222" anchor-label="getSymbol" id="-2143022091%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-symbol.html"><span>get</span><wbr></wbr><span><span>Symbol</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2143022091%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-symbol.html"><span class="token function">getSymbol</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets the chart's symbol</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-82735602%2FFunctions%2F51397222" anchor-label="getTimeUnit" id="-82735602%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-time-unit.html"><span>get</span><wbr></wbr><span>Time</span><wbr></wbr><span><span>Unit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-82735602%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-time-unit.html"><span class="token function">getTimeUnit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets the chart's time unit</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-589999208%2FFunctions%2F51397222" anchor-label="getTranslations" id="-589999208%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-translations.html"><span>get</span><wbr></wbr><span><span>Translations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-589999208%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-translations.html"><span class="token function">getTranslations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">languageCode<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span class="token keyword"></span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Returns a map of translations for a given language</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-95152556%2FFunctions%2F51397222" anchor-label="isCrosshairsEnabled" id="-95152556%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-crosshairs-enabled.html"><span>is</span><wbr></wbr><span>Crosshairs</span><wbr></wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-95152556%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-crosshairs-enabled.html"><span class="token function">isCrosshairsEnabled</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Checks if crosshair is enabled</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1655636130%2FFunctions%2F51397222" anchor-label="layoutChange" id="1655636130%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="layout-change.html"><span>layout</span><wbr></wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1655636130%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="layout-change.html"><span class="token function">layoutChange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">json<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-766615759%2FFunctions%2F51397222" anchor-label="manageLayer" id="-766615759%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="manage-layer.html"><span>manage</span><wbr></wbr><span><span>Layer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-766615759%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="manage-layer.html"><span class="token function">manageLayer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">layer<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-chart-layer/index.html">ChartLayer</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Changes the layer of the drawing that is selected on the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2142016628%2FFunctions%2F51397222" anchor-label="measureChange" id="2142016628%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="measure-change.html"><span>measure</span><wbr></wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2142016628%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="measure-change.html"><span class="token function">measureChange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">json<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2123939124%2FFunctions%2F51397222" anchor-label="pullInitialData" id="2123939124%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pull-initial-data.html"><span>pull</span><wbr></wbr><span>Initial</span><wbr></wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2123939124%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pull-initial-data.html"><span class="token function">pullInitialData</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">period<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">interval<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">meta<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">callbackId<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1714971804%2FFunctions%2F51397222" anchor-label="pullPagination" id="1714971804%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pull-pagination.html"><span>pull</span><wbr></wbr><span><span>Pagination</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1714971804%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pull-pagination.html"><span class="token function">pullPagination</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">period<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">interval<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">meta<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">callbackId<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1527688143%2FFunctions%2F51397222" anchor-label="pullUpdate" id="-1527688143%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pull-update.html"><span>pull</span><wbr></wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1527688143%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pull-update.html"><span class="token function">pullUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">period<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">interval<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">start<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">meta<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">callbackId<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-920437053%2FFunctions%2F51397222" anchor-label="push" id="-920437053%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="push.html"><span><span>push</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-920437053%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="push.html"><span class="token function">push</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">data<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model/-o-h-l-c-params/index.html">OHLCParams</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies a property of an existing series.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="926849885%2FFunctions%2F51397222" anchor-label="pushUpdate" id="926849885%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="push-update.html"><span>push</span><wbr></wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="926849885%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="push-update.html"><span class="token function">pushUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model/-o-h-l-c-params/index.html">OHLCParams</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">useAsLastSale<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies a property of an existing series.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-709533254%2FFunctions%2F51397222" anchor-label="redoDrawing" id="-709533254%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="redo-drawing.html"><span>redo</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-709533254%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="redo-drawing.html"><span class="token function">redoDrawing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Redoes the last drawing change</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1933083517%2FFunctions%2F51397222" anchor-label="removeSeries" id="-1933083517%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-series.html"><span>remove</span><wbr></wbr><span><span>Series</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1933083517%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="remove-series.html"><span class="token function">removeSeries</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbolName<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes a selected symbol from the chart's series.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-311734670%2FFunctions%2F51397222" anchor-label="removeSignal" id="-311734670%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-signal.html"><span>remove</span><wbr></wbr><span><span>Signal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-311734670%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="remove-signal.html"><span class="token function">removeSignal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signal<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes a selected signal <a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a> from the list of active studies</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1165582195%2FFunctions%2F51397222" anchor-label="removeStudy" id="1165582195%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remove-study.html"><span>remove</span><wbr></wbr><span><span>Study</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1165582195%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="remove-study.html"><span class="token function">removeStudy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">study<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes a selected study <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a> from the list of active studies</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1596087843%2FFunctions%2F51397222" anchor-label="restoreDefaultDrawingConfig" id="1596087843%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="restore-default-drawing-config.html"><span>restore</span><wbr></wbr><span>Default</span><wbr></wbr><span>Drawing</span><wbr></wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1596087843%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="restore-default-drawing-config.html"><span class="token function">restoreDefaultDrawingConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tool<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.drawingtool/-drawing-tool/index.html">DrawingTool</a><span class="token punctuation">, </span></span><span class="parameter ">all<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Restores the drawing tool to its default settings</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="416173753%2FFunctions%2F51397222" anchor-label="saveSignal" id="416173753%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-signal.html"><span>save</span><wbr></wbr><span><span>Signal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="416173753%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="save-signal.html"><span class="token function">saveSignal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signal<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a><span class="token punctuation">, </span></span><span class="parameter ">editMode<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Add signal <a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a>  to a list of active signals</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-474861536%2FFunctions%2F51397222" anchor-label="setAggregationType" id="-474861536%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-aggregation-type.html"><span>set</span><wbr></wbr><span>Aggregation</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-474861536%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-aggregation-type.html"><span class="token function">setAggregationType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aggregationType<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.charttype/-chart-aggregation-type/index.html">ChartAggregationType</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets an Aggregation type for charts</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-743567577%2FFunctions%2F51397222" anchor-label="setChartProperty" id="-743567577%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-chart-property.html"><span>set</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-743567577%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-chart-property.html"><span class="token function">setChartProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a value on the selected chart property</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="6166006%2FFunctions%2F51397222" anchor-label="setChartScale" id="6166006%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-chart-scale.html"><span>set</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Scale</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="6166006%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-chart-scale.html"><span class="token function">setChartScale</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scale<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-chart-scale/index.html">ChartScale</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets an chart scale for charts</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="591023493%2FFunctions%2F51397222" anchor-label="setChartStyle" id="591023493%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-chart-style.html"><span>set</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="591023493%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-chart-style.html"><span class="token function">setChartStyle</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">obj<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">attribute<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets an chart style for charts</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1229968104%2FFunctions%2F51397222" anchor-label="setChartType" id="1229968104%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-chart-type.html"><span>set</span><wbr></wbr><span>Chart</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1229968104%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-chart-type.html"><span class="token function">setChartType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">chartType<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.charttype/-chart-type/index.html">ChartType</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets an chart type for charts</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1366203549%2FFunctions%2F51397222" anchor-label="setDataMethod" id="1366203549%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-data-method.html"><span>set</span><wbr></wbr><span>Data</span><wbr></wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1366203549%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-data-method.html"><span class="token function">setDataMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">method<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-data-method/index.html">DataMethod</a><span class="token punctuation">, </span></span><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets data method and symbol to the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="694650505%2FFunctions%2F51397222" anchor-label="setDataSource" id="694650505%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-data-source.html"><span>set</span><wbr></wbr><span>Data</span><wbr></wbr><span><span>Source</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="694650505%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-data-source.html"><span class="token function">setDataSource</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">dataSource<span class="token operator">: </span><a href="../-data-source/index.html">DataSource</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a DataSource for ChartIQ. Note that it should be set before calling <a href="../-chart-i-q/start.html">ChartIQ.start</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-848599785%2FFunctions%2F51397222" anchor-label="setDrawingParameter" id="-848599785%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-drawing-parameter.html"><span>set</span><wbr></wbr><span>Drawing</span><wbr></wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-848599785%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-drawing-parameter.html"><span class="token function">setDrawingParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parameter<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.drawingtool/-drawing-parameter-type/index.html">DrawingParameterType</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-drawing-parameter.html"><span class="token function">setDrawingParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parameterName<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a value for the drawing tool parameter</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-213832671%2FFunctions%2F51397222" anchor-label="setEngineProperty" id="-213832671%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-engine-property.html"><span>set</span><wbr></wbr><span>Engine</span><wbr></wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-213832671%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-engine-property.html"><span class="token function">setEngineProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/Any///PointingToDeclaration/">Any</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a value on the selected chart engine property</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1547490829%2FFunctions%2F51397222" anchor-label="setExtendedHours" id="1547490829%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-extended-hours.html"><span>set</span><wbr></wbr><span>Extended</span><wbr></wbr><span><span>Hours</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1547490829%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-extended-hours.html"><span class="token function">setExtendedHours</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">extended<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets to turn on/off the extended-hours visualization.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1672212713%2FFunctions%2F51397222" anchor-label="setIsInvertYAxis" id="1672212713%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-is-invert-y-axis.html"><span>set</span><wbr></wbr><span>Is</span><wbr></wbr><span>Invert</span><wbr></wbr><span><span>YAxis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1672212713%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-is-invert-y-axis.html"><span class="token function">setIsInvertYAxis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">inverted<span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Setting to true causes the y-axis and all linked drawings, series and studies to display inverted (flipped) from its previous state</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1798490720%2FFunctions%2F51397222" anchor-label="setLanguage" id="1798490720%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-language.html"><span>set</span><wbr></wbr><span><span>Language</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1798490720%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-language.html"><span class="token function">setLanguage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">languageCode<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a language that should be used within the app</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1378076110%2FFunctions%2F51397222" anchor-label="setPeriodicity" id="-1378076110%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-periodicity.html"><span>set</span><wbr></wbr><span><span>Periodicity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1378076110%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-periodicity.html"><span class="token function">setPeriodicity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">period<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span><span class="token punctuation">, </span></span><span class="parameter ">interval<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">timeUnit<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-time-unit/index.html">TimeUnit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets periodicity to the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-325360516%2FFunctions%2F51397222" anchor-label="setRefreshInterval" id="-325360516%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-refresh-interval.html"><span>set</span><wbr></wbr><span>Refresh</span><wbr></wbr><span><span>Interval</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-325360516%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-refresh-interval.html"><span class="token function">setRefreshInterval</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">refreshInterval<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets ChartIQ quotefeed refresh interval.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="110866210%2FFunctions%2F51397222" anchor-label="setSeriesParameter" id="110866210%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-series-parameter.html"><span>set</span><wbr></wbr><span>Series</span><wbr></wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="110866210%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-series-parameter.html"><span class="token function">setSeriesParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbolName<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">parameterName<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies a property of an existing series.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-101977987%2FFunctions%2F51397222" anchor-label="setStudyParameter" id="-101977987%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-study-parameter.html"><span>set</span><wbr></wbr><span>Study</span><wbr></wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-101977987%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-study-parameter.html"><span class="token function">setStudyParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">study<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token punctuation">, </span></span><span class="parameter ">parameter<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study-parameter-model/index.html">StudyParameterModel</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies a selected study <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a> with a single parameter</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="500957238%2FFunctions%2F51397222" anchor-label="setStudyParameters" id="500957238%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-study-parameters.html"><span>set</span><wbr></wbr><span>Study</span><wbr></wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="500957238%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-study-parameters.html"><span class="token function">setStudyParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">study<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a><span class="token punctuation">, </span></span><span class="parameter ">parameters<span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study-parameter-model/index.html">StudyParameterModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.chartiq.sdk.model.study/-study-simplified/index.html">StudySimplified</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies a selected study <a href="../../com.chartiq.sdk.model.study/-study/index.html">Study</a> with a given list of parameters</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-882134816%2FFunctions%2F51397222" anchor-label="setSymbol" id="-882134816%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-symbol.html"><span>set</span><wbr></wbr><span><span>Symbol</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-882134816%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-symbol.html"><span class="token function">setSymbol</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">symbol<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a symbol to the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1372445668%2FFunctions%2F51397222" anchor-label="setTheme" id="-1372445668%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-theme.html"><span>set</span><wbr></wbr><span><span>Theme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1372445668%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="set-theme.html"><span class="token function">setTheme</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">theme<span class="token operator">: </span><a href="../../com.chartiq.sdk.model/-chart-theme/index.html">ChartTheme</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets a theme to the chart</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1582350969%2FFunctions%2F51397222" anchor-label="start" id="-1582350969%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start.html"><span><span>start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1582350969%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="start.html"><span class="token function">start</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">onStartCallback<span class="token operator">: </span><a href="../-on-start-callback/index.html">OnStartCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Starts a ChartIQ WebClient initialization</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-711254718%2FFunctions%2F51397222" anchor-label="toggleSignal" id="-711254718%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="toggle-signal.html"><span>toggle</span><wbr></wbr><span><span>Signal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-711254718%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="toggle-signal.html"><span class="token function">toggleSignal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signal<span class="token operator">: </span><a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Toggle signal <a href="../../com.chartiq.sdk.model.signal/-signal/index.html">Signal</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1861344096%2FFunctions%2F51397222" anchor-label="undoDrawing" id="-1861344096%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="undo-drawing.html"><span>undo</span><wbr></wbr><span><span>Drawing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1861344096%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="undo-drawing.html"><span class="token function">undoDrawing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../-on-return-callback/index.html">OnReturnCallback</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Undoes the last drawing change</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
