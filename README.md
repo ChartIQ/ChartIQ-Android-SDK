@@ -8,11 +8,11 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 ## Requirements
 
-- Version 8.8.0 or later of the ChartIQ library
+- Version 9.0.1 or later of the ChartIQ library
 
   For previous version support, please refer to the [Releases](https://github.com/ChartIQ/ChartIQ-Android-SDK/releases) section.
 
-  Go to our <a href="https://cosaic.io/chartiq-sdk-library-download/" target="_blank">download site</a> to obtain a free 30-day trial version of the library, or send us an email at <info@cosaic.io>, and we'll send you an evaluation version.
+  To obtain an evaluation version of the ChartIQ library, contact your account manager or visit our <a href="https://pages.marketintelligence.spglobal.com/ChartIQ-Follow-up-Request.html" target="_blank">Request Follow Up site</a> to get in contact with us!
 
 - Android 8.1 Oreo (API level 27) or later
 
