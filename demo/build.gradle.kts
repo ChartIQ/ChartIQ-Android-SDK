@@ -12,22 +12,22 @@ android {
         applicationId = "com.chartiq.demo"
         minSdk = 21
         targetSdk = 32
-        versionCode = 11
-        versionName = "3.3.0"
+        versionCode = 12
+        versionName = "3.4.0"
 
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.3.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.4.0/sample-template-native-sdk.html\""
 
         )
     }
     signingConfigs {
         create("release") {
-            storeFile = file("path to keystore")
+            /*storeFile = file("path to keystore")
             storePassword = ""
             keyAlias = ""
-            keyPassword = ""
+            keyPassword = ""*/
         }
     }
 
