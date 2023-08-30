@@ -1,12 +1,13 @@
 plugins {
+    id("maven-publish")
+    id("signing")
     id("com.android.library")
     id("kotlin-android")
     id("com.jfrog.artifactory")
-    id("maven-publish")
     id("kotlin-android-extensions")
     id("org.jetbrains.dokka")
 }
-extra.set("version_name", "4.0.0")
+extra.set("version_name", "3.1.0")
 
 android {
     compileSdk = 33
@@ -23,26 +24,55 @@ android {
         }
     }
 }
+signing {
+    sign(publishing.publications)
+}
 
-afterEvaluate {
-    publishing {
-        publications {
-            create("aar", MavenPublication::class.java) {
-                groupId = "com.chartiq"
-                artifactId = "chartiq"
-                version = "${extra["version_name"]}"
-                artifact("${project.buildDir}/outputs/aar/chartiq-release.aar")
-                pom.withXml {
-                    val root = asNode()
-                    val license = root.appendNode("licenses").appendNode("license")
-                    license.appendNode("name", "MPL, Version 2.0")
-                    license.appendNode("url", "https://www.mozilla.org/en-US/MPL/2.0/")
-                    license.appendNode("distribution", "repo")
+publishing {
+    publications {
+        create("aar", MavenPublication::class.java) {
+            groupId = "com.chartiq"
+            artifactId = "sdk"
+            version = "${extra["version_name"]}"
+            artifact("${project.buildDir}/outputs/aar/chartiq-release.aar")
+            pom {
+                name.set("ChartIQ SDK")
+                description.set("The ChartIQ Android SDK provides a native interface for Android developers to instantiate and interact with a ChartIQ chart")
+                url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
+                licenses {
+                    license {
+                        name.set("Apache-2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
                 }
+                scm {
+                    connection.set("scm:git:github.com/ChartIQ/ChartIQ-Android-SDK.git")
+                    developerConnection.set("scm:git:ssh://github.com/ChartIQ/ChartIQ-Android-SDK.git")
+                    url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
+                }
+                developers {
+                    developer {
+                        name.set("Jacob Richards")
+                        email.set("jacob.richards@spglobal.com")
+                        id.set("jacob_richards")
 
+                    }
+                }
             }
+            repositories {
+                maven {
+                    name = "OSSRH"
+                    url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                    credentials {
+                        username = project.properties["ossrhUsername"] as String
+                        password = project.properties["ossrhPassword"] as String
+                    }
+                }
+            }
+
         }
     }
+
 }
 
 dependencies {
