@@ -16,6 +16,16 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 - Android 8.1 Oreo (API level 27) or later
 
+## Installation
+
+### Gradle
+
+Add the following dependency to your `build.gradle` file:
+
+```gradle
+implementation 'io.github.chartiq:sdk:3.1.0'
+```
+
 ## App
 
 The [demo](https://github.com/ChartIQ/ChartIQ-Android-SDK/tree/main/demo) folder of this repository contains an app that was built using the SDK. Customize the app to quickly create your own Android charting application.
@@ -60,3 +70,10 @@ Contact our development support team at <support@chartiq.com>.
 ## Contributing to this project
 
 Contribute to this project. Fork it and send us a pull request. We'd love to see what you can do with our charting tools on Android!
+
+## License
+
+This project is licensed under the Apache-2.0 License - see the LICENSE.md file for details.
+
+
+

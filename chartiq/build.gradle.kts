@@ -31,7 +31,7 @@ signing {
 publishing {
     publications {
         create("aar", MavenPublication::class.java) {
-            groupId = "com.chartiq"
+            groupId = "io.github.chartiq"
             artifactId = "sdk"
             version = "${extra["version_name"]}"
             artifact("${project.buildDir}/outputs/aar/chartiq-release.aar")
