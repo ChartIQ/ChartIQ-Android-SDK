@@ -38,6 +38,8 @@ allprojects {
 
 Add the library dependency to your app-level `build.gradle` file:
 
+#### Groovy DSL (build.gradle)
+
 ```groovy
 dependencies {
     implementation "implementation 'io.github.chartiq:sdk:3.1.0'"
