@@ -50,7 +50,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("implementation 'io.github.chartiq:sdk:3.1.0'")
+    implementation('io.github.chartiq:sdk:3.1.0')
 }
 ```
 
