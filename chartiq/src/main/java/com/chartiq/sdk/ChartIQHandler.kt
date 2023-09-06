@@ -584,7 +584,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun setDrawingParameter(parameterName: String, value: String) {
+    override fun setDrawingParameter(parameterName: Any, value: Any) {
         executeJavascript(scriptManager.getSetDrawingParameterScript(parameterName, value))
     }
 
