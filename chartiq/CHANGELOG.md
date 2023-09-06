@@ -2,7 +2,7 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
-## [3.0.1] - Oct 18, 2022
+## [3.1.0] - Oct 18, 2022
 
 Requires ChartIQ version 8.8.0 or later
 
