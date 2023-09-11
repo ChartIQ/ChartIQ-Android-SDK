@@ -26,7 +26,7 @@ interface ChartIQDrawingTool {
      * @param parameter A parameter to update the value of
      * @param value A new value to be set to the parameter
      */
-    fun setDrawingParameter(parameterName: String, value: String)
+    fun setDrawingParameter(parameterName: Any, value: Any)
 
     /**
      * Sets a value for the drawing tool parameter
