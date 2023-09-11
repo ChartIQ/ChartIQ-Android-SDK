@@ -7,7 +7,7 @@ plugins {
     id("kotlin-android-extensions")
     id("org.jetbrains.dokka")
 }
-extra.set("version_name", "3.1.0")
+extra.set("version_name", "3.2.0")
 
 android {
     compileSdk = 33

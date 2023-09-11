@@ -2,6 +2,15 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.2.0] - Sept 12, 2023
+
+Requires ChartIQ version 8.8.0 or later
+
+### Changed
+
+- Introduction of the method ```setDrawingParameter(parameterName: Any, value: Any)``` to allow setting drawing parameters with diverse types, replacing the earlier method.
+
+
 ## [3.1.0] - Oct 18, 2022
 
 Requires ChartIQ version 8.8.0 or later
