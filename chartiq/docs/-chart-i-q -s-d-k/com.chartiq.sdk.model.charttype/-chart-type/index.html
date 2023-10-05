@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ChartType</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>ChartIQ SDK</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":chartiq:dokkaHtml/release">androidJvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="ChartIQ SDK::com.chartiq.sdk.model.charttype/ChartType///PointingToDeclaration//51397222">
+  <div class="breadcrumbs"><a href="../../../index.html">ChartIQ SDK</a><span class="delimiter">/</span><a href="../index.html">com.chartiq.sdk.model.charttype</a><span class="delimiter">/</span><span class="current">ChartType</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Chart</span><wbr></wbr><span><span>Type</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">ChartType</a> : <span data-unresolved-link="kotlin/Enum///PointingToDeclaration/">Enum</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">ChartType</a><span class="token operator">&gt; </span></div><p class="paragraph">A list of possible Chart types</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="ENTRY">Entries</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="ENTRY">
+        <h2 class="">Entries</h2>
+        <div class="table"><a data-name="-1990685668%2FClasslikes%2F51397222" anchor-label="CANDLE" id="-1990685668%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-a-n-d-l-e/index.html">CANDLE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1990685668%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-c-a-n-d-l-e/index.html">CANDLE</a></div></div><div class="brief "><p class="paragraph">Like bar charts, candle charts represent OHLC except in the form of colored rectangles called ‘candles’.When the open is lower than the close, the candle is shaded green. When the open is higher than the close, the candle is shaded red. If the open and close are the same, a thin horizontal line segment is drawn at that price (this type of candle is called a &quot;doji&quot;). Each candle has a ‘wick’ that extends beyond the candle to indicate the high and low, respectively.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-193528852%2FClasslikes%2F51397222" anchor-label="BAR" id="-193528852%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-b-a-r/index.html">BAR</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-193528852%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-b-a-r/index.html">BAR</a></div></div><div class="brief "><p class="paragraph">Bar charts consist of vertical lines with a horizontal &quot;shelves&quot; on either side. One &quot;bar&quot; is created for each interval (period) on the chart. Each bar represents the OHLC (Open, High, Low, Close) for the period. The top and bottom of the vertical line represent the high and low for the period. The left shelf is the opening price while the right shelf is the closing price. The bars are a single color.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-809198321%2FClasslikes%2F51397222" anchor-label="COLORED_BAR" id="-809198321%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-l-o-r-e-d_-b-a-r/index.html">COLORED_BAR</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-809198321%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-c-o-l-o-r-e-d_-b-a-r/index.html">COLORED_BAR</a></div></div><div class="brief "><p class="paragraph">A colored bar chart draws a bar chart with the bars colored to indicate price action</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1545798269%2FClasslikes%2F51397222" anchor-label="LINE" id="-1545798269%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-i-n-e/index.html">LINE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1545798269%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-l-i-n-e/index.html">LINE</a></div></div><div class="brief "><p class="paragraph">A line chart consists of segments that connect at the &quot;Close&quot; price for each time period. The line is a single color. Any value in your data that has a null value for &quot;Close&quot; will result in a gap within the line.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-439834712%2FClasslikes%2F51397222" anchor-label="VERTEX_LINE" id="-439834712%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-v-e-r-t-e-x_-l-i-n-e/index.html">VERTEX_LINE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-439834712%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-v-e-r-t-e-x_-l-i-n-e/index.html">VERTEX_LINE</a></div></div><div class="brief "><p class="paragraph">A vertex line</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="139635291%2FClasslikes%2F51397222" anchor-label="STEP" id="139635291%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-t-e-p/index.html">STEP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="139635291%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-s-t-e-p/index.html">STEP</a></div></div><div class="brief "><p class="paragraph">A variation of a 'Line' where lines are forced to connect in an indirect 'step' manner (horizontal and vertical lines only), rather than a direct line connecting the data-points. Horizontal lines will begin at the center of the bar.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1320070364%2FClasslikes%2F51397222" anchor-label="MOUNTAIN" id="1320070364%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-u-n-t-a-i-n/index.html">MOUNTAIN</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1320070364%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-m-o-u-n-t-a-i-n/index.html">MOUNTAIN</a></div></div><div class="brief "><p class="paragraph">Mountain charts (sometimes called area charts) are line charts with a shaded section that extends to the bottom of the chart. The result is a chart which looks like a mountain.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-459635052%2FClasslikes%2F51397222" anchor-label="BASELINE" id="-459635052%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-b-a-s-e-l-i-n-e/index.html">BASELINE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-459635052%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-b-a-s-e-l-i-n-e/index.html">BASELINE</a></div></div><div class="brief "><p class="paragraph">A baseline delta chart draws a line chart that oscillates across a dotted baseline. The area above the baseline is shaded green, and the area below the baseline is shaded red.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1299582102%2FClasslikes%2F51397222" anchor-label="HOLLOW_CANDLE" id="1299582102%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-o-l-l-o-w_-c-a-n-d-l-e/index.html">HOLLOW_CANDLE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1299582102%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-h-o-l-l-o-w_-c-a-n-d-l-e/index.html">HOLLOW_CANDLE</a></div></div><div class="brief "><p class="paragraph">Like bar charts, candle charts represent OHLC except in the form of colored rectangles called ‘candles’. When the open is lower than the close, the candle is shaded green. When the open is higher than the close, the candle is shaded red. If the open and close are the same, a thin horizontal line segment is drawn at that price (this type of candle is called a &quot;doji&quot;). Each candle has a ‘wick’ that extends beyond the candle to indicate the high and low, respectively.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1675519307%2FClasslikes%2F51397222" anchor-label="VOLUME_CANDLE" id="1675519307%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-v-o-l-u-m-e_-c-a-n-d-l-e/index.html">VOLUME_CANDLE</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1675519307%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-v-o-l-u-m-e_-c-a-n-d-l-e/index.html">VOLUME_CANDLE</a></div></div><div class="brief "><p class="paragraph">A volume candle chart is a hollow candle chart where the width of a candle varies to indicate volume. Each candle’s shading and fill follow the same conventions as those in hollow candle charts. Wide candles indicate high volume, while narrow candles indicate low volume.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1463322661%2FClasslikes%2F51397222" anchor-label="COLORED_HLC" id="-1463322661%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-l-o-r-e-d_-h-l-c/index.html">COLORED_HLC</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1463322661%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-c-o-l-o-r-e-d_-h-l-c/index.html">COLORED_HLC</a></div></div><div class="brief "><p class="paragraph">A colored bar chart draws a bar chart with the bars colored to indicate price action.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-67448200%2FClasslikes%2F51397222" anchor-label="SCATTERPLOT" id="-67448200%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-c-a-t-t-e-r-p-l-o-t/index.html">SCATTERPLOT</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-67448200%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-s-c-a-t-t-e-r-p-l-o-t/index.html">SCATTERPLOT</a></div></div><div class="brief "><p class="paragraph">Scatterplot draws a single 'dot' at every close and does not connect them.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1727132227%2FClasslikes%2F51397222" anchor-label="HISTOGRAM" id="-1727132227%2FClasslikes%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-i-s-t-o-g-r-a-m/index.html">HISTOGRAM</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1727132227%2FClasslikes%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><div class="block"><a href="-h-i-s-t-o-g-r-a-m/index.html">HISTOGRAM</a></div></div><div class="brief "><p class="paragraph">Histogram charts resemble candle charts extending from the target price/amount, down to the bottom of the chart. The color is normally determined based off prior close.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-372780205%2FFunctions%2F51397222" anchor-label="valueOf" id="-372780205%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="value-of.html"><span>value</span><wbr></wbr><span><span>Of</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-372780205%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="value-of.html"><span class="token function">valueOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ChartType</a></div><div class="brief "><p class="paragraph">Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2082234977%2FFunctions%2F51397222" anchor-label="values" id="-2082234977%2FFunctions%2F51397222" data-filterable-set=":chartiq:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":chartiq:dokkaHtml/release" data-filterable-set=":chartiq:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="values.html"><span><span>values</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2082234977%2FFunctions%2F51397222"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chartiq:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="values.html"><span class="token function">values</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlin/Array///PointingToDeclaration/">Array</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">ChartType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns an array containing the constants of this enum type, in the order they're declared.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
