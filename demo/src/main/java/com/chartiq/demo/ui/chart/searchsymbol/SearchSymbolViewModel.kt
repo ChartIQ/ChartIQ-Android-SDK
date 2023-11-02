@@ -81,7 +81,7 @@ class SearchSymbolViewModel(private val networkManager: NetworkManager) : ViewMo
     }
 
     class SearchViewModelFactory(private val argNetworkManager: NetworkManager) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(NetworkManager::class.java)
                 .newInstance(argNetworkManager)

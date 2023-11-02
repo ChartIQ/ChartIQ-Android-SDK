@@ -35,5 +35,6 @@ enum class DrawingParameterType(
     PATTERN_1("pattern1"),
     PATTERN_2("pattern2"),
     PATTERN_3("pattern3"),
-    PRICE_BUCKETS("priceBuckets")
+    PRICE_BUCKETS("priceBuckets"),
+    SHOW_CALLOUT("showCallout"),
 }

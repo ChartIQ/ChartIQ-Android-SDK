@@ -43,8 +43,10 @@ class ColorsAdapter : RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
                 }
                 (background.mutate() as GradientDrawable).setColor(item.color)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (item.isSelected) {
-                        foreground = ContextCompat.getDrawable(context, R.drawable.layer_color_selected_ok)
+                    foreground = if (item.isSelected) {
+                        ContextCompat.getDrawable(context, R.drawable.layer_color_selected_ok)
+                    } else {
+                        null
                     }
                 }
                 setOnClickListener {
