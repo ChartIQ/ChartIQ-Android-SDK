@@ -27,13 +27,13 @@ data class Signal(
 fun Signal.toData(): SignalEntity {
     return SignalEntity(
         uniqueId = uniqueId,
-        signalName = URLEncoder.encode(name, "UTF-8"),
+        signalName = URLEncoder.encode(name, "UTF-8").replace("+", "%20"),
         conditions = conditions.map { condition -> condition.toData() },
         joiner = when (joiner) {
             SignalJoiner.OR -> "|"
             SignalJoiner.AND -> "&"
         },
-        description = URLEncoder.encode(description,"UTF-8"),
+        description = URLEncoder.encode(description,"UTF-8").replace("+", "%20"),
         disabled = disabled,
         studyName = study.shortName,
         studyEntity = null
