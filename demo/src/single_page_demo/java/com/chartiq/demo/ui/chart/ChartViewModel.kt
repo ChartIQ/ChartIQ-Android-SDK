@@ -416,7 +416,7 @@ class ChartViewModel(
         private val argDrawingManager: DrawingManager,
     ) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
                     ApplicationPrefs::class.java,

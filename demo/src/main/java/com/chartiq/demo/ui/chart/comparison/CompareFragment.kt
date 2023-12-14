@@ -34,12 +34,11 @@ class CompareFragment : Fragment(), ChooseSymbolFragment.DialogFragmentListener,
         }
     )
 
-    private lateinit var seriesColors: List<Int>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCompareBinding.inflate(inflater, container, false)
 
-        seriesColors = getSeriesColors()
+        viewModel.setSeriesColors(getSeriesColors())
         setupViews()
         return binding.root
     }
@@ -49,6 +48,7 @@ class CompareFragment : Fragment(), ChooseSymbolFragment.DialogFragmentListener,
     }
 
     fun setupViews() {
+
         with(binding) {
             searchToolbar.apply {
                 setNavigationOnClickListener {
@@ -101,8 +101,7 @@ class CompareFragment : Fragment(), ChooseSymbolFragment.DialogFragmentListener,
     }
 
     override fun onChooseSymbol(symbol: Symbol) {
-        val color = seriesColors[compareAdapter.items.size]
-        viewModel.addSeries(symbol.value, color.toHexStringWithHash())
+        viewModel.addSeries(symbol.value);
     }
 
     private fun navigateToSearchSymbol() {

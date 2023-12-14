@@ -18,25 +18,25 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.4.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.5.0/sample-template-advanced.html\""
 
         )
     }
-    /*signingConfigs {
+    signingConfigs {
         create("release") {
-            /*storeFile = file("path to keystore")
+            storeFile = file("path to keystore")
             storePassword = ""
             keyAlias = ""
-            keyPassword = ""*/
+            keyPassword = ""
         }
-    }*/
+    }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles.add(getDefaultProguardFile("proguard-android-optimize.txt"))
             proguardFiles.add(file("proguard-rules.pro"))
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
         }
     }
     flavorDimensions += listOf("version")
@@ -63,11 +63,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = listOf("-Xjvm-default=all")
     }
 
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.chartiq.demo"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
@@ -80,7 +82,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     implementation("androidx.core:core-ktx:1.5.0")
-    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation ("androidx.work:work-runtime-ktx:2.7.0")
 
     // UI
     implementation("com.google.android.material:material:1.3.0")

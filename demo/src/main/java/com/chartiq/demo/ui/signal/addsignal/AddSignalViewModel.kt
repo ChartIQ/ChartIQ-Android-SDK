@@ -291,7 +291,7 @@ class AddSignalViewModel(
         private val localizationManager: LocalizationManager,
         private val context: Context
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
                     ChartIQ::class.java,

@@ -184,6 +184,13 @@ enum class DrawingTools(
         DrawingToolCategory.LINES,
         DrawingToolSection.MAIN
     ),
+    MEASUREMENTLINE(
+        DrawingTool.MEASUREMENTLINE,
+        R.drawable.ic_drawing_tool_measurement_line,
+        R.string.drawing_tool_measurementline,
+        DrawingToolCategory.STATISTICS,
+        DrawingToolSection.MAIN
+    ),
     PITCHFORK(
         DrawingTool.PITCHFORK,
         R.drawable.ic_drawing_tool_pitchfork,
@@ -219,13 +226,7 @@ enum class DrawingTools(
         DrawingToolCategory.STATISTICS,
         DrawingToolSection.MAIN
     ),
-    SEGMENT(
-        DrawingTool.SEGMENT,
-        R.drawable.ic_drawing_tool_segment,
-        R.string.drawing_tool_segment,
-        DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
-    ),
+
     STAR(
         DrawingTool.STAR,
         R.drawable.ic_drawing_tool_star,
@@ -265,7 +266,7 @@ enum class DrawingTools(
         DrawingTool.TREND_LINE,
         R.drawable.ic_drawing_tool_trend_line,
         R.string.drawing_tool_trend_line,
-        DrawingToolCategory.TEXT,
+        DrawingToolCategory.LINES,
         DrawingToolSection.MAIN
     ),
     VERTICAL_LINE(

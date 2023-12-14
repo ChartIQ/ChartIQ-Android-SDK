@@ -3,6 +3,7 @@ package com.chartiq.sdk.model.signal
 import android.os.Parcelable
 import com.chartiq.sdk.model.study.Study
 import kotlinx.android.parcel.Parcelize
+import java.net.URLEncoder
 
 /**
  * Encapsulates parameters with additional information for Study. ChartIQ uses the term “study” to refer to any indicator, oscillator, average, or signal that results from technical analysis of chart data.
@@ -26,13 +27,13 @@ data class Signal(
 fun Signal.toData(): SignalEntity {
     return SignalEntity(
         uniqueId = uniqueId,
-        signalName = name,
+        signalName = URLEncoder.encode(name, "UTF-8").replace("+", "%20"),
         conditions = conditions.map { condition -> condition.toData() },
         joiner = when (joiner) {
             SignalJoiner.OR -> "|"
             SignalJoiner.AND -> "&"
         },
-        description = description,
+        description = URLEncoder.encode(description,"UTF-8").replace("+", "%20"),
         disabled = disabled,
         studyName = study.shortName,
         studyEntity = null

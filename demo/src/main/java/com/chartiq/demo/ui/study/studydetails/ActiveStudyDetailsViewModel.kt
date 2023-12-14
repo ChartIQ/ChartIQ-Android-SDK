@@ -271,7 +271,7 @@ class ActiveStudyDetailsViewModel(
         private val argStudy: Study
     ) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java, Study::class.java)
                 .newInstance(argChartIQ, argStudy)

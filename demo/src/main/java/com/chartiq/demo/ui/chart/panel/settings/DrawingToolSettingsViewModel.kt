@@ -61,6 +61,9 @@ class DrawingToolSettingsViewModel(
             if (isSupportingVolumeProfile(tool)) {
                 list.addVolumeProfileModels(params)
             }
+            if (isSupportingShowCallOut(tool)) {
+                list.addShowCalloutModels(params)
+            }
         }
 
         if (isNestedSettings) {
@@ -128,6 +131,7 @@ class DrawingToolSettingsViewModel(
                 val jsonList = Gson().toJson(list)
                 Base64.encodeToString(jsonList.toString().toByteArray(), Base64.DEFAULT)
             }
+
             else ->
                 valuesList.find { it.isSelected }!!.value
         }
@@ -421,6 +425,18 @@ class DrawingToolSettingsViewModel(
         )
     }
 
+    private fun MutableList<DrawingToolSettingsItem>.addShowCalloutModels(params: Map<String, Any>) {
+        val checked = params[KEY_SHOW_CALLOUT]?.toString()?.toBoolean() ?: false
+
+        add(
+            DrawingToolSettingsItem.Switch(
+                R.string.drawing_tool_settings_title_show_callout_label,
+                checked,
+                KEY_SHOW_CALLOUT
+            )
+        )
+    }
+
     companion object {
         private const val KEY_FONT = "font"
         private const val KEY_NORMAL = "normal"
@@ -432,13 +448,14 @@ class DrawingToolSettingsViewModel(
         private const val KEY_LEVEL = "level"
         private const val KEY_DISPLAY = "display"
         private const val KEY_VOLUME_PROFILE = "volumeProfile"
+        private const val KEY_SHOW_CALLOUT = "showCallout"
     }
 
     class ViewModelFactory(
         private val argChartIQHandler: ChartIQ,
         private val drawingManager: DrawingManager
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java, DrawingManager::class.java)
                 .newInstance(argChartIQHandler, drawingManager)
