@@ -18,7 +18,7 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile-develop.demo.chartiq.com/9.1.0/index.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.5.0/index.html\""
 
         )
     }
@@ -69,6 +69,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.chartiq.demo"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
