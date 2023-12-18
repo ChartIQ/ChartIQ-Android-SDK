@@ -2,14 +2,26 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.3.0] - Dec 20, 2023
+
+Requires ChartIQ version 8.8.0 or later
+
+### Changed
+
+- Made updates to ```ChartIQHandler.kt``` related to Gson and study inputs, outputs, and parameters. These changes are
+  aimed at improving the handling and processing of study data in the SDK.
+- Added new drawing tools, including the Measurement Line (```DrawingTool.MEASUREMENTLINE```) and Trend Line (
+  ```DrawingTool.TREND_LINE```), to enhance the drawing capabilities of the SDK.
+- Enhancements on existing features, and introduce new functionalities in the SDK and demo app.
+
 ## [3.2.0] - Sept 12, 2023
 
 Requires ChartIQ version 8.8.0 or later
 
 ### Changed
 
-- Introduction of the method ```setDrawingParameter(parameterName: Any, value: Any)``` to allow setting drawing parameters with diverse types, replacing the earlier method.
-
+- Introduction of the method ```setDrawingParameter(parameterName: Any, value: Any)``` to allow setting drawing
+  parameters with diverse types, replacing the earlier method.
 
 ## [3.1.0] - Oct 18, 2022
 
