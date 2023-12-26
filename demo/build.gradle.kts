@@ -18,7 +18,7 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.5.0/sample-template-advanced.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.5.0/sample-template-native-sdk.html\""
 
         )
     }
