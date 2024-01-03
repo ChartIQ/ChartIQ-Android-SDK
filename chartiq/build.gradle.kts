@@ -7,7 +7,7 @@ plugins {
     id("kotlin-android-extensions")
     id("org.jetbrains.dokka")
 }
-extra.set("version_name", "3.3.0")
+extra.set("version_name", "3.3.1")
 
 android {
     compileSdk = 33
@@ -64,8 +64,8 @@ publishing {
                     name = "OSSRH"
                     url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                     credentials {
-                        username = project.properties["ossrhUsername"] as String
-                        password = project.properties["ossrhPassword"] as String
+//                        username = project.properties["ossrhUsername"] as String
+//                        password = project.properties["ossrhPassword"] as String
                     }
                 }
             }
