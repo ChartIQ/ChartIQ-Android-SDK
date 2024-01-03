@@ -113,7 +113,7 @@ internal class ChartIQScriptManager : ScriptManager {
         "$MOBILE_BRIDGE_NAME_SPACE.saveSignal(\"$studyName\", \'$signalParams\', \"$editMode\");"
 
     override fun getEnableCrosshairScript(value: Boolean): String =
-        "$MOBILE_BRIDGE_NAME_SPACE.enableCross hairs($value);"
+        "$MOBILE_BRIDGE_NAME_SPACE.enableCrosshairs($value);"
 
     override fun getIsCrosshairsEnabledScript(): String =
         "if (${CHART_IQ_JS_OBJECT}.layout.crosshair == true) { \"true\" } else { \"false\" } "
