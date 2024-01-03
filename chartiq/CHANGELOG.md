@@ -2,6 +2,14 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.3.1] - Jan 4, 2024
+
+Requires ChartIQ version 8.8.0 or later
+### Fixed
+
+- Crosshair functionality on/off issues
+
+
 ## [3.3.0] - Dec 20, 2023
 
 Requires ChartIQ version 8.8.0 or later
