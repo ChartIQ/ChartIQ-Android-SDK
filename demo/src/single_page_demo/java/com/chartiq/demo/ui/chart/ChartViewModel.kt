@@ -63,11 +63,12 @@ class ChartViewModel(
             if (drawingTool != DrawingTool.NONE) {
                 with(measureToolInfo) {
                     val currentValue = value?.newValue
-                    val newValue = if (measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
+                    /*val newValue = if (measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
                         value?.oldValue!!
                     } else {
                         measureValue
-                    }
+                    }*/
+                    val newValue = measureValue
                     postValue(MeasureItem(currentValue, newValue))
                 }
             }
