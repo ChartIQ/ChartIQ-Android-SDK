@@ -72,7 +72,7 @@ class ChartIQNetworkManager : NetworkManager {
     }
 
     companion object {
-        private const val HOST_SIMULATOR = "https://mobile-simulator.chartiq.com"
+        private const val HOST_SIMULATOR = "https://simulator.chartiq.com"
         private const val HOST_SYMBOLS = "https://symbols.chartiq.com"
 
         private const val DEFAULT_VALUE_EXTENDED = "1"
