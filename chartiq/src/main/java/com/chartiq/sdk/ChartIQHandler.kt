@@ -54,7 +54,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Locale
 
 @SuppressLint("SetJavaScriptEnabled")
 class ChartIQHandler(
@@ -325,7 +325,10 @@ class ChartIQHandler(
             }
             val objectResult = Gson().fromJson(result, Object::class.java)
             val typeToken = object : TypeToken<Map<String, StudyEntity>>() {}.type
-            val studyList = Gson().fromJson<Map<String, StudyEntity>>(
+            val gson = GsonBuilder()
+                .registerTypeAdapter(StudyEntity::class.java, StudyEntityClassTypeAdapter())
+                .create()
+            val studyList = gson.fromJson<Map<String, StudyEntity>>(
                 objectResult.toString(), typeToken
             ).map { (key, value) ->
                 value.copy(shortName = key)
@@ -436,6 +439,10 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getSetChartTypeScript(chartType.name.lowercase(Locale.ENGLISH)))
     }
 
+    override fun setRefreshInterval(refreshInterval: Int) {
+        executeJavascript(scriptManager.getSetRefreshIntervalScript(refreshInterval))
+    }
+
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
         val script = scriptManager.getChartTypeScript()
         executeJavascript(script) {
@@ -525,6 +532,11 @@ class ChartIQHandler(
 
     override fun addStudy(study: Study, forClone: Boolean) {
         val key = if (forClone) {
+            if (!study.inputs.isNullOrEmpty()) {
+                val studyMap = study.inputs?.toMutableMap()
+                studyMap?.put("id", "") // change the id so the study can be cloned and not just updated
+                study.inputs = studyMap
+            }
             study.type!!
         } else {
             study.shortName
@@ -534,9 +546,9 @@ class ChartIQHandler(
         var outputs = ""
         var parameters = ""
 
-        if(!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
-        if(!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
-        if(!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
+        if (!study.inputs.isNullOrEmpty()) inputs = Gson().toJson(study.inputs)
+        if (!study.outputs.isNullOrEmpty()) outputs = Gson().toJson(study.outputs)
+        if (!study.parameters.isNullOrEmpty()) parameters = Gson().toJson(study.parameters)
         val scripts = scriptManager.getAddStudyScript(key, inputs, outputs, parameters)
         executeJavascript(scripts)
     }
@@ -575,7 +587,7 @@ class ChartIQHandler(
         }
     }
 
-    override fun setDrawingParameter(parameterName: String, value: String) {
+    override fun setDrawingParameter(parameterName: Any, value: Any) {
         executeJavascript(scriptManager.getSetDrawingParameterScript(parameterName, value))
     }
 

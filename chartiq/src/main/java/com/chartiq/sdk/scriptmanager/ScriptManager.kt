@@ -45,6 +45,8 @@ internal interface ScriptManager {
 
     fun getSetChartTypeScript(chartType: String): String
 
+    fun getSetRefreshIntervalScript(refreshInterval: Int): String
+
     fun getChartTypeScript(): String
 
     fun getAggregationTypeScript(): String
@@ -75,7 +77,7 @@ internal interface ScriptManager {
 
     fun getClearDrawingScript(): String
 
-    fun getSetDrawingParameterScript(parameter: String, value: String): String
+    fun getSetDrawingParameterScript(parameter: Any, value: Any): String
 
     fun getSetStyleScript(obj: String, parameter: String, value: String): String
 

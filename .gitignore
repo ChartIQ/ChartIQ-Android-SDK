@@ -78,3 +78,5 @@ lint/tmp/
 
 # Android Studio
 .project
+gradle.properties
+secring.gpg

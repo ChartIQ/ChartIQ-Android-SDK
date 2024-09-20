@@ -92,6 +92,6 @@ class ChooseColorFragment : FullscreenDialogFragment() {
 
     interface DialogFragmentListener {
 
-        fun onChooseColor(parameter: String, color: Int)
+        fun onChooseColor(symbolName: String, color: Int)
     }
 }

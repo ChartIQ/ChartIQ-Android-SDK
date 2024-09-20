@@ -63,11 +63,12 @@ class ChartViewModel(
             if (drawingTool != DrawingTool.NONE) {
                 with(measureToolInfo) {
                     val currentValue = value?.newValue
-                    val newValue = if (measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
+                    /*val newValue = if (measureValue.isEmpty() && !value?.oldValue.isNullOrEmpty()) {
                         value?.oldValue!!
                     } else {
                         measureValue
-                    }
+                    }*/
+                    val newValue = measureValue
                     postValue(MeasureItem(currentValue, newValue))
                 }
             }
@@ -416,7 +417,7 @@ class ChartViewModel(
         private val argDrawingManager: DrawingManager,
     ) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(
                     ApplicationPrefs::class.java,

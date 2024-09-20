@@ -22,7 +22,7 @@ class StudyViewModel(private val chartIQ: ChartIQ) : ViewModel() {
     }
 
     class ViewModelFactory(private val chartIQ: ChartIQ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
                 .getConstructor(ChartIQ::class.java)
                 .newInstance(chartIQ)

@@ -1,0 +1,19 @@
+.library-name a {
+    position: relative;
+    margin-left: 55px;
+}
+
+.library-name a::before {
+    content: '';
+    background: url("https://documentation.chartiq.com/img/CIQ_logo_full_negative.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: -18px;
+    left: -55px;
+}
+
+.library-name a span {
+    margin-left: 60px;
+}

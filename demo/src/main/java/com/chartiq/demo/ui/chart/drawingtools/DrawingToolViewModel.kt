@@ -69,7 +69,7 @@ class DrawingToolViewModel(private val appPrefs: ApplicationPrefs) : ViewModel()
 
     class DrawingToolViewModelFactory(private val prefs: ApplicationPrefs) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.getConstructor(ApplicationPrefs::class.java).newInstance(prefs)
         }
     }

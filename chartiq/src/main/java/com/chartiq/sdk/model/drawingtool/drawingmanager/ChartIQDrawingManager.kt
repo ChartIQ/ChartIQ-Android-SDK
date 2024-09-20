@@ -30,7 +30,9 @@ class ChartIQDrawingManager : DrawingManager {
             DrawingTool.STAR,
             DrawingTool.TIME_CYCLE,
             DrawingTool.TIRONE_LEVELS,
+            DrawingTool.MEASUREMENTLINE,
             DrawingTool.TREND_LINE -> true
+
             else -> false
         }
     }
@@ -46,6 +48,7 @@ class ChartIQDrawingManager : DrawingManager {
         return when (drawingTool) {
             DrawingTool.ANNOTATION,
             DrawingTool.NO_TOOL -> false
+
             else -> true
         }
     }
@@ -54,6 +57,7 @@ class ChartIQDrawingManager : DrawingManager {
         return when (drawingTool) {
             DrawingTool.NO_TOOL,
             DrawingTool.MEASURE -> false
+
             else -> true
         }
     }
@@ -64,6 +68,7 @@ class ChartIQDrawingManager : DrawingManager {
             DrawingTool.CALLOUT,
             DrawingTool.ELLIOTT_WAVE,
             DrawingTool.TREND_LINE -> true
+
             else -> false
         }
     }
@@ -73,7 +78,9 @@ class ChartIQDrawingManager : DrawingManager {
             DrawingTool.AVERAGE_LINE,
             DrawingTool.CROSSLINE,
             DrawingTool.HORIZONTAL_LINE,
+            DrawingTool.MEASUREMENTLINE,
             DrawingTool.VERTICAL_LINE -> true
+
             else -> false
         }
     }
@@ -82,6 +89,7 @@ class ChartIQDrawingManager : DrawingManager {
         return when (drawingTool) {
             DrawingTool.AVERAGE_LINE,
             DrawingTool.REGRESSION_LINE -> true
+
             else -> false
         }
     }
@@ -92,6 +100,7 @@ class ChartIQDrawingManager : DrawingManager {
             DrawingTool.FIB_FAN,
             DrawingTool.FIB_PROJECTION,
             DrawingTool.FIB_RETRACEMENT -> true
+
             else -> false
         }
     }
@@ -106,6 +115,13 @@ class ChartIQDrawingManager : DrawingManager {
     override fun isSupportingVolumeProfile(drawingTool: DrawingTool): Boolean {
         return when (drawingTool) {
             DrawingTool.VOLUME_PROFILE -> true
+            else -> false
+        }
+    }
+
+    override fun isSupportingShowCallOut(drawingTool: DrawingTool): Boolean {
+        return when (drawingTool) {
+            DrawingTool.TREND_LINE -> true
             else -> false
         }
     }

@@ -6,6 +6,8 @@ import com.chartiq.sdk.model.study.toStudy
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Parcelize
 data class SignalEntity(
@@ -30,14 +32,14 @@ data class SignalEntity(
 fun SignalEntity.toSignal(): Signal {
     return Signal(
         uniqueId = uniqueId,
-        name = signalName,
+        name = URLDecoder.decode(signalName, StandardCharsets.UTF_8.toString()),
         conditions = conditions.map { it.toCondition() },
         joiner = when (joiner) {
             "|" -> SignalJoiner.OR
             "&" -> SignalJoiner.AND
             else -> SignalJoiner.OR
         },
-        description = description ?: "",
+        description = URLDecoder.decode(description ?: "", StandardCharsets.UTF_8.toString()),
         disabled = disabled,
         study = studyEntity!!.toStudy()
     )

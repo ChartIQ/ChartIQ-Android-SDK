@@ -88,7 +88,6 @@
     <string name="drawing_tool_ray">Ray</string>
     <string name="drawing_tool_rectangle">Rectangle</string>
     <string name="drawing_tool_regression_line">Regression Line</string>
-    <string name="drawing_tool_segment">Segment</string>
     <string name="drawing_tool_star">Star</string>
     <string name="drawing_tool_speed_resistance_arc">Speed Resistance Arc</string>
     <string name="drawing_tool_speed_resistance_line">Speed Resistance Line</string>
@@ -107,6 +106,7 @@
     <string name="drawing_tool_category_fibonacci">FIBONACCI</string>
     <string name="drawing_tool_category_markings">MARKINGS</string>
     <string name="drawing_tool_category_lines">LINES</string>
+    <string name="drawing_tool_measurementline">Measurement Line</string>
 
     <!--Crosshair-->
     <string name="crosshair_label_price">Price</string>
@@ -241,6 +241,7 @@
     <string name="drawing_tool_settings_title_font_size">Font Size"</string>
     <string name="drawing_tool_settings_title_font_style">Font Style"</string>
     <string name="drawing_tool_settings_title_axis_label">Axis Label"</string>
+    <string name="drawing_tool_settings_title_show_callout_label">Show Callout"</string>
     <string name="drawing_tool_settings_title_fibonacci_settings">Fibonacci Settings"</string>
     <string name="drawing_tool_settings_title_wave_template">Wave Template"</string>
     <string name="drawing_tool_settings_title_decoration">Decoration"</string>
