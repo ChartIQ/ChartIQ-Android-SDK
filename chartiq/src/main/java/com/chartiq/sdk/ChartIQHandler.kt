@@ -135,7 +135,11 @@ class ChartIQHandler(
 
     @JavascriptInterface
     override fun measureChange(json: String) {
-        measureCallback?.onMeasureUpdate(json.substring(1, json.length - 1))
+        if(json.isNotEmpty()) {
+            measureCallback?.onMeasureUpdate(json.substring(1, json.length - 1))
+        } else {
+            measureCallback?.onMeasureUpdate("")
+        }
     }
 
     @JavascriptInterface

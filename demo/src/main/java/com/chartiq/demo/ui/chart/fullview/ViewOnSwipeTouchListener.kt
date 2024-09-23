@@ -25,13 +25,13 @@ abstract class ViewOnSwipeTouchListener(context: Context) : View.OnTouchListener
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-            e1: MotionEvent,
+            e1: MotionEvent?,
             e2: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
             try {
-                val diffY: Float = e2.y - e1.y
+                val diffY: Float = e2.y - e1!!.y
                 val diffX: Float = e2.x - e1.x
                 if (abs(diffX) > abs(diffY)) {
                     if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
