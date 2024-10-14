@@ -6,14 +6,14 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.chartiq.demo"
-        minSdk = 21
-        targetSdk = 32
-        versionCode = 15
-        versionName = "3.5.1"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 16
+        versionName = "3.5.2"
 
         buildConfigField(
             "String",
@@ -28,6 +28,7 @@ android {
             storePassword = ""
             keyAlias = ""
             keyPassword = ""
+            enableV1Signing = false
         }
     }
 
@@ -36,7 +37,7 @@ android {
             isMinifyEnabled = false
             proguardFiles.add(getDefaultProguardFile("proguard-android-optimize.txt"))
             proguardFiles.add(file("proguard-rules.pro"))
-//            signingConfig = signingConfigs.getByName("release")
+            //signingConfig = signingConfigs.getByName("release")
         }
     }
     flavorDimensions += listOf("version")
