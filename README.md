@@ -18,6 +18,8 @@ Contact us at <support@chartiq.com> to request sample code and guidance on how t
 
 - Android 8.1 Oreo (API level 27) or later
 
+**Important:** This SDK requires additional configuration to be able to work with the remote npm registry introduced in version 9.5.1.
+
 ## Installation
 
 ### Gradle
