@@ -11,5 +11,5 @@ enum class ChartIQLanguage(val title: String, val code: String) {
     HU("Hungarian", "hu-HU"),
     ZH("Chinese", "zh-CN"),
     JA("Japanese", "ja-JP"),
-    AR("Arabic", "ar-EG"),
+    AR("Arabic", "ar-EG-u-nu-latn"),
 }
