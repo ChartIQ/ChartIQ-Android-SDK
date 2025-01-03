@@ -18,7 +18,7 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_CHART_URL",
-            "\"https://mobile.demo.chartiq.com/android/3.5.0/sample-template-native-sdk.html\""
+            "\"https://mobile.demo.chartiq.com/android/3.7.0/sample-template-native-sdk.html\""
 
         )
     }
@@ -69,6 +69,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     namespace = "com.chartiq.demo"
     defaultConfig {
