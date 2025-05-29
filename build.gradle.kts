@@ -1,17 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    project.extra["kotlin_version"] = "1.5.10"
+    project.extra["kotlin_version"] = "1.6.0"
 
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.1")
+        classpath("com.android.tools.build:gradle:8.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlin_version"]}")
-        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:5.2.5")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.4.32")
 
 
@@ -23,7 +22,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 }
