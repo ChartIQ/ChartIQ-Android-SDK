@@ -12,7 +12,7 @@ buildscript {
         classpath("org.jfrog.buildinfo:build-info-extractor-gradle:5.2.5")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.4.32")
-
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.28.0")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -23,6 +23,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // mavenLocal() // Enable this to use the local published SDK
     }
 }
 tasks.register("clean", Delete::class) {

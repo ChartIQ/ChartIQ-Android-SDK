@@ -19,7 +19,6 @@ android {
             "String",
             "DEFAULT_CHART_URL",
             "\"https://mobile.demo.chartiq.com/android/3.7.0/sample-template-native-sdk.html\""
-
         )
     }
     signingConfigs {
@@ -79,6 +78,9 @@ android {
 
 dependencies {
     implementation(project(":chartiq"))
+
+    // Use the locally published SDK instead of project dependency
+    // implementation("io.github.chartiq:sdk:3.8.0")
 
     // Core
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")

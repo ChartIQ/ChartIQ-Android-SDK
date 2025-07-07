@@ -41,7 +41,7 @@ Add the library dependency to your app-level `build.gradle` file:
 
 ```groovy
 dependencies {
-    implementation "implementation 'io.github.chartiq:sdk:3.1.0'"
+    implementation 'io.github.chartiq:sdk:3.8.0'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation('io.github.chartiq:sdk:3.1.0')
+    implementation('io.github.chartiq:sdk:3.8.0')
 }
 ```
 
@@ -112,6 +112,16 @@ on Android!
 ## License
 
 This project is licensed under the Apache-2.0 License - see the LICENSE.md file for details.
+
+## Publishing
+
+This SDK is published to Maven Central using the new Central Publisher Portal. For detailed publishing instructions, see [PUBLISHING.md](PUBLISHING.md).
+
+### Quick Publish
+
+1. Set up Central Portal account at https://central.sonatype.com/
+2. Configure credentials in `gradle.properties`
+3. Run: `./gradlew publish`
 
 
 
