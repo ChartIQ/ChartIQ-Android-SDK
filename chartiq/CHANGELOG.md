@@ -2,9 +2,18 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.8.0] - Jul 3, 2025
+
+Requires ChartIQ version 9.8.0 or later
+
+### Fixed
+
+- Arrow drawing tool fixed
+
 ## [3.3.1] - Jan 4, 2024
 
 Requires ChartIQ version 8.8.0 or later
+
 ### Fixed
 
 - Crosshair functionality on/off issues
