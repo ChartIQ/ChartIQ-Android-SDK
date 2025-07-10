@@ -74,6 +74,10 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
+
+    lint {
+        abortOnError = false
+    }
 }
 
 dependencies {

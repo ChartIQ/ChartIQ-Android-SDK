@@ -1,70 +1,25 @@
 plugins {
-    id("com.vanniktech.maven.publish")
-    id("signing")
     id("com.android.library")
     id("kotlin-android")
-    id("com.jfrog.artifactory")
     id("kotlin-android-extensions")
     id("org.jetbrains.dokka")
+    id("maven-publish")
+    id("signing")
 }
+
 extra.set("version_name", "3.8.0")
 
 android {
+    namespace = "com.chartiq.sdk"
     compileSdk = 34
-
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
     }
-    
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles.add(getDefaultProguardFile("proguard-android.txt"))
+            proguardFiles.add(getDefaultProguardFile("proguard-android-optimize.txt"))
             proguardFiles.add(file("proguard-rules.pro"))
-        }
-    }
-    
-    namespace = "com.chartiq.sdk"
-}
-
-// Maven Central Publishing 
-mavenPublishing {
-    publishToMavenCentral()
-    
-    //signing
-    signAllPublications()
-    
-    // sdk name, version
-    coordinates("io.github.chartiq", "sdk", extra["version_name"].toString())
-    
-    // pom metadata
-    pom {
-        name.set("ChartIQ Android SDK")
-        description.set("The ChartIQ Android SDK provides a native interface for Android developers to instantiate and interact with a ChartIQ chart")
-        inceptionYear.set("2024")
-        url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
-        
-        licenses {
-            license {
-                name.set("Apache-2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("https://repo1.maven.org/maven2/")
-            }
-        }
-        
-        developers {
-            developer {
-                id.set("jacob_richards")
-                name.set("Jacob Richards")
-                email.set("jacob.richards@spglobal.com")
-            }
-        }
-        
-        scm {
-            url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
-            connection.set("scm:git:git://github.com/ChartIQ/ChartIQ-Android-SDK.git")
-            developerConnection.set("scm:git:ssh://git@github.com/ChartIQ/ChartIQ-Android-SDK.git")
         }
     }
 }
@@ -85,5 +40,49 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
             suppressInheritedMembers.set(true)
             includeNonPublic.set(false)
         }
+    }
+}
+
+// Maven Publishing Configuration
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "io.github.chartiq"
+                artifactId = "sdk"
+                version = extra["version_name"] as String
+
+                pom {
+                    name.set("ChartIQ Android SDK")
+                    description.set("The ChartIQ Android SDK provides a native interface for Android developers to instantiate and interact with a ChartIQ chart.")
+                    url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
+                    inceptionYear.set("2024")
+                    licenses {
+                        license {
+                            name.set("Apache-2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                            distribution.set("repo")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("jacob_richards")
+                            name.set("Jacob Richards")
+                            email.set("jacob.richards@spglobal.com")
+                        }
+                    }
+                    scm {
+                        url.set("https://github.com/ChartIQ/ChartIQ-Android-SDK")
+                        connection.set("scm:git:https://github.com/ChartIQ/ChartIQ-Android-SDK.git")
+                        developerConnection.set("scm:git:https://github.com/ChartIQ/ChartIQ-Android-SDK.git")
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        sign(publishing.publications["release"])
     }
 }
