@@ -219,8 +219,8 @@
     <string name="settings_extend_hours">Extend Hours</string>
     <string name="settings_language_preferences">Language Preferences</string>
     <string name="settings_language">Language</string>
-    <string name="settings_chart_style">Chart Style</string>
-    <string name="settings_select_style_title">Chart Style</string>
+    <string name="settings_chart_style">Chart Types</string>
+    <string name="settings_select_style_title">Chart Types</string>
     <string name="settings_select_language_title">Select Language</string>
 
     <!-- General strings -->
@@ -281,7 +281,7 @@
     <string name="chart_type_hollow_candle">Hollow Candle</string>
     <string name="chart_type_volume_candle">Volume Candle</string>
     <string name="chart_type_colored_hlc">Colored HLC Bar</string>
-    <string name="chart_type_scatterplot">Scatterplot</string>
+    <string name="chart_type_scatterplot">Data Points</string>
     <string name="chart_type_histogram">Histogram</string>
 
 </resources>

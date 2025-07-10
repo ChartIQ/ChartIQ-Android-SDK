@@ -10,7 +10,7 @@ enum class DrawingTool(
     val value: String?
 ) {
     ANNOTATION("annotation"),
-    ARROW("arrow"),
+    ARROW("arrowline"),
     AVERAGE_LINE("average"),
     CALLOUT("callout"),
     CHANNEL("channel"),

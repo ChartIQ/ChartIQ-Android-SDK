@@ -12,10 +12,6 @@ buildscript {
         classpath("org.jfrog.buildinfo:build-info-extractor-gradle:5.2.5")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.4.32")
-
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -23,8 +19,25 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // mavenLocal() // Enable this to use the local published SDK
     }
 }
+
+// nmcp configuration
+plugins {
+    id("com.gradleup.nmcp.aggregation").version("1.0.1")
+}
+
+nmcpAggregation {
+    centralPortal {
+        username = findProperty("mavenCentralUsername") as String? ?: System.getenv("SONATYPE_USERNAME") ?: ""
+        password = findProperty("mavenCentralPassword") as String? ?: System.getenv("SONATYPE_PASSWORD") ?: ""
+        publishingType = "USER_MANAGED" // "AUTOMATIC"
+    }
+
+    publishAllProjectsProbablyBreakingProjectIsolation()
+}
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
