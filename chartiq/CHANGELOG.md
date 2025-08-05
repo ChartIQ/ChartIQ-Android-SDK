@@ -2,6 +2,14 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.9.0] - TBD
+
+Requires ChartIQ version 9.8.0 or later
+
+### Removed
+
+- Removed CHECK, CROSS, FOCUS, HEART, and STAR drawing tools from the SDK
+
 ## [3.8.0] - Jul 3, 2025
 
 Requires ChartIQ version 9.8.0 or later
