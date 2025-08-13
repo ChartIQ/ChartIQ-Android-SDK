@@ -7,7 +7,7 @@ plugins {
     id("signing")
 }
 
-extra.set("version_name", "3.8.0")
+extra.set("version_name", "3.9.0")
 
 android {
     namespace = "com.chartiq.sdk"

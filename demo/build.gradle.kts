@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 16
-        versionName = "3.6.0"
+        versionName = "3.9.0"
 
         buildConfigField(
             "String",
@@ -82,9 +82,6 @@ android {
 
 dependencies {
     implementation(project(":chartiq"))
-
-    // Use the locally published SDK instead of project dependency
-    // implementation("io.github.chartiq:sdk:3.8.0")
 
     // Core
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
