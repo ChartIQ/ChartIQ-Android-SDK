@@ -58,25 +58,11 @@ enum class DrawingTools(
         DrawingToolCategory.LINES,
         DrawingToolSection.MAIN
     ),
-    CHECK(
-        DrawingTool.CHECK,
-        R.drawable.ic_drawing_tool_check,
-        R.string.drawing_tool_check,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
-    ),
     CONTINUOUS_LINE(
         DrawingTool.CONTINUOUS_LINE,
         R.drawable.ic_drawing_tool_continuous_line,
         R.string.drawing_tool_continuous_line,
         DrawingToolCategory.LINES,
-        DrawingToolSection.MAIN
-    ),
-    CROSS(
-        DrawingTool.CROSS,
-        R.drawable.ic_drawing_tool_cross,
-        R.string.drawing_tool_cross,
-        DrawingToolCategory.MARKINGS,
         DrawingToolSection.MAIN
     ),
     CROSSLINE(
@@ -142,13 +128,6 @@ enum class DrawingTools(
         DrawingToolCategory.FIBONACCI,
         DrawingToolSection.MAIN
     ),
-    FOCUS(
-        DrawingTool.FOCUS,
-        R.drawable.ic_drawing_tool_focus,
-        R.string.drawing_tool_focus,
-        DrawingToolCategory.MARKINGS,
-        DrawingToolSection.MAIN
-    ),
     GANN_FAN(
         DrawingTool.GANN_FAN,
         R.drawable.ic_drawing_tool_gann_fan,
@@ -161,13 +140,6 @@ enum class DrawingTools(
         R.drawable.ic_drawing_tool_gartley,
         R.string.drawing_tool_gartley,
         DrawingToolCategory.TECHNICALS,
-        DrawingToolSection.MAIN
-    ),
-    HEART(
-        DrawingTool.HEART,
-        R.drawable.ic_drawing_tool_heart,
-        R.string.drawing_tool_heart,
-        DrawingToolCategory.MARKINGS,
         DrawingToolSection.MAIN
     ),
     HORIZONTAL_LINE(
@@ -224,14 +196,6 @@ enum class DrawingTools(
         R.drawable.ic_drawing_tool_regression_line,
         R.string.drawing_tool_regression_line,
         DrawingToolCategory.STATISTICS,
-        DrawingToolSection.MAIN
-    ),
-
-    STAR(
-        DrawingTool.STAR,
-        R.drawable.ic_drawing_tool_star,
-        R.string.drawing_tool_star,
-        DrawingToolCategory.MARKINGS,
         DrawingToolSection.MAIN
     ),
     SPEED_RESISTANCE_ARC(
