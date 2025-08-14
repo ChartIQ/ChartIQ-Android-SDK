@@ -41,7 +41,7 @@ Add the library dependency to your app-level `build.gradle` file:
 
 ```groovy
 dependencies {
-    implementation 'io.github.chartiq:sdk:3.8.0'
+    implementation 'io.github.chartiq:sdk:3.9.0'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation('io.github.chartiq:sdk:3.8.0')
+    implementation('io.github.chartiq:sdk:3.9.0')
 }
 ```
 
