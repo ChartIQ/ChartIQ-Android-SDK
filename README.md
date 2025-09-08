@@ -41,7 +41,7 @@ Add the library dependency to your app-level `build.gradle` file:
 
 ```groovy
 dependencies {
-    implementation 'io.github.chartiq:sdk:3.9.0'
+    implementation 'io.github.chartiq:sdk:3.9.1'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation('io.github.chartiq:sdk:3.9.0')
+    implementation('io.github.chartiq:sdk:3.9.1')
 }
 ```
 
@@ -122,6 +122,3 @@ This SDK is published to Maven Central using the new Central Publisher Portal. F
 1. Set up Central Portal account at https://central.sonatype.com/
 2. Configure credentials in `gradle.properties`
 3. Run: `./gradlew publish`
-
-
-

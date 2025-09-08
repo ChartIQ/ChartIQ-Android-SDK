@@ -29,9 +29,21 @@ internal fun StudyParameterEntity.toParameter(parameterType: StudyParameterType)
             )
         }
         ParameterEntityValueType.SELECT.value -> {
+            // Handle both String and numeric values for SELECT parameters
+            val stringValue = when (value) {
+                is String -> value
+                is Number -> value.toString().removeSuffix(".0")
+                else -> value.toString()
+            }
+            val stringDefaultValue = when (defaultValue) {
+                is String -> defaultValue
+                is Number -> defaultValue.toString().removeSuffix(".0")
+                else -> defaultValue.toString()
+            }
+            
             StudyParameter.Select(
-                value = (value as String),
-                defaultValue = (this.defaultValue as String),
+                value = stringValue,
+                defaultValue = stringDefaultValue,
                 heading = heading,
                 name = name,
                 parameterType = parameterType,
