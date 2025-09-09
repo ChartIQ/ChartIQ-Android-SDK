@@ -2,6 +2,12 @@
 
 All notable changes to "ChartIQ SDK" will be documented in this file.
 
+## [3.9.1] - Sep 8, 2025
+
+### Fixed
+
+- Fixed Casting issue for few studies
+
 ## [3.9.0] - Aug 13, 2025
 
 Requires ChartIQ version 9.8.0 or later
@@ -81,4 +87,5 @@ Requires ChartIQ version 8.2.0
 
 
 ---
+
 
