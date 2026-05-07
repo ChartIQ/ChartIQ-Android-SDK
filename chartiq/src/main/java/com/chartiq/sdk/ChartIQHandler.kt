@@ -54,8 +54,6 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -454,7 +452,7 @@ class ChartIQHandler(
     }
 
     override fun setRefreshInterval(refreshInterval: Int) {
-        executeJavascript(scriptManager.getSetRefreshIntervalScript(0))
+        executeJavascript(scriptManager.getSetRefreshIntervalScript(refreshInterval))
     }
 
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
