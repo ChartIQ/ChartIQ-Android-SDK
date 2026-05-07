@@ -257,18 +257,32 @@ interface ChartIQ : ChartIQDrawingTool, ChartIQStudy, ChartIQSignal {
     fun setSeriesParameter(symbolName: String, parameterName: String, value: String)
 
     /**
-     * Modifies a property of an existing series.
+     * Sets the chart data by push method instead of a quotefeed pull.
      * @param symbol The string symbol you want to display on the chart.
      * @param data An array of properly formatted OHLC quote objects to load into the chart.
      */
     fun push(symbol: String, data: List<OHLCParams>)
+    
+    /**
+     * Sets the chart data by push method instead of a quotefeed pull.
+     * @param symbol The string symbol you want to display on the chart.
+     * @param data A string of properly formatted array of OHLC quote objects to load into the chart.
+     */
+    fun push(symbol: String, data: String)
 
     /**
-     * Modifies a property of an existing series.
+     * A way to add/update OHLC data in a chart.
      * @param data An array of properly formatted OHLC quote objects to load into the chart.
      * @param useAsLastSale A boolean value that forces the data sent to be used as the last sale price.
      */
     fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean)
+    
+    /**
+     * A way to add/update OHLC data in a chart.
+     * @param data A string of properly formatted array of OHLC quote objects to load into the chart.
+     * @param useAsLastSale A boolean value that forces the data sent to be used as the last sale price.
+     */
+    fun pushUpdate(data: String, useAsLastSale: Boolean)
 
     /**
      * @suppress

@@ -54,6 +54,8 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -224,8 +226,16 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getPushDataScript(symbol, data))
     }
 
+    override fun push(symbol: String, data: String) {
+        executeJavascript(scriptManager.getPushJsonDataScript(symbol, data))
+    }
+
     override fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean) {
         executeJavascript(scriptManager.getPushUpdateScript(data, useAsLastSale))
+    }
+
+    override fun pushUpdate(data: String, useAsLastSale: Boolean) {
+        executeJavascript(scriptManager.getPushJsonUpdateScript(data, useAsLastSale))
     }
 
     override fun getSymbol(callback: OnReturnCallback<String>) {
@@ -444,7 +454,7 @@ class ChartIQHandler(
     }
 
     override fun setRefreshInterval(refreshInterval: Int) {
-        executeJavascript(scriptManager.getSetRefreshIntervalScript(refreshInterval))
+        executeJavascript(scriptManager.getSetRefreshIntervalScript(0))
     }
 
     override fun getChartType(callback: OnReturnCallback<ChartType?>) {
