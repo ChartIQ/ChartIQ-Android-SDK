@@ -41,7 +41,11 @@ internal interface ScriptManager {
 
     fun getPushDataScript(symbol: String, data: List<OHLCParams>): String
 
+    fun getPushJsonDataScript(symbol: String, data: String): String
+
     fun getPushUpdateScript(data: List<OHLCParams>, useAsLastSale: Boolean): String
+
+    fun getPushJsonUpdateScript(data: String, useAsLastSale: Boolean): String
 
     fun getSetChartTypeScript(chartType: String): String
 

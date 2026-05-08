@@ -224,8 +224,16 @@ class ChartIQHandler(
         executeJavascript(scriptManager.getPushDataScript(symbol, data))
     }
 
+    override fun push(symbol: String, data: String) {
+        executeJavascript(scriptManager.getPushJsonDataScript(symbol, data))
+    }
+
     override fun pushUpdate(data: List<OHLCParams>, useAsLastSale: Boolean) {
         executeJavascript(scriptManager.getPushUpdateScript(data, useAsLastSale))
+    }
+
+    override fun pushUpdate(data: String, useAsLastSale: Boolean) {
+        executeJavascript(scriptManager.getPushJsonUpdateScript(data, useAsLastSale))
     }
 
     override fun getSymbol(callback: OnReturnCallback<String>) {
